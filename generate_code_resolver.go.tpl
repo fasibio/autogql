@@ -16,7 +16,7 @@
 // Get{{$object.Name}} is the resolver for the get{{$object.Name}} field.
 {{- $primaryField := $object.PrimaryKeyField }}
 func (r *queryResolver) Get{{$object.Name}}(ctx context.Context, {{$primaryField.Name}} {{$root.GetGoFieldType $objectName $primaryField false}}) (*model.{{$object.Name}}, error) {
-	v, okHook := r.Sql.Hooks["Get{{$object.Name}}"].(db.G{{$hookBaseName}}HookGet[model.{{$object.Name}}])
+	v, okHook := r.Sql.Hooks["Get{{$object.Name}}"].(db.{{$hookBaseName}}HookGet[model.{{$object.Name}}])
 	db := r.Sql.Db
 	if okHook {
 		var err error
