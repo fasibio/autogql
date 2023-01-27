@@ -115,9 +115,9 @@ func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model
     {{- end}}
   {{- end}}
   {{- if $object.SQLDirective.HasMutation}}
-func (r *Resolver) Add{{$object.Name}}Payload() generated.Add{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Add{{$object.Name}}Payload]{r} }
-func (r *Resolver) Delete{{$object.Name}}Payload() generated.Delete{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Delete{{$object.Name}}Payload]{r} }
-func (r *Resolver) Update{{$object.Name}}Payload() generated.Update{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Update{{$object.Name}}Payload]{r} }
+func (r *Resolver) Add{{$object.Name}}Payload() {{$root.GeneratedPackage}}Add{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Add{{$object.Name}}Payload]{r} }
+func (r *Resolver) Delete{{$object.Name}}Payload() {{$root.GeneratedPackage}}Delete{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Delete{{$object.Name}}Payload]{r} }
+func (r *Resolver) Update{{$object.Name}}Payload() {{$root.GeneratedPackage}}Update{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Update{{$object.Name}}Payload]{r} }
 
 
 type {{lcFirst $object.Name}}Payload interface {
