@@ -4,7 +4,45 @@
 {{- $input2TypeName := "MergeToType"}}
 {{- range $objectName, $object := .Handler.List.Objects }}
 {{$objectName := $object.Name}}
-	func (d *{{$objectName}}Patch) {{$input2TypeName}}() {{$objectName}} {
+
+	func (d *{{$objectName}}Patch) {{$input2TypeName}}() map[string]interface{} {
+		res := make(map[string]interface{})
+
+		{{- range $entityKey, $entity := $object.Entities }}
+		{{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
+		{{- if  $entity.BuiltIn}} 
+		
+		if d.{{$entityGoName}} != nil {
+			{{- if $entity.IsArray}}
+			var tmp{{$entityGoName}} {{$root.GetGoFieldType $objectName $entity false}} 
+			for _, v := range d.{{$entityGoName}}{
+				tmp := v
+				tmp{{$entityGoName}} = append(tmp{{$entityGoName}}, {{$root.GenPointerStrIfNeeded $objectName $entity false}}tmp)
+			}
+			res["{{$entity.DatabaseFieldName}}"] = tmp{{$entityGoName}}
+			{{- else}}
+			res["{{$entity.DatabaseFieldName}}"] = {{$root.PointerStrIfNeeded $objectName $entity true}}d.{{$entityGoName}}
+			{{- end}}	
+		}
+		{{- else}}
+		if d.{{$entityGoName}} != nil {
+			{{- if $entity.IsArray}}
+			tmp{{$entityGoName}} := make([]map[string]interface{},len(d.{{$entityGoName}}))
+			for _, v := range d.{{$entityGoName}}{
+				tmp := v.{{$input2TypeName}}()
+				tmp{{$entityGoName}} = append(tmp{{$entityGoName}}, tmp)
+			}
+			res["{{$entity.DatabaseFieldName}}"] = tmp{{$entityGoName}}
+			{{- else}}
+			res["{{$entity.DatabaseFieldName}}"] = d.{{$entityGoName}}.{{$input2TypeName}}()
+			{{- end}}	
+		}
+		{{- end}}
+		{{- end}}
+		return res
+	}
+
+	/* func (d *{{$objectName}}Patch) {{$input2TypeName}}() {{$objectName}} {
 		{{- range $entityKey, $entity := $object.Entities }}
 		{{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
 		{{- if  $entity.BuiltIn}} 
@@ -40,7 +78,7 @@
 			{{$entityGoName}}: {{$root.GetPointerSymbol $entity}}tmp{{$entityGoName}},
 		{{- end}}
 		}
-	}
+	} */
 
 
 	func (d *{{$objectName}}Input) {{$input2TypeName}}() {{$objectName}} {
