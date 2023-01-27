@@ -273,6 +273,14 @@ func (db *GenerateData) Imports() []string {
 	return addedImports
 }
 
+func (db *GenerateData) GeneratedPackage() string {
+
+	if db.Data.Config.Resolver.Package == db.Data.Config.Exec.Package {
+		return ""
+	}
+	return db.Data.Config.Exec.Package + "."
+}
+
 func isStruct(t types.Type) bool {
 	_, is := t.Underlying().(*types.Struct)
 	return is
