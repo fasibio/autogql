@@ -3,13 +3,13 @@
 ## About
 GraphQL Gorm CRUD Generator. 
 
-Its a plugin for (99designs/gqlgen)[https://github.com/99designs/gqlgen]. 
+Its a plugin for [99designs/gqlgen](https://github.com/99designs/gqlgen).
 
 It helps you to make the CRUD-functionalities fast and let you focus to the real spezial thinks of your business.
 
 ## How to setup
 
-- Follow the steps from (Gqlgen)[gqlgen.com]
+- Follow the steps from [Gqlgen](gqlgen.com)
 - Create a folder ```plugin``` and add a main.go inside. 
 - Copy Content: 
 ```golang
@@ -133,9 +133,9 @@ Each Query and Mutation can be manipulated over Hooks.
 
 All Hooksdescription are written at db/db_gen.go
 
-See (autogql_example)[https://github.com/fasibio/autogql_example] 
- - (hooks.go)[https://github.com/fasibio/autogql_example/blob/main/hooks.go] 
- - And to include : (server.go)[https://github.com/fasibio/autogql_example/blob/main/server.go#L29-L33]
+See [autogql_example](https://github.com/fasibio/autogql_example) 
+ - [hooks.go](https://github.com/fasibio/autogql_example/blob/main/hooks.go)
+ - And to include : [server.go](https://github.com/fasibio/autogql_example/blob/main/server.go#L29-L33)
 
 
 
