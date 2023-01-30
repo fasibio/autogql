@@ -2,7 +2,6 @@ package runtimehelper
 
 import (
 	"fmt"
-	"log"
 )
 
 type Relation string
@@ -48,7 +47,6 @@ func CombineSimpleQuery(elements []ConditionElement, relation Relation) (string,
 			}
 		}
 	}
-	log.Println(sql, relation)
 	return sql, values
 }
 

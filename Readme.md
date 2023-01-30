@@ -1,17 +1,12 @@
 # AutoGql
 
-## About
-GraphQL Gorm CRUD Generator. 
+AutoGQL is a GraphQL GORM CRUD generator. It's a plugin for 99designs/gqlgen that helps you quickly create CRUD functionality for your application so you can focus on the unique aspects of your business
 
-Its a plugin for [99designs/gqlgen](https://github.com/99designs/gqlgen).
+## Setup
 
-It helps you to make the CRUD-functionalities fast and let you focus to the real spezial thinks of your business.
-
-## How to setup
-
-- Follow the steps from [Gqlgen](gqlgen.com)
-- Create a folder ```plugin``` and add a main.go inside. 
-- Copy Content: 
+1. Follow the steps from [Gqlgen](gqlgen.com)
+2. Create a folder ```plugin``` and add a ```main.go``` inside. 
+3. Copy the following code into ```main.go```: 
 ```golang
 package main
 
@@ -39,11 +34,11 @@ func main() {
 	}
 }
 ```
-- install dependencies
+4. Install dependencies
 ```bash
 go mod tidy
 ```
-- add a example autogql struct to ```schema.graphqls```
+5. Add a example autogql struct to ```schema.graphqls```
 
 ```gql
 type Company @SQL{
@@ -52,20 +47,20 @@ type Company @SQL{
 }
 ```
 
-- now you have to create gqlgen generation **always** with: 
+6. Run the following command to generate the GQLgen code:
 
 ```bash
 go run plugin/main.go
 ```
 
-- add sql entity to Resolver struct at ```resolver.go```
+7. Add SQL entity to ```Resolver``` struct at ```resolver.go```
 ```go
 type Resolver struct {
 	Sql *db.AutoGqlDB // this is the new line the package db is autogenerate by this plugin
 }
 ```
 
-- add SQL Gorm Connection(here used SQLite as Example) to ```server.go```:
+8. Add SQL GORM Connection(SQLite used as an example) to ```server.go```:
 
 ```go
 
@@ -88,17 +83,21 @@ func main() {
 ```
 
 # Directives
+Add the ```@SQL``` directive to each type that you want managed by AutoGQL.
 
-Each type you will be managed by this Lib add  ```@SQL```
-```gql
+```graphql
+...
 type Company @SQL{
+	id: Int! @SQL_PRIMARY
+	...
+}
+...
 ```
-
-It will autogenerate Queries and Mutations. Also it will create resolvers and fill with gorm Database code. 
+It will autogenerate Queries and Mutations based on your GraphQL schema. Also, it will create resolvers and fill them with GORM Database code.
 
 Description: 
 
-```gql
+```graphql
 
 	input SqlCreateExtension {
 		value: Boolean! # active this query or mutation
@@ -115,7 +114,7 @@ Description:
 	input SqlQueryParams {
 		get: SqlCreateExtension
 		query: SqlCreateExtension
-		directiveExt: [String!] # dd directive to all mutations
+		directiveExt: [String!] # add directive to all mutations
 	}
 	directive @SQL(query:SqlQueryParams, mutation: SqlMutationParams ) on OBJECT
 	directive @SQL_PRIMARY on FIELD_DEFINITION
@@ -129,11 +128,9 @@ Description:
 
 # Hooks 
 
-Each Query and Mutation can be manipulated over Hooks. 
+You can manipulate each Query and Mutation through Hooks. The Hooks descriptions are written in db/db_gen.go. For more information, see the [autogql_example](https://github.com/fasibio/autogql_example) repository:
 
-All Hooksdescription are written at db/db_gen.go
 
-See [autogql_example](https://github.com/fasibio/autogql_example) 
  - [hooks.go](https://github.com/fasibio/autogql_example/blob/main/hooks.go)
  - And to include : [server.go](https://github.com/fasibio/autogql_example/blob/main/server.go#L29-L33)
 
