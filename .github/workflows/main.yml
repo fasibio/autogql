@@ -6,7 +6,7 @@ on:
       - releaser
 
 jobs:
-  tagging: 
+  build: 
     name: create tag
     runs-on: ghcr.io/caarlos0/svu
     # steps:
