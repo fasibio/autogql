@@ -1,0 +1,27 @@
+name: Push to master
+on: 
+  push: 
+    branches:
+      - main
+      - releaser
+
+jobs:
+  tagging: 
+    name: create tag
+    runs-on: ghcr.io/caarlos0/svu
+    # steps:
+    # - name: Check out code into the Go module directory
+    #     uses: actions/checkout@v2
+    #     with:
+    #       fetch-depth: 0 # See: https://goreleaser.com/ci/actions/
+    # - name: Set up Go 1.19
+    #   uses: actions/setup-go@v2
+    #   with:
+    #     go-version: 1.19
+    #   id: go
+    # - name: Install svu
+    # - run: go install github.com/caarlos0/svu@latest
+
+    - name: Create tag 
+    - run: git tag "$(svu next)"
+    - run: git push --tags
