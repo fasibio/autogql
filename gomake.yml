@@ -1,0 +1,5 @@
+release:
+  script: 
+    - go install github.com/caarlos0/svu@latest
+    - git tag "$(svu next)" 
+    - git push --tags
