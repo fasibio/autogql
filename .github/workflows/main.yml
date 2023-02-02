@@ -33,4 +33,8 @@ jobs:
         id: go
       - run: go install github.com/caarlos0/svu@latest
       - run: git tag "$(svu next)" 
-      - run: git push --tags
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.TOKEN }}
+          tags: true
