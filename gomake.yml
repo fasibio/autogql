@@ -1,0 +1,19 @@
+release:
+  script: 
+    - go install github.com/caarlos0/svu@latest
+    - git tag "$(svu next)" 
+    - git push --tags
+
+echoB: 
+  script: 
+    - echo {{.Vars.b}}
+    - exit 1
+  on_failure: 
+    - echo "Something exit with not 0"
+
+run:
+  script: 
+    {{include "echoA"}}
+    {{include "echoB"}}
+  on_failure: 
+    {{include "echoB"}}
