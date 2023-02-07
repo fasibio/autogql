@@ -122,6 +122,8 @@ Description:
 
 	directive @SQL_GORM (value: String)on FIELD_DEFINITION # each gorm command ==> not all useable at the moment pls open issue if you find one
 
+	scalar Time #activated for createdAt, deletedAt, updatedAt etc
+
 ```
 
 

@@ -1,5 +1,5 @@
 
-
+{{ reserveImport "time"  }}
 {{- $root := .}}
 {{- $input2TypeName := "MergeToType"}}
 {{- range $objectName, $object := .Handler.List.Objects }}
@@ -8,9 +8,9 @@
 	func (d *{{$objectName}}Patch) {{$input2TypeName}}() map[string]interface{} {
 		res := make(map[string]interface{})
 
-		{{- range $entityKey, $entity := $object.Entities }}
+		{{- range $entityKey, $entity := $object.PatchEntities }}
 		{{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
-		{{- if  $entity.BuiltIn}} 
+		{{- if  $entity.IsPrimitive}} 
 		
 		if d.{{$entityGoName}} != nil {
 			{{- if $entity.IsArray}}
@@ -42,49 +42,10 @@
 		return res
 	}
 
-	/* func (d *{{$objectName}}Patch) {{$input2TypeName}}() {{$objectName}} {
-		{{- range $entityKey, $entity := $object.Entities }}
-		{{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
-		{{- if  $entity.BuiltIn}} 
-		var tmp{{$entityGoName}} {{$root.GetGoFieldType $objectName $entity false}} 
-		if d.{{$entityGoName}} != nil {
-			{{- if $entity.IsArray}}
-			for _, v := range d.{{$entityGoName}}{
-				tmp := v
-				tmp{{$entityGoName}} = append(tmp{{$entityGoName}}, {{$root.GenPointerStrIfNeeded $objectName $entity false}}tmp)
-			}
-			{{- else}}
-			tmp{{$entityGoName}} = {{$root.PointerStrIfNeeded $objectName $entity true}}d.{{$entityGoName}}
-			{{- end}}	
-		}
-		{{- else}}
-		var tmp{{$entityGoName}} {{ if $entity.IsArray}} []*{{$entity.GqlTypeName }} {{ else }} {{$entity.GqlTypeName }} {{ end }}
-		if d.{{$entityGoName}} != nil {
-			{{- if $entity.IsArray}}
-			tmp{{$entityGoName}} = make([]*{{$entity.GqlTypeName }},len(d.{{$entityGoName}}))
-			for _, v := range d.{{$entityGoName}}{
-				tmp := v.{{$input2TypeName}}()
-				tmp{{$entityGoName}} = append(tmp{{$entityGoName}}, &tmp)
-			}
-			{{- else}}
-			tmp{{$entityGoName}} = d.{{$entityGoName}}.{{$input2TypeName}}()
-			{{- end}}	
-		}
-		{{- end}}
-		{{- end}}
-		return {{$objectName}}{
-		{{- range $entityKey, $entity := $object.Entities }}
-			{{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
-			{{$entityGoName}}: {{$root.GetPointerSymbol $entity}}tmp{{$entityGoName}},
-		{{- end}}
-		}
-	} */
-
-
 	func (d *{{$objectName}}Input) {{$input2TypeName}}() {{$objectName}} {
-		{{- range $entityKey, $entity := $object.Entities }}
+		{{- range $entityKey, $entity := $object.InputEntities }}
 		{{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
-		{{- if not $entity.BuiltIn}}
+		{{- if not $entity.IsPrimitive}}
 		var tmp{{$entityGoName}} {{ if $entity.IsArray}} []*{{$entity.GqlTypeName }} {{ else }} {{$entity.GqlTypeName }} {{ end }}
 		if d.{{$entityGoName}} != nil {
 			{{- if $entity.IsArray}}
@@ -119,7 +80,7 @@
 		{{- end}}
 		{{- end}}
 		return {{$objectName}}{
-		{{- range $entityKey, $entity := $object.Entities }}
+		{{- range $entityKey, $entity := $object.InputEntities }}
 			{{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
 			{{$entityGoName}}: {{$root.GetPointerSymbol $entity}}tmp{{$entityGoName}},
 		{{- end}}

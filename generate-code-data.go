@@ -218,7 +218,7 @@ func (db *GenerateData) GetGoFieldName(typeName string, v structure.Entity) stri
 }
 
 func (db *GenerateData) GetPointerSymbol(entity structure.Entity) string {
-	if entity.BuiltIn {
+	if entity.IsPrimitive() {
 		return ""
 	}
 	if entity.IsArray() {

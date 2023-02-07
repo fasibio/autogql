@@ -25,6 +25,9 @@ func (ggs *AutoGqlPlugin) InjectSourceLate(schema *ast.Schema) *ast.Source {
 			e := getSqlBuilderFields(c.Fields, schema, a)
 			object.Entities = e
 			for k, v := range a {
+				if v.Raw.Kind == ast.Scalar {
+					continue
+				}
 				if _, ok := builderHelper.List[k]; !ok {
 					builderHelper.List[k] = v
 				}

@@ -63,37 +63,36 @@ input BooleanFilterInput{
   notNull: Boolean
 }
 
-#input DateFilterInput {
-#  and: [Date]
-#  or: [Date]
-#  not: DateFilterInput
-#  eq: Date
-#  ne: Date
-#  gt: Date
-#  gte: Date
-#  lt: Date
-#  lte: Date
-#  null: Boolean
-#  notNull: Boolean
-#  in: [Date]
-#  notIn: [Date]
-#  between: DateFilterBetween
-#}
-
-#input DateFilterBetween{
-#  start: Date!
-#  end: Date!
-#}
+input TimeFilterInput {
+  and: [Time]
+  or: [Time]
+  not: TimeFilterInput
+  eq: Time
+  ne: Time
+  gt: Time
+  gte: Time
+  lt: Time
+  lte: Time
+  null: Boolean
+  notNull: Boolean
+  in: [Time]
+  notIn: [Time]
+  between: TimeFilterBetween
+}
+input TimeFilterBetween{
+  start: Time!
+  end: Time!
+}
 {{- range $objectName, $object := $root.List.Objects}}
 
 input {{$object.Name}}Input{
-  {{- range $entityKey, $entity := $object.Entities}}
+  {{- range $entityKey, $entity := $object.InputEntities}}
   {{$entity.Name}}: {{$entity.GqlType "Input"}}{{$entity.RequiredChar}}
   {{- end}}
 }
 
 input {{$object.Name}}Patch{
-  {{- range $entityKey, $entity := $object.Entities}}
+  {{- range $entityKey, $entity := $object.PatchEntities}}
   {{$entity.Name}}: {{$entity.GqlType "Patch"}}
   {{- end}}
 } 

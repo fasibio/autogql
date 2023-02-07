@@ -30,6 +30,26 @@ func NewObject(raw *ast.Definition) Object {
 	}
 }
 
+func (o Object) isEntityTimeManipulation(e Entity) bool {
+	t := strings.ToLower(e.Name())
+	return t == "createdat" || t == "updatedat" || t == "deleteat"
+}
+
+func (o Object) InputEntities() Entities {
+	res := make(Entities, 0)
+	for _, v := range o.Entities {
+		if o.isEntityTimeManipulation(v) {
+			continue
+		}
+		res = append(res, v)
+	}
+	return res
+}
+
+func (o Object) PatchEntities() Entities {
+	return o.InputEntities()
+}
+
 func (o Object) Name() string {
 	return o.Raw.Name
 }
