@@ -198,7 +198,7 @@ func (r *mutationResolver) Add{{$object.Name}}(ctx context.Context, input []*mod
     {{- if $object.SQLDirective.Mutation.Update}}
 // Update{{$object.Name}} is the resolver for the update{{$object.Name}} field.
 func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input model.Update{{$object.Name}}Input) (*model.Update{{$object.Name}}Payload, error) {
-  v, okHook := r.Sql.Hooks["Update{{$object.Name}}"].(db.{{$hookBaseName}}HookUpdate[model.{{$object.Name}}, model.Update{{$object.Name}}Input, model.Update{{$object.Name}}Payload])
+  v, okHook := r.Sql.Hooks["Update{{$object.Name}}"].(db.{{$hookBaseName}}HookUpdate[ model.Update{{$object.Name}}Input, model.Update{{$object.Name}}Payload])
 	db := r.Sql.Db
 	if okHook{
 		var err error
@@ -211,8 +211,7 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName), "AND")
 	obj := model.{{$object.Name}}{}
 	db = db.Model(&obj).Where(sql, arguments...)
-	u := input.Set.MergeToType()
-	update := &u
+	update := input.Set.MergeToType()
 	if okHook {
 		var err error
 		db, update, err = v.BeforeCallDb(ctx,db,update)
@@ -220,7 +219,7 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
 			return nil, err
 		}
 	}
-	db = db.Updates(*update)
+	db = db.Updates(update)
 	res := &model.Update{{$object.Name}}Payload{
 		Count: int(db.RowsAffected),
 	}

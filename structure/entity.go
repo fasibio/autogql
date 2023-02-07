@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/fasibio/autogql/helper"
+	"github.com/huandu/xstrings"
 	"github.com/vektah/gqlparser/v2/ast"
 )
 
@@ -26,6 +28,16 @@ func (e Entity) GormDirectiveValue() string {
 		return ""
 	}
 	return d.Arguments.ForName("value").Value.Raw
+}
+
+func (e Entity) DatabaseFieldName() string {
+	if e.HasGormDirective() {
+		value, err := helper.GetGormValue(e.GormDirectiveValue(), "column")
+		if err == nil {
+			return value
+		}
+	}
+	return xstrings.ToSnakeCase(e.Name())
 }
 
 func (e Entity) HasMany2ManyDirective() bool {

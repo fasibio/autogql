@@ -67,7 +67,7 @@ func AddAddHook[M {{$hookBaseName}}HookM,I {{$hookBaseName}}HookI, AP {{$hookBas
 	db.Hooks[name] = implementation
 }
 
-func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hookBaseName}}HookUP](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookUpdate[M, U, UP]) {
+func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hookBaseName}}HookUP](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookUpdate[U, UP]) {
 	db.Hooks[name] = implementation
 }
 
@@ -95,9 +95,9 @@ type {{$hookBaseName}}HookAdd[obj {{$hookBaseName}}HookM, input {{$hookBaseName}
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
 }
 
-type {{$hookBaseName}}HookUpdate[obj {{$hookBaseName}}HookM, input {{$hookBaseName}}HookU,  res {{$hookBaseName}}HookUP]interface{
+type {{$hookBaseName}}HookUpdate[ input {{$hookBaseName}}HookU,  res {{$hookBaseName}}HookUP]interface{
 	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *input) (*gorm.DB, input, error)
-	BeforeCallDb(ctx context.Context, db *gorm.DB, data *obj) (*gorm.DB, *obj, error)
+	BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}, error)
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
 }
 
