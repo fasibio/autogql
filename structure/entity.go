@@ -80,7 +80,7 @@ func (e Entity) GqlTypeObj() *Object {
 func (e Entity) GqlType(suffix string) string {
 	name := e.Raw.Type.Name()
 
-	if e.BuiltIn {
+	if e.IsPrimitive() {
 		if e.IsArray() {
 			return fmt.Sprintf("[%s!]", name)
 		}
@@ -114,6 +114,9 @@ func (e *Entity) IsArrayElementRequired() bool {
 	return e.Raw.Type.Elem.NonNull
 }
 
+func (e *Entity) IsPrimitive() bool {
+	return e.BuiltIn || e.TypeObject.Raw.Kind == ast.Scalar
+}
 func (e *Entity) IsPrimary() bool {
 	return e.Raw.Directives.ForName(string(DirectiveSQLPrimary)) != nil
 }

@@ -35,6 +35,8 @@ func (ggs *AutoGqlPlugin) InjectSourceEarly() *ast.Source {
 	directive @%s on FIELD_DEFINITION
 
 	directive @%s (value: String)on FIELD_DEFINITION
+
+	scalar Time
 	`, structure.DirectiveSQL,
 		structure.DirectiveSQLArgumentQuery,
 		structure.DirectiveSQLArgumentMutation,
