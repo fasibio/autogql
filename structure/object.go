@@ -33,7 +33,7 @@ func NewObject(raw *ast.Definition) Object {
 
 func (o Object) isEntityTimeManipulation(e Entity) bool {
 	t := strings.ToLower(e.Name())
-	return t == "createdat" || t == "updatedat" || t == "deleteat"
+	return t == "createdat" || t == "updatedat" || t == "deletedat"
 }
 
 func (o Object) InputEntities() Entities {
