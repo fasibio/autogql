@@ -13,7 +13,9 @@ func GetArrayOfInterface[K comparable](v interface{}) []K {
 	}
 	return aGen
 }
-
+func HasGormTag(gormDirectiveValue, key string) bool {
+	return strings.Contains(gormDirectiveValue, key)
+}
 func GetGormValue(gormDirectiveValue, key string) (string, error) {
 	if strings.Contains(gormDirectiveValue, key+"=") {
 		values := strings.Split(gormDirectiveValue, ";")

@@ -3,6 +3,7 @@ package autogql
 import (
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/99designs/gqlgen/codegen/config"
 	"github.com/99designs/gqlgen/codegen/templates"
@@ -39,17 +40,23 @@ func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.Fi
 			if o.HasSqlDirective() {
 				for _, e := range o.Entities {
 					if e.Name() == fd.Name {
+						var sb strings.Builder
+						sb.WriteString(" gorm:\"")
 						if e.IsPrimary() {
-							f.Tag += " gorm:\"primaryKey\""
+							sb.WriteString("primaryKey;")
 						}
 						if fd.Directives.ForName(string(structure.DirectiveSQLIndex)) != nil {
-							f.Tag += " gorm:\"index\""
+							sb.WriteString("index;")
 						}
 						if d := fd.Directives.ForName(string(structure.DirectiveSQLGorm)); d != nil {
-							f.Tag += fmt.Sprintf(" gorm:\"%s\"", d.Arguments.ForName("value").Value.Raw)
+							sb.WriteString(d.Arguments.ForName("value").Value.Raw + ";")
 						}
-						if !e.BuiltIn && !e.GqlTypeObj().HasSqlDirective() {
-							f.Tag += " gorm:\"-\""
+						if !e.IsPrimitive() && !e.GqlTypeObj().HasSqlDirective() {
+							sb.WriteString("-;")
+						}
+						sb.WriteRune('"')
+						if s := sb.String(); strings.Compare(strings.Trim(s, " "), "gorm:\"\"") != 0 {
+							f.Tag += s
 						}
 					}
 				}

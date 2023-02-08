@@ -126,6 +126,18 @@ Description:
 
 ```
 
+If an field has Tag autoIncrement it will be not include into patch and input Types. 
+f.E.: 
+```graphql
+type Cat @SQL{
+  id: Int! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement") // id will be removed from add and patch types
+  name: String!
+  age: Int
+  userID: Int!
+  alive: Boolean @SQL_GORM(value: "default:true")
+}
+
+```
 
 
 # Hooks 

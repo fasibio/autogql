@@ -3,6 +3,7 @@ package structure
 import (
 	"strings"
 
+	"github.com/fasibio/autogql/helper"
 	"github.com/huandu/xstrings"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -38,6 +39,9 @@ func (o Object) isEntityTimeManipulation(e Entity) bool {
 func (o Object) InputEntities() Entities {
 	res := make(Entities, 0)
 	for _, v := range o.Entities {
+		if v.IsPrimary() && v.HasGormDirective() && helper.HasGormTag(v.GormDirectiveValue(), "autoIncrement") {
+			continue
+		}
 		if o.isEntityTimeManipulation(v) {
 			continue
 		}
