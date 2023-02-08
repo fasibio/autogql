@@ -30,6 +30,8 @@ jobs:
         with:
           go-version: 1.19
         id: go
+        env: 
+          GITHUB_TOKEN: ${{secrets.TOKEN}}
       - run: go install github.com/caarlos0/svu@latest
       - run: git config --local user.email "github-actions[bot]@users.noreply.github.com"
       - run: git config --local user.name "github-actions[bot]"
