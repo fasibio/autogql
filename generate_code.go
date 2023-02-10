@@ -57,7 +57,7 @@ func (ggs AutoGqlPlugin) generateDbCode(data *codegen.Data) error {
 }
 
 func (ggs AutoGqlPlugin) generateExtraFunctionsToModels(data *codegen.Data) error {
-	filename := path.Join(data.Config.Resolver.Package, "model/models_autogql.go")
+	filename := path.Join(data.Config.Resolver.Package, data.Config.Model.Package, "models_autogql.go")
 	log.Println("generateExtraFunctionsToModels", filename)
 
 	return templates.Render(templates.Options{
@@ -76,7 +76,7 @@ func (ggs AutoGqlPlugin) generateExtraFunctionsToModels(data *codegen.Data) erro
 }
 
 func (ggs AutoGqlPlugin) generateFilterModelFunctions(data *codegen.Data) error {
-	filename := path.Join(data.Config.Resolver.Package, "model/models_filter_autogql.go")
+	filename := path.Join(data.Config.Resolver.Package, data.Config.Model.Package, "models_filter_autogql.go")
 	log.Println("generateFilterModelFunctions", filename)
 
 	return templates.Render(templates.Options{
