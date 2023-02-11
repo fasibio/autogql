@@ -4,7 +4,7 @@ AutoGQL is a GraphQL GORM CRUD generator. It's a plugin for 99designs/gqlgen tha
 
 ## Setup
 
-1. Follow the steps from [Gqlgen](gqlgen.com)
+1. Follow the steps from [Gqlgen](https://gqlgen.com)
 2. Create a folder ```plugin``` and add a ```main.go``` inside. 
 3. Copy the following code into ```main.go```: 
 ```golang
