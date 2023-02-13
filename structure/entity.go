@@ -134,6 +134,9 @@ func (e *Entity) WhereAble() bool {
 }
 
 func (e *Entity) OrderAble() bool {
+	if e.Ignore() {
+		return false
+	}
 	switch e.Raw.Type.Name() {
 	case "String", "DateTime", "Int", "Float", "ID", "Boolean":
 		return true

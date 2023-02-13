@@ -34,7 +34,7 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 	if d.Not != nil {
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db, alias)...))
 	}
-  {{- range $entityKey, $entity := $object.Entities }}
+  {{- range $entityKey, $entity := $object.InputFilterEntities }}
   {{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
 
 	{{-  if or $entity.BuiltIn $entity.GqlTypeObj.HasSqlDirective }}

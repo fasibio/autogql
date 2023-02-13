@@ -75,9 +75,7 @@ func getSqlBuilderFields(fields ast.FieldList, schema *ast.Schema, knownValues s
 			TypeObject: m,
 			Raw:        field,
 		}
-		if !tempE.Ignore() {
-			res = append(res, tempE)
-		}
+		res = append(res, tempE)
 		fillSqlBuilderByName(schema, field.Type.Name(), knownValues)
 	}
 	return res

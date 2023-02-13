@@ -76,7 +76,7 @@ func AddDeleteHook[M {{$hookBaseName}}HookM, F {{$hookBaseName}}HookF, DP {{$hoo
 }
 
 type {{$hookBaseName}}HookGet[obj {{$hookBaseName}}HookM] interface {
-	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, id int) (*gorm.DB, error)
+	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, id ...int) (*gorm.DB, error)
 	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
 	AfterCallDb(ctx context.Context, data *obj) (*obj, error)
 	BeforeReturn(ctx context.Context, data *obj, db *gorm.DB) (*obj, error)

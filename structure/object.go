@@ -39,7 +39,7 @@ func (o Object) isEntityTimeManipulation(e Entity) bool {
 func (o Object) InputEntities() Entities {
 	res := make(Entities, 0)
 	for _, v := range o.Entities {
-		if v.IsPrimary() && v.HasGormDirective() && helper.HasGormTag(v.GormDirectiveValue(), "autoIncrement") {
+		if (v.IsPrimary() && v.HasGormDirective() && helper.HasGormTag(v.GormDirectiveValue(), "autoIncrement")) || (v.Ignore()) {
 			continue
 		}
 		if o.isEntityTimeManipulation(v) {
@@ -170,6 +170,17 @@ func (o Object) WhereAbleEntities() []Entity {
 		if e.WhereAble() {
 			res = append(res, e)
 		}
+	}
+	return res
+}
+
+func (o Object) InputFilterEntities() []Entity {
+	res := make([]Entity, 0)
+	for _, e := range o.Entities {
+		if e.Ignore() {
+			continue
+		}
+		res = append(res, e)
 	}
 	return res
 }

@@ -145,7 +145,7 @@ input {{$object.Name}}Order{
 }
 
 input {{$object.Name}}FiltersInput{
-  {{- range $entityKey, $entity := $object.Entities}}
+  {{- range $entityKey, $entity := $object.InputFilterEntities}}
   {{- if $entity.BuiltIn }}
   {{$entity.Name}}: {{$entity.GqlTypeName}}FilterInput
   {{- else}}
@@ -164,7 +164,7 @@ input {{$object.Name}}FiltersInput{
 {{- if $object.SQLDirective.HasQueries}}
 extend type Query {
     {{- if $object.SQLDirective.Query.Get}}
-  get{{$object.Name}}({{range $entryKey, $entity := $object.PrimaryKeys}}{{$entity.Name}}: {{$entity.GqlType "Patch"}}{{end}}!): {{$object.Name}} {{ $object.SQLDirectiveValues "query" "Get" | join " "}}
+  get{{$object.Name}}({{range $entryKey, $entity := $object.PrimaryKeys}}{{$entity.Name}}: {{$entity.GqlType "Patch"}}!, {{end}}): {{$object.Name}} {{ $object.SQLDirectiveValues "query" "Get" | join " "}}
     {{- end}}
     {{- if $object.SQLDirective.Query.Query}}
   query{{$object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int ): {{$object.Name}}QueryResult {{ $object.SQLDirectiveValues "query" "Query" | join " "}}
