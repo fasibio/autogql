@@ -146,7 +146,7 @@ input {{$object.Name}}Order{
 
 input {{$object.Name}}FiltersInput{
   {{- range $entityKey, $entity := $object.InputFilterEntities}}
-  {{- if $entity.BuiltIn }}
+  {{- if $entity.IsPrimitive }}
   {{$entity.Name}}: {{$entity.GqlTypeName}}FilterInput
   {{- else}}
     {{- if $entity.GqlTypeObj.HasSqlDirective}}

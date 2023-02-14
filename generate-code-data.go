@@ -228,7 +228,7 @@ func (db *GenerateData) GetPointerSymbol(entity structure.Entity) string {
 }
 
 func (db *GenerateData) GetValueOfInput(objectname string, builder structure.Object, v structure.Entity) string {
-	if v.BuiltIn {
+	if v.IsPrimitive() {
 		refSymbol := ""
 		if !v.Required() {
 			refSymbol = "*"
