@@ -140,6 +140,26 @@ type Cat @SQL{
 ```
 
 
+# Scalar ID as autoIncrement Primary key
+To use ID as autoIncrement Primary key you have to update ```gqlgen.yml```
+from : 
+```
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.ID
+```
+to 
+```
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.IntID
+```
+
+to use Int instand of String
+
+
 # Hooks 
 
 You can manipulate each Query and Mutation through Hooks. The Hooks descriptions are written in db/db_gen.go. For more information, see the [autogql_example](https://github.com/fasibio/autogql_example) repository:

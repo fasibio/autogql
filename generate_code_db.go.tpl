@@ -55,7 +55,7 @@ func (db *{{$hookBaseName}}DB) Init() {
 	db.Db.AutoMigrate({{.ModelsMigrations}})
 }
 
-func AddGetHook[T {{$hookBaseName}}HookM](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookGet[T]) {
+func AddGetHook[T {{$hookBaseName}}HookM, I any](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookGet[T,I]) {
 	db.Hooks[name] = implementation
 }
 
@@ -75,8 +75,8 @@ func AddDeleteHook[M {{$hookBaseName}}HookM, F {{$hookBaseName}}HookF, DP {{$hoo
 	db.Hooks[name] = implementation
 }
 
-type {{$hookBaseName}}HookGet[obj {{$hookBaseName}}HookM] interface {
-	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, id int) (*gorm.DB, error)
+type {{$hookBaseName}}HookGet[obj {{$hookBaseName}}HookM, identifier any] interface {
+	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, id ...identifier) (*gorm.DB, error)
 	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
 	AfterCallDb(ctx context.Context, data *obj) (*obj, error)
 	BeforeReturn(ctx context.Context, data *obj, db *gorm.DB) (*obj, error)

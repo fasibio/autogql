@@ -14,13 +14,13 @@
   {{- if $object.SQLDirective.HasQueries}}
     {{- if $object.SQLDirective.Query.Get}}
 // Get{{$object.Name}} is the resolver for the get{{$object.Name}} field.
-{{- $primaryField := $object.PrimaryKeyField }}
-func (r *queryResolver) Get{{$object.Name}}(ctx context.Context, {{$primaryField.Name}} {{$root.GetGoFieldType $objectName $primaryField false}}) (*model.{{$object.Name}}, error) {
-	v, okHook := r.Sql.Hooks["Get{{$object.Name}}"].(db.{{$hookBaseName}}HookGet[model.{{$object.Name}}])
+{{- $primaryFields := $object.PrimaryKeys }}
+func (r *queryResolver) Get{{$object.Name}}(ctx context.Context, {{range $primaryFieldKey, $primaryField := $primaryFields}} {{$primaryField.Name}} {{$root.GetGoFieldType $objectName $primaryField false}}, {{end }}) (*model.{{$object.Name}}, error) {
+	v, okHook := r.Sql.Hooks["Get{{$object.Name}}"].(db.{{$hookBaseName}}HookGet[model.{{$object.Name}}, any])
 	db := r.Sql.Db
 	if okHook {
 		var err error
-		db, err = v.Received(ctx, r.Sql, id)
+		db, err = v.Received(ctx, r.Sql, {{range $primaryFieldKey, $primaryField := $primaryFields}} {{$primaryField.Name}}, {{end }})
 		if err != nil {
 			return nil, err
 		}
@@ -34,7 +34,7 @@ func (r *queryResolver) Get{{$object.Name}}(ctx context.Context, {{$primaryField
 		}
 	}
 	var res model.{{$object.Name}}
-  db = db.First(&res, id)
+  db = db.First(&res, {{range $primaryFieldKey, $primaryField := $primaryFields}} {{$primaryField.Name}}, {{end }})
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
 		if err != nil {
