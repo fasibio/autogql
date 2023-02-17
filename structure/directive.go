@@ -105,10 +105,14 @@ func getDefaultFilledSqlBuilderQuery(defaultValue bool) SQLDirectiveQuery {
 }
 
 func getSqlCreateExtension(v map[string]interface{}) SqlCreateExtension {
-	return SqlCreateExtension{
-		Value:        v["value"].(bool),
-		DirectiveExt: helper.GetArrayOfInterface[string](v["directiveExt"]),
+	res := SqlCreateExtension{}
+	if v["value"] != nil {
+		res.Value = v["value"].(bool)
 	}
+	if v["directiveExt"] != nil {
+		res.DirectiveExt = helper.GetArrayOfInterface[string](v["directiveExt"])
+	}
+	return res
 }
 
 func customizeSqlBuilderQuery(a *ast.Argument) SQLDirectiveQuery {
