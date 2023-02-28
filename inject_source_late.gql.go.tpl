@@ -97,6 +97,7 @@ input {{$object.Name}}Patch{
   {{- end}}
 } 
 
+
 {{- if $object.HasSqlDirective}}
 
 input Update{{$object.Name}}Input{
