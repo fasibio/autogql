@@ -101,8 +101,8 @@ input {{$object.Name}}Patch{
 {{- if $object.HasSqlDirective}}
 
 input Update{{$object.Name}}Input{
-  filter: {{$object.Name}}FiltersInput
-  set: {{$object.Name}}Patch
+  filter: {{$object.Name}}FiltersInput!
+  set: {{$object.Name}}Patch!
 }
 
 type Add{{$object.Name}}Payload{

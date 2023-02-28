@@ -3,6 +3,7 @@ package runtimehelper
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/99designs/gqlgen/codegen/templates"
 	"github.com/99designs/gqlgen/graphql"
@@ -40,7 +41,7 @@ type PreloadFields struct {
 func GetPreloadsMap(ctx context.Context, tableName string) PreloadFields {
 	return GetNestedPreloadsMap(graphql.GetOperationContext(ctx),
 		graphql.CollectFieldsCtx(ctx, nil),
-		tableName)
+		tableName, "")
 }
 
 func GetPreloads(ctx context.Context) []string {
@@ -51,7 +52,7 @@ func GetPreloads(ctx context.Context) []string {
 	)
 }
 
-func GetNestedPreloadsMap(ctx *graphql.OperationContext, fields []graphql.CollectedField, tableName string) PreloadFields {
+func GetNestedPreloadsMap(ctx *graphql.OperationContext, fields []graphql.CollectedField, tableName, parentTableName string) PreloadFields {
 	res := PreloadFields{
 		TableName: tableName,
 
@@ -70,12 +71,17 @@ func GetNestedPreloadsMap(ctx *graphql.OperationContext, fields []graphql.Collec
 			ownIdAdded = true
 		}
 
+		for _, a := range column.ObjectDefinition.Fields {
+			if a.Name == parentTableName+"ID" {
+				res.Fields = append(res.Fields, xstrings.ToSnakeCase(a.Name))
+			}
+		}
 		if len(column.Field.SelectionSet) != 0 { // To remove all parent objects
 			if res.SubTables == nil {
 				res.SubTables = make([]PreloadFields, 0)
 			}
 			res.Fields = append(res.Fields, GetDbIdFields(column.ObjectDefinition, column.Name))
-			tmp := GetNestedPreloadsMap(ctx, graphql.CollectFields(ctx, column.Selections, nil), column.Field.Definition.Type.Name())
+			tmp := GetNestedPreloadsMap(ctx, graphql.CollectFields(ctx, column.Selections, nil), column.Field.Definition.Type.Name(), strings.ToLower(tableName))
 			tmp.PreloadName = column.Name
 			res.SubTables = append(res.SubTables, tmp)
 		} else if !ShouldFieldBeIgnored(column.ObjectDefinition, column.Name) {
@@ -138,7 +144,6 @@ func GetDbIdFields(d *ast.Definition, fieldName string) string {
 		return o.PrimaryKeyField().Name()
 	}
 	return o.ForeignNameKeyName(fieldName)
-
 }
 
 func GetNestedPreloads(ctx *graphql.OperationContext, fields []graphql.CollectedField, prefix string) (preloads []string) {
