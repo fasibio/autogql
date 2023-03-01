@@ -3,7 +3,6 @@ package runtimehelper
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/99designs/gqlgen/codegen/templates"
 	"github.com/99designs/gqlgen/graphql"
@@ -70,9 +69,9 @@ func GetNestedPreloadsMap(ctx *graphql.OperationContext, fields []graphql.Collec
 			res.Fields = append(res.Fields, GetDbIdFields(column.ObjectDefinition, ""))
 			ownIdAdded = true
 		}
-
+		pTableIdentifier := xstrings.FirstRuneToLower(parentTableName + "ID")
 		for _, a := range column.ObjectDefinition.Fields {
-			if a.Name == parentTableName+"ID" {
+			if a.Name == pTableIdentifier {
 				res.Fields = append(res.Fields, xstrings.ToSnakeCase(a.Name))
 			}
 		}
@@ -81,7 +80,7 @@ func GetNestedPreloadsMap(ctx *graphql.OperationContext, fields []graphql.Collec
 				res.SubTables = make([]PreloadFields, 0)
 			}
 			res.Fields = append(res.Fields, GetDbIdFields(column.ObjectDefinition, column.Name))
-			tmp := GetNestedPreloadsMap(ctx, graphql.CollectFields(ctx, column.Selections, nil), column.Field.Definition.Type.Name(), strings.ToLower(tableName))
+			tmp := GetNestedPreloadsMap(ctx, graphql.CollectFields(ctx, column.Selections, nil), column.Field.Definition.Type.Name(), tableName)
 			tmp.PreloadName = column.Name
 			res.SubTables = append(res.SubTables, tmp)
 		} else if !ShouldFieldBeIgnored(column.ObjectDefinition, column.Name) {
