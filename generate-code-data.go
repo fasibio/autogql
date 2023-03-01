@@ -103,6 +103,21 @@ func (db *GenerateData) GetGoFieldType(typeName string, v structure.Entity, root
 
 }
 
+func (db *GenerateData) GetMaxMatchGoFieldType(objectname string, entities []structure.Entity) string {
+	possibleRes := make(map[string]string)
+	for _, e := range entities {
+		tmp := db.GetGoFieldType(objectname, e, false)
+		possibleRes[tmp] = tmp
+	}
+	if len(possibleRes) > 1 {
+		return "any"
+	}
+	for _, k := range possibleRes {
+		return k // hack to get first element
+	}
+	return "" // should never happend
+}
+
 func (m *GenerateData) generateFields(schemaType *ast.Definition) ([]*modelgen.Field, error) {
 	cfg := m.Data.Config
 	binder := cfg.NewBinder()
