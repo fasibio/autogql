@@ -263,9 +263,6 @@ func (db *GenerateData) ForeignName(object structure.Object, entity structure.En
 	if !ok {
 		panic("ForeignName: Can not find object " + entity.GqlTypeName())
 	}
-
-	log.Println("mugu", d.Name(), object.Name())
-
 	res := d.ForeignNameKeyName(strings.ToLower(object.Name()))
 	if res == "" {
 		res = object.ForeignNameKeyName(strings.ToLower(entity.Name()))
