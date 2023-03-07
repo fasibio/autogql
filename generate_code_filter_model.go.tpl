@@ -66,7 +66,7 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, "{{$entityGoName}}",true)...)
 			{{- else }}
 		if deep {
-			tableName := db.Config.NamingStrategy.TableName("{{$entityGoName}}")
+			tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
 			foreignKeyName := "{{$root.ForeignName $object $entity | snakecase}}"
 			db = db.Joins(fmt.Sprintf("JOIN %s {{$entityGoName}} ON {{$entityGoName}}.%s = %s.%s",tableName, foreignKeyName, alias, d.PrimaryKeyName()))
 		}else {

@@ -12,7 +12,7 @@ type Entities []Entity
 
 func (e Entities) ByName(name string) *Entity {
 	for _, v := range e {
-		if v.Name() == name {
+		if strings.EqualFold(v.Name(), name) {
 			return &v
 		}
 	}
