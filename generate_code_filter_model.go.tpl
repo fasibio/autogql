@@ -2,22 +2,37 @@
 {{ reserveImport "gorm.io/gorm"  }}
 {{ reserveImport "strings" }}
 {{ reserveImport "github.com/fasibio/autogql/runtimehelper" }}
-
 	
 {{$methodeName := "ExtendsDatabaseQuery"}}
 
 
 {{- $root := .}}
 
+type ParentObject interface {
+	TableName() string
+	PrimaryKeyName() string
+}
+
+
 {{- range $objectName, $object := .Handler.List.Objects }}
 {{- if $object.HasSqlDirective}}
 
-func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias string) []runtimehelper.ConditionElement {
+
+func (d *{{$object.Name}}FiltersInput) TableName() string {
+	return "{{$object.Name | snakecase}}"
+}
+
+func (d *{{$object.Name}}FiltersInput) PrimaryKeyName() string {
+	return "{{$root.PrimaryKeyOfObject $object.Name}}"
+}
+
+
+func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias string,deep bool) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 	if d.And != nil {
 		tmp := make([]runtimehelper.ConditionElement, 0)
 		for _, v := range d.And {
-			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd,v.ExtendsDatabaseQuery(db, alias)...))
+			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd,v.ExtendsDatabaseQuery(db, alias, true)...))
 		}
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationAnd,tmp...))
 	}
@@ -26,13 +41,13 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 		tmp := make([]runtimehelper.ConditionElement, 0)
 		for _, v := range d.Or {
 			
-			tmp  = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias)...))
+			tmp  = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true)...))
 		}
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationOr,tmp...))
 	}
 
 	if d.Not != nil {
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db, alias)...))
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db, alias, true)...))
 	}
   {{- range $entityKey, $entity := $object.InputFilterEntities }}
   {{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
@@ -40,16 +55,24 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 	{{-  if or $entity.IsPrimitive $entity.GqlTypeObj.HasSqlDirective }}
 	if d.{{$entityGoName}} != nil {
     {{-  if $entity.IsPrimitive  }}
-    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%s.%s",alias,"{{snakecase $entityGoName}}"))...)
+    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%s.%s",alias,"{{snakecase $entityGoName}}"),true)...)
     {{- else }}
 			{{- if $entity.HasMany2ManyDirective}}
     tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
 			{{- $m2mTableName := $entity.Many2ManyDirectiveTable}}
 		db := db.Joins(fmt.Sprintf("JOIN {{$m2mTableName}} ON {{$m2mTableName}}.{{$object.Name | snakecase}}_{{$root.PrimaryKeyOfObject $object.Name}} = %s.{{$root.PrimaryKeyOfObject $object.Name}} JOIN %s ON {{$m2mTableName}}.{{$entity.GqlTypeName | snakecase}}_{{$root.PrimaryKeyOfObject $entity.GqlTypeName | snakecase}} = %s.{{$root.PrimaryKeyOfObject $object.Name}}", alias, tableName,tableName))
-    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, tableName)...)
-			{{- else}}
-    db := db.Joins("{{$entityGoName}}")
-		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, "{{$entityGoName}}")...)
+    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, tableName,true)...)
+			{{- else if eq $object.Name $entity.GqlTypeName}}
+		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, "{{$entityGoName}}",true)...)
+			{{- else }}
+		if deep {
+			tableName := db.Config.NamingStrategy.TableName("{{$entityGoName}}")
+			foreignKeyName := "{{$root.ForeignName $object $entity | snakecase}}"
+			db = db.Joins(fmt.Sprintf("JOIN %s {{$entityGoName}} ON {{$entityGoName}}.%s = %s.%s",tableName, foreignKeyName, alias, d.PrimaryKeyName()))
+		}else {
+    	db = db.Joins("{{$entityGoName}}")
+		}	
+		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, "{{$entityGoName}}",true)...)
 			{{- end}}
     {{- end}}
 	}
@@ -61,7 +84,7 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 {{- end}}
 {{- end}}
 
-func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []runtimehelper.ConditionElement {
+func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 	if d.And != nil {
 		tmp := make([]runtimehelper.ConditionElement, 0)
@@ -99,7 +122,7 @@ func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) 
 	}
 
 	if d.Not != nil {
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db,fieldName)...))
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db,fieldName, true)...))
 	}
 
 	if d.NotContains != nil {
@@ -137,7 +160,7 @@ func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) 
 	return res
 }
 
-func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []runtimehelper.ConditionElement {
+func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool) []runtimehelper.ConditionElement {
 
 	res := make([]runtimehelper.ConditionElement, 0)
 
@@ -180,7 +203,7 @@ func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []r
 		res = append(res, runtimehelper.NotEqual(fieldName,*d.Ne))
 	}
 	if d.Not != nil {
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db,fieldName)...))
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db,fieldName, true)...))
 	}
 
 	if d.NotIn != nil {
@@ -207,7 +230,7 @@ func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []r
 	return res
 }
 
-func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []runtimehelper.ConditionElement {
+func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 
 	if d.And != nil {
@@ -223,7 +246,7 @@ func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string)
 	}
 
 	if d.Not != nil {
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, fieldName)...))
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, fieldName, true)...))
 	}
 
 	if d.NotNull != nil && *d.NotNull {
@@ -245,7 +268,7 @@ func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string)
 	return res
 }
 
-func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []runtimehelper.ConditionElement {
+func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool) []runtimehelper.ConditionElement {
 
 	res := make([]runtimehelper.ConditionElement, 0)
 
@@ -288,7 +311,7 @@ func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []
 		res = append(res, runtimehelper.NotEqual(fieldName,*d.Ne))
 	}
 	if d.Not != nil {
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db,fieldName)...))
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db,fieldName, true)...))
 	}
 
 	if d.NotIn != nil {
@@ -315,7 +338,7 @@ func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []
 	return res
 }
 
-func (d *IDFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []runtimehelper.ConditionElement {
+func (d *IDFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool) []runtimehelper.ConditionElement {
 
 	res := make([]runtimehelper.ConditionElement, 0)
 
@@ -341,7 +364,7 @@ func (d *IDFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string) []ru
 		res = append(res, runtimehelper.NotEqual(fieldName, *d.Ne))
 	}
 	if d.Not != nil {
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, fieldName)...))
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, fieldName, true)...))
 	}
 
 

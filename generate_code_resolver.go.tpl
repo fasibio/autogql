@@ -66,7 +66,7 @@ func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model
   tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	db = runtimehelper.GetPreloadSelection(ctx, db,runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
 	if filter != nil{
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName), "AND")
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false), "AND")
 		db.Where(sql, arguments...)
 	}
 
@@ -133,7 +133,7 @@ func (r *{{lcFirst $object.Name}}PayloadResolver[T]) {{$object.Name}}(ctx contex
 		{{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
 func (r *mutationResolver) Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(ctx context.Context, input model.{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput) (*model.Update{{$object.Name}}Payload, error){
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName, false), "AND")
 	db := r.Sql.Db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
 	var res []*model.{{$object.Name}}
 	db.Find(&res)
@@ -208,7 +208,7 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
 		}
 	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName, false), "AND")
 	obj := model.{{$object.Name}}{}
 	db = db.Model(&obj).Where(sql, arguments...)
 	update := input.Set.MergeToType()
@@ -246,7 +246,7 @@ func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter mo
 		}
 	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
-	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false), "AND")
 	obj := model.{{$object.Name}}{}
 	db = db.Where(sql, arguments...)
 	if okHook {
