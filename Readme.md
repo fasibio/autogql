@@ -121,6 +121,7 @@ Description:
 	directive @SQL_INDEX on FIELD_DEFINITION
 
 	directive @SQL_GORM (value: String)on FIELD_DEFINITION # each gorm command ==> not all useable at the moment pls open issue if you find one
+	directive @SQL_SKIP_MUTATION on FIELD_DEFINITION # to remove this value from input and patch generated Inputs
 
 	scalar Time #activated for createdAt, deletedAt, updatedAt etc
 
