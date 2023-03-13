@@ -22,6 +22,12 @@ func (e Entity) Name() string {
 func (e Entity) HasGormDirective() bool {
 	return e.GormDirectiveValue() != ""
 }
+
+func (e Entity) HasNoMutationDirective() bool {
+	d := e.Raw.Directives.ForName(string(DirectiveNoMutation))
+	return d != nil
+}
+
 func (e Entity) GormDirectiveValue() string {
 	d := e.Raw.Directives.ForName(string(DirectiveSQLGorm))
 	if d == nil {
