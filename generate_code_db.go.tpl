@@ -71,7 +71,7 @@ func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hoo
 	db.Hooks[name] = implementation
 }
 
-func AddDeleteHook[M {{$hookBaseName}}HookM, F {{$hookBaseName}}HookF, DP {{$hookBaseName}}HookDP](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookDelete[M, F, DP]) {
+func AddDeleteHook[F {{$hookBaseName}}HookF, DP {{$hookBaseName}}HookDP](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookDelete[F, DP]) {
 	db.Hooks[name] = implementation
 }
 
@@ -82,11 +82,41 @@ type {{$hookBaseName}}HookGet[obj {{$hookBaseName}}HookM, identifier any] interf
 	BeforeReturn(ctx context.Context, data *obj, db *gorm.DB) (*obj, error)
 }
 
+type DefaultGetHook[obj {{$hookBaseName}}HookM, identifier any] struct{}
+
+func (d DefaultGetHook[obj, identifier]) Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, id ...identifier) (*gorm.DB, error) {
+	return dbHelper.Db, nil
+}
+func (d DefaultGetHook[obj, identifier]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+	return db, nil
+}
+func (d DefaultGetHook[obj, identifier]) AfterCallDb(ctx context.Context, data *obj) (*obj, error) {
+	return data, nil
+}
+func (d DefaultGetHook[obj, identifier]) BeforeReturn(ctx context.Context, data *obj, db *gorm.DB) (*obj, error) {
+	return data, nil
+}
+
 type {{$hookBaseName}}HookQuery[obj {{$hookBaseName}}HookM, filter {{$hookBaseName}}HookF, order {{$hookBaseName}}HookQueryO] interface {
 	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, filter *filter, order *order, first, offset *int) (*gorm.DB, *filter, *order, *int, *int, error)
 	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
 	AfterCallDb(ctx context.Context, data []*obj) ([]*obj, error)
 	BeforeReturn(ctx context.Context, data []*obj, db *gorm.DB) ([]*obj, error)
+}
+
+type DefaultQueryHook[obj {{$hookBaseName}}HookM, filter {{$hookBaseName}}HookF, order {{$hookBaseName}}HookQueryO] struct{}
+
+func (d DefaultQueryHook[obj, filterType, orderType]) Received(ctx context.Context, dbHelper *AutoGqlDB, filter *filterType, order *orderType, first, offset *int) (*gorm.DB, *filterType, *orderType, *int, *int, error) {
+	return dbHelper.Db, filter, order, first, offset, nil
+}
+func (d DefaultQueryHook[obj, filter, order]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+	return db, nil
+}
+func (d DefaultQueryHook[obj, filter, order]) AfterCallDb(ctx context.Context, data []*obj) ([]*obj, error) {
+	return data, nil
+}
+func (d DefaultQueryHook[obj, filter, order]) BeforeReturn(ctx context.Context, data []*obj, db *gorm.DB) ([]*obj, error) {
+	return data, nil
 }
 
 type {{$hookBaseName}}HookAdd[obj {{$hookBaseName}}HookM, input {{$hookBaseName}}HookI, res {{$hookBaseName}}HookAP] interface {
@@ -95,14 +125,50 @@ type {{$hookBaseName}}HookAdd[obj {{$hookBaseName}}HookM, input {{$hookBaseName}
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
 }
 
+type DefaultAddHook[obj {{$hookBaseName}}HookM, input {{$hookBaseName}}HookI, res {{$hookBaseName}}HookAP] struct{}
+
+func (d DefaultAddHook[obj, inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input []*inputType) (*gorm.DB, []*inputType, error) {
+	return dbHelper.Db, input, nil
+}
+func (d DefaultAddHook[obj, inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB, data []obj) (*gorm.DB, []obj, error) {
+	return db, data, nil
+}
+func (d DefaultAddHook[obj, inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
+	return res, nil
+}
+
 type {{$hookBaseName}}HookUpdate[ input {{$hookBaseName}}HookU,  res {{$hookBaseName}}HookUP]interface{
 	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *input) (*gorm.DB, input, error)
 	BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}, error)
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
 }
 
-type {{$hookBaseName}}HookDelete[obj {{$hookBaseName}}HookM, input {{$hookBaseName}}HookF, res {{$hookBaseName}}HookDP] interface {
+type DefaultUpdateHook[input {{$hookBaseName}}HookU, res {{$hookBaseName}}HookUP] struct{}
+
+func (d DefaultUpdateHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
+	return dbHelper.Db, *input, nil
+}
+func (d DefaultUpdateHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}, error) {
+	return db, data, nil
+}
+func (d DefaultUpdateHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
+	return res, nil
+}
+
+type {{$hookBaseName}}HookDelete[input {{$hookBaseName}}HookF, res {{$hookBaseName}}HookDP] interface {
 	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *input) (*gorm.DB, input, error)
 	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
+}
+
+type DefaultDeleteHook[input {{$hookBaseName}}HookF, res {{$hookBaseName}}HookDP] struct{}
+
+func (d DefaultDeleteHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
+	return dbHelper.Db, *input, nil
+}
+func (d DefaultDeleteHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+	return db, nil
+}
+func (d DefaultDeleteHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
+	return res, nil
 }
