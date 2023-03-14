@@ -239,7 +239,7 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
     {{- if $object.SQLDirective.Mutation.Delete}}
 // Delete{{$object.Name}} is the resolver for the delete{{$object.Name}} field.
 func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter model.{{$object.Name}}FiltersInput) (*model.Delete{{$object.Name}}Payload, error) {
-	v, okHook := r.Sql.Hooks["Delete{{$object.Name}}"].(db.{{$hookBaseName}}HookDelete[model.{{$object.Name}}, model.{{$object.Name}}FiltersInput, model.Delete{{$object.Name}}Payload])
+	v, okHook := r.Sql.Hooks["Delete{{$object.Name}}"].(db.{{$hookBaseName}}HookDelete[model.{{$object.Name}}FiltersInput, model.Delete{{$object.Name}}Payload])
 	db := r.Sql.Db
 	if okHook{
 		var err error
