@@ -19,6 +19,7 @@ func (ggs *AutoGqlPlugin) MutateConfig(cfg *config.Config) error {
 	cfg.Directives[string(structure.DirectiveSQLPrimary)] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveSQLIndex)] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveSQLGorm)] = config.DirectiveConfig{SkipRuntime: true}
+	cfg.Directives[string(structure.DirectiveNoMutation)] = config.DirectiveConfig{SkipRuntime: true}
 	for k := range ggs.Handler.List {
 		makeResolverFor := []string{fmt.Sprintf("Add%sPayload", k), fmt.Sprintf("Update%sPayload", k), fmt.Sprintf("Delete%sPayload", k)}
 		for _, r := range makeResolverFor {
