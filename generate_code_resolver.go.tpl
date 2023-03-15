@@ -16,7 +16,7 @@
 // Get{{$object.Name}} is the resolver for the get{{$object.Name}} field.
 {{- $primaryFields := $object.PrimaryKeys }}
 func (r *queryResolver) Get{{$object.Name}}(ctx context.Context, {{range $primaryFieldKey, $primaryField := $primaryFields}} {{$primaryField.Name}} {{$root.GetGoFieldType $objectName $primaryField false}}, {{end }}) (*model.{{$object.Name}}, error) {
-	v, okHook := r.Sql.Hooks["Get{{$object.Name}}"].(db.{{$hookBaseName}}HookGet[model.{{$object.Name}}, {{$root.GetMaxMatchGoFieldType $objectName $primaryFields}}])
+	v, okHook := r.Sql.Hooks[string(db.Get{{$object.Name}})].(db.{{$hookBaseName}}HookGet[model.{{$object.Name}}, {{$root.GetMaxMatchGoFieldType $objectName $primaryFields}}])
 	db := r.Sql.Db
 	if okHook {
 		var err error
@@ -53,7 +53,7 @@ func (r *queryResolver) Get{{$object.Name}}(ctx context.Context, {{range $primar
     {{- if $object.SQLDirective.Query.Query}}
 // Query{{$object.Name}} is the resolver for the query{{$object.Name}} field.
 func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model.{{$object.Name}}FiltersInput, order *model.{{$object.Name}}Order, first *int, offset *int) (*model.{{$object.Name}}QueryResult, error) {
-	v, okHook := r.Sql.Hooks["Query{{$object.Name}}"].(db.{{$hookBaseName}}HookQuery[model.{{$object.Name}}, model.{{$object.Name}}FiltersInput,model.{{$object.Name}}Order])
+	v, okHook := r.Sql.Hooks[string(db.Query{{$object.Name}})].(db.{{$hookBaseName}}HookQuery[model.{{$object.Name}}, model.{{$object.Name}}FiltersInput,model.{{$object.Name}}Order])
   db := r.Sql.Db
 	if okHook {
 		var err error
@@ -133,11 +133,27 @@ func (r *{{lcFirst $object.Name}}PayloadResolver[T]) {{$object.Name}}(ctx contex
 }
 		{{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
 func (r *mutationResolver) Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(ctx context.Context, input model.{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput) (*model.Update{{$object.Name}}Payload, error){
+	v, okHook := r.Sql.Hooks[string(db.Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s)].(db.{{$hookBaseName}}HookMany2Many[model.{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput,model.Update{{$object.Name}}Payload])
+	db := r.Sql.Db
+	if okHook {
+		var err error
+		db, input, err = v.Received(ctx,r.Sql,&input)
+		if err != nil {
+			return nil, err
+		}
+	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	blackList := make(map[string]struct{})
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName, false, blackList), "AND")
-	db := r.Sql.Db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
+	db = db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
 	var res []*model.{{$object.Name}}
+	if okHook {
+		var err error
+		db, err = v.BeforeCallDb(ctx, db )	
+		if err != nil {
+			return nil, err
+		}
+	}
 	db.Find(&res)
 	{{- $table1ID := $root.GetGoFieldName $object.Name $object.PrimaryKeyField }}
 	{{- $tabe2PrimaryEntity := $root.PrimaryKeyEntityOfObject $m2mEntity.GqlTypeName}}
@@ -156,15 +172,23 @@ func (r *mutationResolver) Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(ctx c
 		}	
 	}
 	d := r.Sql.Db.Model(&{{camelcase $m2mKey}}{}).Create(resIds)
-	return &model.Update{{$object.Name}}Payload{
+	result :=  &model.Update{{$object.Name}}Payload{
 		Count: int(d.RowsAffected),
-	},d.Error
+	}
+	if okHook {
+		var err error
+		result, err =v.BeforeReturn(ctx,db, result)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return result,d.Error
 }
 		{{- end}}
     {{- if $object.SQLDirective.Mutation.Add}}
 // Add{{$object.Name}} is the resolver for the add{{$object.Name}} field.
 func (r *mutationResolver) Add{{$object.Name}}(ctx context.Context, input []*model.{{$object.Name}}Input) (*model.Add{{$object.Name}}Payload, error) {
-	v, okHook := r.Sql.Hooks["Add{{$object.Name}}"].(db.{{$hookBaseName}}HookAdd[model.{{$object.Name}}, model.{{$object.Name}}Input, model.Add{{$object.Name}}Payload])
+	v, okHook := r.Sql.Hooks[string(db.Add{{$object.Name}})].(db.{{$hookBaseName}}HookAdd[model.{{$object.Name}}, model.{{$object.Name}}Input, model.Add{{$object.Name}}Payload])
 	res := &model.Add{{$object.Name}}Payload{}
 	db := r.Sql.Db
 	if okHook {
@@ -200,7 +224,7 @@ func (r *mutationResolver) Add{{$object.Name}}(ctx context.Context, input []*mod
     {{- if $object.SQLDirective.Mutation.Update}}
 // Update{{$object.Name}} is the resolver for the update{{$object.Name}} field.
 func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input model.Update{{$object.Name}}Input) (*model.Update{{$object.Name}}Payload, error) {
-  v, okHook := r.Sql.Hooks["Update{{$object.Name}}"].(db.{{$hookBaseName}}HookUpdate[ model.Update{{$object.Name}}Input, model.Update{{$object.Name}}Payload])
+  v, okHook := r.Sql.Hooks[string(db.Update{{$object.Name}})].(db.{{$hookBaseName}}HookUpdate[ model.Update{{$object.Name}}Input, model.Update{{$object.Name}}Payload])
 	db := r.Sql.Db
 	if okHook{
 		var err error
@@ -239,7 +263,7 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
     {{- if $object.SQLDirective.Mutation.Delete}}
 // Delete{{$object.Name}} is the resolver for the delete{{$object.Name}} field.
 func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter model.{{$object.Name}}FiltersInput) (*model.Delete{{$object.Name}}Payload, error) {
-	v, okHook := r.Sql.Hooks["Delete{{$object.Name}}"].(db.{{$hookBaseName}}HookDelete[model.{{$object.Name}}, model.{{$object.Name}}FiltersInput, model.Delete{{$object.Name}}Payload])
+	v, okHook := r.Sql.Hooks[string(db.Delete{{$object.Name}})].(db.{{$hookBaseName}}HookDelete[model.{{$object.Name}}FiltersInput, model.Delete{{$object.Name}}Payload])
 	db := r.Sql.Db
 	if okHook{
 		var err error

@@ -169,7 +169,18 @@ You can manipulate each Query and Mutation through Hooks. The Hooks descriptions
  - [hooks.go](https://github.com/fasibio/autogql_example/blob/main/hooks.go)
  - And to include : [server.go](https://github.com/fasibio/autogql_example/blob/main/server.go#L29-L33)
 
+A default hook implementation will also be added to db package so you did not have to implement all hook functions: 
 
+```go
+type CompanyGetHook struct {
+	db.DefaultGetHook[model.Company, int]
+}
+
+func (g CompanyGetHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+	// your implementation
+	return db, nil 
+}
+```
 
 
 
