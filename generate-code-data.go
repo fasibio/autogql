@@ -29,6 +29,17 @@ func (db *GenerateData) HookList(suffix, prefix string) []string {
 	return res
 }
 
+func (db *GenerateData) HookListMany2Many(suffix string) []string {
+	res := make([]string, 0)
+	for _, v := range db.Handler.List {
+		m2mEntities := v.Many2ManyRefEntities()
+		for _, m2me := range m2mEntities {
+			res = append(res, fmt.Sprintf("%s%sRef2%ssInput", suffix, m2me.GqlTypeName(), v.Name()))
+		}
+	}
+	return res
+}
+
 func (db *GenerateData) ModelsMigrations() string {
 	res := ""
 	for _, v := range db.Handler.List {

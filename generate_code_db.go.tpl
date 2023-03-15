@@ -6,6 +6,35 @@
 {{- end}}
 {{- $root := .}}
 {{$hookBaseName := "AutoGql"}}
+type QueryName string
+type GetName string
+type AddName string
+type UpdateName string
+type DeleteName string
+type Many2ManyName string 
+
+const (
+	{{- range $objectName, $object := .Handler.List.Objects }}
+	{{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
+	Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s Many2ManyName = "Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s"
+	{{- end}}
+	{{- if $object.SQLDirective.Query.Get}}
+	Get{{$object.Name}} GetName = "Get{{$object.Name}}"
+	{{- end}}
+	{{- if $object.SQLDirective.Query.Query}}
+	Query{{$object.Name}} QueryName = "Query{{$object.Name}}"
+	{{- end}}
+	{{- if $object.SQLDirective.Mutation.Add}}
+	Add{{$object.Name}} AddName = "Add{{$object.Name}}"
+	{{- end}}
+	{{- if $object.SQLDirective.Mutation.Update}}
+	Update{{$object.Name}} UpdateName = "Update{{$object.Name}}"
+	{{- end}}
+	{{- if $object.SQLDirective.Mutation.Delete}}
+	Delete{{$object.Name}} DeleteName = "Delete{{$object.Name}}"
+	{{- end}}
+	{{- end}}
+)
 
 type {{$hookBaseName}}HookM interface {
 	{{$root.HookList "model." "" | join "|"}}
@@ -13,6 +42,13 @@ type {{$hookBaseName}}HookM interface {
 type {{$hookBaseName}}HookF interface {
 	{{$root.HookList "model." "FiltersInput" | join "|"}}
 }
+
+{{- $m2mV := $root.HookListMany2Many "model."}}
+{{- if gt (len $m2mV) 0}}
+type {{$hookBaseName}}HookM2M interface {
+	{{$m2mV | join "|"}}
+}
+{{- end}}
 
 type {{$hookBaseName}}HookQueryO interface {
 	{{$root.HookList "model." "Order" | join "|"}}
@@ -55,24 +91,28 @@ func (db *{{$hookBaseName}}DB) Init() {
 	db.Db.AutoMigrate({{.ModelsMigrations}})
 }
 
-func AddGetHook[T {{$hookBaseName}}HookM, I any](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookGet[T,I]) {
-	db.Hooks[name] = implementation
+func AddGetHook[T {{$hookBaseName}}HookM, I any](db *{{$hookBaseName}}DB, name GetName, implementation {{$hookBaseName}}HookGet[T,I]) {
+	db.Hooks[string(name)] = implementation
 }
 
-func AddQueryHook[M {{$hookBaseName}}HookM, F {{$hookBaseName}}HookF, O {{$hookBaseName}}HookQueryO](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookQuery[M, F, O]) {
-	db.Hooks[name] = implementation
+func AddQueryHook[M {{$hookBaseName}}HookM, F {{$hookBaseName}}HookF, O {{$hookBaseName}}HookQueryO](db *{{$hookBaseName}}DB, name QueryName, implementation {{$hookBaseName}}HookQuery[M, F, O]) {
+	db.Hooks[string(name)] = implementation
 }
 
-func AddAddHook[M {{$hookBaseName}}HookM,I {{$hookBaseName}}HookI, AP {{$hookBaseName}}HookAP](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookAdd[M, I, AP]) {
-	db.Hooks[name] = implementation
+func AddAddHook[M {{$hookBaseName}}HookM,I {{$hookBaseName}}HookI, AP {{$hookBaseName}}HookAP](db *{{$hookBaseName}}DB, name AddName, implementation {{$hookBaseName}}HookAdd[M, I, AP]) {
+	db.Hooks[string(name)] = implementation
 }
 
-func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hookBaseName}}HookUP](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookUpdate[U, UP]) {
-	db.Hooks[name] = implementation
+func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hookBaseName}}HookUP](db *{{$hookBaseName}}DB, name UpdateName, implementation {{$hookBaseName}}HookUpdate[U, UP]) {
+	db.Hooks[string(name)] = implementation
 }
 
-func AddDeleteHook[F {{$hookBaseName}}HookF, DP {{$hookBaseName}}HookDP](db *{{$hookBaseName}}DB, name string, implementation {{$hookBaseName}}HookDelete[F, DP]) {
-	db.Hooks[name] = implementation
+func AddMany2ManyHook[M AutoGqlHookM, U AutoGqlHookU, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyName, implementation AutoGqlHookUpdate[U, UP]) {
+	db.Hooks[string(name)] = implementation
+}
+
+func AddDeleteHook[F {{$hookBaseName}}HookF, DP {{$hookBaseName}}HookDP](db *{{$hookBaseName}}DB, name DeleteName, implementation {{$hookBaseName}}HookDelete[F, DP]) {
+	db.Hooks[string(name)] = implementation
 }
 
 type {{$hookBaseName}}HookGet[obj {{$hookBaseName}}HookM, identifier any] interface {
@@ -141,6 +181,24 @@ type {{$hookBaseName}}HookUpdate[ input {{$hookBaseName}}HookU,  res {{$hookBase
 	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *input) (*gorm.DB, input, error)
 	BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}, error)
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
+}
+
+type {{$hookBaseName}}HookMany2Many[input {{$hookBaseName}}HookM2M, res AutoGqlHookUP] interface {
+	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error)
+	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
+	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
+}
+
+type DefaultMany2ManyHook[input{{$hookBaseName}}HookM2M, res {{$hookBaseName}}HookUP] struct {}
+
+func (d DefaultMany2ManyHook[inputType, resType])Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *inputType) (*gorm.DB, inputType, error){
+	return dbHelper.Db, *input, nil
+}
+func (d DefaultMany2ManyHook[inputType, resType])BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error){
+	return db, nil
+}
+func (d DefaultMany2ManyHook[inputType, resType])BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error){
+	return res, nil
 }
 
 type DefaultUpdateHook[input {{$hookBaseName}}HookU, res {{$hookBaseName}}HookUP] struct{}
