@@ -213,7 +213,7 @@ func (r *mutationResolver) Add{{$object.Name}}(ctx context.Context, input []*mod
   db = db.Create(&obj)
 	if okHook {
 		var err error
-		res, err = v.BeforeReturn(ctx,db,res)
+		res, err = v.BeforeReturn(ctx,db, obj, res)
 		if err != nil {
 			return nil, err
 		}

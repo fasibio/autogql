@@ -107,7 +107,7 @@ func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hoo
 	db.Hooks[string(name)] = implementation
 }
 
-func AddMany2ManyHook[M AutoGqlHookM, U AutoGqlHookU, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyName, implementation AutoGqlHookUpdate[U, UP]) {
+func AddMany2ManyHook[U AutoGqlHookM2M, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyName, implementation AutoGqlHookMany2Many[U, UP]) {
 	db.Hooks[string(name)] = implementation
 }
 
@@ -162,7 +162,7 @@ func (d DefaultQueryHook[obj, filter, order]) BeforeReturn(ctx context.Context, 
 type {{$hookBaseName}}HookAdd[obj {{$hookBaseName}}HookM, input {{$hookBaseName}}HookI, res {{$hookBaseName}}HookAP] interface {
 	Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input []*input) (*gorm.DB, []*input, error)
 	BeforeCallDb(ctx context.Context, db *gorm.DB, data []obj) (*gorm.DB,[]obj, error)
-	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
+	BeforeReturn(ctx context.Context, db *gorm.DB, data []obj, res *res) (*res, error)
 }
 
 type DefaultAddHook[obj {{$hookBaseName}}HookM, input {{$hookBaseName}}HookI, res {{$hookBaseName}}HookAP] struct{}
@@ -173,7 +173,7 @@ func (d DefaultAddHook[obj, inputType, resType]) Received(ctx context.Context, d
 func (d DefaultAddHook[obj, inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB, data []obj) (*gorm.DB, []obj, error) {
 	return db, data, nil
 }
-func (d DefaultAddHook[obj, inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
+func (d DefaultAddHook[obj, inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, data []obj, res *resType) (*resType, error) {
 	return res, nil
 }
 
@@ -189,7 +189,7 @@ type {{$hookBaseName}}HookMany2Many[input {{$hookBaseName}}HookM2M, res AutoGqlH
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
 }
 
-type DefaultMany2ManyHook[input{{$hookBaseName}}HookM2M, res {{$hookBaseName}}HookUP] struct {}
+type DefaultMany2ManyHook[input {{$hookBaseName}}HookM2M, res {{$hookBaseName}}HookUP] struct {}
 
 func (d DefaultMany2ManyHook[inputType, resType])Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *inputType) (*gorm.DB, inputType, error){
 	return dbHelper.Db, *input, nil
