@@ -35,14 +35,16 @@ func (ggs *AutoGqlPlugin) InjectSourceEarly() *ast.Source {
 	directive @%s on FIELD_DEFINITION
 
 	directive @%s (value: String)on FIELD_DEFINITION
-
+  
+	directive @%s on FIELD_DEFINITION
 	scalar Time
 	`, structure.DirectiveSQL,
 		structure.DirectiveSQLArgumentQuery,
 		structure.DirectiveSQLArgumentMutation,
 		structure.DirectiveSQLPrimary,
 		structure.DirectiveSQLIndex,
-		structure.DirectiveSQLGorm)
+		structure.DirectiveSQLGorm,
+		structure.DirectiveNoMutation)
 
 	return &ast.Source{
 		Name:    fmt.Sprintf("%s/directive.graphql", ggs.Name()),

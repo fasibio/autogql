@@ -7,6 +7,7 @@ const (
 	DirectiveSQLPrimary          Directive = "SQL_PRIMARY"
 	DirectiveSQLIndex            Directive = "SQL_INDEX"
 	DirectiveSQLGorm             Directive = "SQL_GORM"
+	DirectiveNoMutation          Directive = "SQL_SKIP_MUTATION"
 	DirectiveSQLArgumentQuery              = "query"
 	DirectiveSQLArgumentMutation           = "mutation"
 )

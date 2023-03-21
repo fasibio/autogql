@@ -45,6 +45,9 @@ func (o Object) InputEntities() Entities {
 		if o.isEntityTimeManipulation(v) {
 			continue
 		}
+		if v.HasNoMutationDirective() {
+			continue
+		}
 		res = append(res, v)
 	}
 	return res
