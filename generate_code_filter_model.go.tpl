@@ -62,7 +62,7 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 		{{- $m2mTableName := $entity.Many2ManyDirectiveTable}}
 		if _, ok := blackList["{{$m2mTableName}}"]; !ok {
 			blackList["{{$m2mTableName}}"] = struct{}{}
-			db = db.Joins(fmt.Sprintf("JOIN {{$m2mTableName}} ON {{$m2mTableName}}.{{$object.Name | snakecase}}_{{$root.PrimaryKeyOfObject $object.Name}} = %s.{{$root.PrimaryKeyOfObject $object.Name}} JOIN %s ON {{$m2mTableName}}.{{$entity.GqlTypeName | snakecase}}_{{$root.PrimaryKeyOfObject $entity.GqlTypeName | snakecase}} = %s.{{$root.PrimaryKeyOfObject $object.Name}}", alias, tableName,tableName))
+			db = db.Joins(fmt.Sprintf("LEFT JOIN {{$m2mTableName}} ON {{$m2mTableName}}.{{$object.Name | snakecase}}_{{$root.PrimaryKeyOfObject $object.Name}} = %s.{{$root.PrimaryKeyOfObject $object.Name}} JOIN %s ON {{$m2mTableName}}.{{$entity.GqlTypeName | snakecase}}_{{$root.PrimaryKeyOfObject $entity.GqlTypeName | snakecase}} = %s.{{$root.PrimaryKeyOfObject $object.Name}}", alias, tableName,tableName))
     }
 		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, tableName,true,blackList)...)
 			{{- else if eq $object.Name $entity.GqlTypeName}}
@@ -73,7 +73,7 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 			if deep {
 				tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
 				foreignKeyName := "{{$root.ForeignName $object $entity | snakecase}}"
-				db = db.Joins(fmt.Sprintf("JOIN %s {{$entityGoName}} ON {{$entityGoName}}.%s = %s.%s",tableName, foreignKeyName, alias, d.PrimaryKeyName()))
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %s {{$entityGoName}} ON {{$entityGoName}}.%s = %s.%s",tableName, foreignKeyName, alias, d.PrimaryKeyName()))
 			}else {
 				db = db.Joins("{{$entityGoName}}")
 			}
