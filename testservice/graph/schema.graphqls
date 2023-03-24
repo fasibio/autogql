@@ -1,0 +1,22 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+
+
+type Todo @SQL{
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  users: [User!]! @SQL_GORM(value:"many2many:group_users")
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type User @SQL{
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}

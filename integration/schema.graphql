@@ -1,0 +1,273 @@
+directive @SQL(query: SqlQueryParams, mutation: SqlMutationParams) on OBJECT
+
+directive @SQL_GORM(value: String) on FIELD_DEFINITION
+
+directive @SQL_INDEX on FIELD_DEFINITION
+
+directive @SQL_PRIMARY on FIELD_DEFINITION
+
+directive @SQL_SKIP_MUTATION on FIELD_DEFINITION
+
+"""
+The @specifiedBy built-in directive is used within the type system definition
+language to provide a scalar specification URL for specifying the behavior of
+custom scalar types.
+"""
+directive @specifiedBy(url: String!) on SCALAR
+
+type AddTodoPayload {
+  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+}
+
+type AddUserPayload {
+  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+}
+
+input BooleanFilterInput {
+  and: [Boolean]
+  or: [Boolean]
+  not: BooleanFilterInput
+  is: Boolean
+  null: Boolean
+  notNull: Boolean
+}
+
+type DeleteTodoPayload {
+  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+  count: Int!
+  msg: String
+}
+
+type DeleteUserPayload {
+  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+  count: Int!
+  msg: String
+}
+
+input IDFilterInput {
+  and: [ID]
+  or: [ID]
+  not: IDFilterInput
+  eq: ID
+  ne: ID
+  null: Boolean
+  notNull: Boolean
+  in: [ID]
+  notin: [ID]
+}
+
+input IntFilterBetween {
+  start: Int!
+  end: Int!
+}
+
+input IntFilterInput {
+  and: [Int]
+  or: [Int]
+  not: IntFilterInput
+  eq: Int
+  ne: Int
+  gt: Int
+  gte: Int
+  lt: Int
+  lte: Int
+  null: Boolean
+  notNull: Boolean
+  in: [Int]
+  notIn: [Int]
+  between: IntFilterBetween
+}
+
+type Mutation {
+  addUser2Todos(input: UserRef2TodosInput!): UpdateTodoPayload
+  addTodo(input: [TodoInput!]!): AddTodoPayload
+  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
+  deleteTodo(filter: TodoFiltersInput!): DeleteTodoPayload
+  addUser(input: [UserInput!]!): AddUserPayload
+  updateUser(input: UpdateUserInput!): UpdateUserPayload
+  deleteUser(filter: UserFiltersInput!): DeleteUserPayload
+}
+
+type Query {
+  getTodo(id: ID!): Todo
+  queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult
+  getUser(id: ID!): User
+  queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult
+}
+
+input SqlCreateExtension {
+  value: Boolean!
+  directiveExt: [String!]
+}
+
+input SqlMutationParams {
+  add: SqlCreateExtension
+  update: SqlCreateExtension
+  delete: SqlCreateExtension
+  directiveExt: [String!]
+}
+
+input SqlQueryParams {
+  get: SqlCreateExtension
+  query: SqlCreateExtension
+  directiveExt: [String!]
+}
+
+input StringFilterInput {
+  and: [String]
+  or: [String]
+  not: StringFilterInput
+  eq: String
+  eqi: String
+  ne: String
+  startsWith: String
+  endsWith: String
+  contains: String
+  notContains: String
+  containsi: String
+  notContainsi: String
+  null: Boolean
+  notNull: Boolean
+  in: [String]
+  notIn: [String]
+}
+
+scalar Time
+
+input TimeFilterBetween {
+  start: Time!
+  end: Time!
+}
+
+input TimeFilterInput {
+  and: [Time]
+  or: [Time]
+  not: TimeFilterInput
+  eq: Time
+  ne: Time
+  gt: Time
+  gte: Time
+  lt: Time
+  lte: Time
+  null: Boolean
+  notNull: Boolean
+  in: [Time]
+  notIn: [Time]
+  between: TimeFilterBetween
+}
+
+type Todo {
+  id: ID!
+  name: String!
+  users: [User!]!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+input TodoFiltersInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  users: UserFiltersInput
+  createdAt: TimeFilterInput
+  updatedAt: TimeFilterInput
+  deletedAt: TimeFilterInput
+  and: [TodoFiltersInput]
+  or: [TodoFiltersInput]
+  not: TodoFiltersInput
+}
+
+input TodoInput {
+  name: String!
+  users: [UserInput!]!
+}
+
+input TodoOrder {
+  asc: TodoOrderable
+  desc: TodoOrderable
+}
+
+enum TodoOrderable {
+  id
+  name
+}
+
+input TodoPatch {
+  name: String
+  users: [UserPatch!]
+}
+
+type TodoQueryResult {
+  data: [Todo!]!
+  count: Int!
+  totalCount: Int!
+}
+
+input UpdateTodoInput {
+  filter: TodoFiltersInput!
+  set: TodoPatch!
+}
+
+type UpdateTodoPayload {
+  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+  count: Int!
+}
+
+input UpdateUserInput {
+  filter: UserFiltersInput!
+  set: UserPatch!
+}
+
+type UpdateUserPayload {
+  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+  count: Int!
+}
+
+type User {
+  id: ID!
+  name: String!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+input UserFiltersInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  createdAt: TimeFilterInput
+  updatedAt: TimeFilterInput
+  deletedAt: TimeFilterInput
+  and: [UserFiltersInput]
+  or: [UserFiltersInput]
+  not: UserFiltersInput
+}
+
+input UserInput {
+  name: String!
+}
+
+input UserOrder {
+  asc: UserOrderable
+  desc: UserOrderable
+}
+
+enum UserOrderable {
+  id
+  name
+}
+
+input UserPatch {
+  name: String
+}
+
+type UserQueryResult {
+  data: [User!]!
+  count: Int!
+  totalCount: Int!
+}
+
+input UserRef2TodosInput {
+  filter: TodoFiltersInput!
+  set: [ID!]!
+}
+
