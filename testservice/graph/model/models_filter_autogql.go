@@ -15,6 +15,107 @@ type ParentObject interface {
 	PrimaryKeyName() string
 }
 
+func (d *CatFiltersInput) TableName() string {
+	return "cat"
+}
+
+func (d *CatFiltersInput) PrimaryKeyName() string {
+	return "id"
+}
+
+func (d *CatFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
+	res := make([]runtimehelper.ConditionElement, 0)
+	if d.And != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.And {
+			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+		}
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationAnd, tmp...))
+	}
+
+	if d.Or != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.Or {
+
+			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+		}
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationOr, tmp...))
+	}
+
+	if d.Not != nil {
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+	}
+	if d.ID != nil {
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "id"), true, blackList)...)
+	}
+	if d.Name != nil {
+		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "name"), true, blackList)...)
+	}
+	if d.BirthDay != nil {
+		res = append(res, d.BirthDay.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "birth_day"), true, blackList)...)
+	}
+	if d.UserID != nil {
+		res = append(res, d.UserID.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "user_id"), true, blackList)...)
+	}
+	if d.Alive != nil {
+		res = append(res, d.Alive.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "alive"), true, blackList)...)
+	}
+
+	return res
+}
+
+func (d *CompanyFiltersInput) TableName() string {
+	return "company"
+}
+
+func (d *CompanyFiltersInput) PrimaryKeyName() string {
+	return "id"
+}
+
+func (d *CompanyFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
+	res := make([]runtimehelper.ConditionElement, 0)
+	if d.And != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.And {
+			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+		}
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationAnd, tmp...))
+	}
+
+	if d.Or != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.Or {
+
+			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+		}
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationOr, tmp...))
+	}
+
+	if d.Not != nil {
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+	}
+	if d.ID != nil {
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "id"), true, blackList)...)
+	}
+	if d.Name != nil {
+		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "name"), true, blackList)...)
+	}
+	if d.Description != nil {
+		res = append(res, d.Description.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "description"), true, blackList)...)
+	}
+	if d.MotherCompanyID != nil {
+		res = append(res, d.MotherCompanyID.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "mother_company_id"), true, blackList)...)
+	}
+	if d.MotherCompany != nil {
+		res = append(res, d.MotherCompany.ExtendsDatabaseQuery(db, "MotherCompany", true, blackList)...)
+	}
+	if d.CreatedAt != nil {
+		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "created_at"), true, blackList)...)
+	}
+
+	return res
+}
+
 func (d *TodoFiltersInput) TableName() string {
 	return "todo"
 }
@@ -58,6 +159,22 @@ func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 			db = db.Joins(fmt.Sprintf("LEFT JOIN group_users ON group_users.todo_id = %s.id JOIN %s ON group_users.user_id = %s.id", alias, tableName, tableName))
 		}
 		res = append(res, d.Users.ExtendsDatabaseQuery(db, tableName, true, blackList)...)
+	}
+	if d.Owner != nil {
+		if _, ok := blackList["Owner"]; !ok {
+			blackList["Owner"] = struct{}{}
+			if deep {
+				tableName := db.Config.NamingStrategy.TableName("User")
+				foreignKeyName := "id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %s Owner ON Owner.%s = %s.%s", tableName, foreignKeyName, alias, d.PrimaryKeyName()))
+			} else {
+				db = db.Joins("Owner")
+			}
+		}
+		res = append(res, d.Owner.ExtendsDatabaseQuery(db, "Owner", true, blackList)...)
+	}
+	if d.OwnerID != nil {
+		res = append(res, d.OwnerID.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "owner_id"), true, blackList)...)
 	}
 	if d.CreatedAt != nil {
 		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "created_at"), true, blackList)...)
@@ -116,6 +233,35 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 	}
 	if d.DeletedAt != nil {
 		res = append(res, d.DeletedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "deleted_at"), true, blackList)...)
+	}
+	if d.Cat != nil {
+		if _, ok := blackList["Cat"]; !ok {
+			blackList["Cat"] = struct{}{}
+			if deep {
+				tableName := db.Config.NamingStrategy.TableName("Cat")
+				foreignKeyName := "id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %s Cat ON Cat.%s = %s.%s", tableName, foreignKeyName, alias, d.PrimaryKeyName()))
+			} else {
+				db = db.Joins("Cat")
+			}
+		}
+		res = append(res, d.Cat.ExtendsDatabaseQuery(db, "Cat", true, blackList)...)
+	}
+	if d.CompanyID != nil {
+		res = append(res, d.CompanyID.ExtendsDatabaseQuery(db, fmt.Sprintf("%s.%s", alias, "company_id"), true, blackList)...)
+	}
+	if d.Company != nil {
+		if _, ok := blackList["Company"]; !ok {
+			blackList["Company"] = struct{}{}
+			if deep {
+				tableName := db.Config.NamingStrategy.TableName("Company")
+				foreignKeyName := "id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %s Company ON Company.%s = %s.%s", tableName, foreignKeyName, alias, d.PrimaryKeyName()))
+			} else {
+				db = db.Joins("Company")
+			}
+		}
+		res = append(res, d.Company.ExtendsDatabaseQuery(db, "Company", true, blackList)...)
 	}
 
 	return res

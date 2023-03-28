@@ -2,12 +2,12 @@
 #
 # https://gqlgen.com/getting-started/
 
-
-
 type Todo @SQL{
   id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
   name: String!
-  users: [User!]! @SQL_GORM(value:"many2many:group_users")
+  users: [User!]! @SQL_GORM(value:"many2many:group_users") @SQL_SKIP_MUTATION
+  owner: User! @SQL_SKIP_MUTATION
+  ownerID: ID! @SQL_SKIP_MUTATION
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
@@ -19,4 +19,25 @@ type User @SQL{
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
+  cat: Cat
+  companyID: Int
+  company: Company
+}
+
+type Company @SQL{
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  description: String
+  motherCompanyID: Int
+  motherCompany: Company
+  createdAt: Time
+}
+
+type Cat @SQL{
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  birthDay: Time!
+  age: Int @SQL_GORM(value:"-")
+  userID: Int!
+  alive: Boolean @SQL_GORM(value: "default:true")
 }

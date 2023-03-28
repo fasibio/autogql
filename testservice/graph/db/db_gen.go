@@ -17,6 +17,16 @@ type DeleteName string
 type Many2ManyName string
 
 const (
+	GetCat        GetName       = "GetCat"
+	QueryCat      QueryName     = "QueryCat"
+	AddCat        AddName       = "AddCat"
+	UpdateCat     UpdateName    = "UpdateCat"
+	DeleteCat     DeleteName    = "DeleteCat"
+	GetCompany    GetName       = "GetCompany"
+	QueryCompany  QueryName     = "QueryCompany"
+	AddCompany    AddName       = "AddCompany"
+	UpdateCompany UpdateName    = "UpdateCompany"
+	DeleteCompany DeleteName    = "DeleteCompany"
 	AddUser2Todos Many2ManyName = "AddUser2Todos"
 	GetTodo       GetName       = "GetTodo"
 	QueryTodo     QueryName     = "QueryTodo"
@@ -31,37 +41,37 @@ const (
 )
 
 type AutoGqlHookM interface {
-	model.User | model.Todo
+	model.Cat | model.Company | model.User | model.Todo
 }
 type AutoGqlHookF interface {
-	model.TodoFiltersInput | model.UserFiltersInput
+	model.CatFiltersInput | model.CompanyFiltersInput | model.UserFiltersInput | model.TodoFiltersInput
 }
 type AutoGqlHookM2M interface {
 	model.UserRef2TodosInput
 }
 
 type AutoGqlHookQueryO interface {
-	model.UserOrder | model.TodoOrder
+	model.CatOrder | model.CompanyOrder | model.UserOrder | model.TodoOrder
 }
 
 type AutoGqlHookI interface {
-	model.UserInput | model.TodoInput
+	model.CatInput | model.CompanyInput | model.UserInput | model.TodoInput
 }
 
 type AutoGqlHookU interface {
-	model.UpdateUserInput | model.UpdateTodoInput
+	model.UpdateCompanyInput | model.UpdateUserInput | model.UpdateTodoInput | model.UpdateCatInput
 }
 
 type AutoGqlHookUP interface {
-	model.UpdateUserPayload | model.UpdateTodoPayload
+	model.UpdateUserPayload | model.UpdateTodoPayload | model.UpdateCatPayload | model.UpdateCompanyPayload
 }
 
 type AutoGqlHookDP interface {
-	model.DeleteUserPayload | model.DeleteTodoPayload
+	model.DeleteTodoPayload | model.DeleteCatPayload | model.DeleteCompanyPayload | model.DeleteUserPayload
 }
 
 type AutoGqlHookAP interface {
-	model.AddTodoPayload | model.AddUserPayload
+	model.AddTodoPayload | model.AddCatPayload | model.AddCompanyPayload | model.AddUserPayload
 }
 
 type AutoGqlDB struct {
@@ -77,7 +87,7 @@ func NewAutoGqlDB(db *gorm.DB) AutoGqlDB {
 }
 
 func (db *AutoGqlDB) Init() {
-	db.Db.AutoMigrate(&model.User{}, &model.Todo{})
+	db.Db.AutoMigrate(&model.Todo{}, &model.Cat{}, &model.Company{}, &model.User{})
 }
 
 func AddGetHook[T AutoGqlHookM, I any](db *AutoGqlDB, name GetName, implementation AutoGqlHookGet[T, I]) {

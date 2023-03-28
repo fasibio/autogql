@@ -15,6 +15,14 @@ custom scalar types.
 """
 directive @specifiedBy(url: String!) on SCALAR
 
+type AddCatPayload {
+  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+}
+
+type AddCompanyPayload {
+  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+}
+
 type AddTodoPayload {
   todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
 }
@@ -30,6 +38,123 @@ input BooleanFilterInput {
   is: Boolean
   null: Boolean
   notNull: Boolean
+}
+
+type Cat {
+  id: ID!
+  name: String!
+  birthDay: Time!
+  age: Int
+  userID: Int!
+  alive: Boolean
+}
+
+input CatFiltersInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  birthDay: TimeFilterInput
+  userID: IntFilterInput
+  alive: BooleanFilterInput
+  and: [CatFiltersInput]
+  or: [CatFiltersInput]
+  not: CatFiltersInput
+}
+
+input CatInput {
+  name: String!
+  birthDay: Time!
+  userID: Int!
+  alive: Boolean
+}
+
+input CatOrder {
+  asc: CatOrderable
+  desc: CatOrderable
+}
+
+enum CatOrderable {
+  id
+  name
+  userID
+  alive
+}
+
+input CatPatch {
+  name: String
+  birthDay: Time
+  userID: Int
+  alive: Boolean
+}
+
+type CatQueryResult {
+  data: [Cat!]!
+  count: Int!
+  totalCount: Int!
+}
+
+type Company {
+  id: ID!
+  name: String!
+  description: String
+  motherCompanyID: Int
+  motherCompany: Company
+  createdAt: Time
+}
+
+input CompanyFiltersInput {
+  id: IDFilterInput
+  name: StringFilterInput
+  description: StringFilterInput
+  motherCompanyID: IntFilterInput
+  motherCompany: CompanyFiltersInput
+  createdAt: TimeFilterInput
+  and: [CompanyFiltersInput]
+  or: [CompanyFiltersInput]
+  not: CompanyFiltersInput
+}
+
+input CompanyInput {
+  name: String!
+  description: String
+  motherCompanyID: Int
+  motherCompany: CompanyInput
+}
+
+input CompanyOrder {
+  asc: CompanyOrderable
+  desc: CompanyOrderable
+}
+
+enum CompanyOrderable {
+  id
+  name
+  description
+  motherCompanyID
+}
+
+input CompanyPatch {
+  name: String
+  description: String
+  motherCompanyID: Int
+  motherCompany: CompanyPatch
+}
+
+type CompanyQueryResult {
+  data: [Company!]!
+  count: Int!
+  totalCount: Int!
+}
+
+type DeleteCatPayload {
+  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+  count: Int!
+  msg: String
+}
+
+type DeleteCompanyPayload {
+  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+  count: Int!
+  msg: String
 }
 
 type DeleteTodoPayload {
@@ -79,6 +204,12 @@ input IntFilterInput {
 }
 
 type Mutation {
+  addCat(input: [CatInput!]!): AddCatPayload
+  updateCat(input: UpdateCatInput!): UpdateCatPayload
+  deleteCat(filter: CatFiltersInput!): DeleteCatPayload
+  addCompany(input: [CompanyInput!]!): AddCompanyPayload
+  updateCompany(input: UpdateCompanyInput!): UpdateCompanyPayload
+  deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload
   addUser2Todos(input: UserRef2TodosInput!): UpdateTodoPayload
   addTodo(input: [TodoInput!]!): AddTodoPayload
   updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
@@ -89,6 +220,10 @@ type Mutation {
 }
 
 type Query {
+  getCat(id: ID!): Cat
+  queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult
+  getCompany(id: ID!): Company
+  queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult
   getTodo(id: ID!): Todo
   queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult
   getUser(id: ID!): User
@@ -160,6 +295,8 @@ type Todo {
   id: ID!
   name: String!
   users: [User!]!
+  owner: User!
+  ownerID: ID!
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
@@ -169,6 +306,8 @@ input TodoFiltersInput {
   id: IDFilterInput
   name: StringFilterInput
   users: UserFiltersInput
+  owner: UserFiltersInput
+  ownerID: IDFilterInput
   createdAt: TimeFilterInput
   updatedAt: TimeFilterInput
   deletedAt: TimeFilterInput
@@ -179,7 +318,6 @@ input TodoFiltersInput {
 
 input TodoInput {
   name: String!
-  users: [UserInput!]!
 }
 
 input TodoOrder {
@@ -190,17 +328,37 @@ input TodoOrder {
 enum TodoOrderable {
   id
   name
+  ownerID
 }
 
 input TodoPatch {
   name: String
-  users: [UserPatch!]
 }
 
 type TodoQueryResult {
   data: [Todo!]!
   count: Int!
   totalCount: Int!
+}
+
+input UpdateCatInput {
+  filter: CatFiltersInput!
+  set: CatPatch!
+}
+
+type UpdateCatPayload {
+  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+  count: Int!
+}
+
+input UpdateCompanyInput {
+  filter: CompanyFiltersInput!
+  set: CompanyPatch!
+}
+
+type UpdateCompanyPayload {
+  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+  count: Int!
 }
 
 input UpdateTodoInput {
@@ -229,6 +387,9 @@ type User {
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
+  cat: Cat
+  companyID: Int
+  company: Company
 }
 
 input UserFiltersInput {
@@ -237,6 +398,9 @@ input UserFiltersInput {
   createdAt: TimeFilterInput
   updatedAt: TimeFilterInput
   deletedAt: TimeFilterInput
+  cat: CatFiltersInput
+  companyID: IntFilterInput
+  company: CompanyFiltersInput
   and: [UserFiltersInput]
   or: [UserFiltersInput]
   not: UserFiltersInput
@@ -244,6 +408,9 @@ input UserFiltersInput {
 
 input UserInput {
   name: String!
+  cat: CatInput
+  companyID: Int
+  company: CompanyInput
 }
 
 input UserOrder {
@@ -254,10 +421,14 @@ input UserOrder {
 enum UserOrderable {
   id
   name
+  companyID
 }
 
 input UserPatch {
   name: String
+  cat: CatPatch
+  companyID: Int
+  company: CompanyPatch
 }
 
 type UserQueryResult {

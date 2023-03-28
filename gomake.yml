@@ -7,12 +7,14 @@ release:
 
 gen_testQueries: 
   script: 
+    - go get github.com/Khan/genqlient/generate@v0.5.0 
     - cd integration
     - go run github.com/Khan/genqlient
 
 test: 
   script: 
+    - rm integration/test.db
     - cd testservice
     - go run plugin/main.go
     - cd ..
-    - go test ./integration .
+    - go test ./integration . -v

@@ -9,6 +9,14 @@ import (
 	"time"
 )
 
+type AddCatPayload struct {
+	Cat *CatQueryResult `json:"cat"`
+}
+
+type AddCompanyPayload struct {
+	Company *CompanyQueryResult `json:"company"`
+}
+
 type AddTodoPayload struct {
 	Todo *TodoQueryResult `json:"todo"`
 }
@@ -26,6 +34,109 @@ type BooleanFilterInput struct {
 	NotNull *bool               `json:"notNull"`
 }
 
+type Cat struct {
+	ID       int       `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Name     string    `json:"name"`
+	BirthDay time.Time `json:"birthDay"`
+	Age      *int      `json:"age" gorm:"-;"`
+	UserID   int       `json:"userID"`
+	Alive    *bool     `json:"alive" gorm:"default:true;"`
+}
+
+type CatFiltersInput struct {
+	ID       *IDFilterInput      `json:"id"`
+	Name     *StringFilterInput  `json:"name"`
+	BirthDay *TimeFilterInput    `json:"birthDay"`
+	UserID   *IntFilterInput     `json:"userID"`
+	Alive    *BooleanFilterInput `json:"alive"`
+	And      []*CatFiltersInput  `json:"and"`
+	Or       []*CatFiltersInput  `json:"or"`
+	Not      *CatFiltersInput    `json:"not"`
+}
+
+type CatInput struct {
+	Name     string    `json:"name"`
+	BirthDay time.Time `json:"birthDay"`
+	UserID   int       `json:"userID"`
+	Alive    *bool     `json:"alive"`
+}
+
+type CatOrder struct {
+	Asc  *CatOrderable `json:"asc"`
+	Desc *CatOrderable `json:"desc"`
+}
+
+type CatPatch struct {
+	Name     *string    `json:"name"`
+	BirthDay *time.Time `json:"birthDay"`
+	UserID   *int       `json:"userID"`
+	Alive    *bool      `json:"alive"`
+}
+
+type CatQueryResult struct {
+	Data       []*Cat `json:"data"`
+	Count      int    `json:"count"`
+	TotalCount int    `json:"totalCount"`
+}
+
+type Company struct {
+	ID              int        `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Name            string     `json:"name"`
+	Description     *string    `json:"description"`
+	MotherCompanyID *int       `json:"motherCompanyID"`
+	MotherCompany   *Company   `json:"motherCompany"`
+	CreatedAt       *time.Time `json:"createdAt"`
+}
+
+type CompanyFiltersInput struct {
+	ID              *IDFilterInput         `json:"id"`
+	Name            *StringFilterInput     `json:"name"`
+	Description     *StringFilterInput     `json:"description"`
+	MotherCompanyID *IntFilterInput        `json:"motherCompanyID"`
+	MotherCompany   *CompanyFiltersInput   `json:"motherCompany"`
+	CreatedAt       *TimeFilterInput       `json:"createdAt"`
+	And             []*CompanyFiltersInput `json:"and"`
+	Or              []*CompanyFiltersInput `json:"or"`
+	Not             *CompanyFiltersInput   `json:"not"`
+}
+
+type CompanyInput struct {
+	Name            string        `json:"name"`
+	Description     *string       `json:"description"`
+	MotherCompanyID *int          `json:"motherCompanyID"`
+	MotherCompany   *CompanyInput `json:"motherCompany"`
+}
+
+type CompanyOrder struct {
+	Asc  *CompanyOrderable `json:"asc"`
+	Desc *CompanyOrderable `json:"desc"`
+}
+
+type CompanyPatch struct {
+	Name            *string       `json:"name"`
+	Description     *string       `json:"description"`
+	MotherCompanyID *int          `json:"motherCompanyID"`
+	MotherCompany   *CompanyPatch `json:"motherCompany"`
+}
+
+type CompanyQueryResult struct {
+	Data       []*Company `json:"data"`
+	Count      int        `json:"count"`
+	TotalCount int        `json:"totalCount"`
+}
+
+type DeleteCatPayload struct {
+	Cat   *CatQueryResult `json:"cat"`
+	Count int             `json:"count"`
+	Msg   *string         `json:"msg"`
+}
+
+type DeleteCompanyPayload struct {
+	Company *CompanyQueryResult `json:"company"`
+	Count   int                 `json:"count"`
+	Msg     *string             `json:"msg"`
+}
+
 type DeleteTodoPayload struct {
 	Todo  *TodoQueryResult `json:"todo"`
 	Count int              `json:"count"`
@@ -39,15 +150,15 @@ type DeleteUserPayload struct {
 }
 
 type IDFilterInput struct {
-	And     []*string      `json:"and"`
-	Or      []*string      `json:"or"`
+	And     []*int         `json:"and"`
+	Or      []*int         `json:"or"`
 	Not     *IDFilterInput `json:"not"`
-	Eq      *string        `json:"eq"`
-	Ne      *string        `json:"ne"`
+	Eq      *int           `json:"eq"`
+	Ne      *int           `json:"ne"`
 	Null    *bool          `json:"null"`
 	NotNull *bool          `json:"notNull"`
-	In      []*string      `json:"in"`
-	Notin   []*string      `json:"notin"`
+	In      []*int         `json:"in"`
+	Notin   []*int         `json:"notin"`
 }
 
 type IntFilterBetween struct {
@@ -132,9 +243,11 @@ type TimeFilterInput struct {
 }
 
 type Todo struct {
-	ID        string     `json:"id" gorm:"primaryKey;autoIncrement;"`
+	ID        int        `json:"id" gorm:"primaryKey;autoIncrement;"`
 	Name      string     `json:"name"`
 	Users     []*User    `json:"users" gorm:"many2many:group_users;"`
+	Owner     *User      `json:"owner"`
+	OwnerID   int        `json:"ownerID"`
 	CreatedAt *time.Time `json:"createdAt"`
 	UpdatedAt *time.Time `json:"updatedAt"`
 	DeletedAt *time.Time `json:"deletedAt"`
@@ -144,6 +257,8 @@ type TodoFiltersInput struct {
 	ID        *IDFilterInput      `json:"id"`
 	Name      *StringFilterInput  `json:"name"`
 	Users     *UserFiltersInput   `json:"users"`
+	Owner     *UserFiltersInput   `json:"owner"`
+	OwnerID   *IDFilterInput      `json:"ownerID"`
 	CreatedAt *TimeFilterInput    `json:"createdAt"`
 	UpdatedAt *TimeFilterInput    `json:"updatedAt"`
 	DeletedAt *TimeFilterInput    `json:"deletedAt"`
@@ -153,8 +268,7 @@ type TodoFiltersInput struct {
 }
 
 type TodoInput struct {
-	Name  string       `json:"name"`
-	Users []*UserInput `json:"users"`
+	Name string `json:"name"`
 }
 
 type TodoOrder struct {
@@ -163,14 +277,33 @@ type TodoOrder struct {
 }
 
 type TodoPatch struct {
-	Name  *string      `json:"name"`
-	Users []*UserPatch `json:"users"`
+	Name *string `json:"name"`
 }
 
 type TodoQueryResult struct {
 	Data       []*Todo `json:"data"`
 	Count      int     `json:"count"`
 	TotalCount int     `json:"totalCount"`
+}
+
+type UpdateCatInput struct {
+	Filter *CatFiltersInput `json:"filter"`
+	Set    *CatPatch        `json:"set"`
+}
+
+type UpdateCatPayload struct {
+	Cat   *CatQueryResult `json:"cat"`
+	Count int             `json:"count"`
+}
+
+type UpdateCompanyInput struct {
+	Filter *CompanyFiltersInput `json:"filter"`
+	Set    *CompanyPatch        `json:"set"`
+}
+
+type UpdateCompanyPayload struct {
+	Company *CompanyQueryResult `json:"company"`
+	Count   int                 `json:"count"`
 }
 
 type UpdateTodoInput struct {
@@ -194,26 +327,35 @@ type UpdateUserPayload struct {
 }
 
 type User struct {
-	ID        string     `json:"id" gorm:"primaryKey;autoIncrement;"`
+	ID        int        `json:"id" gorm:"primaryKey;autoIncrement;"`
 	Name      string     `json:"name"`
 	CreatedAt *time.Time `json:"createdAt"`
 	UpdatedAt *time.Time `json:"updatedAt"`
 	DeletedAt *time.Time `json:"deletedAt"`
+	Cat       *Cat       `json:"cat"`
+	CompanyID *int       `json:"companyID"`
+	Company   *Company   `json:"company"`
 }
 
 type UserFiltersInput struct {
-	ID        *IDFilterInput      `json:"id"`
-	Name      *StringFilterInput  `json:"name"`
-	CreatedAt *TimeFilterInput    `json:"createdAt"`
-	UpdatedAt *TimeFilterInput    `json:"updatedAt"`
-	DeletedAt *TimeFilterInput    `json:"deletedAt"`
-	And       []*UserFiltersInput `json:"and"`
-	Or        []*UserFiltersInput `json:"or"`
-	Not       *UserFiltersInput   `json:"not"`
+	ID        *IDFilterInput       `json:"id"`
+	Name      *StringFilterInput   `json:"name"`
+	CreatedAt *TimeFilterInput     `json:"createdAt"`
+	UpdatedAt *TimeFilterInput     `json:"updatedAt"`
+	DeletedAt *TimeFilterInput     `json:"deletedAt"`
+	Cat       *CatFiltersInput     `json:"cat"`
+	CompanyID *IntFilterInput      `json:"companyID"`
+	Company   *CompanyFiltersInput `json:"company"`
+	And       []*UserFiltersInput  `json:"and"`
+	Or        []*UserFiltersInput  `json:"or"`
+	Not       *UserFiltersInput    `json:"not"`
 }
 
 type UserInput struct {
-	Name string `json:"name"`
+	Name      string        `json:"name"`
+	Cat       *CatInput     `json:"cat"`
+	CompanyID *int          `json:"companyID"`
+	Company   *CompanyInput `json:"company"`
 }
 
 type UserOrder struct {
@@ -222,7 +364,10 @@ type UserOrder struct {
 }
 
 type UserPatch struct {
-	Name *string `json:"name"`
+	Name      *string       `json:"name"`
+	Cat       *CatPatch     `json:"cat"`
+	CompanyID *int          `json:"companyID"`
+	Company   *CompanyPatch `json:"company"`
 }
 
 type UserQueryResult struct {
@@ -233,24 +378,116 @@ type UserQueryResult struct {
 
 type UserRef2TodosInput struct {
 	Filter *TodoFiltersInput `json:"filter"`
-	Set    []string          `json:"set"`
+	Set    []int             `json:"set"`
+}
+
+type CatOrderable string
+
+const (
+	CatOrderableID     CatOrderable = "id"
+	CatOrderableName   CatOrderable = "name"
+	CatOrderableUserID CatOrderable = "userID"
+	CatOrderableAlive  CatOrderable = "alive"
+)
+
+var AllCatOrderable = []CatOrderable{
+	CatOrderableID,
+	CatOrderableName,
+	CatOrderableUserID,
+	CatOrderableAlive,
+}
+
+func (e CatOrderable) IsValid() bool {
+	switch e {
+	case CatOrderableID, CatOrderableName, CatOrderableUserID, CatOrderableAlive:
+		return true
+	}
+	return false
+}
+
+func (e CatOrderable) String() string {
+	return string(e)
+}
+
+func (e *CatOrderable) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatOrderable(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatOrderable", str)
+	}
+	return nil
+}
+
+func (e CatOrderable) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type CompanyOrderable string
+
+const (
+	CompanyOrderableID              CompanyOrderable = "id"
+	CompanyOrderableName            CompanyOrderable = "name"
+	CompanyOrderableDescription     CompanyOrderable = "description"
+	CompanyOrderableMotherCompanyID CompanyOrderable = "motherCompanyID"
+)
+
+var AllCompanyOrderable = []CompanyOrderable{
+	CompanyOrderableID,
+	CompanyOrderableName,
+	CompanyOrderableDescription,
+	CompanyOrderableMotherCompanyID,
+}
+
+func (e CompanyOrderable) IsValid() bool {
+	switch e {
+	case CompanyOrderableID, CompanyOrderableName, CompanyOrderableDescription, CompanyOrderableMotherCompanyID:
+		return true
+	}
+	return false
+}
+
+func (e CompanyOrderable) String() string {
+	return string(e)
+}
+
+func (e *CompanyOrderable) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CompanyOrderable(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CompanyOrderable", str)
+	}
+	return nil
+}
+
+func (e CompanyOrderable) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
 type TodoOrderable string
 
 const (
-	TodoOrderableID   TodoOrderable = "id"
-	TodoOrderableName TodoOrderable = "name"
+	TodoOrderableID      TodoOrderable = "id"
+	TodoOrderableName    TodoOrderable = "name"
+	TodoOrderableOwnerID TodoOrderable = "ownerID"
 )
 
 var AllTodoOrderable = []TodoOrderable{
 	TodoOrderableID,
 	TodoOrderableName,
+	TodoOrderableOwnerID,
 }
 
 func (e TodoOrderable) IsValid() bool {
 	switch e {
-	case TodoOrderableID, TodoOrderableName:
+	case TodoOrderableID, TodoOrderableName, TodoOrderableOwnerID:
 		return true
 	}
 	return false
@@ -280,18 +517,20 @@ func (e TodoOrderable) MarshalGQL(w io.Writer) {
 type UserOrderable string
 
 const (
-	UserOrderableID   UserOrderable = "id"
-	UserOrderableName UserOrderable = "name"
+	UserOrderableID        UserOrderable = "id"
+	UserOrderableName      UserOrderable = "name"
+	UserOrderableCompanyID UserOrderable = "companyID"
 )
 
 var AllUserOrderable = []UserOrderable{
 	UserOrderableID,
 	UserOrderableName,
+	UserOrderableCompanyID,
 }
 
 func (e UserOrderable) IsValid() bool {
 	switch e {
-	case UserOrderableID, UserOrderableName:
+	case UserOrderableID, UserOrderableName, UserOrderableCompanyID:
 		return true
 	}
 	return false

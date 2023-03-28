@@ -5,9 +5,149 @@ package integration
 import (
 	"context"
 	"encoding/json"
+	"time"
 
 	"github.com/Khan/genqlient/graphql"
 )
+
+type BooleanFilterInput struct {
+	And     []*bool             `json:"and"`
+	Or      []*bool             `json:"or"`
+	Not     *BooleanFilterInput `json:"not,omitempty"`
+	Is      *bool               `json:"is"`
+	Null    *bool               `json:"null"`
+	NotNull *bool               `json:"notNull"`
+}
+
+// GetAnd returns BooleanFilterInput.And, and is useful for accessing the field via an interface.
+func (v *BooleanFilterInput) GetAnd() []*bool { return v.And }
+
+// GetOr returns BooleanFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *BooleanFilterInput) GetOr() []*bool { return v.Or }
+
+// GetNot returns BooleanFilterInput.Not, and is useful for accessing the field via an interface.
+func (v *BooleanFilterInput) GetNot() *BooleanFilterInput { return v.Not }
+
+// GetIs returns BooleanFilterInput.Is, and is useful for accessing the field via an interface.
+func (v *BooleanFilterInput) GetIs() *bool { return v.Is }
+
+// GetNull returns BooleanFilterInput.Null, and is useful for accessing the field via an interface.
+func (v *BooleanFilterInput) GetNull() *bool { return v.Null }
+
+// GetNotNull returns BooleanFilterInput.NotNull, and is useful for accessing the field via an interface.
+func (v *BooleanFilterInput) GetNotNull() *bool { return v.NotNull }
+
+type CatFiltersInput struct {
+	Id       *IDFilterInput      `json:"id,omitempty"`
+	Name     *StringFilterInput  `json:"name,omitempty"`
+	BirthDay *TimeFilterInput    `json:"birthDay,omitempty"`
+	UserID   *IntFilterInput     `json:"userID,omitempty"`
+	Alive    *BooleanFilterInput `json:"alive,omitempty"`
+	And      []*CatFiltersInput  `json:"and,omitempty"`
+	Or       []*CatFiltersInput  `json:"or,omitempty"`
+	Not      *CatFiltersInput    `json:"not,omitempty"`
+}
+
+// GetId returns CatFiltersInput.Id, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetId() *IDFilterInput { return v.Id }
+
+// GetName returns CatFiltersInput.Name, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetName() *StringFilterInput { return v.Name }
+
+// GetBirthDay returns CatFiltersInput.BirthDay, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetBirthDay() *TimeFilterInput { return v.BirthDay }
+
+// GetUserID returns CatFiltersInput.UserID, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetUserID() *IntFilterInput { return v.UserID }
+
+// GetAlive returns CatFiltersInput.Alive, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetAlive() *BooleanFilterInput { return v.Alive }
+
+// GetAnd returns CatFiltersInput.And, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetAnd() []*CatFiltersInput { return v.And }
+
+// GetOr returns CatFiltersInput.Or, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetOr() []*CatFiltersInput { return v.Or }
+
+// GetNot returns CatFiltersInput.Not, and is useful for accessing the field via an interface.
+func (v *CatFiltersInput) GetNot() *CatFiltersInput { return v.Not }
+
+type CatInput struct {
+	Name     string    `json:"name"`
+	BirthDay time.Time `json:"birthDay"`
+	UserID   int       `json:"userID"`
+	Alive    *bool     `json:"alive"`
+}
+
+// GetName returns CatInput.Name, and is useful for accessing the field via an interface.
+func (v *CatInput) GetName() string { return v.Name }
+
+// GetBirthDay returns CatInput.BirthDay, and is useful for accessing the field via an interface.
+func (v *CatInput) GetBirthDay() time.Time { return v.BirthDay }
+
+// GetUserID returns CatInput.UserID, and is useful for accessing the field via an interface.
+func (v *CatInput) GetUserID() int { return v.UserID }
+
+// GetAlive returns CatInput.Alive, and is useful for accessing the field via an interface.
+func (v *CatInput) GetAlive() *bool { return v.Alive }
+
+type CompanyFiltersInput struct {
+	Id              *IDFilterInput         `json:"id,omitempty"`
+	Name            *StringFilterInput     `json:"name,omitempty"`
+	Description     *StringFilterInput     `json:"description,omitempty"`
+	MotherCompanyID *IntFilterInput        `json:"motherCompanyID,omitempty"`
+	MotherCompany   *CompanyFiltersInput   `json:"motherCompany,omitempty"`
+	CreatedAt       *TimeFilterInput       `json:"createdAt,omitempty"`
+	And             []*CompanyFiltersInput `json:"and,omitempty"`
+	Or              []*CompanyFiltersInput `json:"or,omitempty"`
+	Not             *CompanyFiltersInput   `json:"not,omitempty"`
+}
+
+// GetId returns CompanyFiltersInput.Id, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetId() *IDFilterInput { return v.Id }
+
+// GetName returns CompanyFiltersInput.Name, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetName() *StringFilterInput { return v.Name }
+
+// GetDescription returns CompanyFiltersInput.Description, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetDescription() *StringFilterInput { return v.Description }
+
+// GetMotherCompanyID returns CompanyFiltersInput.MotherCompanyID, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetMotherCompanyID() *IntFilterInput { return v.MotherCompanyID }
+
+// GetMotherCompany returns CompanyFiltersInput.MotherCompany, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetMotherCompany() *CompanyFiltersInput { return v.MotherCompany }
+
+// GetCreatedAt returns CompanyFiltersInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetCreatedAt() *TimeFilterInput { return v.CreatedAt }
+
+// GetAnd returns CompanyFiltersInput.And, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetAnd() []*CompanyFiltersInput { return v.And }
+
+// GetOr returns CompanyFiltersInput.Or, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetOr() []*CompanyFiltersInput { return v.Or }
+
+// GetNot returns CompanyFiltersInput.Not, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetNot() *CompanyFiltersInput { return v.Not }
+
+type CompanyInput struct {
+	Name            string        `json:"name"`
+	Description     *string       `json:"description"`
+	MotherCompanyID *int          `json:"motherCompanyID"`
+	MotherCompany   *CompanyInput `json:"motherCompany,omitempty"`
+}
+
+// GetName returns CompanyInput.Name, and is useful for accessing the field via an interface.
+func (v *CompanyInput) GetName() string { return v.Name }
+
+// GetDescription returns CompanyInput.Description, and is useful for accessing the field via an interface.
+func (v *CompanyInput) GetDescription() *string { return v.Description }
+
+// GetMotherCompanyID returns CompanyInput.MotherCompanyID, and is useful for accessing the field via an interface.
+func (v *CompanyInput) GetMotherCompanyID() *int { return v.MotherCompanyID }
+
+// GetMotherCompany returns CompanyInput.MotherCompany, and is useful for accessing the field via an interface.
+func (v *CompanyInput) GetMotherCompany() *CompanyInput { return v.MotherCompany }
 
 type DirectiveLocation string
 
@@ -35,87 +175,87 @@ const (
 
 // FullType includes the GraphQL fields of __Type requested by the fragment FullType.
 type FullType struct {
-	Kind          TypeKind                        `json:"kind"`
-	Name          string                          `json:"name"`
-	Description   string                          `json:"description"`
-	Fields        []FullTypeFieldsField           `json:"fields"`
-	InputFields   []FullTypeInputFieldsInputValue `json:"inputFields"`
-	Interfaces    []FullTypeInterfacesType        `json:"interfaces"`
-	EnumValues    []FullTypeEnumValuesEnumValue   `json:"enumValues"`
-	PossibleTypes []FullTypePossibleTypesType     `json:"possibleTypes"`
+	Kind          TypeKind                         `json:"kind"`
+	Name          *string                          `json:"name"`
+	Description   *string                          `json:"description"`
+	Fields        []*FullTypeFieldsField           `json:"fields"`
+	InputFields   []*FullTypeInputFieldsInputValue `json:"inputFields"`
+	Interfaces    []*FullTypeInterfacesType        `json:"interfaces"`
+	EnumValues    []*FullTypeEnumValuesEnumValue   `json:"enumValues"`
+	PossibleTypes []*FullTypePossibleTypesType     `json:"possibleTypes"`
 }
 
 // GetKind returns FullType.Kind, and is useful for accessing the field via an interface.
 func (v *FullType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns FullType.Name, and is useful for accessing the field via an interface.
-func (v *FullType) GetName() string { return v.Name }
+func (v *FullType) GetName() *string { return v.Name }
 
 // GetDescription returns FullType.Description, and is useful for accessing the field via an interface.
-func (v *FullType) GetDescription() string { return v.Description }
+func (v *FullType) GetDescription() *string { return v.Description }
 
 // GetFields returns FullType.Fields, and is useful for accessing the field via an interface.
-func (v *FullType) GetFields() []FullTypeFieldsField { return v.Fields }
+func (v *FullType) GetFields() []*FullTypeFieldsField { return v.Fields }
 
 // GetInputFields returns FullType.InputFields, and is useful for accessing the field via an interface.
-func (v *FullType) GetInputFields() []FullTypeInputFieldsInputValue { return v.InputFields }
+func (v *FullType) GetInputFields() []*FullTypeInputFieldsInputValue { return v.InputFields }
 
 // GetInterfaces returns FullType.Interfaces, and is useful for accessing the field via an interface.
-func (v *FullType) GetInterfaces() []FullTypeInterfacesType { return v.Interfaces }
+func (v *FullType) GetInterfaces() []*FullTypeInterfacesType { return v.Interfaces }
 
 // GetEnumValues returns FullType.EnumValues, and is useful for accessing the field via an interface.
-func (v *FullType) GetEnumValues() []FullTypeEnumValuesEnumValue { return v.EnumValues }
+func (v *FullType) GetEnumValues() []*FullTypeEnumValuesEnumValue { return v.EnumValues }
 
 // GetPossibleTypes returns FullType.PossibleTypes, and is useful for accessing the field via an interface.
-func (v *FullType) GetPossibleTypes() []FullTypePossibleTypesType { return v.PossibleTypes }
+func (v *FullType) GetPossibleTypes() []*FullTypePossibleTypesType { return v.PossibleTypes }
 
 // FullTypeEnumValuesEnumValue includes the requested fields of the GraphQL type __EnumValue.
 type FullTypeEnumValuesEnumValue struct {
-	Name              string `json:"name"`
-	Description       string `json:"description"`
-	IsDeprecated      bool   `json:"isDeprecated"`
-	DeprecationReason string `json:"deprecationReason"`
+	Name              string  `json:"name"`
+	Description       *string `json:"description"`
+	IsDeprecated      bool    `json:"isDeprecated"`
+	DeprecationReason *string `json:"deprecationReason"`
 }
 
 // GetName returns FullTypeEnumValuesEnumValue.Name, and is useful for accessing the field via an interface.
 func (v *FullTypeEnumValuesEnumValue) GetName() string { return v.Name }
 
 // GetDescription returns FullTypeEnumValuesEnumValue.Description, and is useful for accessing the field via an interface.
-func (v *FullTypeEnumValuesEnumValue) GetDescription() string { return v.Description }
+func (v *FullTypeEnumValuesEnumValue) GetDescription() *string { return v.Description }
 
 // GetIsDeprecated returns FullTypeEnumValuesEnumValue.IsDeprecated, and is useful for accessing the field via an interface.
 func (v *FullTypeEnumValuesEnumValue) GetIsDeprecated() bool { return v.IsDeprecated }
 
 // GetDeprecationReason returns FullTypeEnumValuesEnumValue.DeprecationReason, and is useful for accessing the field via an interface.
-func (v *FullTypeEnumValuesEnumValue) GetDeprecationReason() string { return v.DeprecationReason }
+func (v *FullTypeEnumValuesEnumValue) GetDeprecationReason() *string { return v.DeprecationReason }
 
 // FullTypeFieldsField includes the requested fields of the GraphQL type __Field.
 type FullTypeFieldsField struct {
-	Name              string                              `json:"name"`
-	Description       string                              `json:"description"`
-	Args              []FullTypeFieldsFieldArgsInputValue `json:"args"`
-	Type              FullTypeFieldsFieldType             `json:"type"`
-	IsDeprecated      bool                                `json:"isDeprecated"`
-	DeprecationReason string                              `json:"deprecationReason"`
+	Name              string                               `json:"name"`
+	Description       *string                              `json:"description"`
+	Args              []*FullTypeFieldsFieldArgsInputValue `json:"args"`
+	Type              *FullTypeFieldsFieldType             `json:"type"`
+	IsDeprecated      bool                                 `json:"isDeprecated"`
+	DeprecationReason *string                              `json:"deprecationReason"`
 }
 
 // GetName returns FullTypeFieldsField.Name, and is useful for accessing the field via an interface.
 func (v *FullTypeFieldsField) GetName() string { return v.Name }
 
 // GetDescription returns FullTypeFieldsField.Description, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsField) GetDescription() string { return v.Description }
+func (v *FullTypeFieldsField) GetDescription() *string { return v.Description }
 
 // GetArgs returns FullTypeFieldsField.Args, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsField) GetArgs() []FullTypeFieldsFieldArgsInputValue { return v.Args }
+func (v *FullTypeFieldsField) GetArgs() []*FullTypeFieldsFieldArgsInputValue { return v.Args }
 
 // GetType returns FullTypeFieldsField.Type, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsField) GetType() FullTypeFieldsFieldType { return v.Type }
+func (v *FullTypeFieldsField) GetType() *FullTypeFieldsFieldType { return v.Type }
 
 // GetIsDeprecated returns FullTypeFieldsField.IsDeprecated, and is useful for accessing the field via an interface.
 func (v *FullTypeFieldsField) GetIsDeprecated() bool { return v.IsDeprecated }
 
 // GetDeprecationReason returns FullTypeFieldsField.DeprecationReason, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsField) GetDeprecationReason() string { return v.DeprecationReason }
+func (v *FullTypeFieldsField) GetDeprecationReason() *string { return v.DeprecationReason }
 
 // FullTypeFieldsFieldArgsInputValue includes the requested fields of the GraphQL type __InputValue.
 type FullTypeFieldsFieldArgsInputValue struct {
@@ -126,13 +266,13 @@ type FullTypeFieldsFieldArgsInputValue struct {
 func (v *FullTypeFieldsFieldArgsInputValue) GetName() string { return v.InputValue.Name }
 
 // GetDescription returns FullTypeFieldsFieldArgsInputValue.Description, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsFieldArgsInputValue) GetDescription() string { return v.InputValue.Description }
+func (v *FullTypeFieldsFieldArgsInputValue) GetDescription() *string { return v.InputValue.Description }
 
 // GetType returns FullTypeFieldsFieldArgsInputValue.Type, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsFieldArgsInputValue) GetType() InputValueType { return v.InputValue.Type }
+func (v *FullTypeFieldsFieldArgsInputValue) GetType() *InputValueType { return v.InputValue.Type }
 
 // GetDefaultValue returns FullTypeFieldsFieldArgsInputValue.DefaultValue, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsFieldArgsInputValue) GetDefaultValue() string {
+func (v *FullTypeFieldsFieldArgsInputValue) GetDefaultValue() *string {
 	return v.InputValue.DefaultValue
 }
 
@@ -164,11 +304,11 @@ func (v *FullTypeFieldsFieldArgsInputValue) UnmarshalJSON(b []byte) error {
 type __premarshalFullTypeFieldsFieldArgsInputValue struct {
 	Name string `json:"name"`
 
-	Description string `json:"description"`
+	Description *string `json:"description"`
 
-	Type InputValueType `json:"type"`
+	Type *InputValueType `json:"type"`
 
-	DefaultValue string `json:"defaultValue"`
+	DefaultValue *string `json:"defaultValue"`
 }
 
 func (v *FullTypeFieldsFieldArgsInputValue) MarshalJSON() ([]byte, error) {
@@ -198,10 +338,10 @@ type FullTypeFieldsFieldType struct {
 func (v *FullTypeFieldsFieldType) GetKind() TypeKind { return v.TypeRef.Kind }
 
 // GetName returns FullTypeFieldsFieldType.Name, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsFieldType) GetName() string { return v.TypeRef.Name }
+func (v *FullTypeFieldsFieldType) GetName() *string { return v.TypeRef.Name }
 
 // GetOfType returns FullTypeFieldsFieldType.OfType, and is useful for accessing the field via an interface.
-func (v *FullTypeFieldsFieldType) GetOfType() TypeRefOfType { return v.TypeRef.OfType }
+func (v *FullTypeFieldsFieldType) GetOfType() *TypeRefOfType { return v.TypeRef.OfType }
 
 func (v *FullTypeFieldsFieldType) UnmarshalJSON(b []byte) error {
 
@@ -231,9 +371,9 @@ func (v *FullTypeFieldsFieldType) UnmarshalJSON(b []byte) error {
 type __premarshalFullTypeFieldsFieldType struct {
 	Kind TypeKind `json:"kind"`
 
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
-	OfType TypeRefOfType `json:"ofType"`
+	OfType *TypeRefOfType `json:"ofType"`
 }
 
 func (v *FullTypeFieldsFieldType) MarshalJSON() ([]byte, error) {
@@ -262,13 +402,13 @@ type FullTypeInputFieldsInputValue struct {
 func (v *FullTypeInputFieldsInputValue) GetName() string { return v.InputValue.Name }
 
 // GetDescription returns FullTypeInputFieldsInputValue.Description, and is useful for accessing the field via an interface.
-func (v *FullTypeInputFieldsInputValue) GetDescription() string { return v.InputValue.Description }
+func (v *FullTypeInputFieldsInputValue) GetDescription() *string { return v.InputValue.Description }
 
 // GetType returns FullTypeInputFieldsInputValue.Type, and is useful for accessing the field via an interface.
-func (v *FullTypeInputFieldsInputValue) GetType() InputValueType { return v.InputValue.Type }
+func (v *FullTypeInputFieldsInputValue) GetType() *InputValueType { return v.InputValue.Type }
 
 // GetDefaultValue returns FullTypeInputFieldsInputValue.DefaultValue, and is useful for accessing the field via an interface.
-func (v *FullTypeInputFieldsInputValue) GetDefaultValue() string { return v.InputValue.DefaultValue }
+func (v *FullTypeInputFieldsInputValue) GetDefaultValue() *string { return v.InputValue.DefaultValue }
 
 func (v *FullTypeInputFieldsInputValue) UnmarshalJSON(b []byte) error {
 
@@ -298,11 +438,11 @@ func (v *FullTypeInputFieldsInputValue) UnmarshalJSON(b []byte) error {
 type __premarshalFullTypeInputFieldsInputValue struct {
 	Name string `json:"name"`
 
-	Description string `json:"description"`
+	Description *string `json:"description"`
 
-	Type InputValueType `json:"type"`
+	Type *InputValueType `json:"type"`
 
-	DefaultValue string `json:"defaultValue"`
+	DefaultValue *string `json:"defaultValue"`
 }
 
 func (v *FullTypeInputFieldsInputValue) MarshalJSON() ([]byte, error) {
@@ -332,10 +472,10 @@ type FullTypeInterfacesType struct {
 func (v *FullTypeInterfacesType) GetKind() TypeKind { return v.TypeRef.Kind }
 
 // GetName returns FullTypeInterfacesType.Name, and is useful for accessing the field via an interface.
-func (v *FullTypeInterfacesType) GetName() string { return v.TypeRef.Name }
+func (v *FullTypeInterfacesType) GetName() *string { return v.TypeRef.Name }
 
 // GetOfType returns FullTypeInterfacesType.OfType, and is useful for accessing the field via an interface.
-func (v *FullTypeInterfacesType) GetOfType() TypeRefOfType { return v.TypeRef.OfType }
+func (v *FullTypeInterfacesType) GetOfType() *TypeRefOfType { return v.TypeRef.OfType }
 
 func (v *FullTypeInterfacesType) UnmarshalJSON(b []byte) error {
 
@@ -365,9 +505,9 @@ func (v *FullTypeInterfacesType) UnmarshalJSON(b []byte) error {
 type __premarshalFullTypeInterfacesType struct {
 	Kind TypeKind `json:"kind"`
 
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
-	OfType TypeRefOfType `json:"ofType"`
+	OfType *TypeRefOfType `json:"ofType"`
 }
 
 func (v *FullTypeInterfacesType) MarshalJSON() ([]byte, error) {
@@ -396,10 +536,10 @@ type FullTypePossibleTypesType struct {
 func (v *FullTypePossibleTypesType) GetKind() TypeKind { return v.TypeRef.Kind }
 
 // GetName returns FullTypePossibleTypesType.Name, and is useful for accessing the field via an interface.
-func (v *FullTypePossibleTypesType) GetName() string { return v.TypeRef.Name }
+func (v *FullTypePossibleTypesType) GetName() *string { return v.TypeRef.Name }
 
 // GetOfType returns FullTypePossibleTypesType.OfType, and is useful for accessing the field via an interface.
-func (v *FullTypePossibleTypesType) GetOfType() TypeRefOfType { return v.TypeRef.OfType }
+func (v *FullTypePossibleTypesType) GetOfType() *TypeRefOfType { return v.TypeRef.OfType }
 
 func (v *FullTypePossibleTypesType) UnmarshalJSON(b []byte) error {
 
@@ -429,9 +569,9 @@ func (v *FullTypePossibleTypesType) UnmarshalJSON(b []byte) error {
 type __premarshalFullTypePossibleTypesType struct {
 	Kind TypeKind `json:"kind"`
 
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
-	OfType TypeRefOfType `json:"ofType"`
+	OfType *TypeRefOfType `json:"ofType"`
 }
 
 func (v *FullTypePossibleTypesType) MarshalJSON() ([]byte, error) {
@@ -451,25 +591,64 @@ func (v *FullTypePossibleTypesType) __premarshalJSON() (*__premarshalFullTypePos
 	return &retval, nil
 }
 
+type IDFilterInput struct {
+	And     []*string      `json:"and"`
+	Or      []*string      `json:"or"`
+	Not     *IDFilterInput `json:"not,omitempty"`
+	Eq      *string        `json:"eq"`
+	Ne      *string        `json:"ne"`
+	Null    *bool          `json:"null"`
+	NotNull *bool          `json:"notNull"`
+	In      []*string      `json:"in"`
+	Notin   []*string      `json:"notin"`
+}
+
+// GetAnd returns IDFilterInput.And, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetAnd() []*string { return v.And }
+
+// GetOr returns IDFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetOr() []*string { return v.Or }
+
+// GetNot returns IDFilterInput.Not, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetNot() *IDFilterInput { return v.Not }
+
+// GetEq returns IDFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetEq() *string { return v.Eq }
+
+// GetNe returns IDFilterInput.Ne, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetNe() *string { return v.Ne }
+
+// GetNull returns IDFilterInput.Null, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetNull() *bool { return v.Null }
+
+// GetNotNull returns IDFilterInput.NotNull, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetNotNull() *bool { return v.NotNull }
+
+// GetIn returns IDFilterInput.In, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetIn() []*string { return v.In }
+
+// GetNotin returns IDFilterInput.Notin, and is useful for accessing the field via an interface.
+func (v *IDFilterInput) GetNotin() []*string { return v.Notin }
+
 // InputValue includes the GraphQL fields of __InputValue requested by the fragment InputValue.
 type InputValue struct {
-	Name         string         `json:"name"`
-	Description  string         `json:"description"`
-	Type         InputValueType `json:"type"`
-	DefaultValue string         `json:"defaultValue"`
+	Name         string          `json:"name"`
+	Description  *string         `json:"description"`
+	Type         *InputValueType `json:"type"`
+	DefaultValue *string         `json:"defaultValue"`
 }
 
 // GetName returns InputValue.Name, and is useful for accessing the field via an interface.
 func (v *InputValue) GetName() string { return v.Name }
 
 // GetDescription returns InputValue.Description, and is useful for accessing the field via an interface.
-func (v *InputValue) GetDescription() string { return v.Description }
+func (v *InputValue) GetDescription() *string { return v.Description }
 
 // GetType returns InputValue.Type, and is useful for accessing the field via an interface.
-func (v *InputValue) GetType() InputValueType { return v.Type }
+func (v *InputValue) GetType() *InputValueType { return v.Type }
 
 // GetDefaultValue returns InputValue.DefaultValue, and is useful for accessing the field via an interface.
-func (v *InputValue) GetDefaultValue() string { return v.DefaultValue }
+func (v *InputValue) GetDefaultValue() *string { return v.DefaultValue }
 
 // InputValueType includes the requested fields of the GraphQL type __Type.
 type InputValueType struct {
@@ -480,10 +659,10 @@ type InputValueType struct {
 func (v *InputValueType) GetKind() TypeKind { return v.TypeRef.Kind }
 
 // GetName returns InputValueType.Name, and is useful for accessing the field via an interface.
-func (v *InputValueType) GetName() string { return v.TypeRef.Name }
+func (v *InputValueType) GetName() *string { return v.TypeRef.Name }
 
 // GetOfType returns InputValueType.OfType, and is useful for accessing the field via an interface.
-func (v *InputValueType) GetOfType() TypeRefOfType { return v.TypeRef.OfType }
+func (v *InputValueType) GetOfType() *TypeRefOfType { return v.TypeRef.OfType }
 
 func (v *InputValueType) UnmarshalJSON(b []byte) error {
 
@@ -513,9 +692,9 @@ func (v *InputValueType) UnmarshalJSON(b []byte) error {
 type __premarshalInputValueType struct {
 	Kind TypeKind `json:"kind"`
 
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
-	OfType TypeRefOfType `json:"ofType"`
+	OfType *TypeRefOfType `json:"ofType"`
 }
 
 func (v *InputValueType) MarshalJSON() ([]byte, error) {
@@ -535,59 +714,129 @@ func (v *InputValueType) __premarshalJSON() (*__premarshalInputValueType, error)
 	return &retval, nil
 }
 
+type IntFilterBetween struct {
+	Start int `json:"start"`
+	End   int `json:"end"`
+}
+
+// GetStart returns IntFilterBetween.Start, and is useful for accessing the field via an interface.
+func (v *IntFilterBetween) GetStart() int { return v.Start }
+
+// GetEnd returns IntFilterBetween.End, and is useful for accessing the field via an interface.
+func (v *IntFilterBetween) GetEnd() int { return v.End }
+
+type IntFilterInput struct {
+	And     []*int            `json:"and"`
+	Or      []*int            `json:"or"`
+	Not     *IntFilterInput   `json:"not,omitempty"`
+	Eq      *int              `json:"eq"`
+	Ne      *int              `json:"ne"`
+	Gt      *int              `json:"gt"`
+	Gte     *int              `json:"gte"`
+	Lt      *int              `json:"lt"`
+	Lte     *int              `json:"lte"`
+	Null    *bool             `json:"null"`
+	NotNull *bool             `json:"notNull"`
+	In      []*int            `json:"in"`
+	NotIn   []*int            `json:"notIn"`
+	Between *IntFilterBetween `json:"between,omitempty"`
+}
+
+// GetAnd returns IntFilterInput.And, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetAnd() []*int { return v.And }
+
+// GetOr returns IntFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetOr() []*int { return v.Or }
+
+// GetNot returns IntFilterInput.Not, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetNot() *IntFilterInput { return v.Not }
+
+// GetEq returns IntFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetEq() *int { return v.Eq }
+
+// GetNe returns IntFilterInput.Ne, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetNe() *int { return v.Ne }
+
+// GetGt returns IntFilterInput.Gt, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetGt() *int { return v.Gt }
+
+// GetGte returns IntFilterInput.Gte, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetGte() *int { return v.Gte }
+
+// GetLt returns IntFilterInput.Lt, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetLt() *int { return v.Lt }
+
+// GetLte returns IntFilterInput.Lte, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetLte() *int { return v.Lte }
+
+// GetNull returns IntFilterInput.Null, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetNull() *bool { return v.Null }
+
+// GetNotNull returns IntFilterInput.NotNull, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetNotNull() *bool { return v.NotNull }
+
+// GetIn returns IntFilterInput.In, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetIn() []*int { return v.In }
+
+// GetNotIn returns IntFilterInput.NotIn, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetNotIn() []*int { return v.NotIn }
+
+// GetBetween returns IntFilterInput.Between, and is useful for accessing the field via an interface.
+func (v *IntFilterInput) GetBetween() *IntFilterBetween { return v.Between }
+
 // IntrospectionQueryResponse is returned by IntrospectionQuery on success.
 type IntrospectionQueryResponse struct {
-	Schema IntrospectionQuerySchema `json:"__schema"`
+	Schema *IntrospectionQuerySchema `json:"__schema"`
 }
 
 // GetSchema returns IntrospectionQueryResponse.Schema, and is useful for accessing the field via an interface.
-func (v *IntrospectionQueryResponse) GetSchema() IntrospectionQuerySchema { return v.Schema }
+func (v *IntrospectionQueryResponse) GetSchema() *IntrospectionQuerySchema { return v.Schema }
 
 // IntrospectionQuerySchema includes the requested fields of the GraphQL type __Schema.
 type IntrospectionQuerySchema struct {
-	QueryType        IntrospectionQuerySchemaQueryType             `json:"queryType"`
-	MutationType     IntrospectionQuerySchemaMutationType          `json:"mutationType"`
-	SubscriptionType IntrospectionQuerySchemaSubscriptionType      `json:"subscriptionType"`
-	Types            []IntrospectionQuerySchemaTypesType           `json:"types"`
-	Directives       []IntrospectionQuerySchemaDirectivesDirective `json:"directives"`
+	QueryType        *IntrospectionQuerySchemaQueryType             `json:"queryType"`
+	MutationType     *IntrospectionQuerySchemaMutationType          `json:"mutationType"`
+	SubscriptionType *IntrospectionQuerySchemaSubscriptionType      `json:"subscriptionType"`
+	Types            []*IntrospectionQuerySchemaTypesType           `json:"types"`
+	Directives       []*IntrospectionQuerySchemaDirectivesDirective `json:"directives"`
 }
 
 // GetQueryType returns IntrospectionQuerySchema.QueryType, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchema) GetQueryType() IntrospectionQuerySchemaQueryType {
+func (v *IntrospectionQuerySchema) GetQueryType() *IntrospectionQuerySchemaQueryType {
 	return v.QueryType
 }
 
 // GetMutationType returns IntrospectionQuerySchema.MutationType, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchema) GetMutationType() IntrospectionQuerySchemaMutationType {
+func (v *IntrospectionQuerySchema) GetMutationType() *IntrospectionQuerySchemaMutationType {
 	return v.MutationType
 }
 
 // GetSubscriptionType returns IntrospectionQuerySchema.SubscriptionType, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchema) GetSubscriptionType() IntrospectionQuerySchemaSubscriptionType {
+func (v *IntrospectionQuerySchema) GetSubscriptionType() *IntrospectionQuerySchemaSubscriptionType {
 	return v.SubscriptionType
 }
 
 // GetTypes returns IntrospectionQuerySchema.Types, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchema) GetTypes() []IntrospectionQuerySchemaTypesType { return v.Types }
+func (v *IntrospectionQuerySchema) GetTypes() []*IntrospectionQuerySchemaTypesType { return v.Types }
 
 // GetDirectives returns IntrospectionQuerySchema.Directives, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchema) GetDirectives() []IntrospectionQuerySchemaDirectivesDirective {
+func (v *IntrospectionQuerySchema) GetDirectives() []*IntrospectionQuerySchemaDirectivesDirective {
 	return v.Directives
 }
 
 // IntrospectionQuerySchemaDirectivesDirective includes the requested fields of the GraphQL type __Directive.
 type IntrospectionQuerySchemaDirectivesDirective struct {
-	Name        string                                                      `json:"name"`
-	Description string                                                      `json:"description"`
-	Locations   []DirectiveLocation                                         `json:"locations"`
-	Args        []IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue `json:"args"`
+	Name        string                                                       `json:"name"`
+	Description *string                                                      `json:"description"`
+	Locations   []DirectiveLocation                                          `json:"locations"`
+	Args        []*IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue `json:"args"`
 }
 
 // GetName returns IntrospectionQuerySchemaDirectivesDirective.Name, and is useful for accessing the field via an interface.
 func (v *IntrospectionQuerySchemaDirectivesDirective) GetName() string { return v.Name }
 
 // GetDescription returns IntrospectionQuerySchemaDirectivesDirective.Description, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaDirectivesDirective) GetDescription() string { return v.Description }
+func (v *IntrospectionQuerySchemaDirectivesDirective) GetDescription() *string { return v.Description }
 
 // GetLocations returns IntrospectionQuerySchemaDirectivesDirective.Locations, and is useful for accessing the field via an interface.
 func (v *IntrospectionQuerySchemaDirectivesDirective) GetLocations() []DirectiveLocation {
@@ -595,7 +844,7 @@ func (v *IntrospectionQuerySchemaDirectivesDirective) GetLocations() []Directive
 }
 
 // GetArgs returns IntrospectionQuerySchemaDirectivesDirective.Args, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaDirectivesDirective) GetArgs() []IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue {
+func (v *IntrospectionQuerySchemaDirectivesDirective) GetArgs() []*IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue {
 	return v.Args
 }
 
@@ -610,17 +859,17 @@ func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) GetName() st
 }
 
 // GetDescription returns IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue.Description, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) GetDescription() string {
+func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) GetDescription() *string {
 	return v.InputValue.Description
 }
 
 // GetType returns IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue.Type, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) GetType() InputValueType {
+func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) GetType() *InputValueType {
 	return v.InputValue.Type
 }
 
 // GetDefaultValue returns IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue.DefaultValue, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) GetDefaultValue() string {
+func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) GetDefaultValue() *string {
 	return v.InputValue.DefaultValue
 }
 
@@ -652,11 +901,11 @@ func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) UnmarshalJSO
 type __premarshalIntrospectionQuerySchemaDirectivesDirectiveArgsInputValue struct {
 	Name string `json:"name"`
 
-	Description string `json:"description"`
+	Description *string `json:"description"`
 
-	Type InputValueType `json:"type"`
+	Type *InputValueType `json:"type"`
 
-	DefaultValue string `json:"defaultValue"`
+	DefaultValue *string `json:"defaultValue"`
 }
 
 func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) MarshalJSON() ([]byte, error) {
@@ -679,27 +928,27 @@ func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) __premarshal
 
 // IntrospectionQuerySchemaMutationType includes the requested fields of the GraphQL type __Type.
 type IntrospectionQuerySchemaMutationType struct {
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }
 
 // GetName returns IntrospectionQuerySchemaMutationType.Name, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaMutationType) GetName() string { return v.Name }
+func (v *IntrospectionQuerySchemaMutationType) GetName() *string { return v.Name }
 
 // IntrospectionQuerySchemaQueryType includes the requested fields of the GraphQL type __Type.
 type IntrospectionQuerySchemaQueryType struct {
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }
 
 // GetName returns IntrospectionQuerySchemaQueryType.Name, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaQueryType) GetName() string { return v.Name }
+func (v *IntrospectionQuerySchemaQueryType) GetName() *string { return v.Name }
 
 // IntrospectionQuerySchemaSubscriptionType includes the requested fields of the GraphQL type __Type.
 type IntrospectionQuerySchemaSubscriptionType struct {
-	Name string `json:"name"`
+	Name *string `json:"name"`
 }
 
 // GetName returns IntrospectionQuerySchemaSubscriptionType.Name, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaSubscriptionType) GetName() string { return v.Name }
+func (v *IntrospectionQuerySchemaSubscriptionType) GetName() *string { return v.Name }
 
 // IntrospectionQuerySchemaTypesType includes the requested fields of the GraphQL type __Type.
 type IntrospectionQuerySchemaTypesType struct {
@@ -710,33 +959,33 @@ type IntrospectionQuerySchemaTypesType struct {
 func (v *IntrospectionQuerySchemaTypesType) GetKind() TypeKind { return v.FullType.Kind }
 
 // GetName returns IntrospectionQuerySchemaTypesType.Name, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaTypesType) GetName() string { return v.FullType.Name }
+func (v *IntrospectionQuerySchemaTypesType) GetName() *string { return v.FullType.Name }
 
 // GetDescription returns IntrospectionQuerySchemaTypesType.Description, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaTypesType) GetDescription() string { return v.FullType.Description }
+func (v *IntrospectionQuerySchemaTypesType) GetDescription() *string { return v.FullType.Description }
 
 // GetFields returns IntrospectionQuerySchemaTypesType.Fields, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaTypesType) GetFields() []FullTypeFieldsField {
+func (v *IntrospectionQuerySchemaTypesType) GetFields() []*FullTypeFieldsField {
 	return v.FullType.Fields
 }
 
 // GetInputFields returns IntrospectionQuerySchemaTypesType.InputFields, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaTypesType) GetInputFields() []FullTypeInputFieldsInputValue {
+func (v *IntrospectionQuerySchemaTypesType) GetInputFields() []*FullTypeInputFieldsInputValue {
 	return v.FullType.InputFields
 }
 
 // GetInterfaces returns IntrospectionQuerySchemaTypesType.Interfaces, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaTypesType) GetInterfaces() []FullTypeInterfacesType {
+func (v *IntrospectionQuerySchemaTypesType) GetInterfaces() []*FullTypeInterfacesType {
 	return v.FullType.Interfaces
 }
 
 // GetEnumValues returns IntrospectionQuerySchemaTypesType.EnumValues, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaTypesType) GetEnumValues() []FullTypeEnumValuesEnumValue {
+func (v *IntrospectionQuerySchemaTypesType) GetEnumValues() []*FullTypeEnumValuesEnumValue {
 	return v.FullType.EnumValues
 }
 
 // GetPossibleTypes returns IntrospectionQuerySchemaTypesType.PossibleTypes, and is useful for accessing the field via an interface.
-func (v *IntrospectionQuerySchemaTypesType) GetPossibleTypes() []FullTypePossibleTypesType {
+func (v *IntrospectionQuerySchemaTypesType) GetPossibleTypes() []*FullTypePossibleTypesType {
 	return v.FullType.PossibleTypes
 }
 
@@ -768,19 +1017,19 @@ func (v *IntrospectionQuerySchemaTypesType) UnmarshalJSON(b []byte) error {
 type __premarshalIntrospectionQuerySchemaTypesType struct {
 	Kind TypeKind `json:"kind"`
 
-	Name string `json:"name"`
+	Name *string `json:"name"`
 
-	Description string `json:"description"`
+	Description *string `json:"description"`
 
-	Fields []FullTypeFieldsField `json:"fields"`
+	Fields []*FullTypeFieldsField `json:"fields"`
 
-	InputFields []FullTypeInputFieldsInputValue `json:"inputFields"`
+	InputFields []*FullTypeInputFieldsInputValue `json:"inputFields"`
 
-	Interfaces []FullTypeInterfacesType `json:"interfaces"`
+	Interfaces []*FullTypeInterfacesType `json:"interfaces"`
 
-	EnumValues []FullTypeEnumValuesEnumValue `json:"enumValues"`
+	EnumValues []*FullTypeEnumValuesEnumValue `json:"enumValues"`
 
-	PossibleTypes []FullTypePossibleTypesType `json:"possibleTypes"`
+	PossibleTypes []*FullTypePossibleTypesType `json:"possibleTypes"`
 }
 
 func (v *IntrospectionQuerySchemaTypesType) MarshalJSON() ([]byte, error) {
@@ -805,6 +1054,197 @@ func (v *IntrospectionQuerySchemaTypesType) __premarshalJSON() (*__premarshalInt
 	return &retval, nil
 }
 
+type StringFilterInput struct {
+	And          []*string          `json:"and"`
+	Or           []*string          `json:"or"`
+	Not          *StringFilterInput `json:"not,omitempty"`
+	Eq           *string            `json:"eq"`
+	Eqi          *string            `json:"eqi"`
+	Ne           *string            `json:"ne"`
+	StartsWith   *string            `json:"startsWith"`
+	EndsWith     *string            `json:"endsWith"`
+	Contains     *string            `json:"contains"`
+	NotContains  *string            `json:"notContains"`
+	Containsi    *string            `json:"containsi"`
+	NotContainsi *string            `json:"notContainsi"`
+	Null         *bool              `json:"null"`
+	NotNull      *bool              `json:"notNull"`
+	In           []*string          `json:"in"`
+	NotIn        []*string          `json:"notIn"`
+}
+
+// GetAnd returns StringFilterInput.And, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetAnd() []*string { return v.And }
+
+// GetOr returns StringFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetOr() []*string { return v.Or }
+
+// GetNot returns StringFilterInput.Not, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetNot() *StringFilterInput { return v.Not }
+
+// GetEq returns StringFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetEq() *string { return v.Eq }
+
+// GetEqi returns StringFilterInput.Eqi, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetEqi() *string { return v.Eqi }
+
+// GetNe returns StringFilterInput.Ne, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetNe() *string { return v.Ne }
+
+// GetStartsWith returns StringFilterInput.StartsWith, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetStartsWith() *string { return v.StartsWith }
+
+// GetEndsWith returns StringFilterInput.EndsWith, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetEndsWith() *string { return v.EndsWith }
+
+// GetContains returns StringFilterInput.Contains, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetContains() *string { return v.Contains }
+
+// GetNotContains returns StringFilterInput.NotContains, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetNotContains() *string { return v.NotContains }
+
+// GetContainsi returns StringFilterInput.Containsi, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetContainsi() *string { return v.Containsi }
+
+// GetNotContainsi returns StringFilterInput.NotContainsi, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetNotContainsi() *string { return v.NotContainsi }
+
+// GetNull returns StringFilterInput.Null, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetNull() *bool { return v.Null }
+
+// GetNotNull returns StringFilterInput.NotNull, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetNotNull() *bool { return v.NotNull }
+
+// GetIn returns StringFilterInput.In, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetIn() []*string { return v.In }
+
+// GetNotIn returns StringFilterInput.NotIn, and is useful for accessing the field via an interface.
+func (v *StringFilterInput) GetNotIn() []*string { return v.NotIn }
+
+type TimeFilterBetween struct {
+	Start time.Time `json:"start"`
+	End   time.Time `json:"end"`
+}
+
+// GetStart returns TimeFilterBetween.Start, and is useful for accessing the field via an interface.
+func (v *TimeFilterBetween) GetStart() time.Time { return v.Start }
+
+// GetEnd returns TimeFilterBetween.End, and is useful for accessing the field via an interface.
+func (v *TimeFilterBetween) GetEnd() time.Time { return v.End }
+
+type TimeFilterInput struct {
+	And     []*time.Time       `json:"and"`
+	Or      []*time.Time       `json:"or"`
+	Not     *TimeFilterInput   `json:"not,omitempty"`
+	Eq      *time.Time         `json:"eq"`
+	Ne      *time.Time         `json:"ne"`
+	Gt      *time.Time         `json:"gt"`
+	Gte     *time.Time         `json:"gte"`
+	Lt      *time.Time         `json:"lt"`
+	Lte     *time.Time         `json:"lte"`
+	Null    *bool              `json:"null"`
+	NotNull *bool              `json:"notNull"`
+	In      []*time.Time       `json:"in"`
+	NotIn   []*time.Time       `json:"notIn"`
+	Between *TimeFilterBetween `json:"between,omitempty"`
+}
+
+// GetAnd returns TimeFilterInput.And, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetAnd() []*time.Time { return v.And }
+
+// GetOr returns TimeFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetOr() []*time.Time { return v.Or }
+
+// GetNot returns TimeFilterInput.Not, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetNot() *TimeFilterInput { return v.Not }
+
+// GetEq returns TimeFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetEq() *time.Time { return v.Eq }
+
+// GetNe returns TimeFilterInput.Ne, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetNe() *time.Time { return v.Ne }
+
+// GetGt returns TimeFilterInput.Gt, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetGt() *time.Time { return v.Gt }
+
+// GetGte returns TimeFilterInput.Gte, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetGte() *time.Time { return v.Gte }
+
+// GetLt returns TimeFilterInput.Lt, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetLt() *time.Time { return v.Lt }
+
+// GetLte returns TimeFilterInput.Lte, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetLte() *time.Time { return v.Lte }
+
+// GetNull returns TimeFilterInput.Null, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetNull() *bool { return v.Null }
+
+// GetNotNull returns TimeFilterInput.NotNull, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetNotNull() *bool { return v.NotNull }
+
+// GetIn returns TimeFilterInput.In, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetIn() []*time.Time { return v.In }
+
+// GetNotIn returns TimeFilterInput.NotIn, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetNotIn() []*time.Time { return v.NotIn }
+
+// GetBetween returns TimeFilterInput.Between, and is useful for accessing the field via an interface.
+func (v *TimeFilterInput) GetBetween() *TimeFilterBetween { return v.Between }
+
+type TodoFiltersInput struct {
+	Id        *IDFilterInput      `json:"id,omitempty"`
+	Name      *StringFilterInput  `json:"name,omitempty"`
+	Users     *UserFiltersInput   `json:"users,omitempty"`
+	Owner     *UserFiltersInput   `json:"owner,omitempty"`
+	OwnerID   *IDFilterInput      `json:"ownerID,omitempty"`
+	CreatedAt *TimeFilterInput    `json:"createdAt,omitempty"`
+	UpdatedAt *TimeFilterInput    `json:"updatedAt,omitempty"`
+	DeletedAt *TimeFilterInput    `json:"deletedAt,omitempty"`
+	And       []*TodoFiltersInput `json:"and,omitempty"`
+	Or        []*TodoFiltersInput `json:"or,omitempty"`
+	Not       *TodoFiltersInput   `json:"not,omitempty"`
+}
+
+// GetId returns TodoFiltersInput.Id, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetId() *IDFilterInput { return v.Id }
+
+// GetName returns TodoFiltersInput.Name, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetName() *StringFilterInput { return v.Name }
+
+// GetUsers returns TodoFiltersInput.Users, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetUsers() *UserFiltersInput { return v.Users }
+
+// GetOwner returns TodoFiltersInput.Owner, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetOwner() *UserFiltersInput { return v.Owner }
+
+// GetOwnerID returns TodoFiltersInput.OwnerID, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetOwnerID() *IDFilterInput { return v.OwnerID }
+
+// GetCreatedAt returns TodoFiltersInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetCreatedAt() *TimeFilterInput { return v.CreatedAt }
+
+// GetUpdatedAt returns TodoFiltersInput.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetUpdatedAt() *TimeFilterInput { return v.UpdatedAt }
+
+// GetDeletedAt returns TodoFiltersInput.DeletedAt, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetDeletedAt() *TimeFilterInput { return v.DeletedAt }
+
+// GetAnd returns TodoFiltersInput.And, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetAnd() []*TodoFiltersInput { return v.And }
+
+// GetOr returns TodoFiltersInput.Or, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetOr() []*TodoFiltersInput { return v.Or }
+
+// GetNot returns TodoFiltersInput.Not, and is useful for accessing the field via an interface.
+func (v *TodoFiltersInput) GetNot() *TodoFiltersInput { return v.Not }
+
+type TodoInput struct {
+	Name string `json:"name"`
+}
+
+// GetName returns TodoInput.Name, and is useful for accessing the field via an interface.
+func (v *TodoInput) GetName() string { return v.Name }
+
 type TypeKind string
 
 const (
@@ -820,133 +1260,1128 @@ const (
 
 // TypeRef includes the GraphQL fields of __Type requested by the fragment TypeRef.
 type TypeRef struct {
-	Kind   TypeKind      `json:"kind"`
-	Name   string        `json:"name"`
-	OfType TypeRefOfType `json:"ofType"`
+	Kind   TypeKind       `json:"kind"`
+	Name   *string        `json:"name"`
+	OfType *TypeRefOfType `json:"ofType"`
 }
 
 // GetKind returns TypeRef.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRef) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRef.Name, and is useful for accessing the field via an interface.
-func (v *TypeRef) GetName() string { return v.Name }
+func (v *TypeRef) GetName() *string { return v.Name }
 
 // GetOfType returns TypeRef.OfType, and is useful for accessing the field via an interface.
-func (v *TypeRef) GetOfType() TypeRefOfType { return v.OfType }
+func (v *TypeRef) GetOfType() *TypeRefOfType { return v.OfType }
 
 // TypeRefOfType includes the requested fields of the GraphQL type __Type.
 type TypeRefOfType struct {
-	Kind   TypeKind            `json:"kind"`
-	Name   string              `json:"name"`
-	OfType TypeRefOfTypeOfType `json:"ofType"`
+	Kind   TypeKind             `json:"kind"`
+	Name   *string              `json:"name"`
+	OfType *TypeRefOfTypeOfType `json:"ofType"`
 }
 
 // GetKind returns TypeRefOfType.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRefOfType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRefOfType.Name, and is useful for accessing the field via an interface.
-func (v *TypeRefOfType) GetName() string { return v.Name }
+func (v *TypeRefOfType) GetName() *string { return v.Name }
 
 // GetOfType returns TypeRefOfType.OfType, and is useful for accessing the field via an interface.
-func (v *TypeRefOfType) GetOfType() TypeRefOfTypeOfType { return v.OfType }
+func (v *TypeRefOfType) GetOfType() *TypeRefOfTypeOfType { return v.OfType }
 
 // TypeRefOfTypeOfType includes the requested fields of the GraphQL type __Type.
 type TypeRefOfTypeOfType struct {
-	Kind   TypeKind                  `json:"kind"`
-	Name   string                    `json:"name"`
-	OfType TypeRefOfTypeOfTypeOfType `json:"ofType"`
+	Kind   TypeKind                   `json:"kind"`
+	Name   *string                    `json:"name"`
+	OfType *TypeRefOfTypeOfTypeOfType `json:"ofType"`
 }
 
 // GetKind returns TypeRefOfTypeOfType.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRefOfTypeOfType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRefOfTypeOfType.Name, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfType) GetName() string { return v.Name }
+func (v *TypeRefOfTypeOfType) GetName() *string { return v.Name }
 
 // GetOfType returns TypeRefOfTypeOfType.OfType, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfType) GetOfType() TypeRefOfTypeOfTypeOfType { return v.OfType }
+func (v *TypeRefOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfType { return v.OfType }
 
 // TypeRefOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
 type TypeRefOfTypeOfTypeOfType struct {
-	Kind   TypeKind                        `json:"kind"`
-	Name   string                          `json:"name"`
-	OfType TypeRefOfTypeOfTypeOfTypeOfType `json:"ofType"`
+	Kind   TypeKind                         `json:"kind"`
+	Name   *string                          `json:"name"`
+	OfType *TypeRefOfTypeOfTypeOfTypeOfType `json:"ofType"`
 }
 
 // GetKind returns TypeRefOfTypeOfTypeOfType.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRefOfTypeOfTypeOfType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRefOfTypeOfTypeOfType.Name, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfType) GetName() string { return v.Name }
+func (v *TypeRefOfTypeOfTypeOfType) GetName() *string { return v.Name }
 
 // GetOfType returns TypeRefOfTypeOfTypeOfType.OfType, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfType) GetOfType() TypeRefOfTypeOfTypeOfTypeOfType { return v.OfType }
+func (v *TypeRefOfTypeOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfTypeOfType { return v.OfType }
 
 // TypeRefOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
 type TypeRefOfTypeOfTypeOfTypeOfType struct {
-	Kind   TypeKind                              `json:"kind"`
-	Name   string                                `json:"name"`
-	OfType TypeRefOfTypeOfTypeOfTypeOfTypeOfType `json:"ofType"`
+	Kind   TypeKind                               `json:"kind"`
+	Name   *string                                `json:"name"`
+	OfType *TypeRefOfTypeOfTypeOfTypeOfTypeOfType `json:"ofType"`
 }
 
 // GetKind returns TypeRefOfTypeOfTypeOfTypeOfType.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRefOfTypeOfTypeOfTypeOfType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRefOfTypeOfTypeOfTypeOfType.Name, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfTypeOfType) GetName() string { return v.Name }
+func (v *TypeRefOfTypeOfTypeOfTypeOfType) GetName() *string { return v.Name }
 
 // GetOfType returns TypeRefOfTypeOfTypeOfTypeOfType.OfType, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfTypeOfType) GetOfType() TypeRefOfTypeOfTypeOfTypeOfTypeOfType {
+func (v *TypeRefOfTypeOfTypeOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfTypeOfTypeOfType {
 	return v.OfType
 }
 
 // TypeRefOfTypeOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
 type TypeRefOfTypeOfTypeOfTypeOfTypeOfType struct {
-	Kind   TypeKind                                    `json:"kind"`
-	Name   string                                      `json:"name"`
-	OfType TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType `json:"ofType"`
+	Kind   TypeKind                                     `json:"kind"`
+	Name   *string                                      `json:"name"`
+	OfType *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType `json:"ofType"`
 }
 
 // GetKind returns TypeRefOfTypeOfTypeOfTypeOfTypeOfType.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRefOfTypeOfTypeOfTypeOfTypeOfType.Name, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfType) GetName() string { return v.Name }
+func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfType) GetName() *string { return v.Name }
 
 // GetOfType returns TypeRefOfTypeOfTypeOfTypeOfTypeOfType.OfType, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfType) GetOfType() TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType {
+func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType {
 	return v.OfType
 }
 
 // TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
 type TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType struct {
-	Kind   TypeKind                                          `json:"kind"`
-	Name   string                                            `json:"name"`
-	OfType TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType `json:"ofType"`
+	Kind   TypeKind                                           `json:"kind"`
+	Name   *string                                            `json:"name"`
+	OfType *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType `json:"ofType"`
 }
 
 // GetKind returns TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType.Name, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetName() string { return v.Name }
+func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetName() *string { return v.Name }
 
 // GetOfType returns TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType.OfType, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetOfType() TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType {
+func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType {
 	return v.OfType
 }
 
 // TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
 type TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType struct {
 	Kind TypeKind `json:"kind"`
-	Name string   `json:"name"`
+	Name *string  `json:"name"`
 }
 
 // GetKind returns TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType.Kind, and is useful for accessing the field via an interface.
 func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetKind() TypeKind { return v.Kind }
 
 // GetName returns TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType.Name, and is useful for accessing the field via an interface.
-func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetName() string { return v.Name }
+func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetName() *string { return v.Name }
+
+type UserFiltersInput struct {
+	Id        *IDFilterInput       `json:"id,omitempty"`
+	Name      *StringFilterInput   `json:"name,omitempty"`
+	CreatedAt *TimeFilterInput     `json:"createdAt,omitempty"`
+	UpdatedAt *TimeFilterInput     `json:"updatedAt,omitempty"`
+	DeletedAt *TimeFilterInput     `json:"deletedAt,omitempty"`
+	Cat       *CatFiltersInput     `json:"cat,omitempty"`
+	CompanyID *IntFilterInput      `json:"companyID,omitempty"`
+	Company   *CompanyFiltersInput `json:"company,omitempty"`
+	And       []*UserFiltersInput  `json:"and,omitempty"`
+	Or        []*UserFiltersInput  `json:"or,omitempty"`
+	Not       *UserFiltersInput    `json:"not,omitempty"`
+}
+
+// GetId returns UserFiltersInput.Id, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetId() *IDFilterInput { return v.Id }
+
+// GetName returns UserFiltersInput.Name, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetName() *StringFilterInput { return v.Name }
+
+// GetCreatedAt returns UserFiltersInput.CreatedAt, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetCreatedAt() *TimeFilterInput { return v.CreatedAt }
+
+// GetUpdatedAt returns UserFiltersInput.UpdatedAt, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetUpdatedAt() *TimeFilterInput { return v.UpdatedAt }
+
+// GetDeletedAt returns UserFiltersInput.DeletedAt, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetDeletedAt() *TimeFilterInput { return v.DeletedAt }
+
+// GetCat returns UserFiltersInput.Cat, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetCat() *CatFiltersInput { return v.Cat }
+
+// GetCompanyID returns UserFiltersInput.CompanyID, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetCompanyID() *IntFilterInput { return v.CompanyID }
+
+// GetCompany returns UserFiltersInput.Company, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetCompany() *CompanyFiltersInput { return v.Company }
+
+// GetAnd returns UserFiltersInput.And, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetAnd() []*UserFiltersInput { return v.And }
+
+// GetOr returns UserFiltersInput.Or, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetOr() []*UserFiltersInput { return v.Or }
+
+// GetNot returns UserFiltersInput.Not, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetNot() *UserFiltersInput { return v.Not }
+
+type UserInput struct {
+	Name      string        `json:"name"`
+	Cat       *CatInput     `json:"cat,omitempty"`
+	CompanyID *int          `json:"companyID"`
+	Company   *CompanyInput `json:"company,omitempty"`
+}
+
+// GetName returns UserInput.Name, and is useful for accessing the field via an interface.
+func (v *UserInput) GetName() string { return v.Name }
+
+// GetCat returns UserInput.Cat, and is useful for accessing the field via an interface.
+func (v *UserInput) GetCat() *CatInput { return v.Cat }
+
+// GetCompanyID returns UserInput.CompanyID, and is useful for accessing the field via an interface.
+func (v *UserInput) GetCompanyID() *int { return v.CompanyID }
+
+// GetCompany returns UserInput.Company, and is useful for accessing the field via an interface.
+func (v *UserInput) GetCompany() *CompanyInput { return v.Company }
+
+type UserRef2TodosInput struct {
+	Filter *TodoFiltersInput `json:"filter,omitempty"`
+	Set    []string          `json:"set"`
+}
+
+// GetFilter returns UserRef2TodosInput.Filter, and is useful for accessing the field via an interface.
+func (v *UserRef2TodosInput) GetFilter() *TodoFiltersInput { return v.Filter }
+
+// GetSet returns UserRef2TodosInput.Set, and is useful for accessing the field via an interface.
+func (v *UserRef2TodosInput) GetSet() []string { return v.Set }
+
+// __addCatsInput is used internally by genqlient
+type __addCatsInput struct {
+	Input []*CatInput `json:"input,omitempty"`
+}
+
+// GetInput returns __addCatsInput.Input, and is useful for accessing the field via an interface.
+func (v *__addCatsInput) GetInput() []*CatInput { return v.Input }
+
+// __addCompaniesInput is used internally by genqlient
+type __addCompaniesInput struct {
+	Input []*CompanyInput `json:"input,omitempty"`
+}
+
+// GetInput returns __addCompaniesInput.Input, and is useful for accessing the field via an interface.
+func (v *__addCompaniesInput) GetInput() []*CompanyInput { return v.Input }
+
+// __addCompanyQueryResultInput is used internally by genqlient
+type __addCompanyQueryResultInput struct {
+	Name string `json:"name"`
+}
+
+// GetName returns __addCompanyQueryResultInput.Name, and is useful for accessing the field via an interface.
+func (v *__addCompanyQueryResultInput) GetName() string { return v.Name }
+
+// __addTodosInput is used internally by genqlient
+type __addTodosInput struct {
+	Input []*TodoInput `json:"input,omitempty"`
+}
+
+// GetInput returns __addTodosInput.Input, and is useful for accessing the field via an interface.
+func (v *__addTodosInput) GetInput() []*TodoInput { return v.Input }
+
+// __addUser2TodoInput is used internally by genqlient
+type __addUser2TodoInput struct {
+	Input *UserRef2TodosInput `json:"input,omitempty"`
+}
+
+// GetInput returns __addUser2TodoInput.Input, and is useful for accessing the field via an interface.
+func (v *__addUser2TodoInput) GetInput() *UserRef2TodosInput { return v.Input }
+
+// __addUsersInput is used internally by genqlient
+type __addUsersInput struct {
+	Input []*UserInput `json:"input,omitempty"`
+}
+
+// GetInput returns __addUsersInput.Input, and is useful for accessing the field via an interface.
+func (v *__addUsersInput) GetInput() []*UserInput { return v.Input }
+
+// __allTodosPartOfCompanyInput is used internally by genqlient
+type __allTodosPartOfCompanyInput struct {
+	CompanyName *string `json:"companyName"`
+}
+
+// GetCompanyName returns __allTodosPartOfCompanyInput.CompanyName, and is useful for accessing the field via an interface.
+func (v *__allTodosPartOfCompanyInput) GetCompanyName() *string { return v.CompanyName }
+
+// __allUserFromCompanyInput is used internally by genqlient
+type __allUserFromCompanyInput struct {
+	Company string `json:"company"`
+	Offset  *int   `json:"offset"`
+}
+
+// GetCompany returns __allUserFromCompanyInput.Company, and is useful for accessing the field via an interface.
+func (v *__allUserFromCompanyInput) GetCompany() string { return v.Company }
+
+// GetOffset returns __allUserFromCompanyInput.Offset, and is useful for accessing the field via an interface.
+func (v *__allUserFromCompanyInput) GetOffset() *int { return v.Offset }
+
+// __deleteUserByCatNameInput is used internally by genqlient
+type __deleteUserByCatNameInput struct {
+	CatName string `json:"catName"`
+}
+
+// GetCatName returns __deleteUserByCatNameInput.CatName, and is useful for accessing the field via an interface.
+func (v *__deleteUserByCatNameInput) GetCatName() string { return v.CatName }
+
+// __deleteUserByUserNameInput is used internally by genqlient
+type __deleteUserByUserNameInput struct {
+	UserName string `json:"userName"`
+}
+
+// GetUserName returns __deleteUserByUserNameInput.UserName, and is useful for accessing the field via an interface.
+func (v *__deleteUserByUserNameInput) GetUserName() string { return v.UserName }
+
+// __deleteUserInput is used internally by genqlient
+type __deleteUserInput struct {
+	UserId string `json:"userId"`
+}
+
+// GetUserId returns __deleteUserInput.UserId, and is useful for accessing the field via an interface.
+func (v *__deleteUserInput) GetUserId() string { return v.UserId }
+
+// __getUserByIdInput is used internally by genqlient
+type __getUserByIdInput struct {
+	UserId string `json:"userId"`
+}
+
+// GetUserId returns __getUserByIdInput.UserId, and is useful for accessing the field via an interface.
+func (v *__getUserByIdInput) GetUserId() string { return v.UserId }
+
+// __updateUserChangeCompanyByCatNameInput is used internally by genqlient
+type __updateUserChangeCompanyByCatNameInput struct {
+	CatName   string `json:"catName"`
+	CompanyID int    `json:"companyID"`
+}
+
+// GetCatName returns __updateUserChangeCompanyByCatNameInput.CatName, and is useful for accessing the field via an interface.
+func (v *__updateUserChangeCompanyByCatNameInput) GetCatName() string { return v.CatName }
+
+// GetCompanyID returns __updateUserChangeCompanyByCatNameInput.CompanyID, and is useful for accessing the field via an interface.
+func (v *__updateUserChangeCompanyByCatNameInput) GetCompanyID() int { return v.CompanyID }
+
+// __updateUserChangeCompanyInput is used internally by genqlient
+type __updateUserChangeCompanyInput struct {
+	UserId    string `json:"userId"`
+	CompanyID int    `json:"companyID"`
+}
+
+// GetUserId returns __updateUserChangeCompanyInput.UserId, and is useful for accessing the field via an interface.
+func (v *__updateUserChangeCompanyInput) GetUserId() string { return v.UserId }
+
+// GetCompanyID returns __updateUserChangeCompanyInput.CompanyID, and is useful for accessing the field via an interface.
+func (v *__updateUserChangeCompanyInput) GetCompanyID() int { return v.CompanyID }
+
+// addCatsAddCatAddCatPayload includes the requested fields of the GraphQL type AddCatPayload.
+type addCatsAddCatAddCatPayload struct {
+	Cat *addCatsAddCatAddCatPayloadCatCatQueryResult `json:"cat"`
+}
+
+// GetCat returns addCatsAddCatAddCatPayload.Cat, and is useful for accessing the field via an interface.
+func (v *addCatsAddCatAddCatPayload) GetCat() *addCatsAddCatAddCatPayloadCatCatQueryResult {
+	return v.Cat
+}
+
+// addCatsAddCatAddCatPayloadCatCatQueryResult includes the requested fields of the GraphQL type CatQueryResult.
+type addCatsAddCatAddCatPayloadCatCatQueryResult struct {
+	Data []*addCatsAddCatAddCatPayloadCatCatQueryResultDataCat `json:"data"`
+}
+
+// GetData returns addCatsAddCatAddCatPayloadCatCatQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *addCatsAddCatAddCatPayloadCatCatQueryResult) GetData() []*addCatsAddCatAddCatPayloadCatCatQueryResultDataCat {
+	return v.Data
+}
+
+// addCatsAddCatAddCatPayloadCatCatQueryResultDataCat includes the requested fields of the GraphQL type Cat.
+type addCatsAddCatAddCatPayloadCatCatQueryResultDataCat struct {
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	UserID int    `json:"userID"`
+}
+
+// GetId returns addCatsAddCatAddCatPayloadCatCatQueryResultDataCat.Id, and is useful for accessing the field via an interface.
+func (v *addCatsAddCatAddCatPayloadCatCatQueryResultDataCat) GetId() string { return v.Id }
+
+// GetName returns addCatsAddCatAddCatPayloadCatCatQueryResultDataCat.Name, and is useful for accessing the field via an interface.
+func (v *addCatsAddCatAddCatPayloadCatCatQueryResultDataCat) GetName() string { return v.Name }
+
+// GetUserID returns addCatsAddCatAddCatPayloadCatCatQueryResultDataCat.UserID, and is useful for accessing the field via an interface.
+func (v *addCatsAddCatAddCatPayloadCatCatQueryResultDataCat) GetUserID() int { return v.UserID }
+
+// addCatsResponse is returned by addCats on success.
+type addCatsResponse struct {
+	AddCat *addCatsAddCatAddCatPayload `json:"addCat"`
+}
+
+// GetAddCat returns addCatsResponse.AddCat, and is useful for accessing the field via an interface.
+func (v *addCatsResponse) GetAddCat() *addCatsAddCatAddCatPayload { return v.AddCat }
+
+// addCompaniesAddCompanyAddCompanyPayload includes the requested fields of the GraphQL type AddCompanyPayload.
+type addCompaniesAddCompanyAddCompanyPayload struct {
+	Company *addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult `json:"company"`
+}
+
+// GetCompany returns addCompaniesAddCompanyAddCompanyPayload.Company, and is useful for accessing the field via an interface.
+func (v *addCompaniesAddCompanyAddCompanyPayload) GetCompany() *addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult {
+	return v.Company
+}
+
+// addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult includes the requested fields of the GraphQL type CompanyQueryResult.
+type addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult struct {
+	Data []*addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany `json:"data"`
+}
+
+// GetData returns addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult) GetData() []*addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany {
+	return v.Data
+}
+
+// addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany includes the requested fields of the GraphQL type Company.
+type addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany.Id, and is useful for accessing the field via an interface.
+func (v *addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany) GetId() string {
+	return v.Id
+}
+
+// GetName returns addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany.Name, and is useful for accessing the field via an interface.
+func (v *addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany) GetName() string {
+	return v.Name
+}
+
+// addCompaniesResponse is returned by addCompanies on success.
+type addCompaniesResponse struct {
+	AddCompany *addCompaniesAddCompanyAddCompanyPayload `json:"addCompany"`
+}
+
+// GetAddCompany returns addCompaniesResponse.AddCompany, and is useful for accessing the field via an interface.
+func (v *addCompaniesResponse) GetAddCompany() *addCompaniesAddCompanyAddCompanyPayload {
+	return v.AddCompany
+}
+
+// addCompanyQueryResultAddCompanyAddCompanyPayload includes the requested fields of the GraphQL type AddCompanyPayload.
+type addCompanyQueryResultAddCompanyAddCompanyPayload struct {
+	Company *addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult `json:"company"`
+}
+
+// GetCompany returns addCompanyQueryResultAddCompanyAddCompanyPayload.Company, and is useful for accessing the field via an interface.
+func (v *addCompanyQueryResultAddCompanyAddCompanyPayload) GetCompany() *addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult {
+	return v.Company
+}
+
+// addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult includes the requested fields of the GraphQL type CompanyQueryResult.
+type addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult struct {
+	Data []*addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany `json:"data"`
+}
+
+// GetData returns addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult) GetData() []*addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany {
+	return v.Data
+}
+
+// addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany includes the requested fields of the GraphQL type Company.
+type addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany.Id, and is useful for accessing the field via an interface.
+func (v *addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany) GetId() string {
+	return v.Id
+}
+
+// GetName returns addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany.Name, and is useful for accessing the field via an interface.
+func (v *addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany) GetName() string {
+	return v.Name
+}
+
+// addCompanyQueryResultResponse is returned by addCompanyQueryResult on success.
+type addCompanyQueryResultResponse struct {
+	AddCompany *addCompanyQueryResultAddCompanyAddCompanyPayload `json:"addCompany"`
+}
+
+// GetAddCompany returns addCompanyQueryResultResponse.AddCompany, and is useful for accessing the field via an interface.
+func (v *addCompanyQueryResultResponse) GetAddCompany() *addCompanyQueryResultAddCompanyAddCompanyPayload {
+	return v.AddCompany
+}
+
+// addTodosAddTodoAddTodoPayload includes the requested fields of the GraphQL type AddTodoPayload.
+type addTodosAddTodoAddTodoPayload struct {
+	Todo *addTodosAddTodoAddTodoPayloadTodoTodoQueryResult `json:"todo"`
+}
+
+// GetTodo returns addTodosAddTodoAddTodoPayload.Todo, and is useful for accessing the field via an interface.
+func (v *addTodosAddTodoAddTodoPayload) GetTodo() *addTodosAddTodoAddTodoPayloadTodoTodoQueryResult {
+	return v.Todo
+}
+
+// addTodosAddTodoAddTodoPayloadTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type addTodosAddTodoAddTodoPayloadTodoTodoQueryResult struct {
+	Data []*addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetData returns addTodosAddTodoAddTodoPayloadTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResult) GetData() []*addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo) GetId() string { return v.Id }
+
+// GetName returns addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
+
+// addTodosResponse is returned by addTodos on success.
+type addTodosResponse struct {
+	AddTodo *addTodosAddTodoAddTodoPayload `json:"addTodo"`
+}
+
+// GetAddTodo returns addTodosResponse.AddTodo, and is useful for accessing the field via an interface.
+func (v *addTodosResponse) GetAddTodo() *addTodosAddTodoAddTodoPayload { return v.AddTodo }
+
+// addUser2TodoAddUser2TodosUpdateTodoPayload includes the requested fields of the GraphQL type UpdateTodoPayload.
+type addUser2TodoAddUser2TodosUpdateTodoPayload struct {
+	Todo *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult `json:"todo"`
+}
+
+// GetTodo returns addUser2TodoAddUser2TodosUpdateTodoPayload.Todo, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayload) GetTodo() *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult {
+	return v.Todo
+}
+
+// addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult struct {
+	Data []*addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetData returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult) GetData() []*addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo struct {
+	Id    string                                                                            `json:"id"`
+	Name  string                                                                            `json:"name"`
+	Users []*addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+}
+
+// GetId returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo) GetId() string {
+	return v.Id
+}
+
+// GetName returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo) GetName() string {
+	return v.Name
+}
+
+// GetUsers returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo) GetUsers() []*addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser {
+	return v.Users
+}
+
+// addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
+type addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser.Id, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser) GetName() string {
+	return v.Name
+}
+
+// addUser2TodoResponse is returned by addUser2Todo on success.
+type addUser2TodoResponse struct {
+	AddUser2Todos *addUser2TodoAddUser2TodosUpdateTodoPayload `json:"addUser2Todos"`
+}
+
+// GetAddUser2Todos returns addUser2TodoResponse.AddUser2Todos, and is useful for accessing the field via an interface.
+func (v *addUser2TodoResponse) GetAddUser2Todos() *addUser2TodoAddUser2TodosUpdateTodoPayload {
+	return v.AddUser2Todos
+}
+
+// addUsersAddUserAddUserPayload includes the requested fields of the GraphQL type AddUserPayload.
+type addUsersAddUserAddUserPayload struct {
+	User *addUsersAddUserAddUserPayloadUserUserQueryResult `json:"user"`
+}
+
+// GetUser returns addUsersAddUserAddUserPayload.User, and is useful for accessing the field via an interface.
+func (v *addUsersAddUserAddUserPayload) GetUser() *addUsersAddUserAddUserPayloadUserUserQueryResult {
+	return v.User
+}
+
+// addUsersAddUserAddUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type addUsersAddUserAddUserPayloadUserUserQueryResult struct {
+	Data []*addUsersAddUserAddUserPayloadUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns addUsersAddUserAddUserPayloadUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *addUsersAddUserAddUserPayloadUserUserQueryResult) GetData() []*addUsersAddUserAddUserPayloadUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// addUsersAddUserAddUserPayloadUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type addUsersAddUserAddUserPayloadUserUserQueryResultDataUser struct {
+	Id      string                                                           `json:"id"`
+	Name    string                                                           `json:"name"`
+	Company *addUsersAddUserAddUserPayloadUserUserQueryResultDataUserCompany `json:"company"`
+}
+
+// GetId returns addUsersAddUserAddUserPayloadUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *addUsersAddUserAddUserPayloadUserUserQueryResultDataUser) GetId() string { return v.Id }
+
+// GetName returns addUsersAddUserAddUserPayloadUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *addUsersAddUserAddUserPayloadUserUserQueryResultDataUser) GetName() string { return v.Name }
+
+// GetCompany returns addUsersAddUserAddUserPayloadUserUserQueryResultDataUser.Company, and is useful for accessing the field via an interface.
+func (v *addUsersAddUserAddUserPayloadUserUserQueryResultDataUser) GetCompany() *addUsersAddUserAddUserPayloadUserUserQueryResultDataUserCompany {
+	return v.Company
+}
+
+// addUsersAddUserAddUserPayloadUserUserQueryResultDataUserCompany includes the requested fields of the GraphQL type Company.
+type addUsersAddUserAddUserPayloadUserUserQueryResultDataUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns addUsersAddUserAddUserPayloadUserUserQueryResultDataUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *addUsersAddUserAddUserPayloadUserUserQueryResultDataUserCompany) GetName() string {
+	return v.Name
+}
+
+// addUsersResponse is returned by addUsers on success.
+type addUsersResponse struct {
+	AddUser *addUsersAddUserAddUserPayload `json:"addUser"`
+}
+
+// GetAddUser returns addUsersResponse.AddUser, and is useful for accessing the field via an interface.
+func (v *addUsersResponse) GetAddUser() *addUsersAddUserAddUserPayload { return v.AddUser }
+
+// allTodosPartOfCompanyQueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type allTodosPartOfCompanyQueryTodoTodoQueryResult struct {
+	Data []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetData returns allTodosPartOfCompanyQueryTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResult) GetData() []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo struct {
+	Id    string                                                            `json:"id"`
+	Name  string                                                            `json:"name"`
+	Users []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+}
+
+// GetId returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo) GetId() string { return v.Id }
+
+// GetName returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
+
+// GetUsers returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo) GetUsers() []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser {
+	return v.Users
+}
+
+// allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
+type allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser struct {
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Company *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany `json:"company"`
+}
+
+// GetId returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser.Id, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser) GetId() string { return v.Id }
+
+// GetName returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser) GetName() string {
+	return v.Name
+}
+
+// GetCompany returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser.Company, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser) GetCompany() *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany {
+	return v.Company
+}
+
+// allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany includes the requested fields of the GraphQL type Company.
+type allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany) GetName() string {
+	return v.Name
+}
+
+// allTodosPartOfCompanyResponse is returned by allTodosPartOfCompany on success.
+type allTodosPartOfCompanyResponse struct {
+	QueryTodo *allTodosPartOfCompanyQueryTodoTodoQueryResult `json:"queryTodo"`
+}
+
+// GetQueryTodo returns allTodosPartOfCompanyResponse.QueryTodo, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyResponse) GetQueryTodo() *allTodosPartOfCompanyQueryTodoTodoQueryResult {
+	return v.QueryTodo
+}
+
+// allUserFromCompanyQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type allUserFromCompanyQueryUserUserQueryResult struct {
+	TotalCount int                                                   `json:"totalCount"`
+	Data       []*allUserFromCompanyQueryUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetTotalCount returns allUserFromCompanyQueryUserUserQueryResult.TotalCount, and is useful for accessing the field via an interface.
+func (v *allUserFromCompanyQueryUserUserQueryResult) GetTotalCount() int { return v.TotalCount }
+
+// GetData returns allUserFromCompanyQueryUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *allUserFromCompanyQueryUserUserQueryResult) GetData() []*allUserFromCompanyQueryUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// allUserFromCompanyQueryUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type allUserFromCompanyQueryUserUserQueryResultDataUser struct {
+	Id      string                                                     `json:"id"`
+	Name    string                                                     `json:"name"`
+	Company *allUserFromCompanyQueryUserUserQueryResultDataUserCompany `json:"company"`
+}
+
+// GetId returns allUserFromCompanyQueryUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *allUserFromCompanyQueryUserUserQueryResultDataUser) GetId() string { return v.Id }
+
+// GetName returns allUserFromCompanyQueryUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *allUserFromCompanyQueryUserUserQueryResultDataUser) GetName() string { return v.Name }
+
+// GetCompany returns allUserFromCompanyQueryUserUserQueryResultDataUser.Company, and is useful for accessing the field via an interface.
+func (v *allUserFromCompanyQueryUserUserQueryResultDataUser) GetCompany() *allUserFromCompanyQueryUserUserQueryResultDataUserCompany {
+	return v.Company
+}
+
+// allUserFromCompanyQueryUserUserQueryResultDataUserCompany includes the requested fields of the GraphQL type Company.
+type allUserFromCompanyQueryUserUserQueryResultDataUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns allUserFromCompanyQueryUserUserQueryResultDataUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *allUserFromCompanyQueryUserUserQueryResultDataUserCompany) GetName() string { return v.Name }
+
+// allUserFromCompanyResponse is returned by allUserFromCompany on success.
+type allUserFromCompanyResponse struct {
+	QueryUser *allUserFromCompanyQueryUserUserQueryResult `json:"queryUser"`
+}
+
+// GetQueryUser returns allUserFromCompanyResponse.QueryUser, and is useful for accessing the field via an interface.
+func (v *allUserFromCompanyResponse) GetQueryUser() *allUserFromCompanyQueryUserUserQueryResult {
+	return v.QueryUser
+}
+
+// allUserWithACatQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type allUserWithACatQueryUserUserQueryResult struct {
+	Data []*allUserWithACatQueryUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns allUserWithACatQueryUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *allUserWithACatQueryUserUserQueryResult) GetData() []*allUserWithACatQueryUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// allUserWithACatQueryUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type allUserWithACatQueryUserUserQueryResultDataUser struct {
+	Id   string                                              `json:"id"`
+	Name string                                              `json:"name"`
+	Cat  *allUserWithACatQueryUserUserQueryResultDataUserCat `json:"cat"`
+}
+
+// GetId returns allUserWithACatQueryUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *allUserWithACatQueryUserUserQueryResultDataUser) GetId() string { return v.Id }
+
+// GetName returns allUserWithACatQueryUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *allUserWithACatQueryUserUserQueryResultDataUser) GetName() string { return v.Name }
+
+// GetCat returns allUserWithACatQueryUserUserQueryResultDataUser.Cat, and is useful for accessing the field via an interface.
+func (v *allUserWithACatQueryUserUserQueryResultDataUser) GetCat() *allUserWithACatQueryUserUserQueryResultDataUserCat {
+	return v.Cat
+}
+
+// allUserWithACatQueryUserUserQueryResultDataUserCat includes the requested fields of the GraphQL type Cat.
+type allUserWithACatQueryUserUserQueryResultDataUserCat struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns allUserWithACatQueryUserUserQueryResultDataUserCat.Id, and is useful for accessing the field via an interface.
+func (v *allUserWithACatQueryUserUserQueryResultDataUserCat) GetId() string { return v.Id }
+
+// GetName returns allUserWithACatQueryUserUserQueryResultDataUserCat.Name, and is useful for accessing the field via an interface.
+func (v *allUserWithACatQueryUserUserQueryResultDataUserCat) GetName() string { return v.Name }
+
+// allUserWithACatResponse is returned by allUserWithACat on success.
+type allUserWithACatResponse struct {
+	QueryUser *allUserWithACatQueryUserUserQueryResult `json:"queryUser"`
+}
+
+// GetQueryUser returns allUserWithACatResponse.QueryUser, and is useful for accessing the field via an interface.
+func (v *allUserWithACatResponse) GetQueryUser() *allUserWithACatQueryUserUserQueryResult {
+	return v.QueryUser
+}
+
+// deleteUserByCatNameDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
+type deleteUserByCatNameDeleteUserDeleteUserPayload struct {
+	Count int                                                                `json:"count"`
+	User  *deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult `json:"user"`
+}
+
+// GetCount returns deleteUserByCatNameDeleteUserDeleteUserPayload.Count, and is useful for accessing the field via an interface.
+func (v *deleteUserByCatNameDeleteUserDeleteUserPayload) GetCount() int { return v.Count }
+
+// GetUser returns deleteUserByCatNameDeleteUserDeleteUserPayload.User, and is useful for accessing the field via an interface.
+func (v *deleteUserByCatNameDeleteUserDeleteUserPayload) GetUser() *deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult {
+	return v.User
+}
+
+// deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult struct {
+	Data []*deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult) GetData() []*deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser) GetName() string {
+	return v.Name
+}
+
+// deleteUserByCatNameResponse is returned by deleteUserByCatName on success.
+type deleteUserByCatNameResponse struct {
+	DeleteUser *deleteUserByCatNameDeleteUserDeleteUserPayload `json:"deleteUser"`
+}
+
+// GetDeleteUser returns deleteUserByCatNameResponse.DeleteUser, and is useful for accessing the field via an interface.
+func (v *deleteUserByCatNameResponse) GetDeleteUser() *deleteUserByCatNameDeleteUserDeleteUserPayload {
+	return v.DeleteUser
+}
+
+// deleteUserByUserNameDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
+type deleteUserByUserNameDeleteUserDeleteUserPayload struct {
+	Count int                                                                 `json:"count"`
+	User  *deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult `json:"user"`
+}
+
+// GetCount returns deleteUserByUserNameDeleteUserDeleteUserPayload.Count, and is useful for accessing the field via an interface.
+func (v *deleteUserByUserNameDeleteUserDeleteUserPayload) GetCount() int { return v.Count }
+
+// GetUser returns deleteUserByUserNameDeleteUserDeleteUserPayload.User, and is useful for accessing the field via an interface.
+func (v *deleteUserByUserNameDeleteUserDeleteUserPayload) GetUser() *deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult {
+	return v.User
+}
+
+// deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult struct {
+	Data []*deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult) GetData() []*deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser) GetName() string {
+	return v.Name
+}
+
+// deleteUserByUserNameResponse is returned by deleteUserByUserName on success.
+type deleteUserByUserNameResponse struct {
+	DeleteUser *deleteUserByUserNameDeleteUserDeleteUserPayload `json:"deleteUser"`
+}
+
+// GetDeleteUser returns deleteUserByUserNameResponse.DeleteUser, and is useful for accessing the field via an interface.
+func (v *deleteUserByUserNameResponse) GetDeleteUser() *deleteUserByUserNameDeleteUserDeleteUserPayload {
+	return v.DeleteUser
+}
+
+// deleteUserDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
+type deleteUserDeleteUserDeleteUserPayload struct {
+	Count int                                                       `json:"count"`
+	User  *deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult `json:"user"`
+}
+
+// GetCount returns deleteUserDeleteUserDeleteUserPayload.Count, and is useful for accessing the field via an interface.
+func (v *deleteUserDeleteUserDeleteUserPayload) GetCount() int { return v.Count }
+
+// GetUser returns deleteUserDeleteUserDeleteUserPayload.User, and is useful for accessing the field via an interface.
+func (v *deleteUserDeleteUserDeleteUserPayload) GetUser() *deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult {
+	return v.User
+}
+
+// deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult struct {
+	Data []*deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult) GetData() []*deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser) GetName() string {
+	return v.Name
+}
+
+// deleteUserResponse is returned by deleteUser on success.
+type deleteUserResponse struct {
+	DeleteUser *deleteUserDeleteUserDeleteUserPayload `json:"deleteUser"`
+}
+
+// GetDeleteUser returns deleteUserResponse.DeleteUser, and is useful for accessing the field via an interface.
+func (v *deleteUserResponse) GetDeleteUser() *deleteUserDeleteUserDeleteUserPayload {
+	return v.DeleteUser
+}
+
+// getUserByIdGetUser includes the requested fields of the GraphQL type User.
+type getUserByIdGetUser struct {
+	Id      string                     `json:"id"`
+	Name    string                     `json:"name"`
+	Cat     *getUserByIdGetUserCat     `json:"cat"`
+	Company *getUserByIdGetUserCompany `json:"company"`
+}
+
+// GetId returns getUserByIdGetUser.Id, and is useful for accessing the field via an interface.
+func (v *getUserByIdGetUser) GetId() string { return v.Id }
+
+// GetName returns getUserByIdGetUser.Name, and is useful for accessing the field via an interface.
+func (v *getUserByIdGetUser) GetName() string { return v.Name }
+
+// GetCat returns getUserByIdGetUser.Cat, and is useful for accessing the field via an interface.
+func (v *getUserByIdGetUser) GetCat() *getUserByIdGetUserCat { return v.Cat }
+
+// GetCompany returns getUserByIdGetUser.Company, and is useful for accessing the field via an interface.
+func (v *getUserByIdGetUser) GetCompany() *getUserByIdGetUserCompany { return v.Company }
+
+// getUserByIdGetUserCat includes the requested fields of the GraphQL type Cat.
+type getUserByIdGetUserCat struct {
+	Name string `json:"name"`
+}
+
+// GetName returns getUserByIdGetUserCat.Name, and is useful for accessing the field via an interface.
+func (v *getUserByIdGetUserCat) GetName() string { return v.Name }
+
+// getUserByIdGetUserCompany includes the requested fields of the GraphQL type Company.
+type getUserByIdGetUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns getUserByIdGetUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *getUserByIdGetUserCompany) GetName() string { return v.Name }
+
+// getUserByIdResponse is returned by getUserById on success.
+type getUserByIdResponse struct {
+	GetUser *getUserByIdGetUser `json:"getUser"`
+}
+
+// GetGetUser returns getUserByIdResponse.GetUser, and is useful for accessing the field via an interface.
+func (v *getUserByIdResponse) GetGetUser() *getUserByIdGetUser { return v.GetUser }
+
+// updateUserChangeCompanyByCatNameResponse is returned by updateUserChangeCompanyByCatName on success.
+type updateUserChangeCompanyByCatNameResponse struct {
+	UpdateUser *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload `json:"updateUser"`
+}
+
+// GetUpdateUser returns updateUserChangeCompanyByCatNameResponse.UpdateUser, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameResponse) GetUpdateUser() *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload {
+	return v.UpdateUser
+}
+
+// updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload includes the requested fields of the GraphQL type UpdateUserPayload.
+type updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload struct {
+	Count int                                                                             `json:"count"`
+	User  *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult `json:"user"`
+}
+
+// GetCount returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload.Count, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload) GetCount() int { return v.Count }
+
+// GetUser returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload.User, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload) GetUser() *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult {
+	return v.User
+}
+
+// updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult struct {
+	Data []*updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult) GetData() []*updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser struct {
+	Id      string                                                                                         `json:"id"`
+	Name    string                                                                                         `json:"name"`
+	Company *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany `json:"company"`
+}
+
+// GetId returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser) GetName() string {
+	return v.Name
+}
+
+// GetCompany returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser.Company, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser) GetCompany() *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany {
+	return v.Company
+}
+
+// updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany includes the requested fields of the GraphQL type Company.
+type updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany) GetName() string {
+	return v.Name
+}
+
+// updateUserChangeCompanyResponse is returned by updateUserChangeCompany on success.
+type updateUserChangeCompanyResponse struct {
+	UpdateUser *updateUserChangeCompanyUpdateUserUpdateUserPayload `json:"updateUser"`
+}
+
+// GetUpdateUser returns updateUserChangeCompanyResponse.UpdateUser, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyResponse) GetUpdateUser() *updateUserChangeCompanyUpdateUserUpdateUserPayload {
+	return v.UpdateUser
+}
+
+// updateUserChangeCompanyUpdateUserUpdateUserPayload includes the requested fields of the GraphQL type UpdateUserPayload.
+type updateUserChangeCompanyUpdateUserUpdateUserPayload struct {
+	Count int                                                                    `json:"count"`
+	User  *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult `json:"user"`
+}
+
+// GetCount returns updateUserChangeCompanyUpdateUserUpdateUserPayload.Count, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyUpdateUserUpdateUserPayload) GetCount() int { return v.Count }
+
+// GetUser returns updateUserChangeCompanyUpdateUserUpdateUserPayload.User, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyUpdateUserUpdateUserPayload) GetUser() *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult {
+	return v.User
+}
+
+// updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult struct {
+	Data []*updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult) GetData() []*updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser struct {
+	Id      string                                                                                `json:"id"`
+	Name    string                                                                                `json:"name"`
+	Company *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany `json:"company"`
+}
+
+// GetId returns updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser) GetName() string {
+	return v.Name
+}
+
+// GetCompany returns updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser.Company, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser) GetCompany() *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany {
+	return v.Company
+}
+
+// updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany includes the requested fields of the GraphQL type Company.
+type updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany) GetName() string {
+	return v.Name
+}
 
 func IntrospectionQuery(
 	ctx context.Context,
@@ -1056,6 +2491,595 @@ fragment TypeRef on __Type {
 	var err error
 
 	var data IntrospectionQueryResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func addCats(
+	ctx context.Context,
+	client graphql.Client,
+	input []*CatInput,
+) (*addCatsResponse, error) {
+	req := &graphql.Request{
+		OpName: "addCats",
+		Query: `
+mutation addCats ($input: [CatInput!]!) {
+	addCat(input: $input) {
+		cat {
+			data {
+				id
+				name
+				userID
+			}
+		}
+	}
+}
+`,
+		Variables: &__addCatsInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data addCatsResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func addCompanies(
+	ctx context.Context,
+	client graphql.Client,
+	input []*CompanyInput,
+) (*addCompaniesResponse, error) {
+	req := &graphql.Request{
+		OpName: "addCompanies",
+		Query: `
+mutation addCompanies ($input: [CompanyInput!]!) {
+	addCompany(input: $input) {
+		company {
+			data {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+		Variables: &__addCompaniesInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data addCompaniesResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func addCompanyQueryResult(
+	ctx context.Context,
+	client graphql.Client,
+	name string,
+) (*addCompanyQueryResultResponse, error) {
+	req := &graphql.Request{
+		OpName: "addCompanyQueryResult",
+		Query: `
+mutation addCompanyQueryResult ($name: String!) {
+	addCompany(input: {name:$name}) {
+		company(filter: {name:{eq:$name}}) {
+			data {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+		Variables: &__addCompanyQueryResultInput{
+			Name: name,
+		},
+	}
+	var err error
+
+	var data addCompanyQueryResultResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func addTodos(
+	ctx context.Context,
+	client graphql.Client,
+	input []*TodoInput,
+) (*addTodosResponse, error) {
+	req := &graphql.Request{
+		OpName: "addTodos",
+		Query: `
+mutation addTodos ($input: [TodoInput!]!) {
+	addTodo(input: $input) {
+		todo {
+			data {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+		Variables: &__addTodosInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data addTodosResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func addUser2Todo(
+	ctx context.Context,
+	client graphql.Client,
+	input *UserRef2TodosInput,
+) (*addUser2TodoResponse, error) {
+	req := &graphql.Request{
+		OpName: "addUser2Todo",
+		Query: `
+mutation addUser2Todo ($input: UserRef2TodosInput!) {
+	addUser2Todos(input: $input) {
+		todo {
+			data {
+				id
+				name
+				users {
+					id
+					name
+				}
+			}
+		}
+	}
+}
+`,
+		Variables: &__addUser2TodoInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data addUser2TodoResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func addUsers(
+	ctx context.Context,
+	client graphql.Client,
+	input []*UserInput,
+) (*addUsersResponse, error) {
+	req := &graphql.Request{
+		OpName: "addUsers",
+		Query: `
+mutation addUsers ($input: [UserInput!]!) {
+	addUser(input: $input) {
+		user {
+			data {
+				id
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+		Variables: &__addUsersInput{
+			Input: input,
+		},
+	}
+	var err error
+
+	var data addUsersResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func allTodosPartOfCompany(
+	ctx context.Context,
+	client graphql.Client,
+	companyName *string,
+) (*allTodosPartOfCompanyResponse, error) {
+	req := &graphql.Request{
+		OpName: "allTodosPartOfCompany",
+		Query: `
+query allTodosPartOfCompany ($companyName: String) {
+	queryTodo(filter: {users:{company:{name:{eq:$companyName}}}}) {
+		data {
+			id
+			name
+			users {
+				id
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+		Variables: &__allTodosPartOfCompanyInput{
+			CompanyName: companyName,
+		},
+	}
+	var err error
+
+	var data allTodosPartOfCompanyResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func allUserFromCompany(
+	ctx context.Context,
+	client graphql.Client,
+	company string,
+	offset *int,
+) (*allUserFromCompanyResponse, error) {
+	req := &graphql.Request{
+		OpName: "allUserFromCompany",
+		Query: `
+query allUserFromCompany ($company: String!, $offset: Int) {
+	queryUser(filter: {company:{name:{eq:$company}}}, first: 2, offset: $offset) {
+		totalCount
+		data {
+			id
+			name
+			company {
+				name
+			}
+		}
+	}
+}
+`,
+		Variables: &__allUserFromCompanyInput{
+			Company: company,
+			Offset:  offset,
+		},
+	}
+	var err error
+
+	var data allUserFromCompanyResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func allUserWithACat(
+	ctx context.Context,
+	client graphql.Client,
+) (*allUserWithACatResponse, error) {
+	req := &graphql.Request{
+		OpName: "allUserWithACat",
+		Query: `
+query allUserWithACat {
+	queryUser(filter: {cat:{userID:{notNull:true}}}) {
+		data {
+			id
+			name
+			cat {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+	}
+	var err error
+
+	var data allUserWithACatResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// delete
+func deleteUser(
+	ctx context.Context,
+	client graphql.Client,
+	userId string,
+) (*deleteUserResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteUser",
+		Query: `
+mutation deleteUser ($userId: ID!) {
+	deleteUser(filter: {id:{eq:$userId}}) {
+		count
+		user {
+			data {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+		Variables: &__deleteUserInput{
+			UserId: userId,
+		},
+	}
+	var err error
+
+	var data deleteUserResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func deleteUserByCatName(
+	ctx context.Context,
+	client graphql.Client,
+	catName string,
+) (*deleteUserByCatNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteUserByCatName",
+		Query: `
+mutation deleteUserByCatName ($catName: String!) {
+	deleteUser(filter: {cat:{name:{eq:$catName}}}) {
+		count
+		user {
+			data {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+		Variables: &__deleteUserByCatNameInput{
+			CatName: catName,
+		},
+	}
+	var err error
+
+	var data deleteUserByCatNameResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func deleteUserByUserName(
+	ctx context.Context,
+	client graphql.Client,
+	userName string,
+) (*deleteUserByUserNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteUserByUserName",
+		Query: `
+mutation deleteUserByUserName ($userName: String!) {
+	deleteUser(filter: {name:{eq:$userName}}) {
+		count
+		user {
+			data {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+		Variables: &__deleteUserByUserNameInput{
+			UserName: userName,
+		},
+	}
+	var err error
+
+	var data deleteUserByUserNameResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func getUserById(
+	ctx context.Context,
+	client graphql.Client,
+	userId string,
+) (*getUserByIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "getUserById",
+		Query: `
+query getUserById ($userId: ID!) {
+	getUser(id: $userId) {
+		id
+		name
+		cat {
+			name
+		}
+		company {
+			name
+		}
+	}
+}
+`,
+		Variables: &__getUserByIdInput{
+			UserId: userId,
+		},
+	}
+	var err error
+
+	var data getUserByIdResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// Edit
+func updateUserChangeCompany(
+	ctx context.Context,
+	client graphql.Client,
+	userId string,
+	companyID int,
+) (*updateUserChangeCompanyResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateUserChangeCompany",
+		Query: `
+mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
+	updateUser(input: {filter:{id:{eq:$userId}},set:{companyID:$companyID}}) {
+		count
+		user {
+			data {
+				id
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+		Variables: &__updateUserChangeCompanyInput{
+			UserId:    userId,
+			CompanyID: companyID,
+		},
+	}
+	var err error
+
+	var data updateUserChangeCompanyResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func updateUserChangeCompanyByCatName(
+	ctx context.Context,
+	client graphql.Client,
+	catName string,
+	companyID int,
+) (*updateUserChangeCompanyByCatNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateUserChangeCompanyByCatName",
+		Query: `
+mutation updateUserChangeCompanyByCatName ($catName: String!, $companyID: Int!) {
+	updateUser(input: {filter:{cat:{name:{eq:$catName}}},set:{companyID:$companyID}}) {
+		count
+		user {
+			data {
+				id
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+		Variables: &__updateUserChangeCompanyByCatNameInput{
+			CatName:   catName,
+			CompanyID: companyID,
+		},
+	}
+	var err error
+
+	var data updateUserChangeCompanyByCatNameResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(

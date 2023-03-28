@@ -2,19 +2,97 @@
 
 package model
 
-func (d *TodoPatch) MergeToType() map[string]interface{} {
+func (d *CatPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
-	if d.Users != nil {
-		tmpUsers := make([]map[string]interface{}, len(d.Users))
-		for _, v := range d.Users {
-			tmp := v.MergeToType()
-			tmpUsers = append(tmpUsers, tmp)
-		}
-		res["users"] = tmpUsers
+
+	if d.BirthDay != nil {
+		res["birth_day"] = *d.BirthDay
+	}
+
+	if d.UserID != nil {
+		res["user_id"] = *d.UserID
+	}
+
+	if d.Alive != nil {
+		res["alive"] = d.Alive
+	}
+	return res
+}
+
+func (d *CatInput) MergeToType() Cat {
+
+	tmpName := d.Name
+
+	tmpBirthDay := d.BirthDay
+
+	tmpUserID := d.UserID
+
+	var tmpAlive *bool
+	if d.Alive != nil {
+		tmpAlive = d.Alive
+	}
+	return Cat{
+		Name:     tmpName,
+		BirthDay: tmpBirthDay,
+		UserID:   tmpUserID,
+		Alive:    tmpAlive,
+	}
+}
+
+func (d *CompanyPatch) MergeToType() map[string]interface{} {
+	res := make(map[string]interface{})
+
+	if d.Name != nil {
+		res["name"] = *d.Name
+	}
+
+	if d.Description != nil {
+		res["description"] = d.Description
+	}
+
+	if d.MotherCompanyID != nil {
+		res["mother_company_id"] = d.MotherCompanyID
+	}
+	if d.MotherCompany != nil {
+		res["mother_company"] = d.MotherCompany.MergeToType()
+	}
+	return res
+}
+
+func (d *CompanyInput) MergeToType() Company {
+
+	tmpName := d.Name
+
+	var tmpDescription *string
+	if d.Description != nil {
+		tmpDescription = d.Description
+	}
+
+	var tmpMotherCompanyID *int
+	if d.MotherCompanyID != nil {
+		tmpMotherCompanyID = d.MotherCompanyID
+	}
+	var tmpMotherCompany Company
+	if d.MotherCompany != nil {
+		tmpMotherCompany = d.MotherCompany.MergeToType()
+	}
+	return Company{
+		Name:            tmpName,
+		Description:     tmpDescription,
+		MotherCompanyID: tmpMotherCompanyID,
+		MotherCompany:   &tmpMotherCompany,
+	}
+}
+
+func (d *TodoPatch) MergeToType() map[string]interface{} {
+	res := make(map[string]interface{})
+
+	if d.Name != nil {
+		res["name"] = *d.Name
 	}
 	return res
 }
@@ -22,17 +100,8 @@ func (d *TodoPatch) MergeToType() map[string]interface{} {
 func (d *TodoInput) MergeToType() Todo {
 
 	tmpName := d.Name
-	var tmpUsers []*User
-	if d.Users != nil {
-		tmpUsers = make([]*User, len(d.Users))
-		for _, v := range d.Users {
-			tmp := v.MergeToType()
-			tmpUsers = append(tmpUsers, &tmp)
-		}
-	}
 	return Todo{
-		Name:  tmpName,
-		Users: tmpUsers,
+		Name: tmpName,
 	}
 }
 
@@ -42,13 +111,39 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
+	if d.Cat != nil {
+		res["cat"] = d.Cat.MergeToType()
+	}
+
+	if d.CompanyID != nil {
+		res["company_id"] = d.CompanyID
+	}
+	if d.Company != nil {
+		res["company"] = d.Company.MergeToType()
+	}
 	return res
 }
 
 func (d *UserInput) MergeToType() User {
 
 	tmpName := d.Name
+	var tmpCat Cat
+	if d.Cat != nil {
+		tmpCat = d.Cat.MergeToType()
+	}
+
+	var tmpCompanyID *int
+	if d.CompanyID != nil {
+		tmpCompanyID = d.CompanyID
+	}
+	var tmpCompany Company
+	if d.Company != nil {
+		tmpCompany = d.Company.MergeToType()
+	}
 	return User{
-		Name: tmpName,
+		Name:      tmpName,
+		Cat:       &tmpCat,
+		CompanyID: tmpCompanyID,
+		Company:   &tmpCompany,
 	}
 }

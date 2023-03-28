@@ -27,7 +27,7 @@ func StartServer() {
 	}
 	dbCon = dbCon.Debug()
 	dborm := db.NewAutoGqlDB(dbCon)
-
+	dborm.Init()
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{Sql: &dborm}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

@@ -274,7 +274,7 @@ func (db *GenerateData) ForeignName(object structure.Object, entity structure.En
 	if !ok {
 		panic("ForeignName: Can not find object " + entity.GqlTypeName())
 	}
-	res := d.ForeignNameKeyName(strings.ToLower(object.Name()))
+	res := strings.ToLower(d.PrimaryKeyField().Name())
 	if res == "" {
 		res = object.ForeignNameKeyName(strings.ToLower(entity.Name()))
 	}
