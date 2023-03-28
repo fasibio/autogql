@@ -6595,3 +6595,326 @@
     },
 }
 ---
+
+[TestQueryTestSuite/TestComplexCombination/allUserFromCompany_=>_TestCompany1,_offset_0 - 1]
+&integration.allUserFromCompanyResponse{
+    QueryUser: &integration.allUserFromCompanyQueryUserUserQueryResult{
+        TotalCount: 4,
+        Data:       {
+            &integration.allUserFromCompanyQueryUserUserQueryResultDataUser{
+                Id:      "1",
+                Name:    "Jan",
+                Company: &integration.allUserFromCompanyQueryUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+            },
+            &integration.allUserFromCompanyQueryUserUserQueryResultDataUser{
+                Id:      "2",
+                Name:    "Klaas",
+                Company: &integration.allUserFromCompanyQueryUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/allUserFromCompany_=>_TestCompany1,_offset_2 - 1]
+&integration.allUserFromCompanyResponse{
+    QueryUser: &integration.allUserFromCompanyQueryUserUserQueryResult{
+        TotalCount: 4,
+        Data:       {
+            &integration.allUserFromCompanyQueryUserUserQueryResultDataUser{
+                Id:      "3",
+                Name:    "Peter",
+                Company: &integration.allUserFromCompanyQueryUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+            },
+            &integration.allUserFromCompanyQueryUserUserQueryResultDataUser{
+                Id:      "4",
+                Name:    "Schmadel",
+                Company: &integration.allUserFromCompanyQueryUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/allUserFromCompany_=>_TestCompany2,_offset_0 - 1]
+&integration.allUserFromCompanyResponse{
+    QueryUser: &integration.allUserFromCompanyQueryUserUserQueryResult{
+        TotalCount: 2,
+        Data:       {
+            &integration.allUserFromCompanyQueryUserUserQueryResultDataUser{
+                Id:      "5",
+                Name:    "Jan",
+                Company: &integration.allUserFromCompanyQueryUserUserQueryResultDataUserCompany{Name:"TestCompany2"},
+            },
+            &integration.allUserFromCompanyQueryUserUserQueryResultDataUser{
+                Id:      "6",
+                Name:    "Boris",
+                Company: &integration.allUserFromCompanyQueryUserUserQueryResultDataUserCompany{Name:"TestCompany2"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/allUserWithACat - 1]
+&integration.allUserWithACatResponse{
+    QueryUser: &integration.allUserWithACatQueryUserUserQueryResult{
+        Data: {
+            &integration.allUserWithACatQueryUserUserQueryResultDataUser{
+                Id:   "1",
+                Name: "Jan",
+                Cat:  &integration.allUserWithACatQueryUserUserQueryResultDataUserCat{Id:"1", Name:"Pussy"},
+            },
+            &integration.allUserWithACatQueryUserUserQueryResultDataUser{
+                Id:   "2",
+                Name: "Klaas",
+                Cat:  &integration.allUserWithACatQueryUserUserQueryResultDataUserCat{Id:"2", Name:"Schnuffel"},
+            },
+            &integration.allUserWithACatQueryUserUserQueryResultDataUser{
+                Id:   "3",
+                Name: "Peter",
+                Cat:  &integration.allUserWithACatQueryUserUserQueryResultDataUserCat{Id:"3", Name:"Mauz"},
+            },
+            &integration.allUserWithACatQueryUserUserQueryResultDataUser{
+                Id:   "4",
+                Name: "Schmadel",
+                Cat:  &integration.allUserWithACatQueryUserUserQueryResultDataUserCat{Id:"4", Name:"Mi jau"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/allTodosPartOfCompany_=>_TestCompany1 - 1]
+&integration.allTodosPartOfCompanyResponse{
+    QueryTodo: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResult{
+        Data: {
+            &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
+                Id:    "1",
+                Name:  "Task 1",
+                Users: {
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
+                Id:    "3",
+                Name:  "Task 3",
+                Users: {
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
+                Id:    "5",
+                Name:  "Task 5",
+                Users: {
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/allTodosPartOfCompany_=>_TestCompany2 - 1]
+&integration.allTodosPartOfCompanyResponse{
+    QueryTodo: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResult{
+        Data: {
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/getUserById_=>_2 - 1]
+&integration.getUserByIdResponse{
+    GetUser: &integration.getUserByIdGetUser{
+        Id:      "2",
+        Name:    "Klaas",
+        Cat:     &integration.getUserByIdGetUserCat{Name:"Schnuffel"},
+        Company: &integration.getUserByIdGetUserCompany{Name:"TestCompany1"},
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/getUserById_=>_5 - 1]
+&integration.getUserByIdResponse{
+    GetUser: &integration.getUserByIdGetUser{
+        Id:      "5",
+        Name:    "Jan",
+        Cat:     (*integration.getUserByIdGetUserCat)(nil),
+        Company: &integration.getUserByIdGetUserCompany{Name:"TestCompany2"},
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/updateUserChangeCompany_=>_user_with_id_2_from_Company_1_to_2 - 1]
+&integration.updateUserChangeCompanyResponse{
+    UpdateUser: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayload{
+        Count: 1,
+        User:  &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult{
+            Data: {
+                &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "1",
+                    Name:    "Jan",
+                    Company: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+                },
+                &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "2",
+                    Name:    "Klaas",
+                    Company: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany2"},
+                },
+                &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "3",
+                    Name:    "Peter",
+                    Company: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+                },
+                &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "4",
+                    Name:    "Schmadel",
+                    Company: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+                },
+                &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "5",
+                    Name:    "Jan",
+                    Company: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany2"},
+                },
+                &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "6",
+                    Name:    "Boris",
+                    Company: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany2"},
+                },
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/updateUserChangeCompanyByCatName_=>_user_with_id_2_from_Company_2_to_1_by_cat_name_Schnuffel - 1]
+&integration.updateUserChangeCompanyByCatNameResponse{
+    UpdateUser: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload{
+        Count: 1,
+        User:  &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult{
+            Data: {
+                &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "1",
+                    Name:    "Jan",
+                    Company: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+                },
+                &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "2",
+                    Name:    "Klaas",
+                    Company: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+                },
+                &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "3",
+                    Name:    "Peter",
+                    Company: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+                },
+                &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "4",
+                    Name:    "Schmadel",
+                    Company: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany1"},
+                },
+                &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "5",
+                    Name:    "Jan",
+                    Company: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany2"},
+                },
+                &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser{
+                    Id:      "6",
+                    Name:    "Boris",
+                    Company: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUserCompany{Name:"TestCompany2"},
+                },
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/deleteUser_=>_user_with_id_1 - 1]
+&integration.deleteUserResponse{
+    DeleteUser: &integration.deleteUserDeleteUserDeleteUserPayload{
+        Count: 1,
+        User:  &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult{
+            Data: {
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"2", Name:"Klaas"},
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"3", Name:"Peter"},
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"4", Name:"Schmadel"},
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"5", Name:"Jan"},
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"6", Name:"Boris"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/deleteUser_=>_user_with_id_5 - 1]
+&integration.deleteUserResponse{
+    DeleteUser: &integration.deleteUserDeleteUserDeleteUserPayload{
+        Count: 1,
+        User:  &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult{
+            Data: {
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"2", Name:"Klaas"},
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"3", Name:"Peter"},
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"4", Name:"Schmadel"},
+                &integration.deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"6", Name:"Boris"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/deleteUserByCatName_=>_user_2_with_cat_Schnuffel - 1]
+&integration.deleteUserByCatNameResponse{
+    DeleteUser: &integration.deleteUserByCatNameDeleteUserDeleteUserPayload{
+        Count: 1,
+        User:  &integration.deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult{
+            Data: {
+                &integration.deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"3", Name:"Peter"},
+                &integration.deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"4", Name:"Schmadel"},
+                &integration.deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"6", Name:"Boris"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/deleteUserByUserName_=>_user_4_with_name_Schmadel - 1]
+&integration.deleteUserByUserNameResponse{
+    DeleteUser: &integration.deleteUserByUserNameDeleteUserDeleteUserPayload{
+        Count: 1,
+        User:  &integration.deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult{
+            Data: {
+                &integration.deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"3", Name:"Peter"},
+                &integration.deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"6", Name:"Boris"},
+            },
+        },
+    },
+}
+---

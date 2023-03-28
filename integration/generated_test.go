@@ -172,6 +172,49 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 		offset := 0
 		return allUserFromCompany(context.Background(), suite.Client, "TestCompany1", &offset)
 	}))
+	suite.T().Run("allUserFromCompany => TestCompany1, offset 2", queryTester(func() (any, error) {
+		offset := 2
+		return allUserFromCompany(context.Background(), suite.Client, "TestCompany1", &offset)
+	}))
+	suite.T().Run("allUserFromCompany => TestCompany2, offset 0", queryTester(func() (any, error) {
+		offset := 0
+		return allUserFromCompany(context.Background(), suite.Client, "TestCompany2", &offset)
+	}))
+	suite.T().Run("allUserWithACat", queryTester(func() (any, error) {
+		return allUserWithACat(context.Background(), suite.Client)
+	}))
+	suite.T().Run("allTodosPartOfCompany => TestCompany1", queryTester(func() (any, error) {
+		companyName := "TestCompany1"
+		return allTodosPartOfCompany(context.Background(), suite.Client, &companyName)
+	}))
+	suite.T().Run("allTodosPartOfCompany => TestCompany2", queryTester(func() (any, error) {
+		companyName := "TestCompany2"
+		return allTodosPartOfCompany(context.Background(), suite.Client, &companyName)
+	}))
+	suite.T().Run("getUserById => 2", queryTester(func() (any, error) {
+		return getUserById(context.Background(), suite.Client, "2")
+	}))
+	suite.T().Run("getUserById => 5", queryTester(func() (any, error) {
+		return getUserById(context.Background(), suite.Client, "5")
+	}))
+	suite.T().Run("updateUserChangeCompany => user with id 2 from Company 1 to 2", queryTester(func() (any, error) {
+		return updateUserChangeCompany(context.Background(), suite.Client, "2", 2)
+	}))
+	suite.T().Run("updateUserChangeCompanyByCatName => user with id 2 from Company 2 to 1 by cat name Schnuffel", queryTester(func() (any, error) {
+		return updateUserChangeCompanyByCatName(context.Background(), suite.Client, "Schnuffel", 1)
+	}))
+	suite.T().Run("deleteUser => user with id 1", queryTester(func() (any, error) {
+		return deleteUser(context.Background(), suite.Client, "1")
+	}))
+	suite.T().Run("deleteUser => user with id 5", queryTester(func() (any, error) {
+		return deleteUser(context.Background(), suite.Client, "5")
+	}))
+	suite.T().Run("deleteUserByCatName => user 2 with cat Schnuffel", queryTester(func() (any, error) {
+		return deleteUserByCatName(context.Background(), suite.Client, "Schnuffel")
+	}))
+	suite.T().Run("deleteUserByUserName => user 4 with name Schmadel", queryTester(func() (any, error) {
+		return deleteUserByUserName(context.Background(), suite.Client, "Schmadel")
+	}))
 }
 
 func TestQueryTestSuite(t *testing.T) {
