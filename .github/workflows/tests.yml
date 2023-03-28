@@ -1,0 +1,21 @@
+name: Tests
+on: 
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build: 
+    name: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+      - name: Set up Go 1.19
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+        id: go  
+      - run: go install github.com/fasibio/gomake@latest
+      - run: gomake run test
