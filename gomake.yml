@@ -43,8 +43,9 @@ testMySql:
     - docker kill autogql-test-mysql
 
 testCi: 
-  {{include "testSqlite"}}
-  - DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql' go test ./integration . -v
+  script: 
+    {{include "testSqlite"}}
+    - DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql' go test ./integration . -v
 
 test:
   script:
