@@ -261,6 +261,20 @@ mutation updateUserChangeCompanyByCatName($catName:String!, $companyID:Int!){
   }
 }
 
+mutation changeAllCatsToSameOwnerButNotOneByName($userID: Int!, $notMoveCatName: String!) {
+  updateCat(
+    input: {filter: {userID: {ne: $userID}, name: {ne: $notMoveCatName}}, set: {userID: $userID}}
+  ) {
+    cat {
+      data {
+        id
+        name
+        userID
+      }
+    }
+  }
+}
+
 # delete 
 mutation deleteUser($userId:ID!){
   deleteUser(filter:{id:{eq:$userId}}){

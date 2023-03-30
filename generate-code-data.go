@@ -5,6 +5,7 @@ import (
 	"go/types"
 	"log"
 	"path"
+	"sort"
 	"strings"
 
 	"github.com/99designs/gqlgen/codegen"
@@ -42,12 +43,21 @@ func (db *GenerateData) HookListMany2Many(suffix string) []string {
 
 func (db *GenerateData) ModelsMigrations() string {
 	res := ""
+	objects := make([]*structure.Object, 0)
 	for _, v := range db.Handler.List {
 		if v.HasSqlDirective() {
-			splits := strings.Split(db.Data.Config.Models[v.Name()].Model[0], "/")
-			res += fmt.Sprintf("&%s{},", splits[len(splits)-1])
+			objects = append(objects, v)
+
 		}
 	}
+	sort.Slice(objects[:], func(i, j int) bool {
+		return objects[i].GetOrder() < objects[j].GetOrder()
+	})
+	for _, o := range objects {
+		splits := strings.Split(db.Data.Config.Models[o.Name()].Model[0], "/")
+		res += fmt.Sprintf("&%s{},", splits[len(splits)-1])
+	}
+
 	return res[:len(res)-1]
 }
 

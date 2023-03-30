@@ -9,25 +9,21 @@ import (
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/fasibio/autogql/testservice/graph"
 	"github.com/fasibio/autogql/testservice/graph/db"
-	"gorm.io/driver/sqlite"
+	"github.com/fasibio/autogql/testservice/graph/model"
 	"gorm.io/gorm"
 )
 
 const defaultPort = "8432"
 
-func StartServer() {
+func StartServer(dbCon *gorm.DB) {
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
 	}
 
-	dbCon, err := gorm.Open(sqlite.Open("test.db"), &gorm.Config{})
-	if err != nil {
-		panic(err)
-	}
-	dbCon = dbCon.Debug()
 	dborm := db.NewAutoGqlDB(dbCon)
 	dborm.Init()
+	db.AddAddHook[model.Todo, model.TodoInput, model.AddTodoPayload](&dborm, "AddTodo", AddTodoHook{})
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{Sql: &dborm}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))

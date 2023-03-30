@@ -6293,6 +6293,20 @@
                 Args:        {
                     &integration.IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue{
                         InputValue: integration.InputValue{
+                            Name:        "order",
+                            Description: (*string)(nil),
+                            Type:        &integration.InputValueType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"Int",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            DefaultValue: (*string)(nil),
+                        },
+                    },
+                    &integration.IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue{
+                        InputValue: integration.InputValue{
                             Name:        "query",
                             Description: (*string)(nil),
                             Type:        &integration.InputValueType{
@@ -6913,6 +6927,21 @@
             Data: {
                 &integration.deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"3", Name:"Peter"},
                 &integration.deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser{Id:"6", Name:"Boris"},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/changeAllCatsToSameOwner_=>_user_id_6_and_cat_not_called_Schnuffel - 1]
+&integration.changeAllCatsToSameOwnerButNotOneByNameResponse{
+    UpdateCat: &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload{
+        Cat: &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult{
+            Data: {
+                &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"1", Name:"Pussy", UserID:6},
+                &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"2", Name:"Schnuffel", UserID:2},
+                &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"3", Name:"Mauz", UserID:6},
+                &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"4", Name:"Mi jau", UserID:6},
             },
         },
     },

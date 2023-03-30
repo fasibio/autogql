@@ -154,9 +154,9 @@ func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 	}
 	if d.Users != nil {
 		tableName := db.Config.NamingStrategy.TableName("User")
-		if _, ok := blackList["group_users"]; !ok {
-			blackList["group_users"] = struct{}{}
-			db = db.Joins(fmt.Sprintf("LEFT JOIN group_users ON group_users.todo_id = %s.id JOIN %s ON group_users.user_id = %s.id", alias, tableName, tableName))
+		if _, ok := blackList["todo_users"]; !ok {
+			blackList["todo_users"] = struct{}{}
+			db = db.Joins(fmt.Sprintf("LEFT JOIN todo_users ON todo_users.todo_id = %s.id JOIN %s ON todo_users.user_id = %s.id", alias, tableName, tableName))
 		}
 		res = append(res, d.Users.ExtendsDatabaseQuery(db, tableName, true, blackList)...)
 	}

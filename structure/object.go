@@ -31,6 +31,10 @@ func NewObject(raw *ast.Definition) Object {
 	}
 }
 
+func (o Object) GetOrder() int64 {
+	return o.SQLDirective().Order
+}
+
 func (o Object) isEntityTimeManipulation(e Entity) bool {
 	t := strings.ToLower(e.Name())
 	return t == "createdat" || t == "updatedat" || t == "deletedat"
@@ -151,6 +155,13 @@ func (o Object) SQLDirective() *SQLDirective {
 			res.Mutation = getDefaultFilledSqlBuilderMutation(true)
 		} else {
 			res.Mutation = customizeSqlBuilderMutation(ma)
+		}
+		order := directive.Arguments.ForName(DirectiveSQLArgumentOrder)
+		if order == nil {
+			res.Order = 0
+		} else {
+			v1, _ := order.Value.Value(nil)
+			res.Order = v1.(int64)
 		}
 		return &res
 	}

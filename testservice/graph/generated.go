@@ -1177,7 +1177,7 @@ var sources = []*ast.Source{
 		query: SqlCreateExtension
 		directiveExt: [String!]
 	}
-	directive @SQL(query:SqlQueryParams, mutation: SqlMutationParams ) on OBJECT
+	directive @SQL(order: Int, query:SqlQueryParams, mutation: SqlMutationParams ) on OBJECT
 	directive @SQL_PRIMARY on FIELD_DEFINITION
 	directive @SQL_INDEX on FIELD_DEFINITION
 

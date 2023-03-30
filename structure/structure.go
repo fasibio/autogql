@@ -10,6 +10,7 @@ const (
 	DirectiveNoMutation          Directive = "SQL_SKIP_MUTATION"
 	DirectiveSQLArgumentQuery              = "query"
 	DirectiveSQLArgumentMutation           = "mutation"
+	DirectiveSQLArgumentOrder              = "order"
 )
 
 type SqlBuilderList map[string]*Object

@@ -2,7 +2,9 @@ package integration
 
 import (
 	"context"
+	"fmt"
 	"net/http"
+	"os"
 	"testing"
 	"time"
 
@@ -11,6 +13,10 @@ import (
 	"github.com/gkampitakis/go-snaps/snaps"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/suite"
+	"gorm.io/driver/mysql"
+	"gorm.io/driver/postgres"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 type QueryTestSuite struct {
@@ -18,8 +24,40 @@ type QueryTestSuite struct {
 	Client graphql.Client
 }
 
+type DatabaseType = string
+
+const (
+	Sqlite   DatabaseType = "sqlite"
+	MySql    DatabaseType = "mysql"
+	Postgres DatabaseType = "postgres"
+)
+
+func getDatabaseTestSystem() (*gorm.DB, error) {
+	t := os.Getenv("DATABASE_TYPE")
+	conStr := os.Getenv("DATABASE_CONNECTION_STRING")
+	if conStr == "" {
+		panic("environment DATABASE_CONNECTION_STRING missing")
+	}
+	if t == "" || t == Sqlite {
+		return gorm.Open(sqlite.Open(conStr), &gorm.Config{})
+	}
+	switch t {
+	case MySql:
+		return gorm.Open(mysql.Open(conStr), &gorm.Config{})
+	case Postgres:
+		return gorm.Open(postgres.Open(conStr), &gorm.Config{})
+	default:
+		panic(fmt.Sprintf("%s not a valid Databasetype", t))
+	}
+}
+
 func (suite *QueryTestSuite) SetupSuite() {
-	go testservice.StartServer()
+	dbCon, err := getDatabaseTestSystem()
+	if err != nil {
+		panic(err)
+	}
+	dbCon = dbCon.Debug()
+	go testservice.StartServer(dbCon)
 	time.Sleep(15 + time.Second)
 }
 
@@ -202,6 +240,9 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 	}))
 	suite.T().Run("updateUserChangeCompanyByCatName => user with id 2 from Company 2 to 1 by cat name Schnuffel", queryTester(func() (any, error) {
 		return updateUserChangeCompanyByCatName(context.Background(), suite.Client, "Schnuffel", 1)
+	}))
+	suite.T().Run("changeAllCatsToSameOwner => user id 6 and cat not called Schnuffel", queryTester(func() (any, error) {
+		return changeAllCatsToSameOwnerButNotOneByName(context.Background(), suite.Client, 6, "Schnuffel")
 	}))
 	suite.T().Run("deleteUser => user with id 1", queryTester(func() (any, error) {
 		return deleteUser(context.Background(), suite.Client, "1")

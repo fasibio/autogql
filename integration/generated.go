@@ -1533,6 +1533,20 @@ func (v *__allUserFromCompanyInput) GetCompany() string { return v.Company }
 // GetOffset returns __allUserFromCompanyInput.Offset, and is useful for accessing the field via an interface.
 func (v *__allUserFromCompanyInput) GetOffset() *int { return v.Offset }
 
+// __changeAllCatsToSameOwnerButNotOneByNameInput is used internally by genqlient
+type __changeAllCatsToSameOwnerButNotOneByNameInput struct {
+	UserID         int    `json:"userID"`
+	NotMoveCatName string `json:"notMoveCatName"`
+}
+
+// GetUserID returns __changeAllCatsToSameOwnerButNotOneByNameInput.UserID, and is useful for accessing the field via an interface.
+func (v *__changeAllCatsToSameOwnerButNotOneByNameInput) GetUserID() int { return v.UserID }
+
+// GetNotMoveCatName returns __changeAllCatsToSameOwnerButNotOneByNameInput.NotMoveCatName, and is useful for accessing the field via an interface.
+func (v *__changeAllCatsToSameOwnerButNotOneByNameInput) GetNotMoveCatName() string {
+	return v.NotMoveCatName
+}
+
 // __deleteUserByCatNameInput is used internally by genqlient
 type __deleteUserByCatNameInput struct {
 	CatName string `json:"catName"`
@@ -2055,6 +2069,58 @@ type allUserWithACatResponse struct {
 // GetQueryUser returns allUserWithACatResponse.QueryUser, and is useful for accessing the field via an interface.
 func (v *allUserWithACatResponse) GetQueryUser() *allUserWithACatQueryUserUserQueryResult {
 	return v.QueryUser
+}
+
+// changeAllCatsToSameOwnerButNotOneByNameResponse is returned by changeAllCatsToSameOwnerButNotOneByName on success.
+type changeAllCatsToSameOwnerButNotOneByNameResponse struct {
+	UpdateCat *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload `json:"updateCat"`
+}
+
+// GetUpdateCat returns changeAllCatsToSameOwnerButNotOneByNameResponse.UpdateCat, and is useful for accessing the field via an interface.
+func (v *changeAllCatsToSameOwnerButNotOneByNameResponse) GetUpdateCat() *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload {
+	return v.UpdateCat
+}
+
+// changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload includes the requested fields of the GraphQL type UpdateCatPayload.
+type changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload struct {
+	Cat *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult `json:"cat"`
+}
+
+// GetCat returns changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload.Cat, and is useful for accessing the field via an interface.
+func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload) GetCat() *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult {
+	return v.Cat
+}
+
+// changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult includes the requested fields of the GraphQL type CatQueryResult.
+type changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult struct {
+	Data []*changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat `json:"data"`
+}
+
+// GetData returns changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult) GetData() []*changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat {
+	return v.Data
+}
+
+// changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat includes the requested fields of the GraphQL type Cat.
+type changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat struct {
+	Id     string `json:"id"`
+	Name   string `json:"name"`
+	UserID int    `json:"userID"`
+}
+
+// GetId returns changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat.Id, and is useful for accessing the field via an interface.
+func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat) GetId() string {
+	return v.Id
+}
+
+// GetName returns changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat.Name, and is useful for accessing the field via an interface.
+func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat) GetName() string {
+	return v.Name
+}
+
+// GetUserID returns changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat.UserID, and is useful for accessing the field via an interface.
+func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat) GetUserID() int {
+	return v.UserID
 }
 
 // deleteUserByCatNameDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
@@ -2839,6 +2905,46 @@ query allUserWithACat {
 	var err error
 
 	var data allUserWithACatResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func changeAllCatsToSameOwnerButNotOneByName(
+	ctx context.Context,
+	client graphql.Client,
+	userID int,
+	notMoveCatName string,
+) (*changeAllCatsToSameOwnerButNotOneByNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "changeAllCatsToSameOwnerButNotOneByName",
+		Query: `
+mutation changeAllCatsToSameOwnerButNotOneByName ($userID: Int!, $notMoveCatName: String!) {
+	updateCat(input: {filter:{userID:{ne:$userID},name:{ne:$notMoveCatName}},set:{userID:$userID}}) {
+		cat {
+			data {
+				id
+				name
+				userID
+			}
+		}
+	}
+}
+`,
+		Variables: &__changeAllCatsToSameOwnerButNotOneByNameInput{
+			UserID:         userID,
+			NotMoveCatName: notMoveCatName,
+		},
+	}
+	var err error
+
+	var data changeAllCatsToSameOwnerButNotOneByNameResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(

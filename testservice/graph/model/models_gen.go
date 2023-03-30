@@ -245,7 +245,7 @@ type TimeFilterInput struct {
 type Todo struct {
 	ID        int        `json:"id" gorm:"primaryKey;autoIncrement;"`
 	Name      string     `json:"name"`
-	Users     []*User    `json:"users" gorm:"many2many:group_users;"`
+	Users     []*User    `json:"users" gorm:"many2many:todo_users;constraint:OnDelete:CASCADE;"`
 	Owner     *User      `json:"owner"`
 	OwnerID   int        `json:"ownerID"`
 	CreatedAt *time.Time `json:"createdAt"`
@@ -332,7 +332,7 @@ type User struct {
 	CreatedAt *time.Time `json:"createdAt"`
 	UpdatedAt *time.Time `json:"updatedAt"`
 	DeletedAt *time.Time `json:"deletedAt"`
-	Cat       *Cat       `json:"cat"`
+	Cat       *Cat       `json:"cat" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
 	CompanyID *int       `json:"companyID"`
 	Company   *Company   `json:"company"`
 }

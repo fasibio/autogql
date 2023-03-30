@@ -30,7 +30,7 @@ func (ggs *AutoGqlPlugin) InjectSourceEarly() *ast.Source {
 		query: SqlCreateExtension
 		directiveExt: [String!]
 	}
-	directive @%s(%s:SqlQueryParams, %s: SqlMutationParams ) on OBJECT
+	directive @%s(order: Int, %s:SqlQueryParams, %s: SqlMutationParams ) on OBJECT
 	directive @%s on FIELD_DEFINITION
 	directive @%s on FIELD_DEFINITION
 

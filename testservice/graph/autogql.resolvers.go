@@ -646,7 +646,7 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 		}
 	}
 	db.Find(&res)
-	type GroupUsers struct {
+	type TodoUsers struct {
 		TodoID int
 		UserID int
 	}
@@ -659,7 +659,7 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 			resIds = append(resIds, tmp)
 		}
 	}
-	d := r.Sql.Db.Model(&GroupUsers{}).Create(resIds)
+	d := r.Sql.Db.Model(&TodoUsers{}).Create(resIds)
 	result := &model.UpdateTodoPayload{
 		Count: int(d.RowsAffected),
 	}

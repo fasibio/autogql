@@ -4,6 +4,11 @@ release:
     - git tag "$(svu next)" 
     - git push --tags
 
+.testSetup: 
+  script: 
+    - cd testservice
+    - go run plugin/main.go
+    - cd ..
 
 gen_testQueries: 
   script: 
@@ -11,10 +16,37 @@ gen_testQueries:
     - cd integration
     - go run github.com/Khan/genqlient
 
-test: 
+testSqlite:
   script: 
     - rm integration/test.db
-    - cd testservice
-    - go run plugin/main.go
-    - cd ..
-    - go test ./integration . -v
+    {{include ".testSetup"}}
+    - DATABASE_TYPE=sqlite DATABASE_CONNECTION_STRING=test.db go test ./integration . -v
+
+mysqlstarting:
+  stage: test_mysql
+  script: 
+    - docker run --health-cmd='mysqladmin ping --silent' --rm --name autogql-test-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=autogql  -p 3306:3306 mysql
+
+waitForMySqlDb: 
+  script: 
+    - echo wait until mysql is startet
+    - while [ $(docker inspect --format "{{"{{json .State.Health.Status }}"}}" autogql-test-mysql) != "\"healthy\"" ]; do printf ".\n"; sleep 1; done
+
+testMySql:
+  stage: test_mysql
+  script: 
+    {{include ".testSetup"}}
+    {{include "waitForMySqlDb"}}
+    - DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql' go test ./integration . -v
+    - docker kill autogql-test-mysql
+  on_failure: 
+    - docker kill autogql-test-mysql
+
+testCi: 
+  {{include "testSqlite"}}
+  - DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql' go test ./integration . -v
+
+test:
+  script:
+    {{include "testSqlite"}}
+
