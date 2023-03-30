@@ -19,8 +19,8 @@ jobs:
         ports:
           - 3306:3306
         env:
-          MYSQL_ROOT_PASSWORD=password
-          MYSQL_DATABASE=autogql
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: autogql
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v3
