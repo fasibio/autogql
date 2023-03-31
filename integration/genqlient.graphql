@@ -202,7 +202,24 @@ query allUserWithACat{
 }
 
 query allTodosPartOfCompany($companyName:String){
-  queryTodo(filter: { users:{company: {name: {eq: $companyName}}}}){
+  queryTodo(filter: { users:{company: {name: {eq: $companyName}}}}, order:{desc:id}){
+    data{
+      id
+      name
+      users{
+        id
+        name
+        company{
+          name
+        }
+      } 
+    }
+  }
+}
+
+query allTodosByUserCatName($catName:String){
+  queryTodo(filter: { users:{cat: {name: {eq: $catName}}}}, order:{desc:id}){
+    count
     data{
       id
       name

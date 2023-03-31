@@ -72,9 +72,16 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 			blackList["{{$entityGoName}}"] = struct{}{}
 			if deep {
 				tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
-				foreignKeyName := "{{$root.ForeignName $object $entity | snakecase}}"
+				{{- $fnKeyResult := $root.ForeignName $object $entity}}
+				foreignKeyName := "{{$fnKeyResult.Key | snakecase}}"
+				{{- $fnKeyNumber := 5}}
+				{{- $currentKeyNumber := 3}}
+				{{- if eq $fnKeyResult.Table.Name $object.Name }}
+					{{- $fnKeyNumber = 3}}
+					{{- $currentKeyNumber = 5}}
+				{{- end}}
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]s{{$entityGoName}}%[1]s ON %[1]s{{$entityGoName}}%[1]s.%[1]s%[{{$fnKeyNumber}}]s%[1]s = %[4]s.%[1]s%[{{$currentKeyNumber}}]s%[1]s",runtimehelper.GetQuoteChar(db),tableName,d.PrimaryKeyName(), alias, foreignKeyName))
 
-				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]s{{$entityGoName}}%[1]s ON %[1]s{{$entityGoName}}%[1]s.%[1]s%[3]s%[1]s = %[4]s.%[1]s%[5]s%[1]s",runtimehelper.GetQuoteChar(db),tableName, foreignKeyName, alias, d.PrimaryKeyName()))
 			}else {
 				db = db.Joins("{{$entityGoName}}")
 			}

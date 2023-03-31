@@ -6704,8 +6704,24 @@
     QueryTodo: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResult{
         Data: {
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "1",
-                Name:  "Task 1",
+                Id:    "5",
+                Name:  "Task 5",
+                Users: {
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
+                Id:    "5",
+                Name:  "Task 5",
                 Users: {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
@@ -6736,8 +6752,40 @@
                 },
             },
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "5",
-                Name:  "Task 5",
+                Id:    "3",
+                Name:  "Task 3",
+                Users: {
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
+                Id:    "1",
+                Name:  "Task 1",
+                Users: {
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
+                Id:    "1",
+                Name:  "Task 1",
                 Users: {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
@@ -6942,6 +6990,64 @@
                 &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"2", Name:"Schnuffel", UserID:2},
                 &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"3", Name:"Mauz", UserID:6},
                 &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"4", Name:"Mi jau", UserID:6},
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/allTodosByUserCatName_=>_User_is_Peter_with_cat_Mauz - 1]
+&integration.allTodosByUserCatNameResponse{
+    QueryTodo: &integration.allTodosByUserCatNameQueryTodoTodoQueryResult{
+        Count: 3,
+        Data:  {
+            &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo{
+                Id:    "5",
+                Name:  "Task 5",
+                Users: {
+                    &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo{
+                Id:    "3",
+                Name:  "Task 3",
+                Users: {
+                    &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo{
+                Id:    "1",
+                Name:  "Task 1",
+                Users: {
+                    &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "1",
+                        Name:    "Jan",
+                        Company: &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
+                        Id:      "3",
+                        Name:    "Peter",
+                        Company: &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
             },
         },
     },

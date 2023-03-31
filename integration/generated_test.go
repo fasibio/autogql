@@ -58,7 +58,7 @@ func (suite *QueryTestSuite) SetupSuite() {
 	if err != nil {
 		panic(err)
 	}
-	dbCon = dbCon.Debug()
+	// dbCon = dbCon.Debug()
 	go testservice.StartServer(dbCon)
 	time.Sleep(15 + time.Second)
 }
@@ -231,6 +231,11 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 		companyName := "TestCompany1"
 		return allTodosPartOfCompany(context.Background(), suite.Client, &companyName)
 	}))
+	suite.T().Run("allTodosByUserCatName => User is Peter with cat Mauz", queryTester(func() (any, error) {
+		catName := "Mauz"
+		return allTodosByUserCatName(context.Background(), suite.Client, &catName)
+	}))
+
 	suite.T().Run("allTodosPartOfCompany => TestCompany2", queryTester(func() (any, error) {
 		companyName := "TestCompany2"
 		return allTodosPartOfCompany(context.Background(), suite.Client, &companyName)

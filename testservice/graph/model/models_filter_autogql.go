@@ -165,9 +165,9 @@ func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 			blackList["Owner"] = struct{}{}
 			if deep {
 				tableName := db.Config.NamingStrategy.TableName("User")
-				foreignKeyName := "id"
+				foreignKeyName := "owner_id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sOwner%[1]s ON %[1]sOwner%[1]s.%[1]s%[3]s%[1]s = %[4]s.%[1]s%[5]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, d.PrimaryKeyName(), alias, foreignKeyName))
 
-				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sOwner%[1]s ON %[1]sOwner%[1]s.%[1]s%[3]s%[1]s = %[4]s.%[1]s%[5]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, foreignKeyName, alias, d.PrimaryKeyName()))
 			} else {
 				db = db.Joins("Owner")
 			}
@@ -240,9 +240,9 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 			blackList["Cat"] = struct{}{}
 			if deep {
 				tableName := db.Config.NamingStrategy.TableName("Cat")
-				foreignKeyName := "id"
+				foreignKeyName := "user_id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sCat%[1]s ON %[1]sCat%[1]s.%[1]s%[5]s%[1]s = %[4]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, d.PrimaryKeyName(), alias, foreignKeyName))
 
-				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sCat%[1]s ON %[1]sCat%[1]s.%[1]s%[3]s%[1]s = %[4]s.%[1]s%[5]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, foreignKeyName, alias, d.PrimaryKeyName()))
 			} else {
 				db = db.Joins("Cat")
 			}
@@ -257,9 +257,9 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 			blackList["Company"] = struct{}{}
 			if deep {
 				tableName := db.Config.NamingStrategy.TableName("Company")
-				foreignKeyName := "id"
+				foreignKeyName := "company_id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sCompany%[1]s ON %[1]sCompany%[1]s.%[1]s%[3]s%[1]s = %[4]s.%[1]s%[5]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, d.PrimaryKeyName(), alias, foreignKeyName))
 
-				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sCompany%[1]s ON %[1]sCompany%[1]s.%[1]s%[3]s%[1]s = %[4]s.%[1]s%[5]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, foreignKeyName, alias, d.PrimaryKeyName()))
 			} else {
 				db = db.Joins("Company")
 			}

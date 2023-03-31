@@ -279,16 +279,27 @@ func (db *GenerateData) GetValueOfInput(objectname string, builder structure.Obj
 	return fmt.Sprintf("%s%s", refSign, v.Name())
 }
 
-func (db *GenerateData) ForeignName(object structure.Object, entity structure.Entity) string {
+type ForeignNameResult struct {
+	Key   string
+	Table structure.Object
+}
+
+func (db *GenerateData) ForeignName(object structure.Object, entity structure.Entity) ForeignNameResult {
 	d, ok := db.Handler.List[entity.GqlTypeName()]
 	if !ok {
 		panic("ForeignName: Can not find object " + entity.GqlTypeName())
 	}
-	res := strings.ToLower(d.PrimaryKeyField().Name())
+	res := object.ForeignNameKeyName(strings.ToLower(entity.Name()))
+	table := object
 	if res == "" {
-		res = object.ForeignNameKeyName(strings.ToLower(entity.Name()))
+		res = d.ForeignNameKeyName(strings.ToLower(object.Name()))
+		table = *d
 	}
-	return res
+	if res == "" {
+		res = strings.ToLower(d.PrimaryKeyField().Name())
+		table = *d
+	}
+	return ForeignNameResult{Key: res, Table: table}
 }
 
 func (db *GenerateData) PrimaryKeyOfObject(o string) string {

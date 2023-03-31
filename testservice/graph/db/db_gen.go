@@ -41,37 +41,37 @@ const (
 )
 
 type AutoGqlHookM interface {
-	model.Company | model.User | model.Cat | model.Todo
+	model.Cat | model.Company | model.User | model.Todo
 }
 type AutoGqlHookF interface {
-	model.CompanyFiltersInput | model.UserFiltersInput | model.CatFiltersInput | model.TodoFiltersInput
+	model.CatFiltersInput | model.CompanyFiltersInput | model.UserFiltersInput | model.TodoFiltersInput
 }
 type AutoGqlHookM2M interface {
 	model.UserRef2TodosInput
 }
 
 type AutoGqlHookQueryO interface {
-	model.CompanyOrder | model.UserOrder | model.CatOrder | model.TodoOrder
+	model.CatOrder | model.CompanyOrder | model.UserOrder | model.TodoOrder
 }
 
 type AutoGqlHookI interface {
-	model.CompanyInput | model.UserInput | model.CatInput | model.TodoInput
+	model.CatInput | model.CompanyInput | model.UserInput | model.TodoInput
 }
 
 type AutoGqlHookU interface {
-	model.UpdateCompanyInput | model.UpdateUserInput | model.UpdateCatInput | model.UpdateTodoInput
+	model.UpdateCatInput | model.UpdateCompanyInput | model.UpdateUserInput | model.UpdateTodoInput
 }
 
 type AutoGqlHookUP interface {
-	model.UpdateUserPayload | model.UpdateCatPayload | model.UpdateTodoPayload | model.UpdateCompanyPayload
+	model.UpdateCatPayload | model.UpdateCompanyPayload | model.UpdateUserPayload | model.UpdateTodoPayload
 }
 
 type AutoGqlHookDP interface {
-	model.DeleteCompanyPayload | model.DeleteUserPayload | model.DeleteCatPayload | model.DeleteTodoPayload
+	model.DeleteCatPayload | model.DeleteCompanyPayload | model.DeleteUserPayload | model.DeleteTodoPayload
 }
 
 type AutoGqlHookAP interface {
-	model.AddCompanyPayload | model.AddUserPayload | model.AddCatPayload | model.AddTodoPayload
+	model.AddCatPayload | model.AddCompanyPayload | model.AddUserPayload | model.AddTodoPayload
 }
 
 type AutoGqlDB struct {

@@ -1513,6 +1513,14 @@ type __addUsersInput struct {
 // GetInput returns __addUsersInput.Input, and is useful for accessing the field via an interface.
 func (v *__addUsersInput) GetInput() []*UserInput { return v.Input }
 
+// __allTodosByUserCatNameInput is used internally by genqlient
+type __allTodosByUserCatNameInput struct {
+	CatName *string `json:"catName"`
+}
+
+// GetCatName returns __allTodosByUserCatNameInput.CatName, and is useful for accessing the field via an interface.
+func (v *__allTodosByUserCatNameInput) GetCatName() *string { return v.CatName }
+
 // __allTodosPartOfCompanyInput is used internally by genqlient
 type __allTodosPartOfCompanyInput struct {
 	CompanyName *string `json:"companyName"`
@@ -1902,6 +1910,78 @@ type addUsersResponse struct {
 
 // GetAddUser returns addUsersResponse.AddUser, and is useful for accessing the field via an interface.
 func (v *addUsersResponse) GetAddUser() *addUsersAddUserAddUserPayload { return v.AddUser }
+
+// allTodosByUserCatNameQueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type allTodosByUserCatNameQueryTodoTodoQueryResult struct {
+	Count int                                                      `json:"count"`
+	Data  []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetCount returns allTodosByUserCatNameQueryTodoTodoQueryResult.Count, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResult) GetCount() int { return v.Count }
+
+// GetData returns allTodosByUserCatNameQueryTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResult) GetData() []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo struct {
+	Id    string                                                            `json:"id"`
+	Name  string                                                            `json:"name"`
+	Users []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+}
+
+// GetId returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo) GetId() string { return v.Id }
+
+// GetName returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
+
+// GetUsers returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo) GetUsers() []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser {
+	return v.Users
+}
+
+// allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
+type allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser struct {
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Company *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany `json:"company"`
+}
+
+// GetId returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser.Id, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser) GetId() string { return v.Id }
+
+// GetName returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser) GetName() string {
+	return v.Name
+}
+
+// GetCompany returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser.Company, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser) GetCompany() *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany {
+	return v.Company
+}
+
+// allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany includes the requested fields of the GraphQL type Company.
+type allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany) GetName() string {
+	return v.Name
+}
+
+// allTodosByUserCatNameResponse is returned by allTodosByUserCatName on success.
+type allTodosByUserCatNameResponse struct {
+	QueryTodo *allTodosByUserCatNameQueryTodoTodoQueryResult `json:"queryTodo"`
+}
+
+// GetQueryTodo returns allTodosByUserCatNameResponse.QueryTodo, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameResponse) GetQueryTodo() *allTodosByUserCatNameQueryTodoTodoQueryResult {
+	return v.QueryTodo
+}
 
 // allTodosPartOfCompanyQueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
 type allTodosPartOfCompanyQueryTodoTodoQueryResult struct {
@@ -2798,6 +2878,49 @@ mutation addUsers ($input: [UserInput!]!) {
 	return &data, err
 }
 
+func allTodosByUserCatName(
+	ctx context.Context,
+	client graphql.Client,
+	catName *string,
+) (*allTodosByUserCatNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "allTodosByUserCatName",
+		Query: `
+query allTodosByUserCatName ($catName: String) {
+	queryTodo(filter: {users:{cat:{name:{eq:$catName}}}}, order: {desc:id}) {
+		count
+		data {
+			id
+			name
+			users {
+				id
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+		Variables: &__allTodosByUserCatNameInput{
+			CatName: catName,
+		},
+	}
+	var err error
+
+	var data allTodosByUserCatNameResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 func allTodosPartOfCompany(
 	ctx context.Context,
 	client graphql.Client,
@@ -2807,7 +2930,7 @@ func allTodosPartOfCompany(
 		OpName: "allTodosPartOfCompany",
 		Query: `
 query allTodosPartOfCompany ($companyName: String) {
-	queryTodo(filter: {users:{company:{name:{eq:$companyName}}}}) {
+	queryTodo(filter: {users:{company:{name:{eq:$companyName}}}}, order: {desc:id}) {
 		data {
 			id
 			name
