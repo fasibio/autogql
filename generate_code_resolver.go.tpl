@@ -67,7 +67,7 @@ func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model
 	db = runtimehelper.GetPreloadSelection(ctx, db,runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
 	if filter != nil{
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false, blackList), "AND")
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
 
@@ -81,10 +81,10 @@ func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model
 
 	if (order != nil){
 		if order.Asc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s asc",tableName,order.Asc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc",runtimehelper.GetQuoteChar(db), tableName,order.Asc))
 		}
 		if order.Desc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s desc",tableName,order.Desc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s desc",runtimehelper.GetQuoteChar(db), tableName,order.Desc))
 		}
 	}
 	var total int64
@@ -144,7 +144,7 @@ func (r *mutationResolver) Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(ctx c
 	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	blackList := make(map[string]struct{})
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	db = db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
 	var res []*model.{{$object.Name}}
 	if okHook {
@@ -236,7 +236,7 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.{{$object.Name}}{}
   queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.{{$object.Name}}
@@ -283,7 +283,7 @@ func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter mo
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
-	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.{{$object.Name}}{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.{{$object.Name}}

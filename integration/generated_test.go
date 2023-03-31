@@ -19,6 +19,8 @@ import (
 	"gorm.io/gorm"
 )
 
+const defaultServerPort = "8432"
+
 type QueryTestSuite struct {
 	suite.Suite
 	Client graphql.Client
@@ -63,7 +65,11 @@ func (suite *QueryTestSuite) SetupSuite() {
 
 func (suite *QueryTestSuite) SetupTest() {
 	h := http.Client{}
-	suite.Client = graphql.NewClient("http://localhost:8432/query", &h)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = defaultServerPort
+	}
+	suite.Client = graphql.NewClient(fmt.Sprintf("http://localhost:%s/query", port), &h)
 
 }
 

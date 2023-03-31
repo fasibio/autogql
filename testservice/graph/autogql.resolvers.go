@@ -64,7 +64,7 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
 	if filter != nil {
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false, blackList), "AND")
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
 
@@ -78,10 +78,10 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 
 	if order != nil {
 		if order.Asc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s asc", tableName, order.Asc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
 		}
 		if order.Desc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s desc", tableName, order.Desc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s desc", runtimehelper.GetQuoteChar(db), tableName, order.Desc))
 		}
 	}
 	var total int64
@@ -181,7 +181,7 @@ func (r *mutationResolver) UpdateCat(ctx context.Context, input model.UpdateCatI
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.Cat{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.Cat
@@ -226,7 +226,7 @@ func (r *mutationResolver) DeleteCat(ctx context.Context, filter model.CatFilter
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.Cat{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.Cat
@@ -310,7 +310,7 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
 	if filter != nil {
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false, blackList), "AND")
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
 
@@ -324,10 +324,10 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 
 	if order != nil {
 		if order.Asc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s asc", tableName, order.Asc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
 		}
 		if order.Desc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s desc", tableName, order.Desc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s desc", runtimehelper.GetQuoteChar(db), tableName, order.Desc))
 		}
 	}
 	var total int64
@@ -427,7 +427,7 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Update
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.Company{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.Company
@@ -472,7 +472,7 @@ func (r *mutationResolver) DeleteCompany(ctx context.Context, filter model.Compa
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.Company{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.Company
@@ -556,7 +556,7 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
 	if filter != nil {
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false, blackList), "AND")
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
 
@@ -570,10 +570,10 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 
 	if order != nil {
 		if order.Asc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s asc", tableName, order.Asc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
 		}
 		if order.Desc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s desc", tableName, order.Desc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s desc", runtimehelper.GetQuoteChar(db), tableName, order.Desc))
 		}
 	}
 	var total int64
@@ -635,7 +635,7 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
 	blackList := make(map[string]struct{})
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	db = db.Model(&model.Todo{}).Where(sql, arguments...)
 	var res []*model.Todo
 	if okHook {
@@ -722,7 +722,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.Todo{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.Todo
@@ -767,7 +767,7 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, filter model.TodoFilt
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.Todo{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.Todo
@@ -851,7 +851,7 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
 	if filter != nil {
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false, blackList), "AND")
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
 
@@ -865,10 +865,10 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 
 	if order != nil {
 		if order.Asc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s asc", tableName, order.Asc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
 		}
 		if order.Desc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s desc", tableName, order.Desc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s desc", runtimehelper.GetQuoteChar(db), tableName, order.Desc))
 		}
 	}
 	var total int64
@@ -968,7 +968,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUse
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.User{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.User
@@ -1013,7 +1013,7 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, filter model.UserFilt
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
-	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.User{}
 	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
 	var toChange []model.User

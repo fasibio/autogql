@@ -2927,7 +2927,7 @@ func changeAllCatsToSameOwnerButNotOneByName(
 		Query: `
 mutation changeAllCatsToSameOwnerButNotOneByName ($userID: Int!, $notMoveCatName: String!) {
 	updateCat(input: {filter:{userID:{ne:$userID},name:{ne:$notMoveCatName}},set:{userID:$userID}}) {
-		cat {
+		cat(order: {asc:id}) {
 			data {
 				id
 				name
@@ -2968,7 +2968,7 @@ func deleteUser(
 mutation deleteUser ($userId: ID!) {
 	deleteUser(filter: {id:{eq:$userId}}) {
 		count
-		user {
+		user(order: {asc:id}) {
 			data {
 				id
 				name
@@ -3006,7 +3006,7 @@ func deleteUserByCatName(
 mutation deleteUserByCatName ($catName: String!) {
 	deleteUser(filter: {cat:{name:{eq:$catName}}}) {
 		count
-		user {
+		user(order: {asc:id}) {
 			data {
 				id
 				name
@@ -3044,7 +3044,7 @@ func deleteUserByUserName(
 mutation deleteUserByUserName ($userName: String!) {
 	deleteUser(filter: {name:{eq:$userName}}) {
 		count
-		user {
+		user(order: {asc:id}) {
 			data {
 				id
 				name
@@ -3123,7 +3123,7 @@ func updateUserChangeCompany(
 mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
 	updateUser(input: {filter:{id:{eq:$userId}},set:{companyID:$companyID}}) {
 		count
-		user {
+		user(order: {asc:id}) {
 			data {
 				id
 				name
@@ -3166,7 +3166,7 @@ func updateUserChangeCompanyByCatName(
 mutation updateUserChangeCompanyByCatName ($catName: String!, $companyID: Int!) {
 	updateUser(input: {filter:{cat:{name:{eq:$catName}}},set:{companyID:$companyID}}) {
 		count
-		user {
+		user(order: {asc:id}) {
 			data {
 				id
 				name
