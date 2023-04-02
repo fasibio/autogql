@@ -5,6 +5,7 @@ import (
 	"go/types"
 	"log"
 	"path"
+	"sort"
 	"strings"
 
 	"github.com/99designs/gqlgen/codegen"
@@ -42,12 +43,21 @@ func (db *GenerateData) HookListMany2Many(suffix string) []string {
 
 func (db *GenerateData) ModelsMigrations() string {
 	res := ""
+	objects := make([]*structure.Object, 0)
 	for _, v := range db.Handler.List {
 		if v.HasSqlDirective() {
-			splits := strings.Split(db.Data.Config.Models[v.Name()].Model[0], "/")
-			res += fmt.Sprintf("&%s{},", splits[len(splits)-1])
+			objects = append(objects, v)
+
 		}
 	}
+	sort.Slice(objects[:], func(i, j int) bool {
+		return objects[i].GetOrder() < objects[j].GetOrder()
+	})
+	for _, o := range objects {
+		splits := strings.Split(db.Data.Config.Models[o.Name()].Model[0], "/")
+		res += fmt.Sprintf("&%s{},", splits[len(splits)-1])
+	}
+
 	return res[:len(res)-1]
 }
 
@@ -269,16 +279,27 @@ func (db *GenerateData) GetValueOfInput(objectname string, builder structure.Obj
 	return fmt.Sprintf("%s%s", refSign, v.Name())
 }
 
-func (db *GenerateData) ForeignName(object structure.Object, entity structure.Entity) string {
+type ForeignNameResult struct {
+	Key   string
+	Table structure.Object
+}
+
+func (db *GenerateData) ForeignName(object structure.Object, entity structure.Entity) ForeignNameResult {
 	d, ok := db.Handler.List[entity.GqlTypeName()]
 	if !ok {
 		panic("ForeignName: Can not find object " + entity.GqlTypeName())
 	}
-	res := d.ForeignNameKeyName(strings.ToLower(object.Name()))
+	res := object.ForeignNameKeyName(strings.ToLower(entity.Name()))
+	table := object
 	if res == "" {
-		res = object.ForeignNameKeyName(strings.ToLower(entity.Name()))
+		res = d.ForeignNameKeyName(strings.ToLower(object.Name()))
+		table = *d
 	}
-	return res
+	if res == "" {
+		res = strings.ToLower(d.PrimaryKeyField().Name())
+		table = *d
+	}
+	return ForeignNameResult{Key: res, Table: table}
 }
 
 func (db *GenerateData) PrimaryKeyOfObject(o string) string {

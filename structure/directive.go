@@ -8,6 +8,7 @@ import (
 type SQLDirective struct {
 	Query    SQLDirectiveQuery
 	Mutation SQLDirectiveMutation
+	Order    int64
 }
 
 func (sd *SQLDirective) HasQueries() bool {

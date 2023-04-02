@@ -55,30 +55,38 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 	{{-  if or $entity.IsPrimitive $entity.GqlTypeObj.HasSqlDirective }}
 	if d.{{$entityGoName}} != nil {
     {{-  if $entity.IsPrimitive  }}
-    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%s.%s",alias,"{{snakecase $entityGoName}}"),true,blackList)...)
+    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s",runtimehelper.GetQuoteChar(db), alias,"{{snakecase $entityGoName}}"),true,blackList)...)
     {{- else }}
 			{{- if $entity.HasMany2ManyDirective}}
     tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
 		{{- $m2mTableName := $entity.Many2ManyDirectiveTable}}
 		if _, ok := blackList["{{$m2mTableName}}"]; !ok {
 			blackList["{{$m2mTableName}}"] = struct{}{}
-			db = db.Joins(fmt.Sprintf("LEFT JOIN {{$m2mTableName}} ON {{$m2mTableName}}.{{$object.Name | snakecase}}_{{$root.PrimaryKeyOfObject $object.Name}} = %s.{{$root.PrimaryKeyOfObject $object.Name}} JOIN %s ON {{$m2mTableName}}.{{$entity.GqlTypeName | snakecase}}_{{$root.PrimaryKeyOfObject $entity.GqlTypeName | snakecase}} = %s.{{$root.PrimaryKeyOfObject $object.Name}}", alias, tableName,tableName))
+			db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s{{$m2mTableName}}%[1]s ON %[1]s{{$m2mTableName}}%[1]s.%[1]s{{$object.Name | snakecase}}_{{$root.PrimaryKeyOfObject $object.Name}}%[1]s = %[2]s.%[1]s{{$root.PrimaryKeyOfObject $object.Name}}%[1]s JOIN %[1]s%[3]s%[1]s ON %[1]s{{$m2mTableName}}%[1]s.%[1]s{{$entity.GqlTypeName | snakecase}}_{{$root.PrimaryKeyOfObject $entity.GqlTypeName | snakecase}}%[1]s = %[1]s%[3]s%[1]s.%[1]s{{$root.PrimaryKeyOfObject $object.Name}}%[1]s",runtimehelper.GetQuoteChar(db), alias, tableName))
     }
-		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, tableName,true,blackList)...)
+		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName),true,blackList)...)
 			{{- else if eq $object.Name $entity.GqlTypeName}}
-		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, "{{$entityGoName}}",true,blackList)...)
+		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s{{$entityGoName}}%[1]s",runtimehelper.GetQuoteChar(db)),true,blackList)...)
 			{{- else }}
 		if _, ok := blackList["{{$entityGoName}}"]; !ok {
 			blackList["{{$entityGoName}}"] = struct{}{}
 			if deep {
 				tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
-				foreignKeyName := "{{$root.ForeignName $object $entity | snakecase}}"
-				db = db.Joins(fmt.Sprintf("LEFT JOIN %s {{$entityGoName}} ON {{$entityGoName}}.%s = %s.%s",tableName, foreignKeyName, alias, d.PrimaryKeyName()))
+				{{- $fnKeyResult := $root.ForeignName $object $entity}}
+				foreignKeyName := "{{$fnKeyResult.Key | snakecase}}"
+				{{- $fnKeyNumber := 5}}
+				{{- $currentKeyNumber := 3}}
+				{{- if eq $fnKeyResult.Table.Name $object.Name }}
+					{{- $fnKeyNumber = 3}}
+					{{- $currentKeyNumber = 5}}
+				{{- end}}
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]s{{$entityGoName}}%[1]s ON %[1]s{{$entityGoName}}%[1]s.%[1]s%[{{$fnKeyNumber}}]s%[1]s = %[4]s.%[1]s%[{{$currentKeyNumber}}]s%[1]s",runtimehelper.GetQuoteChar(db),tableName,d.PrimaryKeyName(), alias, foreignKeyName))
+
 			}else {
 				db = db.Joins("{{$entityGoName}}")
 			}
 		}	
-		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, "{{$entityGoName}}",true,blackList)...)
+		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s{{$entityGoName}}%[1]s",runtimehelper.GetQuoteChar(db)),true,blackList)...)
 			{{- end}}
     {{- end}}
 	}

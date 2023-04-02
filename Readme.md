@@ -116,7 +116,7 @@ Description:
 		query: SqlCreateExtension
 		directiveExt: [String!] # add directive to all mutations
 	}
-	directive @SQL(query:SqlQueryParams, mutation: SqlMutationParams ) on OBJECT
+	directive @SQL(order: Int, query:SqlQueryParams, mutation: SqlMutationParams ) on OBJECT # order to define relations (if Type A(order: 1) have a releation to type B(order: 2)
 	directive @SQL_PRIMARY on FIELD_DEFINITION
 	directive @SQL_INDEX on FIELD_DEFINITION
 

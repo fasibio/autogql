@@ -67,7 +67,7 @@ func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model
 	db = runtimehelper.GetPreloadSelection(ctx, db,runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
 	if filter != nil{
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false, blackList), "AND")
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
 
@@ -81,10 +81,10 @@ func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model
 
 	if (order != nil){
 		if order.Asc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s asc",tableName,order.Asc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc",runtimehelper.GetQuoteChar(db), tableName,order.Asc))
 		}
 		if order.Desc != nil {
-			db = db.Order(fmt.Sprintf("%s.%s desc",tableName,order.Desc))
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s desc",runtimehelper.GetQuoteChar(db), tableName,order.Desc))
 		}
 	}
 	var total int64
@@ -144,7 +144,7 @@ func (r *mutationResolver) Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(ctx c
 	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	blackList := make(map[string]struct{})
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName, false, blackList), "AND")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	db = db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
 	var res []*model.{{$object.Name}}
 	if okHook {
@@ -235,9 +235,12 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
 	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	blackList := make(map[string]struct{})
-	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(r.Sql.Db, tableName, false, blackList), "AND")
+	queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.{{$object.Name}}{}
-	db = db.Model(&obj).Where(sql, arguments...)
+  queryDb = queryDb.Model(&obj).Where(sql, arguments...)
+	var toChange []model.{{$object.Name}}
+	queryDb.Find(&toChange)
 	update := input.Set.MergeToType()
 	if okHook {
 		var err error
@@ -246,7 +249,12 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
 			return nil, err
 		}
 	}
-	db = db.Updates(update)
+	{{- $primaryEntity := $root.PrimaryKeyEntityOfObject $object.Name}}
+	ids := make([]{{$root.GetGoFieldType $object.Name $primaryEntity false}},len(toChange))
+	for i, one := range toChange {
+		ids[i] = one.{{$root.GetGoFieldTypeName $object.Name $primaryEntity}}
+	}
+	db = db.Model(&obj).Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?",ids).Updates(update)
 	res := &model.Update{{$object.Name}}Payload{
 		Count: int(db.RowsAffected),
 	}
@@ -274,9 +282,12 @@ func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter mo
 	}
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
 	blackList := make(map[string]struct{})
-	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, tableName, false, blackList), "AND")
+	queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	obj := model.{{$object.Name}}{}
-	db = db.Where(sql, arguments...)
+	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
+	var toChange []model.{{$object.Name}}
+	queryDb.Find(&toChange)
 	if okHook {
 		var err error
 		db, err = v.BeforeCallDb(ctx,db)
@@ -284,7 +295,12 @@ func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter mo
 			return nil, err
 		}
 	}
-	db = db.Delete(&obj)
+	{{- $primaryEntity := $root.PrimaryKeyEntityOfObject $object.Name}}
+	ids := make([]{{$root.GetGoFieldType $object.Name $primaryEntity false}},len(toChange))
+	for i, one := range toChange {
+		ids[i] = one.{{$root.GetGoFieldTypeName $object.Name $primaryEntity}}
+	}
+	db = db.Model(&obj).Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?",ids).Delete(&obj)
 		msg := fmt.Sprintf("%d rows deleted", db.RowsAffected)
 	res := &model.Delete{{$object.Name}}Payload{
 		Count: int(db.RowsAffected),

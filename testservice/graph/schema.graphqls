@@ -1,0 +1,43 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Todo @SQL(order: 3){
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  users: [User!]! @SQL_GORM(value:"many2many:todo_users;constraint:OnDelete:CASCADE") @SQL_SKIP_MUTATION
+  owner: User! @SQL_SKIP_MUTATION
+  ownerID: ID! @SQL_SKIP_MUTATION
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+}
+
+type User @SQL(order: 2){
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+  cat: Cat @SQL_GORM(value:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;")
+  companyID: Int
+  company: Company
+}
+
+type Company @SQL(order: 1){
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  description: String
+  motherCompanyID: Int
+  motherCompany: Company
+  createdAt: Time
+}
+
+type Cat @SQL(order: 4){
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  birthDay: Time!
+  age: Int @SQL_GORM(value:"-")
+  userID: Int!
+  alive: Boolean @SQL_GORM(value: "default:true")
+}

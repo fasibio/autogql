@@ -68,7 +68,6 @@ func getSqlBuilderFields(fields ast.FieldList, schema *ast.Schema, knownValues s
 		if !schema.Types[field.Type.Name()].BuiltIn {
 			tmp := structure.NewObject(schema.Types[field.Type.Name()])
 			m = &tmp
-
 		}
 		tempE := structure.Entity{
 			BuiltIn:    schema.Types[field.Type.Name()].BuiltIn,

@@ -29,8 +29,12 @@ func CombineSimpleQuery(elements []ConditionElement, relation Relation) (string,
 	for _, query := range elements {
 		if sql == "" {
 			if len(query.Children) == 0 {
-				sql += fmt.Sprintf("%s %s ?", query.Field, query.Operator)
-				values = append(values, query.Value...)
+				if len(query.Value) == 0 {
+					sql += fmt.Sprintf("%s %s", query.Field, query.Operator)
+				} else {
+					sql += fmt.Sprintf("%s %s ?", query.Field, query.Operator)
+					values = append(values, query.Value...)
+				}
 			} else {
 				querySql, queryValues := CombineSimpleQuery(query.Children, query.ChildrenRelation)
 				sql += fmt.Sprintf("(%s)", querySql)
@@ -98,11 +102,11 @@ func NotIn(field string, value interface{}) ConditionElement {
 }
 
 func NotNull(field string, value interface{}) ConditionElement {
-	return NewConditionElement("IS NOT NULL", field, value)
+	return NewConditionElement("IS NOT NULL", field)
 }
 
 func Null(field string, value interface{}) ConditionElement {
-	return NewConditionElement("IS NULL", field, value)
+	return NewConditionElement("IS NULL", field)
 }
 
 func Between(field string, start, end interface{}) ConditionElement {

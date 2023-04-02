@@ -3,3 +3,82 @@ release:
     - go install github.com/caarlos0/svu@latest
     - git tag "$(svu next)" 
     - git push --tags
+
+testSetup: 
+  script: 
+    - cd testservice
+    - go run plugin/main.go
+    - cd ..
+
+gen_testQueries: 
+  script: 
+    - go get github.com/Khan/genqlient/generate@v0.5.0 
+    - cd integration
+    - go run github.com/Khan/genqlient
+
+testSqlite:
+  stage: test
+  color: {{.Colors.teal}}
+  script: 
+    - rm integration/test.db
+    - PORT=8434 DATABASE_TYPE=sqlite DATABASE_CONNECTION_STRING=test.db go test ./integration . -v
+
+mysqlstarting:
+  stage: test
+  color: {{.Colors.magenta}}
+  script: 
+    - docker run --health-cmd='mysqladmin ping --silent' --rm --name autogql-test-mysql -e MYSQL_ROOT_PASSWORD=password -e MYSQL_DATABASE=autogql  -p 3306:3306 mysql
+
+postgresstarting: 
+  stage: test
+  color: {{.Colors.green}}
+  script: 
+    - docker run --health-cmd='pg_isready -U postgres -d autogql' --rm --name autogql-test-postgres -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -e POSTGRES_DB=autogql -p 5432:5432 postgres
+
+waitForPostgres: 
+  script: 
+    - echo wait until postgres is startet
+    - while [ $(docker inspect --format "{{"{{json .State.Health.Status }}"}}" autogql-test-postgres) != "\"healthy\"" ]; do printf ".\n"; sleep 1; done
+
+testPostgres: 
+  stage: test
+  color: {{.Colors.red}}
+  script: 
+    {{include "waitForPostgres"}}
+    - PORT=8431 DATABASE_TYPE=postgres DATABASE_CONNECTION_STRING='host=localhost user=postgres password=postgres dbname=autogql port=5432 sslmode=disable' go test ./integration . -v
+    - docker kill autogql-test-postgres
+  on_failure: 
+    - docker kill autogql-test-postgres
+
+waitForMySqlDb: 
+  script: 
+    - echo wait until mysql is startet
+    - while [ $(docker inspect --format "{{"{{json .State.Health.Status }}"}}" autogql-test-mysql) != "\"healthy\"" ]; do printf ".\n"; sleep 1; done
+    
+testMySql:
+  stage: test
+  color: {{.Colors.purple}}
+  script: 
+    {{include "waitForMySqlDb"}}
+    - PORT=8432 DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql' go test ./integration . -v
+    - docker kill autogql-test-mysql
+  on_failure: 
+    - docker kill autogql-test-mysql
+
+testCiSqlLite: 
+  script:
+    {{include "testSqlite"}}
+
+testCiMySql:
+  script: 
+    - DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql' go test ./integration . -v
+
+testCiPostgres:
+  script: 
+    - DATABASE_TYPE=postgres DATABASE_CONNECTION_STRING='host=localhost user=postgres password=postgres dbname=autogql port=5432 sslmode=disable' go test ./integration . -v
+
+test:
+  script:
+    {{include "testSetup"}}
+    - gomake srun test
+

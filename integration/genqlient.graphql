@@ -1,0 +1,332 @@
+
+    query IntrospectionQuery {
+      __schema {
+        
+        queryType { name }
+        mutationType { name }
+        subscriptionType { name }
+        types {
+          ...FullType
+        }
+        directives {
+          name
+          description
+          
+          locations
+          args {
+            ...InputValue
+          }
+        }
+      }
+    }
+
+    fragment FullType on __Type {
+      kind
+      name
+      description
+      
+      fields(includeDeprecated: true) {
+        name
+        description
+        args {
+          ...InputValue
+        }
+        type {
+          ...TypeRef
+        }
+        isDeprecated
+        deprecationReason
+      }
+      inputFields {
+        ...InputValue
+      }
+      interfaces {
+        ...TypeRef
+      }
+      enumValues(includeDeprecated: true) {
+        name
+        description
+        isDeprecated
+        deprecationReason
+      }
+      possibleTypes {
+        ...TypeRef
+      }
+    }
+
+    fragment InputValue on __InputValue {
+      name
+      description
+      type { ...TypeRef }
+      defaultValue
+      
+      
+    }
+
+    fragment TypeRef on __Type {
+      kind
+      name
+      ofType {
+        kind
+        name
+        ofType {
+          kind
+          name
+          ofType {
+            kind
+            name
+            ofType {
+              kind
+              name
+              ofType {
+                kind
+                name
+                ofType {
+                  kind
+                  name
+                  ofType {
+                    kind
+                    name
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  
+
+# ADD
+
+  mutation addCompanies($input: [CompanyInput!]!){
+  addCompany(input:$input){
+    company{
+      data{
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation addCompanyQueryResult($name: String!){
+  addCompany(input:{name:$name}){
+    company(filter: {name: {eq: $name}}){
+    data{
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation addUsers($input: [UserInput!]!){
+  addUser(input: $input){
+    user{
+      data{
+        id
+        name
+        company{
+          name
+        }
+      }
+    }
+  }
+}
+
+mutation addTodos($input: [TodoInput!]!){
+  addTodo(input: $input){
+    todo{
+      data{
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation addUser2Todo($input: UserRef2TodosInput!){
+  addUser2Todos(input:$input){
+    todo{
+      data{
+        id
+        name
+        users{
+          id
+          name
+        }
+      }
+    }
+  }
+}
+
+mutation addCats($input: [CatInput!]!){
+  addCat(input:$input){
+    cat{
+      data{
+        id
+        name
+        userID
+      }
+    }
+  }
+}
+
+# Query
+
+query allUserFromCompany($company:String!, $offset:Int){
+  queryUser(filter: {company: {name: {eq: $company}}},first: 2, offset: $offset){
+    totalCount
+    data{
+      id
+      name
+      company{
+        name
+      }
+    }
+  }
+}
+
+query allUserWithACat{
+  queryUser(filter:{cat:{userID: {notNull:true}}}){
+    data{
+      id
+      name
+      cat{
+        id
+        name
+      }
+    }
+  }
+}
+
+query allTodosPartOfCompany($companyName:String){
+  queryTodo(filter: { users:{company: {name: {eq: $companyName}}}}, order:{desc:id}){
+    data{
+      id
+      name
+      users{
+        id
+        name
+        company{
+          name
+        }
+      } 
+    }
+  }
+}
+
+query allTodosByUserCatName($catName:String){
+  queryTodo(filter: { users:{cat: {name: {eq: $catName}}}}, order:{desc:id}){
+    count
+    data{
+      id
+      name
+      users{
+        id
+        name
+        company{
+          name
+        }
+      } 
+    }
+  }
+}
+
+query getUserById($userId:ID!){
+  getUser(id:$userId){
+    id
+    name
+    cat{
+      name
+    }
+    company{
+      name
+    }
+  }
+}
+
+# Edit 
+mutation updateUserChangeCompany($userId:ID!, $companyID:Int!){
+  updateUser(input:{filter:{id:{eq:$userId}}, set:{companyID:$companyID}}){
+    count
+    user(order:{asc:id}){
+      data{
+        id
+        name
+        company{
+          name
+        }
+      }
+    }
+  }
+}
+
+mutation updateUserChangeCompanyByCatName($catName:String!, $companyID:Int!){
+  updateUser(input:{filter:{cat:{name:{eq: $catName}}}, set:{companyID:$companyID}}){
+    count
+    user(order:{asc:id}){
+      data{
+        id
+        name
+        company{
+          name
+        }
+      }
+    }
+  }
+}
+
+mutation changeAllCatsToSameOwnerButNotOneByName($userID: Int!, $notMoveCatName: String!) {
+  updateCat(
+    input: {filter: {userID: {ne: $userID}, name: {ne: $notMoveCatName}}, set: {userID: $userID}}
+  ) {
+    cat(order:{asc:id} ) {
+      data {
+        id
+        name
+        userID
+      }
+    }
+  }
+}
+
+# delete 
+mutation deleteUser($userId:ID!){
+  deleteUser(filter:{id:{eq:$userId}}){
+    count
+    user(order:{asc:id}){
+      data{
+        id
+        name
+      }
+    }
+  }
+  
+}
+
+mutation deleteUserByCatName($catName:String!){
+  deleteUser(filter:{cat:{name:{eq:$catName}}}){
+    count
+    user(order:{asc:id}){
+      data{
+        id
+        name
+      }
+    }
+  }
+}
+
+mutation deleteUserByUserName($userName:String!){
+  deleteUser(filter:{name:{eq:$userName}}){
+    count
+    user(order:{asc:id}){
+      data{
+        id
+        name
+      }
+    }
+  }
+}
+

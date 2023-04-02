@@ -1,0 +1,45 @@
+name: Tests
+on: 
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build: 
+    name: test
+    runs-on: ubuntu-latest
+    env:
+      DB_DATABASE: autogql
+      DB_USERNAME: root
+      DB_PASSWORD: password
+    services:
+      mysql:
+        image: mysql
+        ports:
+          - 3306:3306
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: autogql
+      postgres: 
+        image: postgres
+        ports: 
+          - 5432:5432
+        env: 
+          POSTGRES_DB: autogql
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_USER: postgres
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+      - name: Set up Go 1.19
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+        id: go 
+      - run: go install github.com/fasibio/gomake@latest
+      - run: gomake run gen_testQueries
+      - run: gomake run testSetup
+      - run: gomake run testCiSqlLite
+      - run: gomake run testCiMySql
+      - run: gomake run testCiPostgres

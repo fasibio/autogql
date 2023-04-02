@@ -3,6 +3,7 @@ package runtimehelper
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/99designs/gqlgen/codegen/templates"
 	"github.com/99designs/gqlgen/graphql"
@@ -167,7 +168,7 @@ func GetPreloadSelection(ctx context.Context, dbObj *gorm.DB, data PreloadFields
 func GetNestedPreloadSelection(data PreloadFields, dbObj *gorm.DB) *gorm.DB {
 	fields := make([]string, len(data.Fields))
 	for i, v := range data.Fields {
-		fields[i] = fmt.Sprintf("%s.%s", dbObj.Config.NamingStrategy.TableName(data.TableName), v)
+		fields[i] = fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s", GetQuoteChar(dbObj), dbObj.Config.NamingStrategy.TableName(data.TableName), v)
 	}
 	res := dbObj.Select(fields)
 	if data.SubTables != nil {
@@ -182,4 +183,10 @@ func addPreloadCondition(pFields PreloadFields, d *gorm.DB) *gorm.DB {
 	return d.Preload(templates.UcFirst(pFields.PreloadName), func(db *gorm.DB) *gorm.DB {
 		return GetNestedPreloadSelection(pFields, db)
 	})
+}
+
+func GetQuoteChar(db *gorm.DB) string {
+	b := new(strings.Builder)
+	db.QuoteTo(b, "")
+	return b.String()[0:1]
 }
