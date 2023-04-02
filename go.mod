@@ -3,7 +3,7 @@ module github.com/fasibio/autogql
 go 1.19
 
 require (
-	github.com/99designs/gqlgen v0.17.26
+	github.com/99designs/gqlgen v0.17.27
 	github.com/Khan/genqlient v0.5.0
 	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/gkampitakis/go-snaps v0.4.2
