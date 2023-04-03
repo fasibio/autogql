@@ -77,7 +77,3 @@ func MutateHook(ggs *AutoGqlPlugin) func(b *modelgen.ModelBuild) *modelgen.Model
 func (ggs *AutoGqlPlugin) remapInputType2Type(cfg *config.Config) error {
 	return nil
 }
-
-func getModelStruct(cfg *config.Config, name string) string {
-	return fmt.Sprintf("%s/model.%s", cfg.Resolver.ImportPath(), name)
-}

@@ -1,9 +1,24 @@
 name: Tests
 on: 
-  pull_request:
-    branches: [ main ]
   workflow_call:
 jobs:
+  lints: 
+    name: lint_fmt
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code into the Go module directory
+        uses: actions/checkout@v3
+      - name: Set up Go 1.19
+        uses: actions/setup-go@v4
+        with:
+          go-version: 1.19
+        id: go 
+      - run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@v1.52.2
+      - run: go vet ./...
+      - run: |
+              gofmt -s -l .
+              if [ "$(gofmt -s -l . | wc -l)" -gt 0 ]; then exit 1; fi
+      - run: golangci-lint run
   test: 
     name: test
     runs-on: ubuntu-latest
