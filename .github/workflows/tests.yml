@@ -1,12 +1,10 @@
 name: Tests
 on: 
-  push:
-    branches: [ main ]
   pull_request:
     branches: [ main ]
 
 jobs:
-  build: 
+  test: 
     name: test
     runs-on: ubuntu-latest
     env:

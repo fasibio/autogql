@@ -5,8 +5,11 @@ on:
       - main
 
 jobs:
+  tests: 
+    uses: ./.github/workflows/tests.yml
   build: 
     name: create tag
+    needs: [tests]
     runs-on: ubuntu-latest
     steps:
     # - name: Check out code into the Go module directory
