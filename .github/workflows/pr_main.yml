@@ -1,0 +1,10 @@
+name: PR
+on: 
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: Test
+    uses: ./.github/job_tests.yml
+
