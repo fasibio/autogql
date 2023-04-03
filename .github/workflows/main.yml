@@ -9,5 +9,7 @@ jobs:
     uses: ./.github/workflows/job_tests.yml
   tag: 
     name: create tag
-    uses: ./.github/workflows/job_build.yml
+    uses: ./.github/workflows/job_tag.yml
+    with: 
+      token: ${{secrets.TOKEN}}
     needs: [tests]
