@@ -6,8 +6,8 @@ on:
 
 jobs:
   tests: 
-    uses: ./.github/jobs/tests.yml
+    uses: ./.github/workflows/jobs/tests.yml
   tag: 
     name: create tag
-    uses: ./.github/jobs/build.yml
+    uses: ./.github/workflows/jobs/build.yml
     needs: [tests]
