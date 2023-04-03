@@ -4,6 +4,7 @@ on:
     branches: [ main ]
 
 jobs:
-  tests: 
-  uses: ./.github/jobs/tests.yml
+  tests:
+    name: Test
+    uses: ./.github/jobs/tests.yml
 
