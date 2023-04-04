@@ -7053,3 +7053,28 @@
     },
 }
 ---
+
+[TestQueryTestSuite/TestComplexCombination/allUserWithACatOnlyUserId - 1]
+&integration.allUserWithACatOnlyUserIdResponse{
+    QueryUser: &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResult{
+        Data: {
+            &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser{
+                Id:  "1",
+                Cat: &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat{Id:"1", Name:"Pussy"},
+            },
+            &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser{
+                Id:  "2",
+                Cat: &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat{Id:"2", Name:"Schnuffel"},
+            },
+            &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser{
+                Id:  "3",
+                Cat: &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat{Id:"3", Name:"Mauz"},
+            },
+            &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser{
+                Id:  "4",
+                Cat: &integration.allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat{Id:"4", Name:"Mi jau"},
+            },
+        },
+    },
+}
+---

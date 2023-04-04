@@ -27,6 +27,7 @@ func (db *GenerateData) HookList(suffix, prefix string) []string {
 			res = append(res, fmt.Sprintf("%s%s%s", suffix, v.Name(), prefix))
 		}
 	}
+	sort.Strings(res)
 	return res
 }
 
@@ -38,6 +39,7 @@ func (db *GenerateData) HookListMany2Many(suffix string) []string {
 			res = append(res, fmt.Sprintf("%s%sRef2%ssInput", suffix, m2me.GqlTypeName(), v.Name()))
 		}
 	}
+	sort.Strings(res)
 	return res
 }
 

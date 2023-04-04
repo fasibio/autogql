@@ -227,6 +227,11 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 	suite.T().Run("allUserWithACat", queryTester(func() (any, error) {
 		return allUserWithACat(context.Background(), suite.Client)
 	}))
+
+	suite.T().Run("allUserWithACatOnlyUserId", queryTester(func() (any, error) {
+		return allUserWithACatOnlyUserId(context.Background(), suite.Client)
+	}))
+
 	suite.T().Run("allTodosPartOfCompany => TestCompany1", queryTester(func() (any, error) {
 		companyName := "TestCompany1"
 		return allTodosPartOfCompany(context.Background(), suite.Client, &companyName)
