@@ -2101,6 +2101,54 @@ func (v *allUserFromCompanyResponse) GetQueryUser() *allUserFromCompanyQueryUser
 	return v.QueryUser
 }
 
+// allUserWithACatOnlyUserIdQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type allUserWithACatOnlyUserIdQueryUserUserQueryResult struct {
+	Data []*allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns allUserWithACatOnlyUserIdQueryUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *allUserWithACatOnlyUserIdQueryUserUserQueryResult) GetData() []*allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser struct {
+	Id  string                                                        `json:"id"`
+	Cat *allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat `json:"cat"`
+}
+
+// GetId returns allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser) GetId() string { return v.Id }
+
+// GetCat returns allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser.Cat, and is useful for accessing the field via an interface.
+func (v *allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser) GetCat() *allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat {
+	return v.Cat
+}
+
+// allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat includes the requested fields of the GraphQL type Cat.
+type allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat.Id, and is useful for accessing the field via an interface.
+func (v *allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat) GetId() string { return v.Id }
+
+// GetName returns allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat.Name, and is useful for accessing the field via an interface.
+func (v *allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat) GetName() string {
+	return v.Name
+}
+
+// allUserWithACatOnlyUserIdResponse is returned by allUserWithACatOnlyUserId on success.
+type allUserWithACatOnlyUserIdResponse struct {
+	QueryUser *allUserWithACatOnlyUserIdQueryUserUserQueryResult `json:"queryUser"`
+}
+
+// GetQueryUser returns allUserWithACatOnlyUserIdResponse.QueryUser, and is useful for accessing the field via an interface.
+func (v *allUserWithACatOnlyUserIdResponse) GetQueryUser() *allUserWithACatOnlyUserIdQueryUserUserQueryResult {
+	return v.QueryUser
+}
+
 // allUserWithACatQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
 type allUserWithACatQueryUserUserQueryResult struct {
 	Data []*allUserWithACatQueryUserUserQueryResultDataUser `json:"data"`
@@ -3028,6 +3076,41 @@ query allUserWithACat {
 	var err error
 
 	var data allUserWithACatResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// Test for https://github.com/fasibio/autogql/issues/24
+func allUserWithACatOnlyUserId(
+	ctx context.Context,
+	client graphql.Client,
+) (*allUserWithACatOnlyUserIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "allUserWithACatOnlyUserId",
+		Query: `
+query allUserWithACatOnlyUserId {
+	queryUser(filter: {cat:{userID:{notNull:true}}}) {
+		data {
+			id
+			cat {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+	}
+	var err error
+
+	var data allUserWithACatOnlyUserIdResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(

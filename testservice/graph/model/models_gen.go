@@ -26,51 +26,51 @@ type AddUserPayload struct {
 }
 
 type BooleanFilterInput struct {
-	And     []*bool             `json:"and"`
-	Or      []*bool             `json:"or"`
-	Not     *BooleanFilterInput `json:"not"`
-	Is      *bool               `json:"is"`
-	Null    *bool               `json:"null"`
-	NotNull *bool               `json:"notNull"`
+	And     []*bool             `json:"and,omitempty"`
+	Or      []*bool             `json:"or,omitempty"`
+	Not     *BooleanFilterInput `json:"not,omitempty"`
+	Is      *bool               `json:"is,omitempty"`
+	Null    *bool               `json:"null,omitempty"`
+	NotNull *bool               `json:"notNull,omitempty"`
 }
 
 type Cat struct {
 	ID       int       `json:"id" gorm:"primaryKey;autoIncrement;"`
 	Name     string    `json:"name"`
 	BirthDay time.Time `json:"birthDay"`
-	Age      *int      `json:"age" gorm:"-;"`
+	Age      *int      `json:"age,omitempty" gorm:"-;"`
 	UserID   int       `json:"userID"`
-	Alive    *bool     `json:"alive" gorm:"default:true;"`
+	Alive    *bool     `json:"alive,omitempty" gorm:"default:true;"`
 }
 
 type CatFiltersInput struct {
-	ID       *IDFilterInput      `json:"id"`
-	Name     *StringFilterInput  `json:"name"`
-	BirthDay *TimeFilterInput    `json:"birthDay"`
-	UserID   *IntFilterInput     `json:"userID"`
-	Alive    *BooleanFilterInput `json:"alive"`
-	And      []*CatFiltersInput  `json:"and"`
-	Or       []*CatFiltersInput  `json:"or"`
-	Not      *CatFiltersInput    `json:"not"`
+	ID       *IDFilterInput      `json:"id,omitempty"`
+	Name     *StringFilterInput  `json:"name,omitempty"`
+	BirthDay *TimeFilterInput    `json:"birthDay,omitempty"`
+	UserID   *IntFilterInput     `json:"userID,omitempty"`
+	Alive    *BooleanFilterInput `json:"alive,omitempty"`
+	And      []*CatFiltersInput  `json:"and,omitempty"`
+	Or       []*CatFiltersInput  `json:"or,omitempty"`
+	Not      *CatFiltersInput    `json:"not,omitempty"`
 }
 
 type CatInput struct {
 	Name     string    `json:"name"`
 	BirthDay time.Time `json:"birthDay"`
 	UserID   int       `json:"userID"`
-	Alive    *bool     `json:"alive"`
+	Alive    *bool     `json:"alive,omitempty"`
 }
 
 type CatOrder struct {
-	Asc  *CatOrderable `json:"asc"`
-	Desc *CatOrderable `json:"desc"`
+	Asc  *CatOrderable `json:"asc,omitempty"`
+	Desc *CatOrderable `json:"desc,omitempty"`
 }
 
 type CatPatch struct {
-	Name     *string    `json:"name"`
-	BirthDay *time.Time `json:"birthDay"`
-	UserID   *int       `json:"userID"`
-	Alive    *bool      `json:"alive"`
+	Name     *string    `json:"name,omitempty"`
+	BirthDay *time.Time `json:"birthDay,omitempty"`
+	UserID   *int       `json:"userID,omitempty"`
+	Alive    *bool      `json:"alive,omitempty"`
 }
 
 type CatQueryResult struct {
@@ -82,41 +82,41 @@ type CatQueryResult struct {
 type Company struct {
 	ID              int        `json:"id" gorm:"primaryKey;autoIncrement;"`
 	Name            string     `json:"name"`
-	Description     *string    `json:"description"`
-	MotherCompanyID *int       `json:"motherCompanyID"`
-	MotherCompany   *Company   `json:"motherCompany"`
-	CreatedAt       *time.Time `json:"createdAt"`
+	Description     *string    `json:"description,omitempty"`
+	MotherCompanyID *int       `json:"motherCompanyID,omitempty"`
+	MotherCompany   *Company   `json:"motherCompany,omitempty"`
+	CreatedAt       *time.Time `json:"createdAt,omitempty"`
 }
 
 type CompanyFiltersInput struct {
-	ID              *IDFilterInput         `json:"id"`
-	Name            *StringFilterInput     `json:"name"`
-	Description     *StringFilterInput     `json:"description"`
-	MotherCompanyID *IntFilterInput        `json:"motherCompanyID"`
-	MotherCompany   *CompanyFiltersInput   `json:"motherCompany"`
-	CreatedAt       *TimeFilterInput       `json:"createdAt"`
-	And             []*CompanyFiltersInput `json:"and"`
-	Or              []*CompanyFiltersInput `json:"or"`
-	Not             *CompanyFiltersInput   `json:"not"`
+	ID              *IDFilterInput         `json:"id,omitempty"`
+	Name            *StringFilterInput     `json:"name,omitempty"`
+	Description     *StringFilterInput     `json:"description,omitempty"`
+	MotherCompanyID *IntFilterInput        `json:"motherCompanyID,omitempty"`
+	MotherCompany   *CompanyFiltersInput   `json:"motherCompany,omitempty"`
+	CreatedAt       *TimeFilterInput       `json:"createdAt,omitempty"`
+	And             []*CompanyFiltersInput `json:"and,omitempty"`
+	Or              []*CompanyFiltersInput `json:"or,omitempty"`
+	Not             *CompanyFiltersInput   `json:"not,omitempty"`
 }
 
 type CompanyInput struct {
 	Name            string        `json:"name"`
-	Description     *string       `json:"description"`
-	MotherCompanyID *int          `json:"motherCompanyID"`
-	MotherCompany   *CompanyInput `json:"motherCompany"`
+	Description     *string       `json:"description,omitempty"`
+	MotherCompanyID *int          `json:"motherCompanyID,omitempty"`
+	MotherCompany   *CompanyInput `json:"motherCompany,omitempty"`
 }
 
 type CompanyOrder struct {
-	Asc  *CompanyOrderable `json:"asc"`
-	Desc *CompanyOrderable `json:"desc"`
+	Asc  *CompanyOrderable `json:"asc,omitempty"`
+	Desc *CompanyOrderable `json:"desc,omitempty"`
 }
 
 type CompanyPatch struct {
-	Name            *string       `json:"name"`
-	Description     *string       `json:"description"`
-	MotherCompanyID *int          `json:"motherCompanyID"`
-	MotherCompany   *CompanyPatch `json:"motherCompany"`
+	Name            *string       `json:"name,omitempty"`
+	Description     *string       `json:"description,omitempty"`
+	MotherCompanyID *int          `json:"motherCompanyID,omitempty"`
+	MotherCompany   *CompanyPatch `json:"motherCompany,omitempty"`
 }
 
 type CompanyQueryResult struct {
@@ -128,37 +128,37 @@ type CompanyQueryResult struct {
 type DeleteCatPayload struct {
 	Cat   *CatQueryResult `json:"cat"`
 	Count int             `json:"count"`
-	Msg   *string         `json:"msg"`
+	Msg   *string         `json:"msg,omitempty"`
 }
 
 type DeleteCompanyPayload struct {
 	Company *CompanyQueryResult `json:"company"`
 	Count   int                 `json:"count"`
-	Msg     *string             `json:"msg"`
+	Msg     *string             `json:"msg,omitempty"`
 }
 
 type DeleteTodoPayload struct {
 	Todo  *TodoQueryResult `json:"todo"`
 	Count int              `json:"count"`
-	Msg   *string          `json:"msg"`
+	Msg   *string          `json:"msg,omitempty"`
 }
 
 type DeleteUserPayload struct {
 	User  *UserQueryResult `json:"user"`
 	Count int              `json:"count"`
-	Msg   *string          `json:"msg"`
+	Msg   *string          `json:"msg,omitempty"`
 }
 
 type IDFilterInput struct {
-	And     []*int         `json:"and"`
-	Or      []*int         `json:"or"`
-	Not     *IDFilterInput `json:"not"`
-	Eq      *int           `json:"eq"`
-	Ne      *int           `json:"ne"`
-	Null    *bool          `json:"null"`
-	NotNull *bool          `json:"notNull"`
-	In      []*int         `json:"in"`
-	Notin   []*int         `json:"notin"`
+	And     []*int         `json:"and,omitempty"`
+	Or      []*int         `json:"or,omitempty"`
+	Not     *IDFilterInput `json:"not,omitempty"`
+	Eq      *int           `json:"eq,omitempty"`
+	Ne      *int           `json:"ne,omitempty"`
+	Null    *bool          `json:"null,omitempty"`
+	NotNull *bool          `json:"notNull,omitempty"`
+	In      []*int         `json:"in,omitempty"`
+	Notin   []*int         `json:"notin,omitempty"`
 }
 
 type IntFilterBetween struct {
@@ -167,57 +167,57 @@ type IntFilterBetween struct {
 }
 
 type IntFilterInput struct {
-	And     []*int            `json:"and"`
-	Or      []*int            `json:"or"`
-	Not     *IntFilterInput   `json:"not"`
-	Eq      *int              `json:"eq"`
-	Ne      *int              `json:"ne"`
-	Gt      *int              `json:"gt"`
-	Gte     *int              `json:"gte"`
-	Lt      *int              `json:"lt"`
-	Lte     *int              `json:"lte"`
-	Null    *bool             `json:"null"`
-	NotNull *bool             `json:"notNull"`
-	In      []*int            `json:"in"`
-	NotIn   []*int            `json:"notIn"`
-	Between *IntFilterBetween `json:"between"`
+	And     []*int            `json:"and,omitempty"`
+	Or      []*int            `json:"or,omitempty"`
+	Not     *IntFilterInput   `json:"not,omitempty"`
+	Eq      *int              `json:"eq,omitempty"`
+	Ne      *int              `json:"ne,omitempty"`
+	Gt      *int              `json:"gt,omitempty"`
+	Gte     *int              `json:"gte,omitempty"`
+	Lt      *int              `json:"lt,omitempty"`
+	Lte     *int              `json:"lte,omitempty"`
+	Null    *bool             `json:"null,omitempty"`
+	NotNull *bool             `json:"notNull,omitempty"`
+	In      []*int            `json:"in,omitempty"`
+	NotIn   []*int            `json:"notIn,omitempty"`
+	Between *IntFilterBetween `json:"between,omitempty"`
 }
 
 type SQLCreateExtension struct {
 	Value        bool     `json:"value"`
-	DirectiveExt []string `json:"directiveExt"`
+	DirectiveExt []string `json:"directiveExt,omitempty"`
 }
 
 type SQLMutationParams struct {
-	Add          *SQLCreateExtension `json:"add"`
-	Update       *SQLCreateExtension `json:"update"`
-	Delete       *SQLCreateExtension `json:"delete"`
-	DirectiveExt []string            `json:"directiveExt"`
+	Add          *SQLCreateExtension `json:"add,omitempty"`
+	Update       *SQLCreateExtension `json:"update,omitempty"`
+	Delete       *SQLCreateExtension `json:"delete,omitempty"`
+	DirectiveExt []string            `json:"directiveExt,omitempty"`
 }
 
 type SQLQueryParams struct {
-	Get          *SQLCreateExtension `json:"get"`
-	Query        *SQLCreateExtension `json:"query"`
-	DirectiveExt []string            `json:"directiveExt"`
+	Get          *SQLCreateExtension `json:"get,omitempty"`
+	Query        *SQLCreateExtension `json:"query,omitempty"`
+	DirectiveExt []string            `json:"directiveExt,omitempty"`
 }
 
 type StringFilterInput struct {
-	And          []*string          `json:"and"`
-	Or           []*string          `json:"or"`
-	Not          *StringFilterInput `json:"not"`
-	Eq           *string            `json:"eq"`
-	Eqi          *string            `json:"eqi"`
-	Ne           *string            `json:"ne"`
-	StartsWith   *string            `json:"startsWith"`
-	EndsWith     *string            `json:"endsWith"`
-	Contains     *string            `json:"contains"`
-	NotContains  *string            `json:"notContains"`
-	Containsi    *string            `json:"containsi"`
-	NotContainsi *string            `json:"notContainsi"`
-	Null         *bool              `json:"null"`
-	NotNull      *bool              `json:"notNull"`
-	In           []*string          `json:"in"`
-	NotIn        []*string          `json:"notIn"`
+	And          []*string          `json:"and,omitempty"`
+	Or           []*string          `json:"or,omitempty"`
+	Not          *StringFilterInput `json:"not,omitempty"`
+	Eq           *string            `json:"eq,omitempty"`
+	Eqi          *string            `json:"eqi,omitempty"`
+	Ne           *string            `json:"ne,omitempty"`
+	StartsWith   *string            `json:"startsWith,omitempty"`
+	EndsWith     *string            `json:"endsWith,omitempty"`
+	Contains     *string            `json:"contains,omitempty"`
+	NotContains  *string            `json:"notContains,omitempty"`
+	Containsi    *string            `json:"containsi,omitempty"`
+	NotContainsi *string            `json:"notContainsi,omitempty"`
+	Null         *bool              `json:"null,omitempty"`
+	NotNull      *bool              `json:"notNull,omitempty"`
+	In           []*string          `json:"in,omitempty"`
+	NotIn        []*string          `json:"notIn,omitempty"`
 }
 
 type TimeFilterBetween struct {
@@ -226,20 +226,20 @@ type TimeFilterBetween struct {
 }
 
 type TimeFilterInput struct {
-	And     []*time.Time       `json:"and"`
-	Or      []*time.Time       `json:"or"`
-	Not     *TimeFilterInput   `json:"not"`
-	Eq      *time.Time         `json:"eq"`
-	Ne      *time.Time         `json:"ne"`
-	Gt      *time.Time         `json:"gt"`
-	Gte     *time.Time         `json:"gte"`
-	Lt      *time.Time         `json:"lt"`
-	Lte     *time.Time         `json:"lte"`
-	Null    *bool              `json:"null"`
-	NotNull *bool              `json:"notNull"`
-	In      []*time.Time       `json:"in"`
-	NotIn   []*time.Time       `json:"notIn"`
-	Between *TimeFilterBetween `json:"between"`
+	And     []*time.Time       `json:"and,omitempty"`
+	Or      []*time.Time       `json:"or,omitempty"`
+	Not     *TimeFilterInput   `json:"not,omitempty"`
+	Eq      *time.Time         `json:"eq,omitempty"`
+	Ne      *time.Time         `json:"ne,omitempty"`
+	Gt      *time.Time         `json:"gt,omitempty"`
+	Gte     *time.Time         `json:"gte,omitempty"`
+	Lt      *time.Time         `json:"lt,omitempty"`
+	Lte     *time.Time         `json:"lte,omitempty"`
+	Null    *bool              `json:"null,omitempty"`
+	NotNull *bool              `json:"notNull,omitempty"`
+	In      []*time.Time       `json:"in,omitempty"`
+	NotIn   []*time.Time       `json:"notIn,omitempty"`
+	Between *TimeFilterBetween `json:"between,omitempty"`
 }
 
 type Todo struct {
@@ -248,23 +248,23 @@ type Todo struct {
 	Users     []*User    `json:"users" gorm:"many2many:todo_users;constraint:OnDelete:CASCADE;"`
 	Owner     *User      `json:"owner"`
 	OwnerID   int        `json:"ownerID"`
-	CreatedAt *time.Time `json:"createdAt"`
-	UpdatedAt *time.Time `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	DeletedAt *time.Time `json:"deletedAt,omitempty"`
 }
 
 type TodoFiltersInput struct {
-	ID        *IDFilterInput      `json:"id"`
-	Name      *StringFilterInput  `json:"name"`
-	Users     *UserFiltersInput   `json:"users"`
-	Owner     *UserFiltersInput   `json:"owner"`
-	OwnerID   *IDFilterInput      `json:"ownerID"`
-	CreatedAt *TimeFilterInput    `json:"createdAt"`
-	UpdatedAt *TimeFilterInput    `json:"updatedAt"`
-	DeletedAt *TimeFilterInput    `json:"deletedAt"`
-	And       []*TodoFiltersInput `json:"and"`
-	Or        []*TodoFiltersInput `json:"or"`
-	Not       *TodoFiltersInput   `json:"not"`
+	ID        *IDFilterInput      `json:"id,omitempty"`
+	Name      *StringFilterInput  `json:"name,omitempty"`
+	Users     *UserFiltersInput   `json:"users,omitempty"`
+	Owner     *UserFiltersInput   `json:"owner,omitempty"`
+	OwnerID   *IDFilterInput      `json:"ownerID,omitempty"`
+	CreatedAt *TimeFilterInput    `json:"createdAt,omitempty"`
+	UpdatedAt *TimeFilterInput    `json:"updatedAt,omitempty"`
+	DeletedAt *TimeFilterInput    `json:"deletedAt,omitempty"`
+	And       []*TodoFiltersInput `json:"and,omitempty"`
+	Or        []*TodoFiltersInput `json:"or,omitempty"`
+	Not       *TodoFiltersInput   `json:"not,omitempty"`
 }
 
 type TodoInput struct {
@@ -272,12 +272,12 @@ type TodoInput struct {
 }
 
 type TodoOrder struct {
-	Asc  *TodoOrderable `json:"asc"`
-	Desc *TodoOrderable `json:"desc"`
+	Asc  *TodoOrderable `json:"asc,omitempty"`
+	Desc *TodoOrderable `json:"desc,omitempty"`
 }
 
 type TodoPatch struct {
-	Name *string `json:"name"`
+	Name *string `json:"name,omitempty"`
 }
 
 type TodoQueryResult struct {
@@ -329,45 +329,45 @@ type UpdateUserPayload struct {
 type User struct {
 	ID        int        `json:"id" gorm:"primaryKey;autoIncrement;"`
 	Name      string     `json:"name"`
-	CreatedAt *time.Time `json:"createdAt"`
-	UpdatedAt *time.Time `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt"`
-	Cat       *Cat       `json:"cat" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
-	CompanyID *int       `json:"companyID"`
-	Company   *Company   `json:"company"`
+	CreatedAt *time.Time `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
+	DeletedAt *time.Time `json:"deletedAt,omitempty"`
+	Cat       *Cat       `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
+	CompanyID *int       `json:"companyID,omitempty"`
+	Company   *Company   `json:"company,omitempty"`
 }
 
 type UserFiltersInput struct {
-	ID        *IDFilterInput       `json:"id"`
-	Name      *StringFilterInput   `json:"name"`
-	CreatedAt *TimeFilterInput     `json:"createdAt"`
-	UpdatedAt *TimeFilterInput     `json:"updatedAt"`
-	DeletedAt *TimeFilterInput     `json:"deletedAt"`
-	Cat       *CatFiltersInput     `json:"cat"`
-	CompanyID *IntFilterInput      `json:"companyID"`
-	Company   *CompanyFiltersInput `json:"company"`
-	And       []*UserFiltersInput  `json:"and"`
-	Or        []*UserFiltersInput  `json:"or"`
-	Not       *UserFiltersInput    `json:"not"`
+	ID        *IDFilterInput       `json:"id,omitempty"`
+	Name      *StringFilterInput   `json:"name,omitempty"`
+	CreatedAt *TimeFilterInput     `json:"createdAt,omitempty"`
+	UpdatedAt *TimeFilterInput     `json:"updatedAt,omitempty"`
+	DeletedAt *TimeFilterInput     `json:"deletedAt,omitempty"`
+	Cat       *CatFiltersInput     `json:"cat,omitempty"`
+	CompanyID *IntFilterInput      `json:"companyID,omitempty"`
+	Company   *CompanyFiltersInput `json:"company,omitempty"`
+	And       []*UserFiltersInput  `json:"and,omitempty"`
+	Or        []*UserFiltersInput  `json:"or,omitempty"`
+	Not       *UserFiltersInput    `json:"not,omitempty"`
 }
 
 type UserInput struct {
 	Name      string        `json:"name"`
-	Cat       *CatInput     `json:"cat"`
-	CompanyID *int          `json:"companyID"`
-	Company   *CompanyInput `json:"company"`
+	Cat       *CatInput     `json:"cat,omitempty"`
+	CompanyID *int          `json:"companyID,omitempty"`
+	Company   *CompanyInput `json:"company,omitempty"`
 }
 
 type UserOrder struct {
-	Asc  *UserOrderable `json:"asc"`
-	Desc *UserOrderable `json:"desc"`
+	Asc  *UserOrderable `json:"asc,omitempty"`
+	Desc *UserOrderable `json:"desc,omitempty"`
 }
 
 type UserPatch struct {
-	Name      *string       `json:"name"`
-	Cat       *CatPatch     `json:"cat"`
-	CompanyID *int          `json:"companyID"`
-	Company   *CompanyPatch `json:"company"`
+	Name      *string       `json:"name,omitempty"`
+	Cat       *CatPatch     `json:"cat,omitempty"`
+	CompanyID *int          `json:"companyID,omitempty"`
+	Company   *CompanyPatch `json:"company,omitempty"`
 }
 
 type UserQueryResult struct {

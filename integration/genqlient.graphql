@@ -201,6 +201,19 @@ query allUserWithACat{
   }
 }
 
+# Test for https://github.com/fasibio/autogql/issues/24
+query allUserWithACatOnlyUserId{
+  queryUser(filter:{cat:{userID: {notNull:true}}}){
+    data{
+      id
+      cat{
+        id
+        name
+      }
+    }
+  }
+}
+
 query allTodosPartOfCompany($companyName:String){
   queryTodo(filter: { users:{company: {name: {eq: $companyName}}}}, order:{desc:id}){
     data{
