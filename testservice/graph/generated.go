@@ -158,6 +158,8 @@ type ComplexityRoot struct {
 	Todo struct {
 		CreatedAt func(childComplexity int) int
 		DeletedAt func(childComplexity int) int
+		Etype1    func(childComplexity int) int
+		Etype5    func(childComplexity int) int
 		ID        func(childComplexity int) int
 		Name      func(childComplexity int) int
 		Owner     func(childComplexity int) int
@@ -831,6 +833,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Todo.DeletedAt(childComplexity), true
 
+	case "Todo.etype1":
+		if e.complexity.Todo.Etype1 == nil {
+			break
+		}
+
+		return e.complexity.Todo.Etype1(childComplexity), true
+
+	case "Todo.etype5":
+		if e.complexity.Todo.Etype5 == nil {
+			break
+		}
+
+		return e.complexity.Todo.Etype5(childComplexity), true
+
 	case "Todo.id":
 		if e.complexity.Todo.ID == nil {
 			break
@@ -1417,10 +1433,14 @@ extend type Mutation {
 
 input TodoInput{
   name: String!
+  etype1: TodoType
+  etype5: TodoType!
 }
 
 input TodoPatch{
   name: String
+  etype1: TodoType
+  etype5: TodoType
 }
 
 input UpdateTodoInput{
@@ -5265,6 +5285,10 @@ func (ec *executionContext) fieldContext_Query_getTodo(ctx context.Context, fiel
 				return ec.fieldContext_Todo_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_Todo_deletedAt(ctx, field)
+			case "etype1":
+				return ec.fieldContext_Todo_etype1(ctx, field)
+			case "etype5":
+				return ec.fieldContext_Todo_etype5(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -5981,6 +6005,91 @@ func (ec *executionContext) fieldContext_Todo_deletedAt(ctx context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _Todo_etype1(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Todo_etype1(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Etype1, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.TodoType)
+	fc.Result = res
+	return ec.marshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Todo_etype1(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Todo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type TodoType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Todo_etype5(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Todo_etype5(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Etype5, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(model.TodoType)
+	fc.Result = res
+	return ec.marshalNTodoType2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Todo_etype5(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Todo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type TodoType does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _TodoQueryResult_data(ctx context.Context, field graphql.CollectedField, obj *model.TodoQueryResult) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoQueryResult_data(ctx, field)
 	if err != nil {
@@ -6036,6 +6145,10 @@ func (ec *executionContext) fieldContext_TodoQueryResult_data(ctx context.Contex
 				return ec.fieldContext_Todo_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_Todo_deletedAt(ctx, field)
+			case "etype1":
+				return ec.fieldContext_Todo_etype1(ctx, field)
+			case "etype5":
+				return ec.fieldContext_Todo_etype5(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -10191,7 +10304,7 @@ func (ec *executionContext) unmarshalInputTodoInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name"}
+	fieldsInOrder := [...]string{"name", "etype1", "etype5"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10203,6 +10316,22 @@ func (ec *executionContext) unmarshalInputTodoInput(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
 			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "etype1":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype1"))
+			it.Etype1, err = ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "etype5":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
+			it.Etype5, err = ec.unmarshalNTodoType2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -10255,7 +10384,7 @@ func (ec *executionContext) unmarshalInputTodoPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name"}
+	fieldsInOrder := [...]string{"name", "etype1", "etype5"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10267,6 +10396,22 @@ func (ec *executionContext) unmarshalInputTodoPatch(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
 			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "etype1":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype1"))
+			it.Etype1, err = ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "etype5":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
+			it.Etype5, err = ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11643,6 +11788,17 @@ func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj
 
 			out.Values[i] = ec._Todo_deletedAt(ctx, field, obj)
 
+		case "etype1":
+
+			out.Values[i] = ec._Todo_etype1(ctx, field, obj)
+
+		case "etype5":
+
+			out.Values[i] = ec._Todo_etype5(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -12729,6 +12885,16 @@ func (ec *executionContext) marshalNTodoQueryResult2ᚖgithubᚗcomᚋfasibioᚋ
 	return ec._TodoQueryResult(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNTodoType2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx context.Context, v interface{}) (model.TodoType, error) {
+	var res model.TodoType
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNTodoType2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx context.Context, sel ast.SelectionSet, v model.TodoType) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) unmarshalNUpdateCatInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateCatInput(ctx context.Context, v interface{}) (model.UpdateCatInput, error) {
 	res, err := ec.unmarshalInputUpdateCatInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -13764,6 +13930,22 @@ func (ec *executionContext) marshalOTodoQueryResult2ᚖgithubᚗcomᚋfasibioᚋ
 		return graphql.Null
 	}
 	return ec._TodoQueryResult(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx context.Context, v interface{}) (*model.TodoType, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.TodoType)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx context.Context, sel ast.SelectionSet, v *model.TodoType) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
 }
 
 func (ec *executionContext) marshalOUpdateCatPayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateCatPayload(ctx context.Context, sel ast.SelectionSet, v *model.UpdateCatPayload) graphql.Marshaler {

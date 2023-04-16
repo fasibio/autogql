@@ -12,6 +12,7 @@ import (
 type Entity struct {
 	BuiltIn    bool
 	Raw        *ast.FieldDefinition
+	RawObject  *ast.Definition
 	TypeObject *Object
 }
 
@@ -84,6 +85,9 @@ func (e Entity) GqlTypeObj() *Object {
 }
 
 func (e Entity) GqlType(suffix string) string {
+	if e.RawObject.Kind == ast.Enum {
+		suffix = ""
+	}
 	name := e.Raw.Type.Name()
 
 	if e.IsPrimitive() {

@@ -4513,6 +4513,40 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "etype1",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "ENUM",
+                                    Name:   &"TodoType",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "etype5",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "ENUM",
+                                        Name:   &"TodoType",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -4729,6 +4763,38 @@
                                 DefaultValue: (*string)(nil),
                             },
                         },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "etype1",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "ENUM",
+                                        Name:   &"TodoType",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "etype5",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "NON_NULL",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfType{
+                                            Kind:   "ENUM",
+                                            Name:   &"TodoType",
+                                            OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
                     },
                     Interfaces: {
                     },
@@ -4840,6 +4906,34 @@
                                 DefaultValue: (*string)(nil),
                             },
                         },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "etype1",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "ENUM",
+                                        Name:   &"TodoType",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "etype5",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "ENUM",
+                                        Name:   &"TodoType",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
                     },
                     Interfaces: {
                     },
@@ -4926,6 +5020,35 @@
                     Interfaces: {
                     },
                     EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "ENUM",
+                    Name:        &"TodoType",
+                    Description: (*string)(nil),
+                    Fields:      {
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "Bug",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "Feature",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     PossibleTypes: {
                     },
@@ -6552,11 +6675,36 @@
     AddTodo: &integration.addTodosAddTodoAddTodoPayload{
         Todo: &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResult{
             Data: {
-                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{Id:"1", Name:"Task 1"},
-                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{Id:"2", Name:"Task 2"},
-                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{Id:"3", Name:"Task 3"},
-                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{Id:"4", Name:"Task 4"},
-                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{Id:"5", Name:"Task 5"},
+                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{
+                    Id:     "1",
+                    Name:   "Task 1",
+                    Etype1: &"Feature",
+                    Etype5: "Feature",
+                },
+                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{
+                    Id:     "2",
+                    Name:   "Task 2",
+                    Etype1: &"",
+                    Etype5: "Bug",
+                },
+                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{
+                    Id:     "3",
+                    Name:   "Task 3",
+                    Etype1: &"",
+                    Etype5: "Feature",
+                },
+                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{
+                    Id:     "4",
+                    Name:   "Task 4",
+                    Etype1: &"",
+                    Etype5: "Bug",
+                },
+                &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{
+                    Id:     "5",
+                    Name:   "Task 5",
+                    Etype1: &"Feature",
+                    Etype5: "Feature",
+                },
             },
         },
     },
@@ -6569,37 +6717,47 @@
         Todo: &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult{
             Data: {
                 &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo{
-                    Id:    "1",
-                    Name:  "Task 1",
-                    Users: {
+                    Id:     "1",
+                    Name:   "Task 1",
+                    Etype1: &"Feature",
+                    Etype5: "Feature",
+                    Users:  {
                         &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser{Id:"1", Name:"Jan"},
                         &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser{Id:"3", Name:"Peter"},
                     },
                 },
                 &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo{
-                    Id:    "2",
-                    Name:  "Task 2",
-                    Users: {
+                    Id:     "2",
+                    Name:   "Task 2",
+                    Etype1: &"",
+                    Etype5: "Bug",
+                    Users:  {
                     },
                 },
                 &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo{
-                    Id:    "3",
-                    Name:  "Task 3",
-                    Users: {
+                    Id:     "3",
+                    Name:   "Task 3",
+                    Etype1: &"",
+                    Etype5: "Feature",
+                    Users:  {
                         &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser{Id:"1", Name:"Jan"},
                         &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser{Id:"3", Name:"Peter"},
                     },
                 },
                 &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo{
-                    Id:    "4",
-                    Name:  "Task 4",
-                    Users: {
+                    Id:     "4",
+                    Name:   "Task 4",
+                    Etype1: &"",
+                    Etype5: "Bug",
+                    Users:  {
                     },
                 },
                 &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo{
-                    Id:    "5",
-                    Name:  "Task 5",
-                    Users: {
+                    Id:     "5",
+                    Name:   "Task 5",
+                    Etype1: &"Feature",
+                    Etype5: "Feature",
+                    Users:  {
                         &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser{Id:"1", Name:"Jan"},
                         &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser{Id:"3", Name:"Peter"},
                     },
@@ -6704,9 +6862,11 @@
     QueryTodo: &integration.allTodosPartOfCompanyQueryTodoTodoQueryResult{
         Data: {
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "5",
-                Name:  "Task 5",
-                Users: {
+                Id:     "5",
+                Name:   "Task 5",
+                Etype1: &"Feature",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -6720,9 +6880,11 @@
                 },
             },
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "5",
-                Name:  "Task 5",
-                Users: {
+                Id:     "5",
+                Name:   "Task 5",
+                Etype1: &"Feature",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -6736,9 +6898,11 @@
                 },
             },
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "3",
-                Name:  "Task 3",
-                Users: {
+                Id:     "3",
+                Name:   "Task 3",
+                Etype1: &"",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -6752,9 +6916,11 @@
                 },
             },
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "3",
-                Name:  "Task 3",
-                Users: {
+                Id:     "3",
+                Name:   "Task 3",
+                Etype1: &"",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -6768,9 +6934,11 @@
                 },
             },
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "1",
-                Name:  "Task 1",
-                Users: {
+                Id:     "1",
+                Name:   "Task 1",
+                Etype1: &"Feature",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -6784,9 +6952,11 @@
                 },
             },
             &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo{
-                Id:    "1",
-                Name:  "Task 1",
-                Users: {
+                Id:     "1",
+                Name:   "Task 1",
+                Etype1: &"Feature",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -7002,9 +7172,11 @@
         Count: 3,
         Data:  {
             &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo{
-                Id:    "5",
-                Name:  "Task 5",
-                Users: {
+                Id:     "5",
+                Name:   "Task 5",
+                Etype1: &"Feature",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -7018,9 +7190,11 @@
                 },
             },
             &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo{
-                Id:    "3",
-                Name:  "Task 3",
-                Users: {
+                Id:     "3",
+                Name:   "Task 3",
+                Etype1: &"",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",
@@ -7034,9 +7208,11 @@
                 },
             },
             &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo{
-                Id:    "1",
-                Name:  "Task 1",
-                Users: {
+                Id:     "1",
+                Name:   "Task 1",
+                Etype1: &"Feature",
+                Etype5: "Feature",
+                Users:  {
                     &integration.allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser{
                         Id:      "1",
                         Name:    "Jan",

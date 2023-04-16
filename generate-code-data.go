@@ -259,6 +259,9 @@ func (db *GenerateData) GetPointerSymbol(entity structure.Entity) string {
 	if entity.IsPrimitive() {
 		return ""
 	}
+	if entity.Required() {
+		return ""
+	}
 	if entity.IsArray() {
 		return ""
 	}

@@ -52,7 +52,7 @@ func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.Fi
 						if d := fd.Directives.ForName(string(structure.DirectiveSQLGorm)); d != nil {
 							sb.WriteString(d.Arguments.ForName("value").Value.Raw + ";")
 						}
-						if !e.IsPrimitive() && !e.GqlTypeObj().HasSqlDirective() {
+						if !e.IsPrimitive() && e.RawObject.Kind != ast.Enum && !e.GqlTypeObj().HasSqlDirective() {
 							sb.WriteString("-;")
 						}
 						sb.WriteRune('"')

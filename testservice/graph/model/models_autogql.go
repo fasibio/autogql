@@ -2,6 +2,10 @@
 
 package model
 
+func (d *TodoType) MergeToType() TodoType {
+	return *d
+}
+
 func (d *CatPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 
@@ -94,14 +98,28 @@ func (d *TodoPatch) MergeToType() map[string]interface{} {
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
+	if d.Etype1 != nil {
+		res["etype1"] = d.Etype1.MergeToType()
+	}
+	if d.Etype5 != nil {
+		res["etype5"] = d.Etype5.MergeToType()
+	}
 	return res
 }
 
 func (d *TodoInput) MergeToType() Todo {
 
 	tmpName := d.Name
+	var tmpEtype1 TodoType
+	if d.Etype1 != nil {
+		tmpEtype1 = d.Etype1.MergeToType()
+	}
+
+	tmpEtype5 := d.Etype5
 	return Todo{
-		Name: tmpName,
+		Name:   tmpName,
+		Etype1: &tmpEtype1,
+		Etype5: tmpEtype5,
 	}
 }
 
