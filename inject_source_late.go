@@ -73,6 +73,7 @@ func getSqlBuilderFields(fields ast.FieldList, schema *ast.Schema, knownValues s
 			BuiltIn:    schema.Types[field.Type.Name()].BuiltIn,
 			TypeObject: m,
 			Raw:        field,
+			RawObject:  schema.Types[field.Type.Name()],
 		}
 		res = append(res, tempE)
 		fillSqlBuilderByName(schema, field.Type.Name(), knownValues)

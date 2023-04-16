@@ -2,6 +2,12 @@
 {{ reserveImport "time"  }}
 {{- $root := .}}
 {{- $input2TypeName := "MergeToType"}}
+{{- range $objectName, $object := .Handler.List.Enums }}
+	func (d *{{$objectName}}) {{$input2TypeName}}() {{$objectName}} {
+		return *d
+	}
+{{- end}}
+
 {{- range $objectName, $object := .Handler.List.Objects }}
 {{$objectName := $object.Name}}
 
@@ -45,7 +51,7 @@
 	func (d *{{$objectName}}Input) {{$input2TypeName}}() {{$objectName}} {
 		{{- range $entityKey, $entity := $object.InputEntities }}
 		{{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
-		{{- if not $entity.IsPrimitive}}
+		{{- if and (not $entity.IsPrimitive) (not $entity.Required)}}
 		var tmp{{$entityGoName}} {{ if $entity.IsArray}} []*{{$entity.GqlTypeName }} {{ else }} {{$entity.GqlTypeName }} {{ end }}
 		if d.{{$entityGoName}} != nil {
 			{{- if $entity.IsArray}}

@@ -154,21 +154,29 @@ func (suite *QueryTestSuite) AddCats(t *testing.T) {
 }
 
 func (suite *QueryTestSuite) AddTodos(t *testing.T) {
+	ttf := TodoTypeFeature
 	resp, err := addTodos(context.TODO(), suite.Client, []*TodoInput{
 		{
-			Name: "Task 1",
+			Name:   "Task 1",
+			Etype1: &ttf,
+			Etype5: ttf,
 		},
 		{
-			Name: "Task 2",
+			Name:   "Task 2",
+			Etype5: TodoTypeBug,
 		},
 		{
-			Name: "Task 3",
+			Name:   "Task 3",
+			Etype5: ttf,
 		},
 		{
-			Name: "Task 4",
+			Name:   "Task 4",
+			Etype5: TodoTypeBug,
 		},
 		{
-			Name: "Task 5",
+			Name:   "Task 5",
+			Etype1: &ttf,
+			Etype5: ttf,
 		},
 	})
 	assert.Nil(t, err)

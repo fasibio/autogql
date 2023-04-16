@@ -1,4 +1,4 @@
-directive @SQL(query: SqlQueryParams, mutation: SqlMutationParams) on OBJECT
+directive @SQL(order: Int, query: SqlQueryParams, mutation: SqlMutationParams) on OBJECT
 
 directive @SQL_GORM(value: String) on FIELD_DEFINITION
 
@@ -300,6 +300,8 @@ type Todo {
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
+  etype1: TodoType
+  etype5: TodoType!
 }
 
 input TodoFiltersInput {
@@ -318,6 +320,8 @@ input TodoFiltersInput {
 
 input TodoInput {
   name: String!
+  etype1: TodoType
+  etype5: TodoType!
 }
 
 input TodoOrder {
@@ -333,12 +337,19 @@ enum TodoOrderable {
 
 input TodoPatch {
   name: String
+  etype1: TodoType
+  etype5: TodoType
 }
 
 type TodoQueryResult {
   data: [Todo!]!
   count: Int!
   totalCount: Int!
+}
+
+enum TodoType {
+  Bug
+  Feature
 }
 
 input UpdateCatInput {
