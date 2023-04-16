@@ -2,6 +2,12 @@
 {{ reserveImport "time"  }}
 {{- $root := .}}
 {{- $input2TypeName := "MergeToType"}}
+{{- range $objectName, $object := .Handler.List.Enums }}
+	func (d *{{$objectName}}) {{$input2TypeName}}() {{$objectName}} {
+		return *d
+	}
+{{- end}}
+
 {{- range $objectName, $object := .Handler.List.Objects }}
 {{$objectName := $object.Name}}
 
