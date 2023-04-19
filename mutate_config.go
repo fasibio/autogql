@@ -52,7 +52,7 @@ func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.Fi
 						if d := fd.Directives.ForName(string(structure.DirectiveSQLGorm)); d != nil {
 							sb.WriteString(d.Arguments.ForName("value").Value.Raw + ";")
 						}
-						if !e.IsPrimitive() && e.RawObject.Kind != ast.Enum && !e.GqlTypeObj().HasSqlDirective() {
+						if shouldIgnoredByGorm(&e) {
 							sb.WriteString("-;")
 						}
 						sb.WriteRune('"')
@@ -66,9 +66,13 @@ func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.Fi
 		return f, nil
 	}
 }
+
+func shouldIgnoredByGorm(e *structure.Entity) bool {
+	return !e.IsPrimitive() && e.RawObject.Kind != ast.Enum && !e.GqlTypeObj().HasSqlDirective()
+}
+
 func MutateHook(ggs *AutoGqlPlugin) func(b *modelgen.ModelBuild) *modelgen.ModelBuild {
 	return func(b *modelgen.ModelBuild) *modelgen.ModelBuild {
-
 		return b
 	}
 
