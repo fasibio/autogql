@@ -32,7 +32,6 @@ func (sbh SqlBuilderList) Objects() map[string]Object {
 	}
 	return res
 }
-
 func (sbh SqlBuilderList) Enums() map[string]Object {
 	res := make(map[string]Object)
 	for k, v := range sbh {

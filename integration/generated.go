@@ -1239,9 +1239,10 @@ func (v *TodoFiltersInput) GetOr() []*TodoFiltersInput { return v.Or }
 func (v *TodoFiltersInput) GetNot() *TodoFiltersInput { return v.Not }
 
 type TodoInput struct {
-	Name   string    `json:"name"`
-	Etype1 *TodoType `json:"etype1"`
-	Etype5 TodoType  `json:"etype5"`
+	Name    string    `json:"name"`
+	Etype1  *TodoType `json:"etype1"`
+	Etype5  TodoType  `json:"etype5"`
+	Test123 *string   `json:"test123"`
 }
 
 // GetName returns TodoInput.Name, and is useful for accessing the field via an interface.
@@ -1252,6 +1253,9 @@ func (v *TodoInput) GetEtype1() *TodoType { return v.Etype1 }
 
 // GetEtype5 returns TodoInput.Etype5, and is useful for accessing the field via an interface.
 func (v *TodoInput) GetEtype5() TodoType { return v.Etype5 }
+
+// GetTest123 returns TodoInput.Test123, and is useful for accessing the field via an interface.
+func (v *TodoInput) GetTest123() *string { return v.Test123 }
 
 type TodoType string
 
@@ -1784,10 +1788,11 @@ func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResult) GetData() []*addTodos
 
 // addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo struct {
-	Id     string    `json:"id"`
-	Name   string    `json:"name"`
-	Etype1 *TodoType `json:"etype1"`
-	Etype5 TodoType  `json:"etype5"`
+	Id      string    `json:"id"`
+	Name    string    `json:"name"`
+	Etype1  *TodoType `json:"etype1"`
+	Etype5  TodoType  `json:"etype5"`
+	Test123 *string   `json:"test123"`
 }
 
 // GetId returns addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -1804,6 +1809,11 @@ func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo) GetEtype1() *
 // GetEtype5 returns addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo.Etype5, and is useful for accessing the field via an interface.
 func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo) GetEtype5() TodoType {
 	return v.Etype5
+}
+
+// GetTest123 returns addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
+func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo) GetTest123() *string {
+	return v.Test123
 }
 
 // addTodosResponse is returned by addTodos on success.
@@ -1836,11 +1846,12 @@ func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult) GetData(
 
 // addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo struct {
-	Id     string                                                                            `json:"id"`
-	Name   string                                                                            `json:"name"`
-	Etype1 *TodoType                                                                         `json:"etype1"`
-	Etype5 TodoType                                                                          `json:"etype5"`
-	Users  []*addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+	Id      string                                                                            `json:"id"`
+	Name    string                                                                            `json:"name"`
+	Etype1  *TodoType                                                                         `json:"etype1"`
+	Etype5  TodoType                                                                          `json:"etype5"`
+	Test123 *string                                                                           `json:"test123"`
+	Users   []*addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUsersUser `json:"users"`
 }
 
 // GetId returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -1861,6 +1872,11 @@ func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo) 
 // GetEtype5 returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo.Etype5, and is useful for accessing the field via an interface.
 func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo) GetEtype5() TodoType {
 	return v.Etype5
+}
+
+// GetTest123 returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
+func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo) GetTest123() *string {
+	return v.Test123
 }
 
 // GetUsers returns addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
@@ -1966,11 +1982,12 @@ func (v *allTodosByUserCatNameQueryTodoTodoQueryResult) GetData() []*allTodosByU
 
 // allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo struct {
-	Id     string                                                            `json:"id"`
-	Name   string                                                            `json:"name"`
-	Etype1 *TodoType                                                         `json:"etype1"`
-	Etype5 TodoType                                                          `json:"etype5"`
-	Users  []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+	Id      string                                                            `json:"id"`
+	Name    string                                                            `json:"name"`
+	Etype1  *TodoType                                                         `json:"etype1"`
+	Etype5  TodoType                                                          `json:"etype5"`
+	Test123 *string                                                           `json:"test123"`
+	Users   []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
 }
 
 // GetId returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -1986,6 +2003,11 @@ func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo) GetEtype1() *Tod
 
 // GetEtype5 returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo.Etype5, and is useful for accessing the field via an interface.
 func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo) GetEtype5() TodoType { return v.Etype5 }
+
+// GetTest123 returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
+func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo) GetTest123() *string {
+	return v.Test123
+}
 
 // GetUsers returns allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
 func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo) GetUsers() []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUser {
@@ -2044,11 +2066,12 @@ func (v *allTodosPartOfCompanyQueryTodoTodoQueryResult) GetData() []*allTodosPar
 
 // allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo struct {
-	Id     string                                                            `json:"id"`
-	Name   string                                                            `json:"name"`
-	Etype1 *TodoType                                                         `json:"etype1"`
-	Etype5 TodoType                                                          `json:"etype5"`
-	Users  []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+	Id      string                                                            `json:"id"`
+	Name    string                                                            `json:"name"`
+	Etype1  *TodoType                                                         `json:"etype1"`
+	Etype5  TodoType                                                          `json:"etype5"`
+	Test123 *string                                                           `json:"test123"`
+	Users   []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
 }
 
 // GetId returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -2064,6 +2087,11 @@ func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo) GetEtype1() *Tod
 
 // GetEtype5 returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo.Etype5, and is useful for accessing the field via an interface.
 func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo) GetEtype5() TodoType { return v.Etype5 }
+
+// GetTest123 returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
+func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo) GetTest123() *string {
+	return v.Test123
+}
 
 // GetUsers returns allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
 func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo) GetUsers() []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUser {
@@ -2883,6 +2911,7 @@ mutation addTodos ($input: [TodoInput!]!) {
 				name
 				etype1
 				etype5
+				test123
 			}
 		}
 	}
@@ -2922,6 +2951,7 @@ mutation addUser2Todo ($input: UserRef2TodosInput!) {
 				name
 				etype1
 				etype5
+				test123
 				users {
 					id
 					name
@@ -3005,6 +3035,7 @@ query allTodosByUserCatName ($catName: String) {
 			name
 			etype1
 			etype5
+			test123
 			users {
 				id
 				name
@@ -3049,6 +3080,7 @@ query allTodosPartOfCompany ($companyName: String) {
 			name
 			etype1
 			etype5
+			test123
 			users {
 				id
 				name

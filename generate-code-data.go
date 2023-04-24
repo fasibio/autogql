@@ -114,16 +114,28 @@ func (db *GenerateData) GetGoFieldType(typeName string, v structure.Entity, root
 			for _, fv := range fields {
 				if fv.Name == v.Name() {
 					if rootType {
-						return strings.TrimLeft(fv.Type.String(), "*")
+						return strings.TrimLeft(trimStructPath(fv.Type.String()), "*")
 					}
-					return fv.Type.String()
+					return trimStructPath(fv.Type.String())
 				}
 			}
-
 		}
 	}
 	return templates.UcFirst(v.Name())
 
+}
+
+func trimStructPath(structPath string) string {
+	if strings.Contains(structPath, ".") {
+		components := strings.Split(structPath, ".")
+		pointer := structPath[0:1]
+		if pointer != "*" {
+			pointer = ""
+		}
+
+		return pointer + components[len(components)-1]
+	}
+	return structPath
 }
 
 func (db *GenerateData) GetMaxMatchGoFieldType(objectname string, entities []structure.Entity) string {

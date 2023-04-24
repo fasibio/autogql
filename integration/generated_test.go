@@ -155,23 +155,28 @@ func (suite *QueryTestSuite) AddCats(t *testing.T) {
 
 func (suite *QueryTestSuite) AddTodos(t *testing.T) {
 	ttf := TodoTypeFeature
+	testField := "Scalar A"
 	resp, err := addTodos(context.TODO(), suite.Client, []*TodoInput{
 		{
-			Name:   "Task 1",
-			Etype1: &ttf,
-			Etype5: ttf,
+			Name:    "Task 1",
+			Etype1:  &ttf,
+			Etype5:  ttf,
+			Test123: &testField,
 		},
 		{
-			Name:   "Task 2",
-			Etype5: TodoTypeBug,
+			Name:    "Task 2",
+			Etype5:  TodoTypeBug,
+			Test123: &testField,
 		},
 		{
-			Name:   "Task 3",
-			Etype5: ttf,
+			Name:    "Task 3",
+			Etype5:  ttf,
+			Test123: &testField,
 		},
 		{
-			Name:   "Task 4",
-			Etype5: TodoTypeBug,
+			Name:    "Task 4",
+			Etype5:  TodoTypeBug,
+			Test123: &testField,
 		},
 		{
 			Name:   "Task 5",

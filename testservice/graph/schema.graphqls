@@ -6,6 +6,8 @@ enum TodoType{
   Bug, Feature
 }
 
+scalar Test
+
 type Todo @SQL(order: 3){
   id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
   name: String!
@@ -20,7 +22,8 @@ type Todo @SQL(order: 3){
   # etype3: [TodoType!]
   # etype4: [TodoType!]!
   etype5: TodoType!
-}
+  test123: Test
+  }
 
 type User @SQL(order: 2){
   id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")

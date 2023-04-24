@@ -80,6 +80,7 @@ func (d *CompanyInput) MergeToType() Company {
 	if d.MotherCompanyID != nil {
 		tmpMotherCompanyID = d.MotherCompanyID
 	}
+
 	var tmpMotherCompany Company
 	if d.MotherCompany != nil {
 		tmpMotherCompany = d.MotherCompany.MergeToType()
@@ -104,22 +105,32 @@ func (d *TodoPatch) MergeToType() map[string]interface{} {
 	if d.Etype5 != nil {
 		res["etype5"] = d.Etype5.MergeToType()
 	}
+	if d.Test123 != nil {
+		res["test123"] = *d.Test123
+	}
 	return res
 }
 
 func (d *TodoInput) MergeToType() Todo {
 
 	tmpName := d.Name
+
 	var tmpEtype1 TodoType
 	if d.Etype1 != nil {
 		tmpEtype1 = d.Etype1.MergeToType()
 	}
 
 	tmpEtype5 := d.Etype5
+
+	var tmpTest123 string
+	if d.Test123 != nil {
+		tmpTest123 = *d.Test123
+	}
 	return Todo{
-		Name:   tmpName,
-		Etype1: &tmpEtype1,
-		Etype5: tmpEtype5,
+		Name:    tmpName,
+		Etype1:  &tmpEtype1,
+		Etype5:  tmpEtype5,
+		Test123: &tmpTest123,
 	}
 }
 
@@ -145,6 +156,7 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 func (d *UserInput) MergeToType() User {
 
 	tmpName := d.Name
+
 	var tmpCat Cat
 	if d.Cat != nil {
 		tmpCat = d.Cat.MergeToType()
@@ -154,6 +166,7 @@ func (d *UserInput) MergeToType() User {
 	if d.CompanyID != nil {
 		tmpCompanyID = d.CompanyID
 	}
+
 	var tmpCompany Company
 	if d.Company != nil {
 		tmpCompany = d.Company.MergeToType()

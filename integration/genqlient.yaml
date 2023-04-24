@@ -8,5 +8,7 @@ generated: generated.go
 bindings:
   Time:
     type: time.Time
+  Test: 
+    type: string
 use_struct_references: true
 optional: pointer

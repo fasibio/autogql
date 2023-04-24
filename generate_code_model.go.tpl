@@ -40,7 +40,11 @@
 			}
 			res["{{$entity.DatabaseFieldName}}"] = tmp{{$entityGoName}}
 			{{- else}}
-			res["{{$entity.DatabaseFieldName}}"] = d.{{$entityGoName}}.{{$input2TypeName}}()
+				{{- if $entity.IsScalar}}
+					res["{{$entity.DatabaseFieldName}}"] = {{if not $entity.Required}}*{{end}} d.{{$entityGoName}}
+				{{- else}}
+					res["{{$entity.DatabaseFieldName}}"] = d.{{$entityGoName}}.{{$input2TypeName}}()
+				{{- end}}
 			{{- end}}	
 		}
 		{{- end}}
@@ -52,18 +56,23 @@
 		{{- range $entityKey, $entity := $object.InputEntities }}
 		{{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
 		{{- if and (not $entity.IsPrimitive) (not $entity.Required)}}
-		var tmp{{$entityGoName}} {{ if $entity.IsArray}} []*{{$entity.GqlTypeName }} {{ else }} {{$entity.GqlTypeName }} {{ end }}
-		if d.{{$entityGoName}} != nil {
+			{{$entityType := $root.GetGoFieldType $objectName $entity true}}
+			var tmp{{$entityGoName}} {{ if $entity.IsArray}} []{{$entityType }} {{ else }} {{$entityType }} {{ end }}
+			if d.{{$entityGoName}} != nil {
 			{{- if $entity.IsArray}}
-			tmp{{$entityGoName}} = make([]*{{$entity.GqlTypeName }},len(d.{{$entityGoName}}))
-			for _, v := range d.{{$entityGoName}}{
-				tmp := v.{{$input2TypeName}}()
-				tmp{{$entityGoName}} = append(tmp{{$entityGoName}}, &tmp)
-			}
+				tmp{{$entityGoName}} = make([]*{{$entityType }},len(d.{{$entityGoName}}))
+				for _, v := range d.{{$entityGoName}}{
+					tmp := v.{{$input2TypeName}}()
+					tmp{{$entityGoName}} = append(tmp{{$entityGoName}}, &tmp)
+				}
 			{{- else}}
-			tmp{{$entityGoName}} = d.{{$entityGoName}}.{{$input2TypeName}}()
+				{{- if $entity.IsScalar}}
+					tmp{{$entityGoName}} = {{if not $entity.Required}}*{{end}}d.{{$entityGoName}}
+				{{- else}}
+					tmp{{$entityGoName}} = d.{{$entityGoName}}.{{$input2TypeName}}()
+				{{- end}}
 			{{- end}}	
-		}
+			}
 		{{- else}}
 		{{$entityType := $root.GetGoFieldType $objectName $entity false}}
 			{{- if $entity.Required}}

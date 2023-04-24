@@ -253,6 +253,7 @@ type Todo struct {
 	DeletedAt *time.Time `json:"deletedAt,omitempty"`
 	Etype1    *TodoType  `json:"etype1,omitempty"`
 	Etype5    TodoType   `json:"etype5"`
+	Test123   *string    `json:"test123,omitempty"`
 }
 
 type TodoFiltersInput struct {
@@ -270,9 +271,10 @@ type TodoFiltersInput struct {
 }
 
 type TodoInput struct {
-	Name   string    `json:"name"`
-	Etype1 *TodoType `json:"etype1,omitempty"`
-	Etype5 TodoType  `json:"etype5"`
+	Name    string    `json:"name"`
+	Etype1  *TodoType `json:"etype1,omitempty"`
+	Etype5  TodoType  `json:"etype5"`
+	Test123 *string   `json:"test123,omitempty"`
 }
 
 type TodoOrder struct {
@@ -281,9 +283,10 @@ type TodoOrder struct {
 }
 
 type TodoPatch struct {
-	Name   *string   `json:"name,omitempty"`
-	Etype1 *TodoType `json:"etype1,omitempty"`
-	Etype5 *TodoType `json:"etype5,omitempty"`
+	Name    *string   `json:"name,omitempty"`
+	Etype1  *TodoType `json:"etype1,omitempty"`
+	Etype5  *TodoType `json:"etype5,omitempty"`
+	Test123 *string   `json:"test123,omitempty"`
 }
 
 type TodoQueryResult struct {

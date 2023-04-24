@@ -267,6 +267,8 @@ input StringFilterInput {
   notIn: [String]
 }
 
+scalar Test
+
 scalar Time
 
 input TimeFilterBetween {
@@ -302,6 +304,7 @@ type Todo {
   deletedAt: Time
   etype1: TodoType
   etype5: TodoType!
+  test123: Test
 }
 
 input TodoFiltersInput {
@@ -322,6 +325,7 @@ input TodoInput {
   name: String!
   etype1: TodoType
   etype5: TodoType!
+  test123: Test
 }
 
 input TodoOrder {
@@ -339,6 +343,7 @@ input TodoPatch {
   name: String
   etype1: TodoType
   etype5: TodoType
+  test123: Test
 }
 
 type TodoQueryResult {

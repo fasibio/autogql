@@ -164,6 +164,7 @@ type ComplexityRoot struct {
 		Name      func(childComplexity int) int
 		Owner     func(childComplexity int) int
 		OwnerID   func(childComplexity int) int
+		Test123   func(childComplexity int) int
 		UpdatedAt func(childComplexity int) int
 		Users     func(childComplexity int) int
 	}
@@ -875,6 +876,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Todo.OwnerID(childComplexity), true
 
+	case "Todo.test123":
+		if e.complexity.Todo.Test123 == nil {
+			break
+		}
+
+		return e.complexity.Todo.Test123(childComplexity), true
+
 	case "Todo.updatedAt":
 		if e.complexity.Todo.UpdatedAt == nil {
 			break
@@ -1435,12 +1443,14 @@ input TodoInput{
   name: String!
   etype1: TodoType
   etype5: TodoType!
+  test123: Test
 }
 
 input TodoPatch{
   name: String
   etype1: TodoType
   etype5: TodoType
+  test123: Test
 }
 
 input UpdateTodoInput{
@@ -5289,6 +5299,8 @@ func (ec *executionContext) fieldContext_Query_getTodo(ctx context.Context, fiel
 				return ec.fieldContext_Todo_etype1(ctx, field)
 			case "etype5":
 				return ec.fieldContext_Todo_etype5(ctx, field)
+			case "test123":
+				return ec.fieldContext_Todo_test123(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -6090,6 +6102,47 @@ func (ec *executionContext) fieldContext_Todo_etype5(ctx context.Context, field 
 	return fc, nil
 }
 
+func (ec *executionContext) _Todo_test123(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Todo_test123(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Test123, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOTest2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Todo_test123(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Todo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Test does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _TodoQueryResult_data(ctx context.Context, field graphql.CollectedField, obj *model.TodoQueryResult) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoQueryResult_data(ctx, field)
 	if err != nil {
@@ -6149,6 +6202,8 @@ func (ec *executionContext) fieldContext_TodoQueryResult_data(ctx context.Contex
 				return ec.fieldContext_Todo_etype1(ctx, field)
 			case "etype5":
 				return ec.fieldContext_Todo_etype5(ctx, field)
+			case "test123":
+				return ec.fieldContext_Todo_test123(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -10304,7 +10359,7 @@ func (ec *executionContext) unmarshalInputTodoInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "etype1", "etype5"}
+	fieldsInOrder := [...]string{"name", "etype1", "etype5", "test123"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10332,6 +10387,14 @@ func (ec *executionContext) unmarshalInputTodoInput(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
 			it.Etype5, err = ec.unmarshalNTodoType2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "test123":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("test123"))
+			it.Test123, err = ec.unmarshalOTest2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -10384,7 +10447,7 @@ func (ec *executionContext) unmarshalInputTodoPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "etype1", "etype5"}
+	fieldsInOrder := [...]string{"name", "etype1", "etype5", "test123"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10412,6 +10475,14 @@ func (ec *executionContext) unmarshalInputTodoPatch(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
 			it.Etype5, err = ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "test123":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("test123"))
+			it.Test123, err = ec.unmarshalOTest2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -11799,6 +11870,10 @@ func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "test123":
+
+			out.Values[i] = ec._Todo_test123(ctx, field, obj)
+
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13800,6 +13875,22 @@ func (ec *executionContext) unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibi
 	}
 	res, err := ec.unmarshalInputStringFilterInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOTest2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalString(v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOTest2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalString(*v)
+	return res
 }
 
 func (ec *executionContext) unmarshalOTime2ᚕᚖtimeᚐTime(ctx context.Context, v interface{}) ([]*time.Time, error) {

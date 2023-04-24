@@ -68,7 +68,7 @@ func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.Fi
 }
 
 func shouldIgnoredByGorm(e *structure.Entity) bool {
-	return !e.IsPrimitive() && e.RawObject.Kind != ast.Enum && !e.GqlTypeObj().HasSqlDirective()
+	return !e.IsPrimitive() && e.RawObject.Kind != ast.Enum && !e.GqlTypeObj().HasSqlDirective() && e.RawObject.Kind != ast.Scalar
 }
 
 func MutateHook(ggs *AutoGqlPlugin) func(b *modelgen.ModelBuild) *modelgen.ModelBuild {
