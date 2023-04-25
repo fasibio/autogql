@@ -2,6 +2,12 @@
 #
 # https://gqlgen.com/getting-started/
 
+enum TodoType{
+  Bug, Feature
+}
+
+scalar Test
+
 type Todo @SQL(order: 3){
   id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
   name: String!
@@ -11,7 +17,13 @@ type Todo @SQL(order: 3){
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
-}
+  etype1: TodoType
+  # etype2: [TodoType]
+  # etype3: [TodoType!]
+  # etype4: [TodoType!]!
+  etype5: TodoType!
+  test123: Test
+  }
 
 type User @SQL(order: 2){
   id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")

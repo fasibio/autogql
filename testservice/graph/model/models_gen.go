@@ -251,6 +251,9 @@ type Todo struct {
 	CreatedAt *time.Time `json:"createdAt,omitempty"`
 	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
 	DeletedAt *time.Time `json:"deletedAt,omitempty"`
+	Etype1    *TodoType  `json:"etype1,omitempty"`
+	Etype5    TodoType   `json:"etype5"`
+	Test123   *string    `json:"test123,omitempty"`
 }
 
 type TodoFiltersInput struct {
@@ -268,7 +271,10 @@ type TodoFiltersInput struct {
 }
 
 type TodoInput struct {
-	Name string `json:"name"`
+	Name    string    `json:"name"`
+	Etype1  *TodoType `json:"etype1,omitempty"`
+	Etype5  TodoType  `json:"etype5"`
+	Test123 *string   `json:"test123,omitempty"`
 }
 
 type TodoOrder struct {
@@ -277,7 +283,10 @@ type TodoOrder struct {
 }
 
 type TodoPatch struct {
-	Name *string `json:"name,omitempty"`
+	Name    *string   `json:"name,omitempty"`
+	Etype1  *TodoType `json:"etype1,omitempty"`
+	Etype5  *TodoType `json:"etype5,omitempty"`
+	Test123 *string   `json:"test123,omitempty"`
 }
 
 type TodoQueryResult struct {
@@ -511,6 +520,47 @@ func (e *TodoOrderable) UnmarshalGQL(v interface{}) error {
 }
 
 func (e TodoOrderable) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TodoType string
+
+const (
+	TodoTypeBug     TodoType = "Bug"
+	TodoTypeFeature TodoType = "Feature"
+)
+
+var AllTodoType = []TodoType{
+	TodoTypeBug,
+	TodoTypeFeature,
+}
+
+func (e TodoType) IsValid() bool {
+	switch e {
+	case TodoTypeBug, TodoTypeFeature:
+		return true
+	}
+	return false
+}
+
+func (e TodoType) String() string {
+	return string(e)
+}
+
+func (e *TodoType) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TodoType(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TodoType", str)
+	}
+	return nil
+}
+
+func (e TodoType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

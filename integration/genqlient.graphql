@@ -141,6 +141,9 @@ mutation addTodos($input: [TodoInput!]!){
       data{
         id
         name
+        etype1
+        etype5
+        test123
       }
     }
   }
@@ -152,6 +155,9 @@ mutation addUser2Todo($input: UserRef2TodosInput!){
       data{
         id
         name
+        etype1
+        etype5
+        test123
         users{
           id
           name
@@ -219,6 +225,9 @@ query allTodosPartOfCompany($companyName:String){
     data{
       id
       name
+      etype1
+      etype5
+      test123
       users{
         id
         name
@@ -236,6 +245,9 @@ query allTodosByUserCatName($catName:String){
     data{
       id
       name
+      etype1
+      etype5
+      test123
       users{
         id
         name

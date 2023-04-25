@@ -12,6 +12,7 @@ import (
 type Entity struct {
 	BuiltIn    bool
 	Raw        *ast.FieldDefinition
+	RawObject  *ast.Definition
 	TypeObject *Object
 }
 
@@ -84,6 +85,9 @@ func (e Entity) GqlTypeObj() *Object {
 }
 
 func (e Entity) GqlType(suffix string) string {
+	if e.RawObject.Kind == ast.Enum || e.RawObject.Kind == ast.Scalar {
+		suffix = ""
+	}
 	name := e.Raw.Type.Name()
 
 	if e.IsPrimitive() {
@@ -121,8 +125,13 @@ func (e *Entity) IsArrayElementRequired() bool {
 }
 
 func (e *Entity) IsPrimitive() bool {
-	return e.BuiltIn || e.TypeObject.Raw.Kind == ast.Scalar
+	return e.BuiltIn && e.RawObject.Kind == ast.Scalar
 }
+
+func (e *Entity) IsScalar() bool {
+	return e.RawObject.Kind == ast.Scalar
+}
+
 func (e *Entity) IsPrimary() bool {
 	return e.Raw.Directives.ForName(string(DirectiveSQLPrimary)) != nil
 }
