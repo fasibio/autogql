@@ -1054,6 +1054,52 @@ func (v *IntrospectionQuerySchemaTypesType) __premarshalJSON() (*__premarshalInt
 	return &retval, nil
 }
 
+type SmartPhoneFiltersInput struct {
+	Id          *IDFilterInput            `json:"id,omitempty"`
+	Brand       *StringFilterInput        `json:"brand,omitempty"`
+	Phonenumber *StringFilterInput        `json:"phonenumber,omitempty"`
+	UserID      *IDFilterInput            `json:"userID,omitempty"`
+	And         []*SmartPhoneFiltersInput `json:"and,omitempty"`
+	Or          []*SmartPhoneFiltersInput `json:"or,omitempty"`
+	Not         *SmartPhoneFiltersInput   `json:"not,omitempty"`
+}
+
+// GetId returns SmartPhoneFiltersInput.Id, and is useful for accessing the field via an interface.
+func (v *SmartPhoneFiltersInput) GetId() *IDFilterInput { return v.Id }
+
+// GetBrand returns SmartPhoneFiltersInput.Brand, and is useful for accessing the field via an interface.
+func (v *SmartPhoneFiltersInput) GetBrand() *StringFilterInput { return v.Brand }
+
+// GetPhonenumber returns SmartPhoneFiltersInput.Phonenumber, and is useful for accessing the field via an interface.
+func (v *SmartPhoneFiltersInput) GetPhonenumber() *StringFilterInput { return v.Phonenumber }
+
+// GetUserID returns SmartPhoneFiltersInput.UserID, and is useful for accessing the field via an interface.
+func (v *SmartPhoneFiltersInput) GetUserID() *IDFilterInput { return v.UserID }
+
+// GetAnd returns SmartPhoneFiltersInput.And, and is useful for accessing the field via an interface.
+func (v *SmartPhoneFiltersInput) GetAnd() []*SmartPhoneFiltersInput { return v.And }
+
+// GetOr returns SmartPhoneFiltersInput.Or, and is useful for accessing the field via an interface.
+func (v *SmartPhoneFiltersInput) GetOr() []*SmartPhoneFiltersInput { return v.Or }
+
+// GetNot returns SmartPhoneFiltersInput.Not, and is useful for accessing the field via an interface.
+func (v *SmartPhoneFiltersInput) GetNot() *SmartPhoneFiltersInput { return v.Not }
+
+type SmartPhoneInput struct {
+	Brand       string `json:"brand"`
+	Phonenumber string `json:"phonenumber"`
+	UserID      string `json:"userID"`
+}
+
+// GetBrand returns SmartPhoneInput.Brand, and is useful for accessing the field via an interface.
+func (v *SmartPhoneInput) GetBrand() string { return v.Brand }
+
+// GetPhonenumber returns SmartPhoneInput.Phonenumber, and is useful for accessing the field via an interface.
+func (v *SmartPhoneInput) GetPhonenumber() string { return v.Phonenumber }
+
+// GetUserID returns SmartPhoneInput.UserID, and is useful for accessing the field via an interface.
+func (v *SmartPhoneInput) GetUserID() string { return v.UserID }
+
 type StringFilterInput struct {
 	And          []*string          `json:"and"`
 	Or           []*string          `json:"or"`
@@ -1408,17 +1454,19 @@ func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetKind() TypeKind {
 func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetName() *string { return v.Name }
 
 type UserFiltersInput struct {
-	Id        *IDFilterInput       `json:"id,omitempty"`
-	Name      *StringFilterInput   `json:"name,omitempty"`
-	CreatedAt *TimeFilterInput     `json:"createdAt,omitempty"`
-	UpdatedAt *TimeFilterInput     `json:"updatedAt,omitempty"`
-	DeletedAt *TimeFilterInput     `json:"deletedAt,omitempty"`
-	Cat       *CatFiltersInput     `json:"cat,omitempty"`
-	CompanyID *IntFilterInput      `json:"companyID,omitempty"`
-	Company   *CompanyFiltersInput `json:"company,omitempty"`
-	And       []*UserFiltersInput  `json:"and,omitempty"`
-	Or        []*UserFiltersInput  `json:"or,omitempty"`
-	Not       *UserFiltersInput    `json:"not,omitempty"`
+	Id           *IDFilterInput          `json:"id,omitempty"`
+	Name         *StringFilterInput      `json:"name,omitempty"`
+	CreatedAt    *TimeFilterInput        `json:"createdAt,omitempty"`
+	UpdatedAt    *TimeFilterInput        `json:"updatedAt,omitempty"`
+	DeletedAt    *TimeFilterInput        `json:"deletedAt,omitempty"`
+	Cat          *CatFiltersInput        `json:"cat,omitempty"`
+	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
+	Company      *CompanyFiltersInput    `json:"company,omitempty"`
+	SmartPhones  *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
+	SmartPhones2 *SmartPhoneFiltersInput `json:"smartPhones2,omitempty"`
+	And          []*UserFiltersInput     `json:"and,omitempty"`
+	Or           []*UserFiltersInput     `json:"or,omitempty"`
+	Not          *UserFiltersInput       `json:"not,omitempty"`
 }
 
 // GetId returns UserFiltersInput.Id, and is useful for accessing the field via an interface.
@@ -1445,6 +1493,12 @@ func (v *UserFiltersInput) GetCompanyID() *IntFilterInput { return v.CompanyID }
 // GetCompany returns UserFiltersInput.Company, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetCompany() *CompanyFiltersInput { return v.Company }
 
+// GetSmartPhones returns UserFiltersInput.SmartPhones, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetSmartPhones() *SmartPhoneFiltersInput { return v.SmartPhones }
+
+// GetSmartPhones2 returns UserFiltersInput.SmartPhones2, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetSmartPhones2() *SmartPhoneFiltersInput { return v.SmartPhones2 }
+
 // GetAnd returns UserFiltersInput.And, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetAnd() []*UserFiltersInput { return v.And }
 
@@ -1455,10 +1509,12 @@ func (v *UserFiltersInput) GetOr() []*UserFiltersInput { return v.Or }
 func (v *UserFiltersInput) GetNot() *UserFiltersInput { return v.Not }
 
 type UserInput struct {
-	Name      string        `json:"name"`
-	Cat       *CatInput     `json:"cat,omitempty"`
-	CompanyID *int          `json:"companyID"`
-	Company   *CompanyInput `json:"company,omitempty"`
+	Name         string             `json:"name"`
+	Cat          *CatInput          `json:"cat,omitempty"`
+	CompanyID    *int               `json:"companyID"`
+	Company      *CompanyInput      `json:"company,omitempty"`
+	SmartPhones  []*SmartPhoneInput `json:"smartPhones,omitempty"`
+	SmartPhones2 []*SmartPhoneInput `json:"smartPhones2,omitempty"`
 }
 
 // GetName returns UserInput.Name, and is useful for accessing the field via an interface.
@@ -1472,6 +1528,12 @@ func (v *UserInput) GetCompanyID() *int { return v.CompanyID }
 
 // GetCompany returns UserInput.Company, and is useful for accessing the field via an interface.
 func (v *UserInput) GetCompany() *CompanyInput { return v.Company }
+
+// GetSmartPhones returns UserInput.SmartPhones, and is useful for accessing the field via an interface.
+func (v *UserInput) GetSmartPhones() []*SmartPhoneInput { return v.SmartPhones }
+
+// GetSmartPhones2 returns UserInput.SmartPhones2, and is useful for accessing the field via an interface.
+func (v *UserInput) GetSmartPhones2() []*SmartPhoneInput { return v.SmartPhones2 }
 
 type UserRef2TodosInput struct {
 	Filter *TodoFiltersInput `json:"filter,omitempty"`

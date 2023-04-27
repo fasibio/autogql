@@ -93,6 +93,37 @@ func (d *CompanyInput) MergeToType() Company {
 	}
 }
 
+func (d *SmartPhonePatch) MergeToType() map[string]interface{} {
+	res := make(map[string]interface{})
+
+	if d.Brand != nil {
+		res["brand"] = *d.Brand
+	}
+
+	if d.Phonenumber != nil {
+		res["phonenumber"] = *d.Phonenumber
+	}
+
+	if d.UserID != nil {
+		res["user_id"] = *d.UserID
+	}
+	return res
+}
+
+func (d *SmartPhoneInput) MergeToType() SmartPhone {
+
+	tmpBrand := d.Brand
+
+	tmpPhonenumber := d.Phonenumber
+
+	tmpUserID := d.UserID
+	return SmartPhone{
+		Brand:       tmpBrand,
+		Phonenumber: tmpPhonenumber,
+		UserID:      tmpUserID,
+	}
+}
+
 func (d *TodoPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 
@@ -120,7 +151,8 @@ func (d *TodoInput) MergeToType() Todo {
 		tmpEtype1 = d.Etype1.MergeToType()
 	}
 
-	tmpEtype5 := d.Etype5
+	var tmpEtype5 TodoType
+	tmpEtype5 = d.Etype5.MergeToType()
 
 	var tmpTest123 string
 	if d.Test123 != nil {
@@ -150,6 +182,14 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 	if d.Company != nil {
 		res["company"] = d.Company.MergeToType()
 	}
+	if d.SmartPhones != nil {
+		tmpSmartPhones := make([]map[string]interface{}, len(d.SmartPhones))
+		for _, v := range d.SmartPhones {
+			tmp := v.MergeToType()
+			tmpSmartPhones = append(tmpSmartPhones, tmp)
+		}
+		res["smart_phones"] = tmpSmartPhones
+	}
 	return res
 }
 
@@ -171,10 +211,20 @@ func (d *UserInput) MergeToType() User {
 	if d.Company != nil {
 		tmpCompany = d.Company.MergeToType()
 	}
+
+	var tmpSmartPhones []*SmartPhone
+	if d.SmartPhones != nil {
+		tmpSmartPhones = make([]*SmartPhone, len(d.SmartPhones))
+		for _, v := range d.SmartPhones {
+			tmp := v.MergeToType()
+			tmpSmartPhones = append(tmpSmartPhones, &tmp)
+		}
+	}
 	return User{
-		Name:      tmpName,
-		Cat:       &tmpCat,
-		CompanyID: tmpCompanyID,
-		Company:   &tmpCompany,
+		Name:        tmpName,
+		Cat:         &tmpCat,
+		CompanyID:   tmpCompanyID,
+		Company:     &tmpCompany,
+		SmartPhones: tmpSmartPhones,
 	}
 }

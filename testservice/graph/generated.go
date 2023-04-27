@@ -40,16 +40,19 @@ type Config struct {
 type ResolverRoot interface {
 	AddCatPayload() AddCatPayloadResolver
 	AddCompanyPayload() AddCompanyPayloadResolver
+	AddSmartPhonePayload() AddSmartPhonePayloadResolver
 	AddTodoPayload() AddTodoPayloadResolver
 	AddUserPayload() AddUserPayloadResolver
 	DeleteCatPayload() DeleteCatPayloadResolver
 	DeleteCompanyPayload() DeleteCompanyPayloadResolver
+	DeleteSmartPhonePayload() DeleteSmartPhonePayloadResolver
 	DeleteTodoPayload() DeleteTodoPayloadResolver
 	DeleteUserPayload() DeleteUserPayloadResolver
 	Mutation() MutationResolver
 	Query() QueryResolver
 	UpdateCatPayload() UpdateCatPayloadResolver
 	UpdateCompanyPayload() UpdateCompanyPayloadResolver
+	UpdateSmartPhonePayload() UpdateSmartPhonePayloadResolver
 	UpdateTodoPayload() UpdateTodoPayloadResolver
 	UpdateUserPayload() UpdateUserPayloadResolver
 }
@@ -64,6 +67,10 @@ type ComplexityRoot struct {
 
 	AddCompanyPayload struct {
 		Company func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
+	}
+
+	AddSmartPhonePayload struct {
+		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
 	}
 
 	AddTodoPayload struct {
@@ -116,6 +123,12 @@ type ComplexityRoot struct {
 		Msg     func(childComplexity int) int
 	}
 
+	DeleteSmartPhonePayload struct {
+		Count      func(childComplexity int) int
+		Msg        func(childComplexity int) int
+		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
+	}
+
 	DeleteTodoPayload struct {
 		Count func(childComplexity int) int
 		Msg   func(childComplexity int) int
@@ -129,30 +142,48 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddCat        func(childComplexity int, input []*model.CatInput) int
-		AddCompany    func(childComplexity int, input []*model.CompanyInput) int
-		AddTodo       func(childComplexity int, input []*model.TodoInput) int
-		AddUser       func(childComplexity int, input []*model.UserInput) int
-		AddUser2Todos func(childComplexity int, input model.UserRef2TodosInput) int
-		DeleteCat     func(childComplexity int, filter model.CatFiltersInput) int
-		DeleteCompany func(childComplexity int, filter model.CompanyFiltersInput) int
-		DeleteTodo    func(childComplexity int, filter model.TodoFiltersInput) int
-		DeleteUser    func(childComplexity int, filter model.UserFiltersInput) int
-		UpdateCat     func(childComplexity int, input model.UpdateCatInput) int
-		UpdateCompany func(childComplexity int, input model.UpdateCompanyInput) int
-		UpdateTodo    func(childComplexity int, input model.UpdateTodoInput) int
-		UpdateUser    func(childComplexity int, input model.UpdateUserInput) int
+		AddCat           func(childComplexity int, input []*model.CatInput) int
+		AddCompany       func(childComplexity int, input []*model.CompanyInput) int
+		AddSmartPhone    func(childComplexity int, input []*model.SmartPhoneInput) int
+		AddTodo          func(childComplexity int, input []*model.TodoInput) int
+		AddUser          func(childComplexity int, input []*model.UserInput) int
+		AddUser2Todos    func(childComplexity int, input model.UserRef2TodosInput) int
+		DeleteCat        func(childComplexity int, filter model.CatFiltersInput) int
+		DeleteCompany    func(childComplexity int, filter model.CompanyFiltersInput) int
+		DeleteSmartPhone func(childComplexity int, filter model.SmartPhoneFiltersInput) int
+		DeleteTodo       func(childComplexity int, filter model.TodoFiltersInput) int
+		DeleteUser       func(childComplexity int, filter model.UserFiltersInput) int
+		UpdateCat        func(childComplexity int, input model.UpdateCatInput) int
+		UpdateCompany    func(childComplexity int, input model.UpdateCompanyInput) int
+		UpdateSmartPhone func(childComplexity int, input model.UpdateSmartPhoneInput) int
+		UpdateTodo       func(childComplexity int, input model.UpdateTodoInput) int
+		UpdateUser       func(childComplexity int, input model.UpdateUserInput) int
 	}
 
 	Query struct {
-		GetCat       func(childComplexity int, id int) int
-		GetCompany   func(childComplexity int, id int) int
-		GetTodo      func(childComplexity int, id int) int
-		GetUser      func(childComplexity int, id int) int
-		QueryCat     func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
-		QueryCompany func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
-		QueryTodo    func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
-		QueryUser    func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+		GetCat          func(childComplexity int, id int) int
+		GetCompany      func(childComplexity int, id int) int
+		GetSmartPhone   func(childComplexity int, id int) int
+		GetTodo         func(childComplexity int, id int) int
+		GetUser         func(childComplexity int, id int) int
+		QueryCat        func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
+		QueryCompany    func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
+		QuerySmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
+		QueryTodo       func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
+		QueryUser       func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+	}
+
+	SmartPhone struct {
+		Brand       func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Phonenumber func(childComplexity int) int
+		UserID      func(childComplexity int) int
+	}
+
+	SmartPhoneQueryResult struct {
+		Count      func(childComplexity int) int
+		Data       func(childComplexity int) int
+		TotalCount func(childComplexity int) int
 	}
 
 	Todo struct {
@@ -185,6 +216,11 @@ type ComplexityRoot struct {
 		Count   func(childComplexity int) int
 	}
 
+	UpdateSmartPhonePayload struct {
+		Count      func(childComplexity int) int
+		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
+	}
+
 	UpdateTodoPayload struct {
 		Count func(childComplexity int) int
 		Todo  func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
@@ -196,14 +232,15 @@ type ComplexityRoot struct {
 	}
 
 	User struct {
-		Cat       func(childComplexity int) int
-		Company   func(childComplexity int) int
-		CompanyID func(childComplexity int) int
-		CreatedAt func(childComplexity int) int
-		DeletedAt func(childComplexity int) int
-		ID        func(childComplexity int) int
-		Name      func(childComplexity int) int
-		UpdatedAt func(childComplexity int) int
+		Cat         func(childComplexity int) int
+		Company     func(childComplexity int) int
+		CompanyID   func(childComplexity int) int
+		CreatedAt   func(childComplexity int) int
+		DeletedAt   func(childComplexity int) int
+		ID          func(childComplexity int) int
+		Name        func(childComplexity int) int
+		SmartPhones func(childComplexity int) int
+		UpdatedAt   func(childComplexity int) int
 	}
 
 	UserQueryResult struct {
@@ -219,6 +256,9 @@ type AddCatPayloadResolver interface {
 type AddCompanyPayloadResolver interface {
 	Company(ctx context.Context, obj *model.AddCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
 }
+type AddSmartPhonePayloadResolver interface {
+	SmartPhone(ctx context.Context, obj *model.AddSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
+}
 type AddTodoPayloadResolver interface {
 	Todo(ctx context.Context, obj *model.AddTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
 }
@@ -230,6 +270,9 @@ type DeleteCatPayloadResolver interface {
 }
 type DeleteCompanyPayloadResolver interface {
 	Company(ctx context.Context, obj *model.DeleteCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
+}
+type DeleteSmartPhonePayloadResolver interface {
+	SmartPhone(ctx context.Context, obj *model.DeleteSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
 }
 type DeleteTodoPayloadResolver interface {
 	Todo(ctx context.Context, obj *model.DeleteTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
@@ -244,6 +287,9 @@ type MutationResolver interface {
 	AddCompany(ctx context.Context, input []*model.CompanyInput) (*model.AddCompanyPayload, error)
 	UpdateCompany(ctx context.Context, input model.UpdateCompanyInput) (*model.UpdateCompanyPayload, error)
 	DeleteCompany(ctx context.Context, filter model.CompanyFiltersInput) (*model.DeleteCompanyPayload, error)
+	AddSmartPhone(ctx context.Context, input []*model.SmartPhoneInput) (*model.AddSmartPhonePayload, error)
+	UpdateSmartPhone(ctx context.Context, input model.UpdateSmartPhoneInput) (*model.UpdateSmartPhonePayload, error)
+	DeleteSmartPhone(ctx context.Context, filter model.SmartPhoneFiltersInput) (*model.DeleteSmartPhonePayload, error)
 	AddUser2Todos(ctx context.Context, input model.UserRef2TodosInput) (*model.UpdateTodoPayload, error)
 	AddTodo(ctx context.Context, input []*model.TodoInput) (*model.AddTodoPayload, error)
 	UpdateTodo(ctx context.Context, input model.UpdateTodoInput) (*model.UpdateTodoPayload, error)
@@ -257,6 +303,8 @@ type QueryResolver interface {
 	QueryCat(ctx context.Context, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) (*model.CatQueryResult, error)
 	GetCompany(ctx context.Context, id int) (*model.Company, error)
 	QueryCompany(ctx context.Context, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
+	GetSmartPhone(ctx context.Context, id int) (*model.SmartPhone, error)
+	QuerySmartPhone(ctx context.Context, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
 	GetTodo(ctx context.Context, id int) (*model.Todo, error)
 	QueryTodo(ctx context.Context, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
 	GetUser(ctx context.Context, id int) (*model.User, error)
@@ -267,6 +315,9 @@ type UpdateCatPayloadResolver interface {
 }
 type UpdateCompanyPayloadResolver interface {
 	Company(ctx context.Context, obj *model.UpdateCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
+}
+type UpdateSmartPhonePayloadResolver interface {
+	SmartPhone(ctx context.Context, obj *model.UpdateSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
 }
 type UpdateTodoPayloadResolver interface {
 	Todo(ctx context.Context, obj *model.UpdateTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
@@ -313,6 +364,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AddCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int)), true
+
+	case "AddSmartPhonePayload.smartPhone":
+		if e.complexity.AddSmartPhonePayload.SmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_AddSmartPhonePayload_smartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.AddSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
 
 	case "AddTodoPayload.todo":
 		if e.complexity.AddTodoPayload.Todo == nil {
@@ -516,6 +579,32 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.DeleteCompanyPayload.Msg(childComplexity), true
 
+	case "DeleteSmartPhonePayload.count":
+		if e.complexity.DeleteSmartPhonePayload.Count == nil {
+			break
+		}
+
+		return e.complexity.DeleteSmartPhonePayload.Count(childComplexity), true
+
+	case "DeleteSmartPhonePayload.msg":
+		if e.complexity.DeleteSmartPhonePayload.Msg == nil {
+			break
+		}
+
+		return e.complexity.DeleteSmartPhonePayload.Msg(childComplexity), true
+
+	case "DeleteSmartPhonePayload.smartPhone":
+		if e.complexity.DeleteSmartPhonePayload.SmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_DeleteSmartPhonePayload_smartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.DeleteSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
+
 	case "DeleteTodoPayload.count":
 		if e.complexity.DeleteTodoPayload.Count == nil {
 			break
@@ -592,6 +681,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.AddCompany(childComplexity, args["input"].([]*model.CompanyInput)), true
 
+	case "Mutation.addSmartPhone":
+		if e.complexity.Mutation.AddSmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_addSmartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.AddSmartPhone(childComplexity, args["input"].([]*model.SmartPhoneInput)), true
+
 	case "Mutation.addTodo":
 		if e.complexity.Mutation.AddTodo == nil {
 			break
@@ -652,6 +753,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.DeleteCompany(childComplexity, args["filter"].(model.CompanyFiltersInput)), true
 
+	case "Mutation.deleteSmartPhone":
+		if e.complexity.Mutation.DeleteSmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteSmartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteSmartPhone(childComplexity, args["filter"].(model.SmartPhoneFiltersInput)), true
+
 	case "Mutation.deleteTodo":
 		if e.complexity.Mutation.DeleteTodo == nil {
 			break
@@ -699,6 +812,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdateCompany(childComplexity, args["input"].(model.UpdateCompanyInput)), true
+
+	case "Mutation.updateSmartPhone":
+		if e.complexity.Mutation.UpdateSmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_updateSmartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.UpdateSmartPhone(childComplexity, args["input"].(model.UpdateSmartPhoneInput)), true
 
 	case "Mutation.updateTodo":
 		if e.complexity.Mutation.UpdateTodo == nil {
@@ -748,6 +873,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetCompany(childComplexity, args["id"].(int)), true
 
+	case "Query.getSmartPhone":
+		if e.complexity.Query.GetSmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_Query_getSmartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.GetSmartPhone(childComplexity, args["id"].(int)), true
+
 	case "Query.getTodo":
 		if e.complexity.Query.GetTodo == nil {
 			break
@@ -796,6 +933,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.QueryCompany(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int)), true
 
+	case "Query.querySmartPhone":
+		if e.complexity.Query.QuerySmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_Query_querySmartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Query.QuerySmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
+
 	case "Query.queryTodo":
 		if e.complexity.Query.QueryTodo == nil {
 			break
@@ -819,6 +968,55 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.QueryUser(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int)), true
+
+	case "SmartPhone.brand":
+		if e.complexity.SmartPhone.Brand == nil {
+			break
+		}
+
+		return e.complexity.SmartPhone.Brand(childComplexity), true
+
+	case "SmartPhone.id":
+		if e.complexity.SmartPhone.ID == nil {
+			break
+		}
+
+		return e.complexity.SmartPhone.ID(childComplexity), true
+
+	case "SmartPhone.phonenumber":
+		if e.complexity.SmartPhone.Phonenumber == nil {
+			break
+		}
+
+		return e.complexity.SmartPhone.Phonenumber(childComplexity), true
+
+	case "SmartPhone.userID":
+		if e.complexity.SmartPhone.UserID == nil {
+			break
+		}
+
+		return e.complexity.SmartPhone.UserID(childComplexity), true
+
+	case "SmartPhoneQueryResult.count":
+		if e.complexity.SmartPhoneQueryResult.Count == nil {
+			break
+		}
+
+		return e.complexity.SmartPhoneQueryResult.Count(childComplexity), true
+
+	case "SmartPhoneQueryResult.data":
+		if e.complexity.SmartPhoneQueryResult.Data == nil {
+			break
+		}
+
+		return e.complexity.SmartPhoneQueryResult.Data(childComplexity), true
+
+	case "SmartPhoneQueryResult.totalCount":
+		if e.complexity.SmartPhoneQueryResult.TotalCount == nil {
+			break
+		}
+
+		return e.complexity.SmartPhoneQueryResult.TotalCount(childComplexity), true
 
 	case "Todo.createdAt":
 		if e.complexity.Todo.CreatedAt == nil {
@@ -956,6 +1154,25 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.UpdateCompanyPayload.Count(childComplexity), true
 
+	case "UpdateSmartPhonePayload.count":
+		if e.complexity.UpdateSmartPhonePayload.Count == nil {
+			break
+		}
+
+		return e.complexity.UpdateSmartPhonePayload.Count(childComplexity), true
+
+	case "UpdateSmartPhonePayload.smartPhone":
+		if e.complexity.UpdateSmartPhonePayload.SmartPhone == nil {
+			break
+		}
+
+		args, err := ec.field_UpdateSmartPhonePayload_smartPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.UpdateSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
+
 	case "UpdateTodoPayload.count":
 		if e.complexity.UpdateTodoPayload.Count == nil {
 			break
@@ -1043,6 +1260,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Name(childComplexity), true
 
+	case "User.smartPhones":
+		if e.complexity.User.SmartPhones == nil {
+			break
+		}
+
+		return e.complexity.User.SmartPhones(childComplexity), true
+
 	case "User.updatedAt":
 		if e.complexity.User.UpdatedAt == nil {
 			break
@@ -1091,6 +1315,10 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputIDFilterInput,
 		ec.unmarshalInputIntFilterBetween,
 		ec.unmarshalInputIntFilterInput,
+		ec.unmarshalInputSmartPhoneFiltersInput,
+		ec.unmarshalInputSmartPhoneInput,
+		ec.unmarshalInputSmartPhoneOrder,
+		ec.unmarshalInputSmartPhonePatch,
 		ec.unmarshalInputSqlCreateExtension,
 		ec.unmarshalInputSqlMutationParams,
 		ec.unmarshalInputSqlQueryParams,
@@ -1103,6 +1331,7 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputTodoPatch,
 		ec.unmarshalInputUpdateCatInput,
 		ec.unmarshalInputUpdateCompanyInput,
+		ec.unmarshalInputUpdateSmartPhoneInput,
 		ec.unmarshalInputUpdateTodoInput,
 		ec.unmarshalInputUpdateUserInput,
 		ec.unmarshalInputUserFiltersInput,
@@ -1439,6 +1668,74 @@ extend type Mutation {
   deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload 
 }
 
+input SmartPhoneInput{
+  brand: String!
+  phonenumber: String!
+  userID: ID!
+}
+
+input SmartPhonePatch{
+  brand: String
+  phonenumber: String
+  userID: ID
+}
+
+input UpdateSmartPhoneInput{
+  filter: SmartPhoneFiltersInput!
+  set: SmartPhonePatch!
+}
+
+type AddSmartPhonePayload{
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+}
+
+type UpdateSmartPhonePayload{
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+  count: Int!
+}
+
+type DeleteSmartPhonePayload{
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+  count: Int!
+  msg: String
+}
+
+type SmartPhoneQueryResult{
+  data: [SmartPhone!]!
+  count: Int!
+  totalCount: Int!
+}
+
+enum SmartPhoneOrderable {
+  id
+  brand
+  phonenumber
+  userID
+}
+input SmartPhoneOrder{
+  asc: SmartPhoneOrderable
+  desc: SmartPhoneOrderable
+}
+
+input SmartPhoneFiltersInput{
+  id: IDFilterInput
+  brand: StringFilterInput
+  phonenumber: StringFilterInput
+  userID: IDFilterInput
+  and: [SmartPhoneFiltersInput]
+  or: [SmartPhoneFiltersInput]
+  not: SmartPhoneFiltersInput
+}
+extend type Query {
+  getSmartPhone(id: ID!, ): SmartPhone 
+  querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int ): SmartPhoneQueryResult 
+}
+extend type Mutation {
+  addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload 
+  updateSmartPhone(input: UpdateSmartPhoneInput!): UpdateSmartPhonePayload 
+  deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload 
+}
+
 input TodoInput{
   name: String!
   etype1: TodoType
@@ -1523,6 +1820,7 @@ input UserInput{
   cat: CatInput
   companyID: Int
   company: CompanyInput
+  smartPhones: [SmartPhoneInput!]
 }
 
 input UserPatch{
@@ -1530,6 +1828,7 @@ input UserPatch{
   cat: CatPatch
   companyID: Int
   company: CompanyPatch
+  smartPhones: [SmartPhonePatch!]
 }
 
 input UpdateUserInput{
@@ -1577,6 +1876,7 @@ input UserFiltersInput{
   cat:CatFiltersInput
   companyID: IntFilterInput
   company:CompanyFiltersInput
+  smartPhones:SmartPhoneFiltersInput
   and: [UserFiltersInput]
   or: [UserFiltersInput]
   not: UserFiltersInput
@@ -1655,6 +1955,48 @@ func (ec *executionContext) field_AddCompanyPayload_company_args(ctx context.Con
 	if tmp, ok := rawArgs["order"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
 		arg1, err = ec.unmarshalOCompanyOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyOrder(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["order"] = arg1
+	var arg2 *int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg2, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["first"] = arg2
+	var arg3 *int
+	if tmp, ok := rawArgs["offset"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+		arg3, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["offset"] = arg3
+	return args, nil
+}
+
+func (ec *executionContext) field_AddSmartPhonePayload_smartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.SmartPhoneFiltersInput
+	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg0, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg0
+	var arg1 *model.SmartPhoneOrder
+	if tmp, ok := rawArgs["order"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+		arg1, err = ec.unmarshalOSmartPhoneOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrder(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -1849,6 +2191,48 @@ func (ec *executionContext) field_DeleteCompanyPayload_company_args(ctx context.
 	return args, nil
 }
 
+func (ec *executionContext) field_DeleteSmartPhonePayload_smartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.SmartPhoneFiltersInput
+	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg0, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg0
+	var arg1 *model.SmartPhoneOrder
+	if tmp, ok := rawArgs["order"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+		arg1, err = ec.unmarshalOSmartPhoneOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrder(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["order"] = arg1
+	var arg2 *int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg2, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["first"] = arg2
+	var arg3 *int
+	if tmp, ok := rawArgs["offset"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+		arg3, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["offset"] = arg3
+	return args, nil
+}
+
 func (ec *executionContext) field_DeleteTodoPayload_todo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -1963,6 +2347,21 @@ func (ec *executionContext) field_Mutation_addCompany_args(ctx context.Context, 
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_addSmartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 []*model.SmartPhoneInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_addTodo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -2038,6 +2437,21 @@ func (ec *executionContext) field_Mutation_deleteCompany_args(ctx context.Contex
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_deleteSmartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.SmartPhoneFiltersInput
+	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg0, err = ec.unmarshalNSmartPhoneFiltersInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteTodo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -2090,6 +2504,21 @@ func (ec *executionContext) field_Mutation_updateCompany_args(ctx context.Contex
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNUpdateCompanyInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateCompanyInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_updateSmartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UpdateSmartPhoneInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUpdateSmartPhoneInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateSmartPhoneInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2159,6 +2588,21 @@ func (ec *executionContext) field_Query_getCat_args(ctx context.Context, rawArgs
 }
 
 func (ec *executionContext) field_Query_getCompany_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNID2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_getSmartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 int
@@ -2261,6 +2705,48 @@ func (ec *executionContext) field_Query_queryCompany_args(ctx context.Context, r
 	if tmp, ok := rawArgs["order"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
 		arg1, err = ec.unmarshalOCompanyOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyOrder(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["order"] = arg1
+	var arg2 *int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg2, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["first"] = arg2
+	var arg3 *int
+	if tmp, ok := rawArgs["offset"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+		arg3, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["offset"] = arg3
+	return args, nil
+}
+
+func (ec *executionContext) field_Query_querySmartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.SmartPhoneFiltersInput
+	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg0, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg0
+	var arg1 *model.SmartPhoneOrder
+	if tmp, ok := rawArgs["order"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+		arg1, err = ec.unmarshalOSmartPhoneOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrder(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2429,6 +2915,48 @@ func (ec *executionContext) field_UpdateCompanyPayload_company_args(ctx context.
 	if tmp, ok := rawArgs["order"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
 		arg1, err = ec.unmarshalOCompanyOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyOrder(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["order"] = arg1
+	var arg2 *int
+	if tmp, ok := rawArgs["first"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("first"))
+		arg2, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["first"] = arg2
+	var arg3 *int
+	if tmp, ok := rawArgs["offset"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("offset"))
+		arg3, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["offset"] = arg3
+	return args, nil
+}
+
+func (ec *executionContext) field_UpdateSmartPhonePayload_smartPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *model.SmartPhoneFiltersInput
+	if tmp, ok := rawArgs["filter"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+		arg0, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["filter"] = arg0
+	var arg1 *model.SmartPhoneOrder
+	if tmp, ok := rawArgs["order"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("order"))
+		arg1, err = ec.unmarshalOSmartPhoneOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrder(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -2697,6 +3225,69 @@ func (ec *executionContext) fieldContext_AddCompanyPayload_company(ctx context.C
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_AddCompanyPayload_company_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AddSmartPhonePayload_smartPhone(ctx context.Context, field graphql.CollectedField, obj *model.AddSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AddSmartPhonePayload_smartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.AddSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SmartPhoneQueryResult)
+	fc.Result = res
+	return ec.marshalNSmartPhoneQueryResult2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneQueryResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AddSmartPhonePayload_smartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AddSmartPhonePayload",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "data":
+				return ec.fieldContext_SmartPhoneQueryResult_data(ctx, field)
+			case "count":
+				return ec.fieldContext_SmartPhoneQueryResult_count(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_SmartPhoneQueryResult_totalCount(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhoneQueryResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_AddSmartPhonePayload_smartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -3941,6 +4532,154 @@ func (ec *executionContext) fieldContext_DeleteCompanyPayload_msg(ctx context.Co
 	return fc, nil
 }
 
+func (ec *executionContext) _DeleteSmartPhonePayload_smartPhone(ctx context.Context, field graphql.CollectedField, obj *model.DeleteSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DeleteSmartPhonePayload_smartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.DeleteSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SmartPhoneQueryResult)
+	fc.Result = res
+	return ec.marshalNSmartPhoneQueryResult2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneQueryResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DeleteSmartPhonePayload_smartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DeleteSmartPhonePayload",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "data":
+				return ec.fieldContext_SmartPhoneQueryResult_data(ctx, field)
+			case "count":
+				return ec.fieldContext_SmartPhoneQueryResult_count(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_SmartPhoneQueryResult_totalCount(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhoneQueryResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_DeleteSmartPhonePayload_smartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DeleteSmartPhonePayload_count(ctx context.Context, field graphql.CollectedField, obj *model.DeleteSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DeleteSmartPhonePayload_count(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Count, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DeleteSmartPhonePayload_count(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DeleteSmartPhonePayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _DeleteSmartPhonePayload_msg(ctx context.Context, field graphql.CollectedField, obj *model.DeleteSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_DeleteSmartPhonePayload_msg(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Msg, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_DeleteSmartPhonePayload_msg(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "DeleteSmartPhonePayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _DeleteTodoPayload_todo(ctx context.Context, field graphql.CollectedField, obj *model.DeleteTodoPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_DeleteTodoPayload_todo(ctx, field)
 	if err != nil {
@@ -4579,6 +5318,180 @@ func (ec *executionContext) fieldContext_Mutation_deleteCompany(ctx context.Cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_deleteCompany_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_addSmartPhone(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_addSmartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().AddSmartPhone(rctx, fc.Args["input"].([]*model.SmartPhoneInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.AddSmartPhonePayload)
+	fc.Result = res
+	return ec.marshalOAddSmartPhonePayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐAddSmartPhonePayload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_addSmartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "smartPhone":
+				return ec.fieldContext_AddSmartPhonePayload_smartPhone(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type AddSmartPhonePayload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_addSmartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_updateSmartPhone(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_updateSmartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateSmartPhone(rctx, fc.Args["input"].(model.UpdateSmartPhoneInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.UpdateSmartPhonePayload)
+	fc.Result = res
+	return ec.marshalOUpdateSmartPhonePayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateSmartPhonePayload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_updateSmartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "smartPhone":
+				return ec.fieldContext_UpdateSmartPhonePayload_smartPhone(ctx, field)
+			case "count":
+				return ec.fieldContext_UpdateSmartPhonePayload_count(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type UpdateSmartPhonePayload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_updateSmartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteSmartPhone(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteSmartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteSmartPhone(rctx, fc.Args["filter"].(model.SmartPhoneFiltersInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.DeleteSmartPhonePayload)
+	fc.Result = res
+	return ec.marshalODeleteSmartPhonePayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐDeleteSmartPhonePayload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteSmartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "smartPhone":
+				return ec.fieldContext_DeleteSmartPhonePayload_smartPhone(ctx, field)
+			case "count":
+				return ec.fieldContext_DeleteSmartPhonePayload_count(ctx, field)
+			case "msg":
+				return ec.fieldContext_DeleteSmartPhonePayload_msg(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DeleteSmartPhonePayload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteSmartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -5243,6 +6156,128 @@ func (ec *executionContext) fieldContext_Query_queryCompany(ctx context.Context,
 	return fc, nil
 }
 
+func (ec *executionContext) _Query_getSmartPhone(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_getSmartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetSmartPhone(rctx, fc.Args["id"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SmartPhone)
+	fc.Result = res
+	return ec.marshalOSmartPhone2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_getSmartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SmartPhone_id(ctx, field)
+			case "brand":
+				return ec.fieldContext_SmartPhone_brand(ctx, field)
+			case "phonenumber":
+				return ec.fieldContext_SmartPhone_phonenumber(ctx, field)
+			case "userID":
+				return ec.fieldContext_SmartPhone_userID(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhone", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_getSmartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Query_querySmartPhone(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_querySmartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().QuerySmartPhone(rctx, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.SmartPhoneQueryResult)
+	fc.Result = res
+	return ec.marshalOSmartPhoneQueryResult2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneQueryResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Query_querySmartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "data":
+				return ec.fieldContext_SmartPhoneQueryResult_data(ctx, field)
+			case "count":
+				return ec.fieldContext_SmartPhoneQueryResult_count(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_SmartPhoneQueryResult_totalCount(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhoneQueryResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Query_querySmartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_getTodo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_getTodo(ctx, field)
 	if err != nil {
@@ -5431,6 +6466,8 @@ func (ec *executionContext) fieldContext_Query_getUser(ctx context.Context, fiel
 				return ec.fieldContext_User_companyID(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
+			case "smartPhones":
+				return ec.fieldContext_User_smartPhones(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -5638,6 +6675,324 @@ func (ec *executionContext) fieldContext_Query___schema(ctx context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _SmartPhone_id(ctx context.Context, field graphql.CollectedField, obj *model.SmartPhone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SmartPhone_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNID2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SmartPhone_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SmartPhone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SmartPhone_brand(ctx context.Context, field graphql.CollectedField, obj *model.SmartPhone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SmartPhone_brand(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Brand, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SmartPhone_brand(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SmartPhone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SmartPhone_phonenumber(ctx context.Context, field graphql.CollectedField, obj *model.SmartPhone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SmartPhone_phonenumber(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Phonenumber, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SmartPhone_phonenumber(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SmartPhone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SmartPhone_userID(ctx context.Context, field graphql.CollectedField, obj *model.SmartPhone) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SmartPhone_userID(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNID2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SmartPhone_userID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SmartPhone",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SmartPhoneQueryResult_data(ctx context.Context, field graphql.CollectedField, obj *model.SmartPhoneQueryResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SmartPhoneQueryResult_data(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Data, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.SmartPhone)
+	fc.Result = res
+	return ec.marshalNSmartPhone2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SmartPhoneQueryResult_data(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SmartPhoneQueryResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SmartPhone_id(ctx, field)
+			case "brand":
+				return ec.fieldContext_SmartPhone_brand(ctx, field)
+			case "phonenumber":
+				return ec.fieldContext_SmartPhone_phonenumber(ctx, field)
+			case "userID":
+				return ec.fieldContext_SmartPhone_userID(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhone", field.Name)
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SmartPhoneQueryResult_count(ctx context.Context, field graphql.CollectedField, obj *model.SmartPhoneQueryResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SmartPhoneQueryResult_count(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Count, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SmartPhoneQueryResult_count(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SmartPhoneQueryResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _SmartPhoneQueryResult_totalCount(ctx context.Context, field graphql.CollectedField, obj *model.SmartPhoneQueryResult) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_SmartPhoneQueryResult_totalCount(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.TotalCount, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_SmartPhoneQueryResult_totalCount(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "SmartPhoneQueryResult",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Todo_id(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Todo_id(ctx, field)
 	if err != nil {
@@ -5781,6 +7136,8 @@ func (ec *executionContext) fieldContext_Todo_users(ctx context.Context, field g
 				return ec.fieldContext_User_companyID(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
+			case "smartPhones":
+				return ec.fieldContext_User_smartPhones(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -5843,6 +7200,8 @@ func (ec *executionContext) fieldContext_Todo_owner(ctx context.Context, field g
 				return ec.fieldContext_User_companyID(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
+			case "smartPhones":
+				return ec.fieldContext_User_smartPhones(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -6513,6 +7872,113 @@ func (ec *executionContext) fieldContext_UpdateCompanyPayload_count(ctx context.
 	return fc, nil
 }
 
+func (ec *executionContext) _UpdateSmartPhonePayload_smartPhone(ctx context.Context, field graphql.CollectedField, obj *model.UpdateSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UpdateSmartPhonePayload_smartPhone(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.UpdateSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.SmartPhoneQueryResult)
+	fc.Result = res
+	return ec.marshalNSmartPhoneQueryResult2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneQueryResult(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UpdateSmartPhonePayload_smartPhone(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UpdateSmartPhonePayload",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "data":
+				return ec.fieldContext_SmartPhoneQueryResult_data(ctx, field)
+			case "count":
+				return ec.fieldContext_SmartPhoneQueryResult_count(ctx, field)
+			case "totalCount":
+				return ec.fieldContext_SmartPhoneQueryResult_totalCount(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhoneQueryResult", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_UpdateSmartPhonePayload_smartPhone_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UpdateSmartPhonePayload_count(ctx context.Context, field graphql.CollectedField, obj *model.UpdateSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UpdateSmartPhonePayload_count(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Count, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UpdateSmartPhonePayload_count(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UpdateSmartPhonePayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UpdateTodoPayload_todo(ctx context.Context, field graphql.CollectedField, obj *model.UpdateTodoPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UpdateTodoPayload_todo(ctx, field)
 	if err != nil {
@@ -7089,6 +8555,57 @@ func (ec *executionContext) fieldContext_User_company(ctx context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _User_smartPhones(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_smartPhones(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SmartPhones, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*model.SmartPhone)
+	fc.Result = res
+	return ec.marshalOSmartPhone2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_smartPhones(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SmartPhone_id(ctx, field)
+			case "brand":
+				return ec.fieldContext_SmartPhone_brand(ctx, field)
+			case "phonenumber":
+				return ec.fieldContext_SmartPhone_phonenumber(ctx, field)
+			case "userID":
+				return ec.fieldContext_SmartPhone_userID(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhone", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UserQueryResult_data(ctx context.Context, field graphql.CollectedField, obj *model.UserQueryResult) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UserQueryResult_data(ctx, field)
 	if err != nil {
@@ -7144,6 +8661,8 @@ func (ec *executionContext) fieldContext_UserQueryResult_data(ctx context.Contex
 				return ec.fieldContext_User_companyID(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
+			case "smartPhones":
+				return ec.fieldContext_User_smartPhones(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -9796,6 +11315,206 @@ func (ec *executionContext) unmarshalInputIntFilterInput(ctx context.Context, ob
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputSmartPhoneFiltersInput(ctx context.Context, obj interface{}) (model.SmartPhoneFiltersInput, error) {
+	var it model.SmartPhoneFiltersInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"id", "brand", "phonenumber", "userID", "and", "or", "not"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "id":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+			it.ID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "brand":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("brand"))
+			it.Brand, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "phonenumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phonenumber"))
+			it.Phonenumber, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userID":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
+			it.UserID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "and":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
+			it.And, err = ec.unmarshalOSmartPhoneFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "or":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
+			it.Or, err = ec.unmarshalOSmartPhoneFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
+			it.Not, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputSmartPhoneInput(ctx context.Context, obj interface{}) (model.SmartPhoneInput, error) {
+	var it model.SmartPhoneInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"brand", "phonenumber", "userID"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "brand":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("brand"))
+			it.Brand, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "phonenumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phonenumber"))
+			it.Phonenumber, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userID":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
+			it.UserID, err = ec.unmarshalNID2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputSmartPhoneOrder(ctx context.Context, obj interface{}) (model.SmartPhoneOrder, error) {
+	var it model.SmartPhoneOrder
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"asc", "desc"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "asc":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("asc"))
+			it.Asc, err = ec.unmarshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "desc":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+			it.Desc, err = ec.unmarshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputSmartPhonePatch(ctx context.Context, obj interface{}) (model.SmartPhonePatch, error) {
+	var it model.SmartPhonePatch
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"brand", "phonenumber", "userID"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "brand":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("brand"))
+			it.Brand, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "phonenumber":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phonenumber"))
+			it.Phonenumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "userID":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
+			it.UserID, err = ec.unmarshalOID2ᚖint(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputSqlCreateExtension(ctx context.Context, obj interface{}) (model.SQLCreateExtension, error) {
 	var it model.SQLCreateExtension
 	asMap := map[string]interface{}{}
@@ -10564,6 +12283,42 @@ func (ec *executionContext) unmarshalInputUpdateCompanyInput(ctx context.Context
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputUpdateSmartPhoneInput(ctx context.Context, obj interface{}) (model.UpdateSmartPhoneInput, error) {
+	var it model.UpdateSmartPhoneInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"filter", "set"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "filter":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
+			it.Filter, err = ec.unmarshalNSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "set":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
+			it.Set, err = ec.unmarshalNSmartPhonePatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatch(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputUpdateTodoInput(ctx context.Context, obj interface{}) (model.UpdateTodoInput, error) {
 	var it model.UpdateTodoInput
 	asMap := map[string]interface{}{}
@@ -10643,7 +12398,7 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "company", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "company", "smartPhones", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10714,6 +12469,14 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 			if err != nil {
 				return it, err
 			}
+		case "smartPhones":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
+			it.SmartPhones, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
 		case "and":
 			var err error
 
@@ -10751,7 +12514,7 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10787,6 +12550,14 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
 			it.Company, err = ec.unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "smartPhones":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
+			it.SmartPhones, err = ec.unmarshalOSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -10839,7 +12610,7 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10875,6 +12646,14 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
 			it.Company, err = ec.unmarshalOCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "smartPhones":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
+			it.SmartPhones, err = ec.unmarshalOSmartPhonePatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatchᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -10989,6 +12768,47 @@ func (ec *executionContext) _AddCompanyPayload(ctx context.Context, sel ast.Sele
 					}
 				}()
 				res = ec._AddCompanyPayload_company(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var addSmartPhonePayloadImplementors = []string{"AddSmartPhonePayload"}
+
+func (ec *executionContext) _AddSmartPhonePayload(ctx context.Context, sel ast.SelectionSet, obj *model.AddSmartPhonePayload) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, addSmartPhonePayloadImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("AddSmartPhonePayload")
+		case "smartPhone":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._AddSmartPhonePayload_smartPhone(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11388,6 +13208,58 @@ func (ec *executionContext) _DeleteCompanyPayload(ctx context.Context, sel ast.S
 	return out
 }
 
+var deleteSmartPhonePayloadImplementors = []string{"DeleteSmartPhonePayload"}
+
+func (ec *executionContext) _DeleteSmartPhonePayload(ctx context.Context, sel ast.SelectionSet, obj *model.DeleteSmartPhonePayload) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, deleteSmartPhonePayloadImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("DeleteSmartPhonePayload")
+		case "smartPhone":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._DeleteSmartPhonePayload_smartPhone(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "count":
+
+			out.Values[i] = ec._DeleteSmartPhonePayload_count(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "msg":
+
+			out.Values[i] = ec._DeleteSmartPhonePayload_msg(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var deleteTodoPayloadImplementors = []string{"DeleteTodoPayload"}
 
 func (ec *executionContext) _DeleteTodoPayload(ctx context.Context, sel ast.SelectionSet, obj *model.DeleteTodoPayload) graphql.Marshaler {
@@ -11547,6 +13419,24 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 				return ec._Mutation_deleteCompany(ctx, field)
 			})
 
+		case "addSmartPhone":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_addSmartPhone(ctx, field)
+			})
+
+		case "updateSmartPhone":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_updateSmartPhone(ctx, field)
+			})
+
+		case "deleteSmartPhone":
+
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteSmartPhone(ctx, field)
+			})
+
 		case "addUser2Todos":
 
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
@@ -11699,6 +13589,46 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 			out.Concurrently(i, func() graphql.Marshaler {
 				return rrm(innerCtx)
 			})
+		case "getSmartPhone":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getSmartPhone(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
+		case "querySmartPhone":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_querySmartPhone(ctx, field)
+				return res
+			}
+
+			rrm := func(ctx context.Context) graphql.Marshaler {
+				return ec.OperationContext.RootResolverMiddleware(ctx, innerFunc)
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return rrm(innerCtx)
+			})
 		case "getTodo":
 			field := field
 
@@ -11791,6 +13721,97 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				return ec._Query___schema(ctx, field)
 			})
 
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var smartPhoneImplementors = []string{"SmartPhone"}
+
+func (ec *executionContext) _SmartPhone(ctx context.Context, sel ast.SelectionSet, obj *model.SmartPhone) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, smartPhoneImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SmartPhone")
+		case "id":
+
+			out.Values[i] = ec._SmartPhone_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "brand":
+
+			out.Values[i] = ec._SmartPhone_brand(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "phonenumber":
+
+			out.Values[i] = ec._SmartPhone_phonenumber(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "userID":
+
+			out.Values[i] = ec._SmartPhone_userID(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var smartPhoneQueryResultImplementors = []string{"SmartPhoneQueryResult"}
+
+func (ec *executionContext) _SmartPhoneQueryResult(ctx context.Context, sel ast.SelectionSet, obj *model.SmartPhoneQueryResult) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, smartPhoneQueryResultImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("SmartPhoneQueryResult")
+		case "data":
+
+			out.Values[i] = ec._SmartPhoneQueryResult_data(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "count":
+
+			out.Values[i] = ec._SmartPhoneQueryResult_count(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "totalCount":
+
+			out.Values[i] = ec._SmartPhoneQueryResult_totalCount(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -12023,6 +14044,54 @@ func (ec *executionContext) _UpdateCompanyPayload(ctx context.Context, sel ast.S
 	return out
 }
 
+var updateSmartPhonePayloadImplementors = []string{"UpdateSmartPhonePayload"}
+
+func (ec *executionContext) _UpdateSmartPhonePayload(ctx context.Context, sel ast.SelectionSet, obj *model.UpdateSmartPhonePayload) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, updateSmartPhonePayloadImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("UpdateSmartPhonePayload")
+		case "smartPhone":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._UpdateSmartPhonePayload_smartPhone(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "count":
+
+			out.Values[i] = ec._UpdateSmartPhonePayload_count(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var updateTodoPayloadImplementors = []string{"UpdateTodoPayload"}
 
 func (ec *executionContext) _UpdateTodoPayload(ctx context.Context, sel ast.SelectionSet, obj *model.UpdateTodoPayload) graphql.Marshaler {
@@ -12166,6 +14235,10 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 		case "company":
 
 			out.Values[i] = ec._User_company(ctx, field, obj)
+
+		case "smartPhones":
+
+			out.Values[i] = ec._User_smartPhones(ctx, field, obj)
 
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
@@ -12825,6 +14898,111 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 	return res
 }
 
+func (ec *executionContext) marshalNSmartPhone2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.SmartPhone) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNSmartPhone2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
+func (ec *executionContext) marshalNSmartPhone2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx context.Context, sel ast.SelectionSet, v *model.SmartPhone) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._SmartPhone(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNSmartPhoneFiltersInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx context.Context, v interface{}) (model.SmartPhoneFiltersInput, error) {
+	res, err := ec.unmarshalInputSmartPhoneFiltersInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx context.Context, v interface{}) (*model.SmartPhoneFiltersInput, error) {
+	res, err := ec.unmarshalInputSmartPhoneFiltersInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx context.Context, v interface{}) ([]*model.SmartPhoneInput, error) {
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.SmartPhoneInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNSmartPhoneInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalNSmartPhoneInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInput(ctx context.Context, v interface{}) (*model.SmartPhoneInput, error) {
+	res, err := ec.unmarshalInputSmartPhoneInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNSmartPhonePatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatch(ctx context.Context, v interface{}) (*model.SmartPhonePatch, error) {
+	res, err := ec.unmarshalInputSmartPhonePatch(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNSmartPhoneQueryResult2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneQueryResult(ctx context.Context, sel ast.SelectionSet, v model.SmartPhoneQueryResult) graphql.Marshaler {
+	return ec._SmartPhoneQueryResult(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNSmartPhoneQueryResult2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneQueryResult(ctx context.Context, sel ast.SelectionSet, v *model.SmartPhoneQueryResult) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._SmartPhoneQueryResult(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {
 	res, err := graphql.UnmarshalString(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -12977,6 +15155,11 @@ func (ec *executionContext) unmarshalNUpdateCatInput2githubᚗcomᚋfasibioᚋau
 
 func (ec *executionContext) unmarshalNUpdateCompanyInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateCompanyInput(ctx context.Context, v interface{}) (model.UpdateCompanyInput, error) {
 	res, err := ec.unmarshalInputUpdateCompanyInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUpdateSmartPhoneInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateSmartPhoneInput(ctx context.Context, v interface{}) (model.UpdateSmartPhoneInput, error) {
+	res, err := ec.unmarshalInputUpdateSmartPhoneInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
@@ -13367,6 +15550,13 @@ func (ec *executionContext) marshalOAddCompanyPayload2ᚖgithubᚗcomᚋfasibio�
 	return ec._AddCompanyPayload(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOAddSmartPhonePayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐAddSmartPhonePayload(ctx context.Context, sel ast.SelectionSet, v *model.AddSmartPhonePayload) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._AddSmartPhonePayload(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalOAddTodoPayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐAddTodoPayload(ctx context.Context, sel ast.SelectionSet, v *model.AddTodoPayload) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -13625,6 +15815,13 @@ func (ec *executionContext) marshalODeleteCompanyPayload2ᚖgithubᚗcomᚋfasib
 	return ec._DeleteCompanyPayload(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalODeleteSmartPhonePayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐDeleteSmartPhonePayload(ctx context.Context, sel ast.SelectionSet, v *model.DeleteSmartPhonePayload) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._DeleteSmartPhonePayload(ctx, sel, v)
+}
+
 func (ec *executionContext) marshalODeleteTodoPayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐDeleteTodoPayload(ctx context.Context, sel ast.SelectionSet, v *model.DeleteTodoPayload) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -13757,6 +15954,153 @@ func (ec *executionContext) unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibio�
 	}
 	res, err := ec.unmarshalInputIntFilterInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOSmartPhone2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx context.Context, sel ast.SelectionSet, v []*model.SmartPhone) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalOSmartPhone2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	return ret
+}
+
+func (ec *executionContext) marshalOSmartPhone2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx context.Context, sel ast.SelectionSet, v *model.SmartPhone) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._SmartPhone(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOSmartPhoneFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx context.Context, v interface{}) ([]*model.SmartPhoneFiltersInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.SmartPhoneFiltersInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx context.Context, v interface{}) (*model.SmartPhoneFiltersInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputSmartPhoneFiltersInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx context.Context, v interface{}) ([]*model.SmartPhoneInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.SmartPhoneInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNSmartPhoneInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) unmarshalOSmartPhoneOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrder(ctx context.Context, v interface{}) (*model.SmartPhoneOrder, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputSmartPhoneOrder(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx context.Context, v interface{}) (*model.SmartPhoneOrderable, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var res = new(model.SmartPhoneOrderable)
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx context.Context, sel ast.SelectionSet, v *model.SmartPhoneOrderable) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return v
+}
+
+func (ec *executionContext) unmarshalOSmartPhonePatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatchᚄ(ctx context.Context, v interface{}) ([]*model.SmartPhonePatch, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*model.SmartPhonePatch, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNSmartPhonePatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatch(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOSmartPhoneQueryResult2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneQueryResult(ctx context.Context, sel ast.SelectionSet, v *model.SmartPhoneQueryResult) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._SmartPhoneQueryResult(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx context.Context, v interface{}) (*model.SQLCreateExtension, error) {
@@ -14051,6 +16395,13 @@ func (ec *executionContext) marshalOUpdateCompanyPayload2ᚖgithubᚗcomᚋfasib
 		return graphql.Null
 	}
 	return ec._UpdateCompanyPayload(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalOUpdateSmartPhonePayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateSmartPhonePayload(ctx context.Context, sel ast.SelectionSet, v *model.UpdateSmartPhonePayload) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._UpdateSmartPhonePayload(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOUpdateTodoPayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUpdateTodoPayload(ctx context.Context, sel ast.SelectionSet, v *model.UpdateTodoPayload) graphql.Marshaler {

@@ -82,3 +82,7 @@ test:
     {{include "testSetup"}}
     - gomake srun test
 
+test:local:
+  script:
+    {{include "testSetup"}}
+    {{include "testSqlite"}}

@@ -23,6 +23,10 @@ type AddCompanyPayload {
   company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
 }
 
+type AddSmartPhonePayload {
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+}
+
 type AddTodoPayload {
   todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
 }
@@ -157,6 +161,12 @@ type DeleteCompanyPayload {
   msg: String
 }
 
+type DeleteSmartPhonePayload {
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+  count: Int!
+  msg: String
+}
+
 type DeleteTodoPayload {
   todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
   count: Int!
@@ -210,6 +220,9 @@ type Mutation {
   addCompany(input: [CompanyInput!]!): AddCompanyPayload
   updateCompany(input: UpdateCompanyInput!): UpdateCompanyPayload
   deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload
+  addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload
+  updateSmartPhone(input: UpdateSmartPhoneInput!): UpdateSmartPhonePayload
+  deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload
   addUser2Todos(input: UserRef2TodosInput!): UpdateTodoPayload
   addTodo(input: [TodoInput!]!): AddTodoPayload
   updateTodo(input: UpdateTodoInput!): UpdateTodoPayload
@@ -224,10 +237,59 @@ type Query {
   queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult
   getCompany(id: ID!): Company
   queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult
+  getSmartPhone(id: ID!): SmartPhone
+  querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult
   getTodo(id: ID!): Todo
   queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult
   getUser(id: ID!): User
   queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult
+}
+
+type SmartPhone {
+  id: ID!
+  brand: String!
+  phonenumber: String!
+  userID: ID!
+}
+
+input SmartPhoneFiltersInput {
+  id: IDFilterInput
+  brand: StringFilterInput
+  phonenumber: StringFilterInput
+  userID: IDFilterInput
+  and: [SmartPhoneFiltersInput]
+  or: [SmartPhoneFiltersInput]
+  not: SmartPhoneFiltersInput
+}
+
+input SmartPhoneInput {
+  brand: String!
+  phonenumber: String!
+  userID: ID!
+}
+
+input SmartPhoneOrder {
+  asc: SmartPhoneOrderable
+  desc: SmartPhoneOrderable
+}
+
+enum SmartPhoneOrderable {
+  id
+  brand
+  phonenumber
+  userID
+}
+
+input SmartPhonePatch {
+  brand: String
+  phonenumber: String
+  userID: ID
+}
+
+type SmartPhoneQueryResult {
+  data: [SmartPhone!]!
+  count: Int!
+  totalCount: Int!
 }
 
 input SqlCreateExtension {
@@ -377,6 +439,16 @@ type UpdateCompanyPayload {
   count: Int!
 }
 
+input UpdateSmartPhoneInput {
+  filter: SmartPhoneFiltersInput!
+  set: SmartPhonePatch!
+}
+
+type UpdateSmartPhonePayload {
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+  count: Int!
+}
+
 input UpdateTodoInput {
   filter: TodoFiltersInput!
   set: TodoPatch!
@@ -406,6 +478,8 @@ type User {
   cat: Cat
   companyID: Int
   company: Company
+  smartPhones: [SmartPhone]
+  smartPhones2: [SmartPhone!]!
 }
 
 input UserFiltersInput {
@@ -417,6 +491,8 @@ input UserFiltersInput {
   cat: CatFiltersInput
   companyID: IntFilterInput
   company: CompanyFiltersInput
+  smartPhones: SmartPhoneFiltersInput
+  smartPhones2: SmartPhoneFiltersInput
   and: [UserFiltersInput]
   or: [UserFiltersInput]
   not: UserFiltersInput
@@ -427,6 +503,8 @@ input UserInput {
   cat: CatInput
   companyID: Int
   company: CompanyInput
+  smartPhones: [SmartPhoneInput!]
+  smartPhones2: [SmartPhoneInput!]!
 }
 
 input UserOrder {
@@ -445,6 +523,8 @@ input UserPatch {
   cat: CatPatch
   companyID: Int
   company: CompanyPatch
+  smartPhones: [SmartPhonePatch!]
+  smartPhones2: [SmartPhonePatch!]
 }
 
 type UserQueryResult {

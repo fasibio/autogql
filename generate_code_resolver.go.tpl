@@ -252,7 +252,7 @@ func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input mod
 	{{- $primaryEntity := $root.PrimaryKeyEntityOfObject $object.Name}}
 	ids := make([]{{$root.GetGoFieldType $object.Name $primaryEntity false}},len(toChange))
 	for i, one := range toChange {
-		ids[i] = one.{{$root.GetGoFieldTypeName $object.Name $primaryEntity}}
+		ids[i] = one.{{$root.GetGoFieldName $object.Name $primaryEntity}}
 	}
 	db = db.Model(&obj).Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?",ids).Updates(update)
 	res := &model.Update{{$object.Name}}Payload{
@@ -298,7 +298,7 @@ func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter mo
 	{{- $primaryEntity := $root.PrimaryKeyEntityOfObject $object.Name}}
 	ids := make([]{{$root.GetGoFieldType $object.Name $primaryEntity false}},len(toChange))
 	for i, one := range toChange {
-		ids[i] = one.{{$root.GetGoFieldTypeName $object.Name $primaryEntity}}
+		ids[i] = one.{{$root.GetGoFieldName $object.Name $primaryEntity}}
 	}
 	db = db.Model(&obj).Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?",ids).Delete(&obj)
 		msg := fmt.Sprintf("%d rows deleted", db.RowsAffected)

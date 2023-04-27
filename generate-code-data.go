@@ -267,17 +267,39 @@ func (db *GenerateData) GetGoFieldName(typeName string, v structure.Entity) stri
 	return templates.UcFirst(v.Name())
 }
 
-func (db *GenerateData) GetPointerSymbol(entity structure.Entity) string {
+func (db *GenerateData) GetGoField(typeName string, v structure.Entity) *codegen.Field {
+	objects := make(codegen.Objects, len(db.Data.Objects)+len(db.Data.Inputs))
+	copy(objects, db.Data.Objects)
+	copy(objects[len(db.Data.Objects):], db.Data.Inputs)
+	for _, v1 := range objects {
+		if v1.Name == typeName {
+			for _, fv := range v1.Fields {
+				if fv.Name == v.Name() {
+					return fv
+				}
+			}
+
+		}
+	}
+	return nil
+}
+
+func (db *GenerateData) GetPointerSymbol(typeName string, entity structure.Entity) string {
+
 	if entity.IsPrimitive() {
 		return ""
 	}
-	if entity.Required() {
-		return ""
-	}
+	// if entity.Required() {
+	// 	return ""
+	// }
 	if entity.IsArray() {
 		return ""
 	}
-	return "&"
+	d := db.GetGoField(typeName, entity)
+	if strings.HasPrefix(fmt.Sprintf("%v", d.TypeReference.GO), "*") {
+		return "&"
+	}
+	return ""
 }
 
 func (db *GenerateData) GetValueOfInput(objectname string, builder structure.Object, v structure.Entity) string {

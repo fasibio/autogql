@@ -44,11 +44,9 @@ type {{$hookBaseName}}HookF interface {
 }
 
 {{- $m2mV := $root.HookListMany2Many "model."}}
-{{- if gt (len $m2mV) 0}}
 type {{$hookBaseName}}HookM2M interface {
 	{{$m2mV | join "|"}}
 }
-{{- end}}
 
 type {{$hookBaseName}}HookQueryO interface {
 	{{$root.HookList "model." "Order" | join "|"}}

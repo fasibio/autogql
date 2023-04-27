@@ -34,6 +34,7 @@ type User @SQL(order: 2){
   cat: Cat @SQL_GORM(value:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;")
   companyID: Int
   company: Company
+  smartPhones: [SmartPhone]
 }
 
 type Company @SQL(order: 1){
@@ -52,4 +53,11 @@ type Cat @SQL(order: 4){
   age: Int @SQL_GORM(value:"-")
   userID: Int!
   alive: Boolean @SQL_GORM(value: "default:true")
+}
+
+type SmartPhone @SQL(order: 5){
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  brand: String!
+  phonenumber: String!
+  userID: ID!
 }
