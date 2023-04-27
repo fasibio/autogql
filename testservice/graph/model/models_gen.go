@@ -17,6 +17,10 @@ type AddCompanyPayload struct {
 	Company *CompanyQueryResult `json:"company"`
 }
 
+type AddSmartPhonePayload struct {
+	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
+}
+
 type AddTodoPayload struct {
 	Todo *TodoQueryResult `json:"todo"`
 }
@@ -137,6 +141,12 @@ type DeleteCompanyPayload struct {
 	Msg     *string             `json:"msg,omitempty"`
 }
 
+type DeleteSmartPhonePayload struct {
+	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
+	Count      int                    `json:"count"`
+	Msg        *string                `json:"msg,omitempty"`
+}
+
 type DeleteTodoPayload struct {
 	Todo  *TodoQueryResult `json:"todo"`
 	Count int              `json:"count"`
@@ -181,6 +191,46 @@ type IntFilterInput struct {
 	In      []*int            `json:"in,omitempty"`
 	NotIn   []*int            `json:"notIn,omitempty"`
 	Between *IntFilterBetween `json:"between,omitempty"`
+}
+
+type SmartPhone struct {
+	ID          int    `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Brand       string `json:"brand"`
+	Phonenumber string `json:"phonenumber"`
+	UserID      int    `json:"userID"`
+}
+
+type SmartPhoneFiltersInput struct {
+	ID          *IDFilterInput            `json:"id,omitempty"`
+	Brand       *StringFilterInput        `json:"brand,omitempty"`
+	Phonenumber *StringFilterInput        `json:"phonenumber,omitempty"`
+	UserID      *IDFilterInput            `json:"userID,omitempty"`
+	And         []*SmartPhoneFiltersInput `json:"and,omitempty"`
+	Or          []*SmartPhoneFiltersInput `json:"or,omitempty"`
+	Not         *SmartPhoneFiltersInput   `json:"not,omitempty"`
+}
+
+type SmartPhoneInput struct {
+	Brand       string `json:"brand"`
+	Phonenumber string `json:"phonenumber"`
+	UserID      int    `json:"userID"`
+}
+
+type SmartPhoneOrder struct {
+	Asc  *SmartPhoneOrderable `json:"asc,omitempty"`
+	Desc *SmartPhoneOrderable `json:"desc,omitempty"`
+}
+
+type SmartPhonePatch struct {
+	Brand       *string `json:"brand,omitempty"`
+	Phonenumber *string `json:"phonenumber,omitempty"`
+	UserID      *int    `json:"userID,omitempty"`
+}
+
+type SmartPhoneQueryResult struct {
+	Data       []*SmartPhone `json:"data"`
+	Count      int           `json:"count"`
+	TotalCount int           `json:"totalCount"`
 }
 
 type SQLCreateExtension struct {
@@ -315,6 +365,16 @@ type UpdateCompanyPayload struct {
 	Count   int                 `json:"count"`
 }
 
+type UpdateSmartPhoneInput struct {
+	Filter *SmartPhoneFiltersInput `json:"filter"`
+	Set    *SmartPhonePatch        `json:"set"`
+}
+
+type UpdateSmartPhonePayload struct {
+	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
+	Count      int                    `json:"count"`
+}
+
 type UpdateTodoInput struct {
 	Filter *TodoFiltersInput `json:"filter"`
 	Set    *TodoPatch        `json:"set"`
@@ -336,35 +396,38 @@ type UpdateUserPayload struct {
 }
 
 type User struct {
-	ID        int        `json:"id" gorm:"primaryKey;autoIncrement;"`
-	Name      string     `json:"name"`
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	DeletedAt *time.Time `json:"deletedAt,omitempty"`
-	Cat       *Cat       `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
-	CompanyID *int       `json:"companyID,omitempty"`
-	Company   *Company   `json:"company,omitempty"`
+	ID          int           `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Name        string        `json:"name"`
+	CreatedAt   *time.Time    `json:"createdAt,omitempty"`
+	UpdatedAt   *time.Time    `json:"updatedAt,omitempty"`
+	DeletedAt   *time.Time    `json:"deletedAt,omitempty"`
+	Cat         *Cat          `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
+	CompanyID   *int          `json:"companyID,omitempty"`
+	Company     *Company      `json:"company,omitempty"`
+	SmartPhones []*SmartPhone `json:"smartPhones,omitempty"`
 }
 
 type UserFiltersInput struct {
-	ID        *IDFilterInput       `json:"id,omitempty"`
-	Name      *StringFilterInput   `json:"name,omitempty"`
-	CreatedAt *TimeFilterInput     `json:"createdAt,omitempty"`
-	UpdatedAt *TimeFilterInput     `json:"updatedAt,omitempty"`
-	DeletedAt *TimeFilterInput     `json:"deletedAt,omitempty"`
-	Cat       *CatFiltersInput     `json:"cat,omitempty"`
-	CompanyID *IntFilterInput      `json:"companyID,omitempty"`
-	Company   *CompanyFiltersInput `json:"company,omitempty"`
-	And       []*UserFiltersInput  `json:"and,omitempty"`
-	Or        []*UserFiltersInput  `json:"or,omitempty"`
-	Not       *UserFiltersInput    `json:"not,omitempty"`
+	ID          *IDFilterInput          `json:"id,omitempty"`
+	Name        *StringFilterInput      `json:"name,omitempty"`
+	CreatedAt   *TimeFilterInput        `json:"createdAt,omitempty"`
+	UpdatedAt   *TimeFilterInput        `json:"updatedAt,omitempty"`
+	DeletedAt   *TimeFilterInput        `json:"deletedAt,omitempty"`
+	Cat         *CatFiltersInput        `json:"cat,omitempty"`
+	CompanyID   *IntFilterInput         `json:"companyID,omitempty"`
+	Company     *CompanyFiltersInput    `json:"company,omitempty"`
+	SmartPhones *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
+	And         []*UserFiltersInput     `json:"and,omitempty"`
+	Or          []*UserFiltersInput     `json:"or,omitempty"`
+	Not         *UserFiltersInput       `json:"not,omitempty"`
 }
 
 type UserInput struct {
-	Name      string        `json:"name"`
-	Cat       *CatInput     `json:"cat,omitempty"`
-	CompanyID *int          `json:"companyID,omitempty"`
-	Company   *CompanyInput `json:"company,omitempty"`
+	Name        string             `json:"name"`
+	Cat         *CatInput          `json:"cat,omitempty"`
+	CompanyID   *int               `json:"companyID,omitempty"`
+	Company     *CompanyInput      `json:"company,omitempty"`
+	SmartPhones []*SmartPhoneInput `json:"smartPhones,omitempty"`
 }
 
 type UserOrder struct {
@@ -373,10 +436,11 @@ type UserOrder struct {
 }
 
 type UserPatch struct {
-	Name      *string       `json:"name,omitempty"`
-	Cat       *CatPatch     `json:"cat,omitempty"`
-	CompanyID *int          `json:"companyID,omitempty"`
-	Company   *CompanyPatch `json:"company,omitempty"`
+	Name        *string            `json:"name,omitempty"`
+	Cat         *CatPatch          `json:"cat,omitempty"`
+	CompanyID   *int               `json:"companyID,omitempty"`
+	Company     *CompanyPatch      `json:"company,omitempty"`
+	SmartPhones []*SmartPhonePatch `json:"smartPhones,omitempty"`
 }
 
 type UserQueryResult struct {
@@ -477,6 +541,51 @@ func (e *CompanyOrderable) UnmarshalGQL(v interface{}) error {
 }
 
 func (e CompanyOrderable) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type SmartPhoneOrderable string
+
+const (
+	SmartPhoneOrderableID          SmartPhoneOrderable = "id"
+	SmartPhoneOrderableBrand       SmartPhoneOrderable = "brand"
+	SmartPhoneOrderablePhonenumber SmartPhoneOrderable = "phonenumber"
+	SmartPhoneOrderableUserID      SmartPhoneOrderable = "userID"
+)
+
+var AllSmartPhoneOrderable = []SmartPhoneOrderable{
+	SmartPhoneOrderableID,
+	SmartPhoneOrderableBrand,
+	SmartPhoneOrderablePhonenumber,
+	SmartPhoneOrderableUserID,
+}
+
+func (e SmartPhoneOrderable) IsValid() bool {
+	switch e {
+	case SmartPhoneOrderableID, SmartPhoneOrderableBrand, SmartPhoneOrderablePhonenumber, SmartPhoneOrderableUserID:
+		return true
+	}
+	return false
+}
+
+func (e SmartPhoneOrderable) String() string {
+	return string(e)
+}
+
+func (e *SmartPhoneOrderable) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SmartPhoneOrderable(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SmartPhoneOrderable", str)
+	}
+	return nil
+}
+
+func (e SmartPhoneOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 

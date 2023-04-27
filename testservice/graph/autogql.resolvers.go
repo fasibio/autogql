@@ -504,6 +504,252 @@ func (r *mutationResolver) DeleteCompany(ctx context.Context, filter model.Compa
 	return res, db.Error
 }
 
+// GetSmartPhone is the resolver for the getSmartPhone field.
+func (r *queryResolver) GetSmartPhone(ctx context.Context, id int) (*model.SmartPhone, error) {
+	v, okHook := r.Sql.Hooks[string(db.GetSmartPhone)].(db.AutoGqlHookGet[model.SmartPhone, int])
+	db := r.Sql.Db
+	if okHook {
+		var err error
+		db, err = v.Received(ctx, r.Sql, id)
+		if err != nil {
+			return nil, err
+		}
+	}
+	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "SmartPhone"))
+	if okHook {
+		var err error
+		db, err = v.BeforeCallDb(ctx, db)
+		if err != nil {
+			return nil, err
+		}
+	}
+	var res model.SmartPhone
+	db = db.First(&res, id)
+	if okHook {
+		r, err := v.AfterCallDb(ctx, &res)
+		if err != nil {
+			return nil, err
+		}
+		res = *r
+		r, err = v.BeforeReturn(ctx, &res, db)
+		if err != nil {
+			return nil, err
+		}
+		res = *r
+	}
+	return &res, db.Error
+}
+
+// QuerySmartPhone is the resolver for the querySmartPhone field.
+func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error) {
+	v, okHook := r.Sql.Hooks[string(db.QuerySmartPhone)].(db.AutoGqlHookQuery[model.SmartPhone, model.SmartPhoneFiltersInput, model.SmartPhoneOrder])
+	db := r.Sql.Db
+	if okHook {
+		var err error
+		db, filter, order, first, offset, err = v.Received(ctx, r.Sql, filter, order, first, offset)
+		if err != nil {
+			return nil, err
+		}
+	}
+	var res []*model.SmartPhone
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	if filter != nil {
+		blackList := make(map[string]struct{})
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		db.Where(sql, arguments...)
+	}
+
+	if okHook {
+		var err error
+		db, err = v.BeforeCallDb(ctx, db)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	if order != nil {
+		if order.Asc != nil {
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
+		}
+		if order.Desc != nil {
+			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s desc", runtimehelper.GetQuoteChar(db), tableName, order.Desc))
+		}
+	}
+	var total int64
+	db.Model(res).Count(&total)
+	if first != nil {
+		db = db.Limit(*first)
+	}
+	if offset != nil {
+		db = db.Offset(*offset)
+	}
+	db = db.Find(&res)
+	if okHook {
+		var err error
+		res, err = v.AfterCallDb(ctx, res)
+		if err != nil {
+			return nil, err
+		}
+		res, err = v.BeforeReturn(ctx, res, db)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return &model.SmartPhoneQueryResult{
+		Data:       res,
+		Count:      len(res),
+		TotalCount: int(total),
+	}, db.Error
+}
+func (r *Resolver) AddSmartPhonePayload() AddSmartPhonePayloadResolver {
+	return &smartPhonePayloadResolver[*model.AddSmartPhonePayload]{r}
+}
+func (r *Resolver) DeleteSmartPhonePayload() DeleteSmartPhonePayloadResolver {
+	return &smartPhonePayloadResolver[*model.DeleteSmartPhonePayload]{r}
+}
+func (r *Resolver) UpdateSmartPhonePayload() UpdateSmartPhonePayloadResolver {
+	return &smartPhonePayloadResolver[*model.UpdateSmartPhonePayload]{r}
+}
+
+type smartPhonePayload interface {
+	*model.AddSmartPhonePayload | *model.DeleteSmartPhonePayload | *model.UpdateSmartPhonePayload
+}
+
+type smartPhonePayloadResolver[T smartPhonePayload] struct {
+	*Resolver
+}
+
+func (r *smartPhonePayloadResolver[T]) SmartPhone(ctx context.Context, obj T, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error) {
+	return r.Query().QuerySmartPhone(ctx, filter, order, first, offset)
+}
+
+// AddSmartPhone is the resolver for the addSmartPhone field.
+func (r *mutationResolver) AddSmartPhone(ctx context.Context, input []*model.SmartPhoneInput) (*model.AddSmartPhonePayload, error) {
+	v, okHook := r.Sql.Hooks[string(db.AddSmartPhone)].(db.AutoGqlHookAdd[model.SmartPhone, model.SmartPhoneInput, model.AddSmartPhonePayload])
+	res := &model.AddSmartPhonePayload{}
+	db := r.Sql.Db
+	if okHook {
+		var err error
+		db, input, err = v.Received(ctx, r.Sql, input)
+		if err != nil {
+			return nil, err
+		}
+	}
+	obj := make([]model.SmartPhone, len(input))
+	for i, v := range input {
+		obj[i] = v.MergeToType()
+	}
+	db = db.Omit(clause.Associations)
+	if okHook {
+		var err error
+		db, obj, err = v.BeforeCallDb(ctx, db, obj)
+		if err != nil {
+			return nil, err
+		}
+	}
+	db = db.Create(&obj)
+	if okHook {
+		var err error
+		res, err = v.BeforeReturn(ctx, db, obj, res)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, db.Error
+}
+
+// UpdateSmartPhone is the resolver for the updateSmartPhone field.
+func (r *mutationResolver) UpdateSmartPhone(ctx context.Context, input model.UpdateSmartPhoneInput) (*model.UpdateSmartPhonePayload, error) {
+	v, okHook := r.Sql.Hooks[string(db.UpdateSmartPhone)].(db.AutoGqlHookUpdate[model.UpdateSmartPhoneInput, model.UpdateSmartPhonePayload])
+	db := r.Sql.Db
+	if okHook {
+		var err error
+		db, input, err = v.Received(ctx, r.Sql, &input)
+		if err != nil {
+			return nil, err
+		}
+	}
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	blackList := make(map[string]struct{})
+	queryDb := db.Select(tableName + ".id")
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+	obj := model.SmartPhone{}
+	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
+	var toChange []model.SmartPhone
+	queryDb.Find(&toChange)
+	update := input.Set.MergeToType()
+	if okHook {
+		var err error
+		db, update, err = v.BeforeCallDb(ctx, db, update)
+		if err != nil {
+			return nil, err
+		}
+	}
+	ids := make([]int, len(toChange))
+	for i, one := range toChange {
+		ids[i] = one.ID
+	}
+	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	res := &model.UpdateSmartPhonePayload{
+		Count: int(db.RowsAffected),
+	}
+	if okHook {
+		var err error
+		res, err = v.BeforeReturn(ctx, db, res)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, db.Error
+}
+
+// DeleteSmartPhone is the resolver for the deleteSmartPhone field.
+func (r *mutationResolver) DeleteSmartPhone(ctx context.Context, filter model.SmartPhoneFiltersInput) (*model.DeleteSmartPhonePayload, error) {
+	v, okHook := r.Sql.Hooks[string(db.DeleteSmartPhone)].(db.AutoGqlHookDelete[model.SmartPhoneFiltersInput, model.DeleteSmartPhonePayload])
+	db := r.Sql.Db
+	if okHook {
+		var err error
+		db, filter, err = v.Received(ctx, r.Sql, &filter)
+		if err != nil {
+			return nil, err
+		}
+	}
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	blackList := make(map[string]struct{})
+	queryDb := db.Select(tableName + ".id")
+	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+	obj := model.SmartPhone{}
+	queryDb = queryDb.Model(&obj).Where(sql, arguments...)
+	var toChange []model.SmartPhone
+	queryDb.Find(&toChange)
+	if okHook {
+		var err error
+		db, err = v.BeforeCallDb(ctx, db)
+		if err != nil {
+			return nil, err
+		}
+	}
+	ids := make([]int, len(toChange))
+	for i, one := range toChange {
+		ids[i] = one.ID
+	}
+	db = db.Model(&obj).Where("id IN ?", ids).Delete(&obj)
+	msg := fmt.Sprintf("%d rows deleted", db.RowsAffected)
+	res := &model.DeleteSmartPhonePayload{
+		Count: int(db.RowsAffected),
+		Msg:   &msg,
+	}
+	if okHook {
+		var err error
+		res, err = v.BeforeReturn(ctx, db, res)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, db.Error
+}
+
 // GetTodo is the resolver for the getTodo field.
 func (r *queryResolver) GetTodo(ctx context.Context, id int) (*model.Todo, error) {
 	v, okHook := r.Sql.Hooks[string(db.GetTodo)].(db.AutoGqlHookGet[model.Todo, int])

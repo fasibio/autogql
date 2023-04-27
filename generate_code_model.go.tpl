@@ -55,10 +55,16 @@
 	func (d *{{$objectName}}Input) {{$input2TypeName}}() {{$objectName}} {
 		{{- range $entityKey, $entity := $object.InputEntities }}
 		{{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
-		{{- if and (not $entity.IsPrimitive) (not $entity.Required)}}
+		{{- if not $entity.IsPrimitive}}
+			{{$pointer := "*"}}
+			{{- if $entity.Required}}
+				{{$pointer := ""}}
+			{{- end}}
 			{{$entityType := $root.GetGoFieldType $objectName $entity true}}
-			var tmp{{$entityGoName}} {{ if $entity.IsArray}} []{{$entityType }} {{ else }} {{$entityType }} {{ end }}
+			var tmp{{$entityGoName}} {{ if $entity.IsArray}} []{{$pointer}}{{$entityType }} {{ else }} {{$entityType }} {{ end }}
+			{{- if not $entity.Required}}
 			if d.{{$entityGoName}} != nil {
+			{{- end}}
 			{{- if $entity.IsArray}}
 				tmp{{$entityGoName}} = make([]*{{$entityType }},len(d.{{$entityGoName}}))
 				for _, v := range d.{{$entityGoName}}{
@@ -72,7 +78,9 @@
 					tmp{{$entityGoName}} = d.{{$entityGoName}}.{{$input2TypeName}}()
 				{{- end}}
 			{{- end}}	
+			{{- if not $entity.Required}}
 			}
+			{{- end}}
 		{{- else}}
 		{{$entityType := $root.GetGoFieldType $objectName $entity false}}
 			{{- if $entity.Required}}
@@ -97,7 +105,7 @@
 		return {{$objectName}}{
 		{{- range $entityKey, $entity := $object.InputEntities }}
 			{{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
-			{{$entityGoName}}: {{$root.GetPointerSymbol $entity}}tmp{{$entityGoName}},
+			{{$entityGoName}}: {{$root.GetPointerSymbol $objectName $entity}}tmp{{$entityGoName}},
 		{{- end}}
 		}
 	}

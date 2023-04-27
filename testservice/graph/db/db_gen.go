@@ -17,61 +17,66 @@ type DeleteName string
 type Many2ManyName string
 
 const (
-	GetCat        GetName       = "GetCat"
-	QueryCat      QueryName     = "QueryCat"
-	AddCat        AddName       = "AddCat"
-	UpdateCat     UpdateName    = "UpdateCat"
-	DeleteCat     DeleteName    = "DeleteCat"
-	GetCompany    GetName       = "GetCompany"
-	QueryCompany  QueryName     = "QueryCompany"
-	AddCompany    AddName       = "AddCompany"
-	UpdateCompany UpdateName    = "UpdateCompany"
-	DeleteCompany DeleteName    = "DeleteCompany"
-	AddUser2Todos Many2ManyName = "AddUser2Todos"
-	GetTodo       GetName       = "GetTodo"
-	QueryTodo     QueryName     = "QueryTodo"
-	AddTodo       AddName       = "AddTodo"
-	UpdateTodo    UpdateName    = "UpdateTodo"
-	DeleteTodo    DeleteName    = "DeleteTodo"
-	GetUser       GetName       = "GetUser"
-	QueryUser     QueryName     = "QueryUser"
-	AddUser       AddName       = "AddUser"
-	UpdateUser    UpdateName    = "UpdateUser"
-	DeleteUser    DeleteName    = "DeleteUser"
+	GetCat           GetName       = "GetCat"
+	QueryCat         QueryName     = "QueryCat"
+	AddCat           AddName       = "AddCat"
+	UpdateCat        UpdateName    = "UpdateCat"
+	DeleteCat        DeleteName    = "DeleteCat"
+	GetCompany       GetName       = "GetCompany"
+	QueryCompany     QueryName     = "QueryCompany"
+	AddCompany       AddName       = "AddCompany"
+	UpdateCompany    UpdateName    = "UpdateCompany"
+	DeleteCompany    DeleteName    = "DeleteCompany"
+	GetSmartPhone    GetName       = "GetSmartPhone"
+	QuerySmartPhone  QueryName     = "QuerySmartPhone"
+	AddSmartPhone    AddName       = "AddSmartPhone"
+	UpdateSmartPhone UpdateName    = "UpdateSmartPhone"
+	DeleteSmartPhone DeleteName    = "DeleteSmartPhone"
+	AddUser2Todos    Many2ManyName = "AddUser2Todos"
+	GetTodo          GetName       = "GetTodo"
+	QueryTodo        QueryName     = "QueryTodo"
+	AddTodo          AddName       = "AddTodo"
+	UpdateTodo       UpdateName    = "UpdateTodo"
+	DeleteTodo       DeleteName    = "DeleteTodo"
+	GetUser          GetName       = "GetUser"
+	QueryUser        QueryName     = "QueryUser"
+	AddUser          AddName       = "AddUser"
+	UpdateUser       UpdateName    = "UpdateUser"
+	DeleteUser       DeleteName    = "DeleteUser"
 )
 
 type AutoGqlHookM interface {
-	model.Cat | model.Company | model.Todo | model.User
+	model.Cat | model.Company | model.SmartPhone | model.Todo | model.User
 }
 type AutoGqlHookF interface {
-	model.CatFiltersInput | model.CompanyFiltersInput | model.TodoFiltersInput | model.UserFiltersInput
+	model.CatFiltersInput | model.CompanyFiltersInput | model.SmartPhoneFiltersInput | model.TodoFiltersInput | model.UserFiltersInput
 }
 type AutoGqlHookM2M interface {
 	model.UserRef2TodosInput
 }
 
 type AutoGqlHookQueryO interface {
-	model.CatOrder | model.CompanyOrder | model.TodoOrder | model.UserOrder
+	model.CatOrder | model.CompanyOrder | model.SmartPhoneOrder | model.TodoOrder | model.UserOrder
 }
 
 type AutoGqlHookI interface {
-	model.CatInput | model.CompanyInput | model.TodoInput | model.UserInput
+	model.CatInput | model.CompanyInput | model.SmartPhoneInput | model.TodoInput | model.UserInput
 }
 
 type AutoGqlHookU interface {
-	model.UpdateCatInput | model.UpdateCompanyInput | model.UpdateTodoInput | model.UpdateUserInput
+	model.UpdateCatInput | model.UpdateCompanyInput | model.UpdateSmartPhoneInput | model.UpdateTodoInput | model.UpdateUserInput
 }
 
 type AutoGqlHookUP interface {
-	model.UpdateCatPayload | model.UpdateCompanyPayload | model.UpdateTodoPayload | model.UpdateUserPayload
+	model.UpdateCatPayload | model.UpdateCompanyPayload | model.UpdateSmartPhonePayload | model.UpdateTodoPayload | model.UpdateUserPayload
 }
 
 type AutoGqlHookDP interface {
-	model.DeleteCatPayload | model.DeleteCompanyPayload | model.DeleteTodoPayload | model.DeleteUserPayload
+	model.DeleteCatPayload | model.DeleteCompanyPayload | model.DeleteSmartPhonePayload | model.DeleteTodoPayload | model.DeleteUserPayload
 }
 
 type AutoGqlHookAP interface {
-	model.AddCatPayload | model.AddCompanyPayload | model.AddTodoPayload | model.AddUserPayload
+	model.AddCatPayload | model.AddCompanyPayload | model.AddSmartPhonePayload | model.AddTodoPayload | model.AddUserPayload
 }
 
 type AutoGqlDB struct {
@@ -87,7 +92,7 @@ func NewAutoGqlDB(db *gorm.DB) AutoGqlDB {
 }
 
 func (db *AutoGqlDB) Init() {
-	db.Db.AutoMigrate(&model.Company{}, &model.User{}, &model.Todo{}, &model.Cat{})
+	db.Db.AutoMigrate(&model.Company{}, &model.User{}, &model.Todo{}, &model.Cat{}, &model.SmartPhone{})
 }
 
 func AddGetHook[T AutoGqlHookM, I any](db *AutoGqlDB, name GetName, implementation AutoGqlHookGet[T, I]) {

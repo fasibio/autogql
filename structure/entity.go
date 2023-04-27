@@ -124,6 +124,10 @@ func (e *Entity) IsArrayElementRequired() bool {
 	return e.Raw.Type.Elem.NonNull
 }
 
+func (e *Entity) IsEnum() bool {
+	return e.RawObject.Kind == ast.Enum
+}
+
 func (e *Entity) IsPrimitive() bool {
 	return e.BuiltIn && e.RawObject.Kind == ast.Scalar
 }

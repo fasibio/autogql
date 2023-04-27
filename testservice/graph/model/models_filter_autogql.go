@@ -116,6 +116,52 @@ func (d *CompanyFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, de
 	return res
 }
 
+func (d *SmartPhoneFiltersInput) TableName() string {
+	return "smart_phone"
+}
+
+func (d *SmartPhoneFiltersInput) PrimaryKeyName() string {
+	return "id"
+}
+
+func (d *SmartPhoneFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
+	res := make([]runtimehelper.ConditionElement, 0)
+	if d.And != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.And {
+			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+		}
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationAnd, tmp...))
+	}
+
+	if d.Or != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.Or {
+
+			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+		}
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationOr, tmp...))
+	}
+
+	if d.Not != nil {
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
+	}
+	if d.ID != nil {
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
+	}
+	if d.Brand != nil {
+		res = append(res, d.Brand.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "brand"), true, blackList)...)
+	}
+	if d.Phonenumber != nil {
+		res = append(res, d.Phonenumber.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "phonenumber"), true, blackList)...)
+	}
+	if d.UserID != nil {
+		res = append(res, d.UserID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "user_id"), true, blackList)...)
+	}
+
+	return res
+}
+
 func (d *TodoFiltersInput) TableName() string {
 	return "todo"
 }
@@ -265,6 +311,20 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 			}
 		}
 		res = append(res, d.Company.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]sCompany%[1]s", runtimehelper.GetQuoteChar(db)), true, blackList)...)
+	}
+	if d.SmartPhones != nil {
+		if _, ok := blackList["SmartPhones"]; !ok {
+			blackList["SmartPhones"] = struct{}{}
+			if deep {
+				tableName := db.Config.NamingStrategy.TableName("SmartPhone")
+				foreignKeyName := "user_id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sSmartPhones%[1]s ON %[1]sSmartPhones%[1]s.%[1]s%[5]s%[1]s = %[4]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, d.PrimaryKeyName(), alias, foreignKeyName))
+
+			} else {
+				db = db.Joins("SmartPhones")
+			}
+		}
+		res = append(res, d.SmartPhones.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]sSmartPhones%[1]s", runtimehelper.GetQuoteChar(db)), true, blackList)...)
 	}
 
 	return res
