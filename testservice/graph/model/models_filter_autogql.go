@@ -232,6 +232,12 @@ func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 	if d.DeletedAt != nil {
 		res = append(res, d.DeletedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "deleted_at"), true, blackList)...)
 	}
+	if d.Etype1 != nil {
+		res = append(res, d.Etype1.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "etype1"), true, blackList)...)
+	}
+	if d.Etype5 != nil {
+		res = append(res, d.Etype5.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "etype5"), true, blackList)...)
+	}
 
 	return res
 }

@@ -5655,6 +5655,34 @@
                         },
                         &integration.FullTypeInputFieldsInputValue{
                             InputValue: integration.InputValue{
+                                Name:        "etype1",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "INPUT_OBJECT",
+                                        Name:   &"StringFilterInput",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "etype5",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "INPUT_OBJECT",
+                                        Name:   &"StringFilterInput",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
                                 Name:        "and",
                                 Description: (*string)(nil),
                                 Type:        &integration.InputValueType{

@@ -1577,11 +1577,11 @@ input CatOrder{
 }
 
 input CatFiltersInput{
-  id: IDFilterInput
-  name: StringFilterInput
-  birthDay: TimeFilterInput
-  userID: IntFilterInput
-  alive: BooleanFilterInput
+    id: IDFilterInput
+    name: StringFilterInput
+    birthDay: TimeFilterInput
+    userID: IntFilterInput
+    alive: BooleanFilterInput
   and: [CatFiltersInput]
   or: [CatFiltersInput]
   not: CatFiltersInput
@@ -1648,12 +1648,12 @@ input CompanyOrder{
 }
 
 input CompanyFiltersInput{
-  id: IDFilterInput
-  name: StringFilterInput
-  description: StringFilterInput
-  motherCompanyID: IntFilterInput
-  motherCompany:CompanyFiltersInput
-  createdAt: TimeFilterInput
+    id: IDFilterInput
+    name: StringFilterInput
+    description: StringFilterInput
+    motherCompanyID: IntFilterInput
+          motherCompany:CompanyFiltersInput
+    createdAt: TimeFilterInput
   and: [CompanyFiltersInput]
   or: [CompanyFiltersInput]
   not: CompanyFiltersInput
@@ -1718,10 +1718,10 @@ input SmartPhoneOrder{
 }
 
 input SmartPhoneFiltersInput{
-  id: IDFilterInput
-  brand: StringFilterInput
-  phonenumber: StringFilterInput
-  userID: IDFilterInput
+    id: IDFilterInput
+    brand: StringFilterInput
+    phonenumber: StringFilterInput
+    userID: IDFilterInput
   and: [SmartPhoneFiltersInput]
   or: [SmartPhoneFiltersInput]
   not: SmartPhoneFiltersInput
@@ -1792,14 +1792,16 @@ input TodoOrder{
 }
 
 input TodoFiltersInput{
-  id: IDFilterInput
-  name: StringFilterInput
-  users:UserFiltersInput
-  owner:UserFiltersInput
-  ownerID: IDFilterInput
-  createdAt: TimeFilterInput
-  updatedAt: TimeFilterInput
-  deletedAt: TimeFilterInput
+    id: IDFilterInput
+    name: StringFilterInput
+          users:UserFiltersInput
+          owner:UserFiltersInput
+    ownerID: IDFilterInput
+    createdAt: TimeFilterInput
+    updatedAt: TimeFilterInput
+    deletedAt: TimeFilterInput
+        etype1: StringFilterInput
+        etype5: StringFilterInput
   and: [TodoFiltersInput]
   or: [TodoFiltersInput]
   not: TodoFiltersInput
@@ -1868,15 +1870,15 @@ input UserOrder{
 }
 
 input UserFiltersInput{
-  id: IDFilterInput
-  name: StringFilterInput
-  createdAt: TimeFilterInput
-  updatedAt: TimeFilterInput
-  deletedAt: TimeFilterInput
-  cat:CatFiltersInput
-  companyID: IntFilterInput
-  company:CompanyFiltersInput
-  smartPhones:SmartPhoneFiltersInput
+    id: IDFilterInput
+    name: StringFilterInput
+    createdAt: TimeFilterInput
+    updatedAt: TimeFilterInput
+    deletedAt: TimeFilterInput
+          cat:CatFiltersInput
+    companyID: IntFilterInput
+          company:CompanyFiltersInput
+          smartPhones:SmartPhoneFiltersInput
   and: [UserFiltersInput]
   or: [UserFiltersInput]
   not: UserFiltersInput
@@ -11970,7 +11972,7 @@ func (ec *executionContext) unmarshalInputTodoFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "users", "owner", "ownerID", "createdAt", "updatedAt", "deletedAt", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "users", "owner", "ownerID", "createdAt", "updatedAt", "deletedAt", "etype1", "etype5", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12038,6 +12040,22 @@ func (ec *executionContext) unmarshalInputTodoFiltersInput(ctx context.Context, 
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("deletedAt"))
 			it.DeletedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "etype1":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype1"))
+			it.Etype1, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "etype5":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
+			it.Etype5, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}

@@ -315,6 +315,8 @@ type TodoFiltersInput struct {
 	CreatedAt *TimeFilterInput    `json:"createdAt,omitempty"`
 	UpdatedAt *TimeFilterInput    `json:"updatedAt,omitempty"`
 	DeletedAt *TimeFilterInput    `json:"deletedAt,omitempty"`
+	Etype1    *StringFilterInput  `json:"etype1,omitempty"`
+	Etype5    *StringFilterInput  `json:"etype5,omitempty"`
 	And       []*TodoFiltersInput `json:"and,omitempty"`
 	Or        []*TodoFiltersInput `json:"or,omitempty"`
 	Not       *TodoFiltersInput   `json:"not,omitempty"`

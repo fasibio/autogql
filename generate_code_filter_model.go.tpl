@@ -52,9 +52,9 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
   {{- range $entityKey, $entity := $object.InputFilterEntities }}
   {{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
 
-	{{-  if or $entity.IsPrimitive $entity.GqlTypeObj.HasSqlDirective }}
+	{{-  if or $entity.IsPrimitive $entity.GqlTypeObj.HasSqlDirective $entity.IsEnum }}
 	if d.{{$entityGoName}} != nil {
-    {{-  if $entity.IsPrimitive  }}
+    {{-  if or $entity.IsPrimitive $entity.IsEnum }}
     res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s",runtimehelper.GetQuoteChar(db), alias,"{{snakecase $entityGoName}}"),true,blackList)...)
     {{- else }}
 			{{- if $entity.HasMany2ManyDirective}}

@@ -146,14 +146,17 @@ input {{$object.Name}}Order{
 
 input {{$object.Name}}FiltersInput{
   {{- range $entityKey, $entity := $object.InputFilterEntities}}
-  {{- if $entity.IsPrimitive }}
-  {{$entity.Name}}: {{$entity.GqlTypeName}}FilterInput
-  {{- else}}
-    {{- if $entity.GqlTypeObj.HasSqlDirective}}
-  {{$entity.Name}}:{{$entity.GqlTypeName}}FiltersInput
-    {{- end}}
-  {{- end}}
-  
+    {{- if $entity.IsPrimitive }}
+    {{$entity.Name}}: {{$entity.GqlTypeName}}FilterInput
+    {{- else}}
+      {{- if $entity.IsEnum}}
+        {{$entity.Name}}: StringFilterInput
+      {{- else }}
+        {{- if $entity.GqlTypeObj.HasSqlDirective}}
+          {{$entity.Name}}:{{$entity.GqlTypeName}}FiltersInput
+        {{- end}}
+      {{- end}}
+    {{- end}}  
   {{- end}}
   and: [{{$object.Name}}FiltersInput]
   or: [{{$object.Name}}FiltersInput]
