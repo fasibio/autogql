@@ -10,14 +10,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type ParentObject interface {
-	TableName() string
-	PrimaryKeyName() string
-}
-
-func (d *CatFiltersInput) TableName() string {
-	return "cat"
-}
+const extendsDatabaseFieldNameFormat string = "%[2]s.%[1]s%[3]s%[1]s"
 
 func (d *CatFiltersInput) PrimaryKeyName() string {
 	return "id"
@@ -46,26 +39,22 @@ func (d *CatFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep b
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
 	}
 	if d.ID != nil {
-		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
 	}
 	if d.Name != nil {
-		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
+		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
 	}
 	if d.BirthDay != nil {
-		res = append(res, d.BirthDay.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "birth_day"), true, blackList)...)
+		res = append(res, d.BirthDay.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "birth_day"), true, blackList)...)
 	}
 	if d.UserID != nil {
-		res = append(res, d.UserID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "user_id"), true, blackList)...)
+		res = append(res, d.UserID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "user_id"), true, blackList)...)
 	}
 	if d.Alive != nil {
-		res = append(res, d.Alive.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "alive"), true, blackList)...)
+		res = append(res, d.Alive.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "alive"), true, blackList)...)
 	}
 
 	return res
-}
-
-func (d *CompanyFiltersInput) TableName() string {
-	return "company"
 }
 
 func (d *CompanyFiltersInput) PrimaryKeyName() string {
@@ -95,29 +84,25 @@ func (d *CompanyFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, de
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
 	}
 	if d.ID != nil {
-		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
 	}
 	if d.Name != nil {
-		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
+		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
 	}
 	if d.Description != nil {
-		res = append(res, d.Description.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "description"), true, blackList)...)
+		res = append(res, d.Description.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "description"), true, blackList)...)
 	}
 	if d.MotherCompanyID != nil {
-		res = append(res, d.MotherCompanyID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "mother_company_id"), true, blackList)...)
+		res = append(res, d.MotherCompanyID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "mother_company_id"), true, blackList)...)
 	}
 	if d.MotherCompany != nil {
 		res = append(res, d.MotherCompany.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]sMotherCompany%[1]s", runtimehelper.GetQuoteChar(db)), true, blackList)...)
 	}
 	if d.CreatedAt != nil {
-		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "created_at"), true, blackList)...)
+		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "created_at"), true, blackList)...)
 	}
 
 	return res
-}
-
-func (d *SmartPhoneFiltersInput) TableName() string {
-	return "smart_phone"
 }
 
 func (d *SmartPhoneFiltersInput) PrimaryKeyName() string {
@@ -147,23 +132,19 @@ func (d *SmartPhoneFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string,
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
 	}
 	if d.ID != nil {
-		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
 	}
 	if d.Brand != nil {
-		res = append(res, d.Brand.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "brand"), true, blackList)...)
+		res = append(res, d.Brand.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "brand"), true, blackList)...)
 	}
 	if d.Phonenumber != nil {
-		res = append(res, d.Phonenumber.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "phonenumber"), true, blackList)...)
+		res = append(res, d.Phonenumber.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "phonenumber"), true, blackList)...)
 	}
 	if d.UserID != nil {
-		res = append(res, d.UserID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "user_id"), true, blackList)...)
+		res = append(res, d.UserID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "user_id"), true, blackList)...)
 	}
 
 	return res
-}
-
-func (d *TodoFiltersInput) TableName() string {
-	return "todo"
 }
 
 func (d *TodoFiltersInput) PrimaryKeyName() string {
@@ -193,10 +174,10 @@ func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
 	}
 	if d.ID != nil {
-		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
 	}
 	if d.Name != nil {
-		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
+		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
 	}
 	if d.Users != nil {
 		tableName := db.Config.NamingStrategy.TableName("User")
@@ -221,29 +202,25 @@ func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 		res = append(res, d.Owner.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]sOwner%[1]s", runtimehelper.GetQuoteChar(db)), true, blackList)...)
 	}
 	if d.OwnerID != nil {
-		res = append(res, d.OwnerID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "owner_id"), true, blackList)...)
+		res = append(res, d.OwnerID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "owner_id"), true, blackList)...)
 	}
 	if d.CreatedAt != nil {
-		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "created_at"), true, blackList)...)
+		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "created_at"), true, blackList)...)
 	}
 	if d.UpdatedAt != nil {
-		res = append(res, d.UpdatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "updated_at"), true, blackList)...)
+		res = append(res, d.UpdatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "updated_at"), true, blackList)...)
 	}
 	if d.DeletedAt != nil {
-		res = append(res, d.DeletedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "deleted_at"), true, blackList)...)
+		res = append(res, d.DeletedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "deleted_at"), true, blackList)...)
 	}
 	if d.Etype1 != nil {
-		res = append(res, d.Etype1.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "etype1"), true, blackList)...)
+		res = append(res, d.Etype1.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "etype1"), true, blackList)...)
 	}
 	if d.Etype5 != nil {
-		res = append(res, d.Etype5.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "etype5"), true, blackList)...)
+		res = append(res, d.Etype5.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "etype5"), true, blackList)...)
 	}
 
 	return res
-}
-
-func (d *UserFiltersInput) TableName() string {
-	return "user"
 }
 
 func (d *UserFiltersInput) PrimaryKeyName() string {
@@ -273,19 +250,19 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, alias, true, blackList)...))
 	}
 	if d.ID != nil {
-		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
+		res = append(res, d.ID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "id"), true, blackList)...)
 	}
 	if d.Name != nil {
-		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
+		res = append(res, d.Name.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "name"), true, blackList)...)
 	}
 	if d.CreatedAt != nil {
-		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "created_at"), true, blackList)...)
+		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "created_at"), true, blackList)...)
 	}
 	if d.UpdatedAt != nil {
-		res = append(res, d.UpdatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "updated_at"), true, blackList)...)
+		res = append(res, d.UpdatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "updated_at"), true, blackList)...)
 	}
 	if d.DeletedAt != nil {
-		res = append(res, d.DeletedAt.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "deleted_at"), true, blackList)...)
+		res = append(res, d.DeletedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "deleted_at"), true, blackList)...)
 	}
 	if d.Cat != nil {
 		if _, ok := blackList["Cat"]; !ok {
@@ -302,7 +279,7 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 		res = append(res, d.Cat.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]sCat%[1]s", runtimehelper.GetQuoteChar(db)), true, blackList)...)
 	}
 	if d.CompanyID != nil {
-		res = append(res, d.CompanyID.ExtendsDatabaseQuery(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), alias, "company_id"), true, blackList)...)
+		res = append(res, d.CompanyID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "company_id"), true, blackList)...)
 	}
 	if d.Company != nil {
 		if _, ok := blackList["Company"]; !ok {

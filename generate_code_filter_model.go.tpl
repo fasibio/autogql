@@ -4,28 +4,16 @@
 {{ reserveImport "github.com/fasibio/autogql/runtimehelper" }}
 	
 {{$methodeName := "ExtendsDatabaseQuery"}}
-
+const extendsDatabaseFieldNameFormat string = "%[2]s.%[1]s%[3]s%[1]s"
 
 {{- $root := .}}
-
-type ParentObject interface {
-	TableName() string
-	PrimaryKeyName() string
-}
-
 
 {{- range $objectName, $object := .Handler.List.Objects }}
 {{- if $object.HasSqlDirective}}
 
-
-func (d *{{$object.Name}}FiltersInput) TableName() string {
-	return "{{$object.Name | snakecase}}"
-}
-
 func (d *{{$object.Name}}FiltersInput) PrimaryKeyName() string {
 	return "{{$root.PrimaryKeyOfObject $object.Name}}"
 }
-
 
 func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias string,deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
@@ -55,7 +43,7 @@ func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias strin
 	{{-  if or $entity.IsPrimitive $entity.GqlTypeObj.HasSqlDirective $entity.IsEnum }}
 	if d.{{$entityGoName}} != nil {
     {{-  if or $entity.IsPrimitive $entity.IsEnum }}
-    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[2]s.%[1]s%[3]s%[1]s",runtimehelper.GetQuoteChar(db), alias,"{{snakecase $entityGoName}}"),true,blackList)...)
+    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf(extendsDatabaseFieldNameFormat,runtimehelper.GetQuoteChar(db), alias,"{{snakecase $entityGoName}}"),true,blackList)...)
     {{- else }}
 			{{- if $entity.HasMany2ManyDirective}}
     tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
@@ -222,7 +210,6 @@ func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, dee
 
 	if d.NotIn != nil {
 		res = append(res, runtimehelper.NotIn(fieldName,d.NotIn))
-
 	}
 
 	if d.NotNull != nil && *d.NotNull {
