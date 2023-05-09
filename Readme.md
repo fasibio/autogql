@@ -81,6 +81,70 @@ func main() {
 }
 
 ```
+# How to Use Autogql
+Autogql is designed to work similarly to [gorm](https://gorm.io/) for declaring database tables and relations. To get started, it's helpful to familiarize yourself with how [gorm models](https://gorm.io/docs/models.html) work:
+## Little introduction
+At gorm you describe Database tables and relations like this
+```go
+type User struct {
+	ID        uint           `gorm:"primaryKey;autoIncrement:true"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
+	DeletedAt gorm.DeletedAt `gorm:"index"`
+	Name string
+}
+
+func (u User) Calculation() int {
+	return 10
+}
+```
+With Autogql, you can describe GraphQL schemas and directives in the same way:
+
+```graphql
+
+type User @SQL{
+	id: Int! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+	createdAt: Time
+	updatedAt: Time
+	deletedAt: Time @SQL_INDEX
+	name: String
+	calculation: Int! @SQL_GORM(value: "-")
+}
+
+```
+In this example, the `@SQL` directive tells Autogql that this type should be mapped to a GORM model. The `@SQL_GORM` directive specifies the corresponding GORM tag for the field.
+
+You can find more examples of Autogql schema descriptions in the [test schema](./testservice/graph/schema.graphqls) file. Autogql also allows you to define relationships between models using GORM's foreign key syntax:
+
+
+```graphql
+
+type Cat @SQL(order: 4){
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  birthDay: Time!
+  age: Int @SQL_GORM(value:"-")
+  userID: Int! #<--- foreign Key to user
+  alive: Boolean @SQL_GORM(value: "default:true")
+}
+
+type User @SQL(order: 2){
+  id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
+  name: String!
+  createdAt: Time
+  updatedAt: Time
+  deletedAt: Time
+  cat: Cat @SQL_GORM(value:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;")# <--- cat defintion. SQL_GORM not needed for relation only a constraint line
+  companyID: Int
+  company: Company
+  smartPhones: [SmartPhone]
+}
+
+```
+In this example, the `userID` field in the `Cat` type is a foreign key that points to the `id` field in the `User` type. The `@SQL_GORM` directive can be used to specify GORM tags for relationships, as well as other constraints.
+
+To work with queries and mutations, Autogql will automatically generate them for you, as well as create resolvers and fill in GORM database code. Additionally, you can manipulate each query and mutation over hooks, as described in the `db/db_gen.go` file. For an example of how to include hooks, check out the [autogql_example](https://github.com/fasibio/autogql_example)  repository and the [hooks.go](https://github.com/fasibio/autogql_example/blob/main/hooks.go) file.
+
 
 # Directives
 Add the ```@SQL``` directive to each type that you want managed by AutoGQL.
@@ -144,14 +208,14 @@ type Cat @SQL{
 # Scalar ID as autoIncrement Primary key
 To use ID as autoIncrement Primary key you have to update ```gqlgen.yml```
 from : 
-```
+```yaml
 models:
   ID:
     model:
       - github.com/99designs/gqlgen/graphql.ID
 ```
 to 
-```
+```yaml
 models:
   ID:
     model:
