@@ -11,7 +11,7 @@ require (
 	github.com/stretchr/testify v1.8.2
 	github.com/vektah/gqlparser/v2 v2.5.1
 	gorm.io/driver/mysql v1.5.0
-	gorm.io/driver/postgres v1.5.0
+	gorm.io/driver/postgres v1.5.2
 	gorm.io/driver/sqlite v1.5.0
 	gorm.io/gorm v1.25.1
 )
