@@ -437,7 +437,6 @@ func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, dee
 
 	if d.NotIn != nil {
 		res = append(res, runtimehelper.NotIn(fieldName, d.NotIn))
-
 	}
 
 	if d.NotNull != nil && *d.NotNull {
