@@ -23,6 +23,11 @@ func (ggs *AutoGqlPlugin) GenerateCode(data *codegen.Data) error {
 	if err != nil {
 		return err
 	}
+	err = ggs.generateHookCode(data)
+	if err != nil {
+		return err
+	}
+
 	return ggs.generateDbCode(data)
 }
 
@@ -31,6 +36,9 @@ var generateResolverCodeTemplate string
 
 //go:embed generate_code_db.go.tpl
 var generateDbCodeTemplate string
+
+//go:embed generate_code_db_hook.go.tpl
+var generateHookCodeTemplate string
 
 //go:embed generate_code_model.go.tpl
 var generateModelCodeTemplate string
@@ -52,6 +60,24 @@ func (ggs AutoGqlPlugin) generateDbCode(data *codegen.Data) error {
 		GeneratedHeader: true,
 		Packages:        data.Config.Packages,
 		Template:        generateDbCodeTemplate,
+		Funcs:           sprig.FuncMap(),
+	})
+}
+
+func (ggs AutoGqlPlugin) generateHookCode(data *codegen.Data) error {
+	filename := path.Join(data.Config.Resolver.Package, "db/hook_gen.go")
+	log.Println("generateHookCode", filename)
+
+	return templates.Render(templates.Options{
+		PackageName: "db",
+		Filename:    filename,
+		Data: &GenerateData{
+			Data:    data,
+			Handler: ggs.Handler,
+		},
+		GeneratedHeader: true,
+		Packages:        data.Config.Packages,
+		Template:        generateHookCodeTemplate,
 		Funcs:           sprig.FuncMap(),
 	})
 }

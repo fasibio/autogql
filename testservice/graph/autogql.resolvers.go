@@ -67,7 +67,6 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
-
 	if okHook {
 		var err error
 		db, err = v.BeforeCallDb(ctx, db)
@@ -75,7 +74,6 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 			return nil, err
 		}
 	}
-
 	if order != nil {
 		if order.Asc != nil {
 			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
@@ -313,7 +311,6 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
-
 	if okHook {
 		var err error
 		db, err = v.BeforeCallDb(ctx, db)
@@ -321,7 +318,6 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 			return nil, err
 		}
 	}
-
 	if order != nil {
 		if order.Asc != nil {
 			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
@@ -559,7 +555,6 @@ func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.Smart
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
-
 	if okHook {
 		var err error
 		db, err = v.BeforeCallDb(ctx, db)
@@ -567,7 +562,6 @@ func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.Smart
 			return nil, err
 		}
 	}
-
 	if order != nil {
 		if order.Asc != nil {
 			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
@@ -805,7 +799,6 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
-
 	if okHook {
 		var err error
 		db, err = v.BeforeCallDb(ctx, db)
@@ -813,7 +806,6 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 			return nil, err
 		}
 	}
-
 	if order != nil {
 		if order.Asc != nil {
 			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))
@@ -1100,7 +1092,6 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 		db.Where(sql, arguments...)
 	}
-
 	if okHook {
 		var err error
 		db, err = v.BeforeCallDb(ctx, db)
@@ -1108,7 +1099,6 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 			return nil, err
 		}
 	}
-
 	if order != nil {
 		if order.Asc != nil {
 			db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc", runtimehelper.GetQuoteChar(db), tableName, order.Asc))

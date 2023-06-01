@@ -1441,7 +1441,6 @@ var sources = []*ast.Source{
 	`, BuiltIn: true},
 	{Name: "../autogql/autogql.graphql", Input: `
 
-
 input IDFilterInput {
   and: [ID]
   or: [ID]
@@ -1525,373 +1524,373 @@ input TimeFilterBetween{
   end: Time!
 }
 
-input CatInput{
-  name: String!
-  birthDay: Time!
-  userID: Int!
-  alive: Boolean
-}
+  input CatInput{
+      name: String!
+      birthDay: Time!
+      userID: Int!
+      alive: Boolean
+  }
 
-input CatPatch{
-  name: String
-  birthDay: Time
-  userID: Int
-  alive: Boolean
-}
+  input CatPatch{
+      name: String
+      birthDay: Time
+      userID: Int
+      alive: Boolean
+  }
 
-input UpdateCatInput{
-  filter: CatFiltersInput!
-  set: CatPatch!
-}
+    input UpdateCatInput{
+      filter: CatFiltersInput!
+      set: CatPatch!
+    }
 
-type AddCatPayload{
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
-}
+    type AddCatPayload{
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+    }
 
-type UpdateCatPayload{
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
-  count: Int!
-}
+    type UpdateCatPayload{
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      count: Int!
+    }
 
-type DeleteCatPayload{
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteCatPayload{
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type CatQueryResult{
-  data: [Cat!]!
-  count: Int!
-  totalCount: Int!
-}
+    type CatQueryResult{
+      data: [Cat!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum CatOrderable {
-  id
-  name
-  userID
-  alive
-}
-input CatOrder{
-  asc: CatOrderable
-  desc: CatOrderable
-}
+    enum CatOrderable {
+        id
+        name
+        userID
+        alive
+    }
+    input CatOrder{
+      asc: CatOrderable
+      desc: CatOrderable
+    }
 
-input CatFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-    birthDay: TimeFilterInput
-    userID: IntFilterInput
-    alive: BooleanFilterInput
-  and: [CatFiltersInput]
-  or: [CatFiltersInput]
-  not: CatFiltersInput
-}
-extend type Query {
-  getCat(id: ID!, ): Cat 
-  queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int ): CatQueryResult 
-}
-extend type Mutation {
-  addCat(input: [CatInput!]!): AddCatPayload 
-  updateCat(input: UpdateCatInput!): UpdateCatPayload 
-  deleteCat(filter: CatFiltersInput!): DeleteCatPayload 
-}
+    input CatFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+          birthDay: TimeFilterInput
+          userID: IntFilterInput
+          alive: BooleanFilterInput
+      and: [CatFiltersInput]
+      or: [CatFiltersInput]
+      not: CatFiltersInput
+    }
+      extend type Query {
+        getCat(id: ID!, ): Cat 
+        queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int ): CatQueryResult 
+      }
+      extend type Mutation {
+        addCat(input: [CatInput!]!): AddCatPayload 
+        updateCat(input: UpdateCatInput!): UpdateCatPayload 
+        deleteCat(filter: CatFiltersInput!): DeleteCatPayload 
+      }
 
-input CompanyInput{
-  name: String!
-  description: String
-  motherCompanyID: Int
-  motherCompany: CompanyInput
-}
+  input CompanyInput{
+      name: String!
+      description: String
+      motherCompanyID: Int
+      motherCompany: CompanyInput
+  }
 
-input CompanyPatch{
-  name: String
-  description: String
-  motherCompanyID: Int
-  motherCompany: CompanyPatch
-}
+  input CompanyPatch{
+      name: String
+      description: String
+      motherCompanyID: Int
+      motherCompany: CompanyPatch
+  }
 
-input UpdateCompanyInput{
-  filter: CompanyFiltersInput!
-  set: CompanyPatch!
-}
+    input UpdateCompanyInput{
+      filter: CompanyFiltersInput!
+      set: CompanyPatch!
+    }
 
-type AddCompanyPayload{
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
-}
+    type AddCompanyPayload{
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+    }
 
-type UpdateCompanyPayload{
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
-  count: Int!
-}
+    type UpdateCompanyPayload{
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      count: Int!
+    }
 
-type DeleteCompanyPayload{
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteCompanyPayload{
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type CompanyQueryResult{
-  data: [Company!]!
-  count: Int!
-  totalCount: Int!
-}
+    type CompanyQueryResult{
+      data: [Company!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum CompanyOrderable {
-  id
-  name
-  description
-  motherCompanyID
-}
-input CompanyOrder{
-  asc: CompanyOrderable
-  desc: CompanyOrderable
-}
+    enum CompanyOrderable {
+        id
+        name
+        description
+        motherCompanyID
+    }
+    input CompanyOrder{
+      asc: CompanyOrderable
+      desc: CompanyOrderable
+    }
 
-input CompanyFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-    description: StringFilterInput
-    motherCompanyID: IntFilterInput
-          motherCompany:CompanyFiltersInput
-    createdAt: TimeFilterInput
-  and: [CompanyFiltersInput]
-  or: [CompanyFiltersInput]
-  not: CompanyFiltersInput
-}
-extend type Query {
-  getCompany(id: ID!, ): Company 
-  queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int ): CompanyQueryResult 
-}
-extend type Mutation {
-  addCompany(input: [CompanyInput!]!): AddCompanyPayload 
-  updateCompany(input: UpdateCompanyInput!): UpdateCompanyPayload 
-  deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload 
-}
+    input CompanyFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+          description: StringFilterInput
+          motherCompanyID: IntFilterInput
+              motherCompany:CompanyFiltersInput
+          createdAt: TimeFilterInput
+      and: [CompanyFiltersInput]
+      or: [CompanyFiltersInput]
+      not: CompanyFiltersInput
+    }
+      extend type Query {
+        getCompany(id: ID!, ): Company 
+        queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int ): CompanyQueryResult 
+      }
+      extend type Mutation {
+        addCompany(input: [CompanyInput!]!): AddCompanyPayload 
+        updateCompany(input: UpdateCompanyInput!): UpdateCompanyPayload 
+        deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload 
+      }
 
-input SmartPhoneInput{
-  brand: String!
-  phonenumber: String!
-  userID: ID!
-}
+  input SmartPhoneInput{
+      brand: String!
+      phonenumber: String!
+      userID: ID!
+  }
 
-input SmartPhonePatch{
-  brand: String
-  phonenumber: String
-  userID: ID
-}
+  input SmartPhonePatch{
+      brand: String
+      phonenumber: String
+      userID: ID
+  }
 
-input UpdateSmartPhoneInput{
-  filter: SmartPhoneFiltersInput!
-  set: SmartPhonePatch!
-}
+    input UpdateSmartPhoneInput{
+      filter: SmartPhoneFiltersInput!
+      set: SmartPhonePatch!
+    }
 
-type AddSmartPhonePayload{
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
-}
+    type AddSmartPhonePayload{
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+    }
 
-type UpdateSmartPhonePayload{
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
-  count: Int!
-}
+    type UpdateSmartPhonePayload{
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      count: Int!
+    }
 
-type DeleteSmartPhonePayload{
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteSmartPhonePayload{
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type SmartPhoneQueryResult{
-  data: [SmartPhone!]!
-  count: Int!
-  totalCount: Int!
-}
+    type SmartPhoneQueryResult{
+      data: [SmartPhone!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum SmartPhoneOrderable {
-  id
-  brand
-  phonenumber
-  userID
-}
-input SmartPhoneOrder{
-  asc: SmartPhoneOrderable
-  desc: SmartPhoneOrderable
-}
+    enum SmartPhoneOrderable {
+        id
+        brand
+        phonenumber
+        userID
+    }
+    input SmartPhoneOrder{
+      asc: SmartPhoneOrderable
+      desc: SmartPhoneOrderable
+    }
 
-input SmartPhoneFiltersInput{
-    id: IDFilterInput
-    brand: StringFilterInput
-    phonenumber: StringFilterInput
-    userID: IDFilterInput
-  and: [SmartPhoneFiltersInput]
-  or: [SmartPhoneFiltersInput]
-  not: SmartPhoneFiltersInput
-}
-extend type Query {
-  getSmartPhone(id: ID!, ): SmartPhone 
-  querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int ): SmartPhoneQueryResult 
-}
-extend type Mutation {
-  addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload 
-  updateSmartPhone(input: UpdateSmartPhoneInput!): UpdateSmartPhonePayload 
-  deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload 
-}
+    input SmartPhoneFiltersInput{
+          id: IDFilterInput
+          brand: StringFilterInput
+          phonenumber: StringFilterInput
+          userID: IDFilterInput
+      and: [SmartPhoneFiltersInput]
+      or: [SmartPhoneFiltersInput]
+      not: SmartPhoneFiltersInput
+    }
+      extend type Query {
+        getSmartPhone(id: ID!, ): SmartPhone 
+        querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int ): SmartPhoneQueryResult 
+      }
+      extend type Mutation {
+        addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload 
+        updateSmartPhone(input: UpdateSmartPhoneInput!): UpdateSmartPhonePayload 
+        deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload 
+      }
 
-input TodoInput{
-  name: String!
-  etype1: TodoType
-  etype5: TodoType!
-  test123: Test
-}
+  input TodoInput{
+      name: String!
+      etype1: TodoType
+      etype5: TodoType!
+      test123: Test
+  }
 
-input TodoPatch{
-  name: String
-  etype1: TodoType
-  etype5: TodoType
-  test123: Test
-}
+  input TodoPatch{
+      name: String
+      etype1: TodoType
+      etype5: TodoType
+      test123: Test
+  }
 
-input UpdateTodoInput{
-  filter: TodoFiltersInput!
-  set: TodoPatch!
-}
+    input UpdateTodoInput{
+      filter: TodoFiltersInput!
+      set: TodoPatch!
+    }
 
-type AddTodoPayload{
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
-}
+    type AddTodoPayload{
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+    }
 
-type UpdateTodoPayload{
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
-  count: Int!
-}
+    type UpdateTodoPayload{
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      count: Int!
+    }
 
-type DeleteTodoPayload{
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteTodoPayload{
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type TodoQueryResult{
-  data: [Todo!]!
-  count: Int!
-  totalCount: Int!
-}
+    type TodoQueryResult{
+      data: [Todo!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum TodoOrderable {
-  id
-  name
-  ownerID
-}
+    enum TodoOrderable {
+        id
+        name
+        ownerID
+    }
+      
+      input UserRef2TodosInput{
+        filter: TodoFiltersInput!
+        set: [ID!]!
+      }
+    input TodoOrder{
+      asc: TodoOrderable
+      desc: TodoOrderable
+    }
 
-input UserRef2TodosInput{
-  filter: TodoFiltersInput!
-  set: [ID!]!
-}
-input TodoOrder{
-  asc: TodoOrderable
-  desc: TodoOrderable
-}
+    input TodoFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+              users:UserFiltersInput
+              owner:UserFiltersInput
+          ownerID: IDFilterInput
+          createdAt: TimeFilterInput
+          updatedAt: TimeFilterInput
+          deletedAt: TimeFilterInput
+            etype1: StringFilterInput
+            etype5: StringFilterInput
+      and: [TodoFiltersInput]
+      or: [TodoFiltersInput]
+      not: TodoFiltersInput
+    }
+      extend type Query {
+        getTodo(id: ID!, ): Todo 
+        queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int ): TodoQueryResult 
+      }
+      extend type Mutation {
+        addUser2Todos(input:UserRef2TodosInput!): UpdateTodoPayload 
+        addTodo(input: [TodoInput!]!): AddTodoPayload 
+        updateTodo(input: UpdateTodoInput!): UpdateTodoPayload 
+        deleteTodo(filter: TodoFiltersInput!): DeleteTodoPayload 
+      }
 
-input TodoFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-          users:UserFiltersInput
-          owner:UserFiltersInput
-    ownerID: IDFilterInput
-    createdAt: TimeFilterInput
-    updatedAt: TimeFilterInput
-    deletedAt: TimeFilterInput
-        etype1: StringFilterInput
-        etype5: StringFilterInput
-  and: [TodoFiltersInput]
-  or: [TodoFiltersInput]
-  not: TodoFiltersInput
-}
-extend type Query {
-  getTodo(id: ID!, ): Todo 
-  queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int ): TodoQueryResult 
-}
-extend type Mutation {
-  addUser2Todos(input:UserRef2TodosInput!): UpdateTodoPayload 
-  addTodo(input: [TodoInput!]!): AddTodoPayload 
-  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload 
-  deleteTodo(filter: TodoFiltersInput!): DeleteTodoPayload 
-}
+  input UserInput{
+      name: String!
+      cat: CatInput
+      companyID: Int
+      company: CompanyInput
+      smartPhones: [SmartPhoneInput!]
+  }
 
-input UserInput{
-  name: String!
-  cat: CatInput
-  companyID: Int
-  company: CompanyInput
-  smartPhones: [SmartPhoneInput!]
-}
+  input UserPatch{
+      name: String
+      cat: CatPatch
+      companyID: Int
+      company: CompanyPatch
+      smartPhones: [SmartPhonePatch!]
+  }
 
-input UserPatch{
-  name: String
-  cat: CatPatch
-  companyID: Int
-  company: CompanyPatch
-  smartPhones: [SmartPhonePatch!]
-}
+    input UpdateUserInput{
+      filter: UserFiltersInput!
+      set: UserPatch!
+    }
 
-input UpdateUserInput{
-  filter: UserFiltersInput!
-  set: UserPatch!
-}
+    type AddUserPayload{
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+    }
 
-type AddUserPayload{
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
-}
+    type UpdateUserPayload{
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      count: Int!
+    }
 
-type UpdateUserPayload{
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
-  count: Int!
-}
+    type DeleteUserPayload{
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type DeleteUserPayload{
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
-  count: Int!
-  msg: String
-}
+    type UserQueryResult{
+      data: [User!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-type UserQueryResult{
-  data: [User!]!
-  count: Int!
-  totalCount: Int!
-}
+    enum UserOrderable {
+        id
+        name
+        companyID
+    }
+    input UserOrder{
+      asc: UserOrderable
+      desc: UserOrderable
+    }
 
-enum UserOrderable {
-  id
-  name
-  companyID
-}
-input UserOrder{
-  asc: UserOrderable
-  desc: UserOrderable
-}
-
-input UserFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-    createdAt: TimeFilterInput
-    updatedAt: TimeFilterInput
-    deletedAt: TimeFilterInput
-          cat:CatFiltersInput
-    companyID: IntFilterInput
-          company:CompanyFiltersInput
-          smartPhones:SmartPhoneFiltersInput
-  and: [UserFiltersInput]
-  or: [UserFiltersInput]
-  not: UserFiltersInput
-}
-extend type Query {
-  getUser(id: ID!, ): User 
-  queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int ): UserQueryResult 
-}
-extend type Mutation {
-  addUser(input: [UserInput!]!): AddUserPayload 
-  updateUser(input: UpdateUserInput!): UpdateUserPayload 
-  deleteUser(filter: UserFiltersInput!): DeleteUserPayload 
-}`, BuiltIn: false},
+    input UserFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+          createdAt: TimeFilterInput
+          updatedAt: TimeFilterInput
+          deletedAt: TimeFilterInput
+              cat:CatFiltersInput
+          companyID: IntFilterInput
+              company:CompanyFiltersInput
+              smartPhones:SmartPhoneFiltersInput
+      and: [UserFiltersInput]
+      or: [UserFiltersInput]
+      not: UserFiltersInput
+    }
+      extend type Query {
+        getUser(id: ID!, ): User 
+        queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int ): UserQueryResult 
+      }
+      extend type Mutation {
+        addUser(input: [UserInput!]!): AddUserPayload 
+        updateUser(input: UpdateUserInput!): UpdateUserPayload 
+        deleteUser(filter: UserFiltersInput!): DeleteUserPayload 
+      }`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
@@ -10551,50 +10550,56 @@ func (ec *executionContext) unmarshalInputBooleanFilterInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOBoolean2ᚕᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚕᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOBoolean2ᚕᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚕᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOBooleanFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐBooleanFilterInput(ctx, v)
+			data, err := ec.unmarshalOBooleanFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐBooleanFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		case "is":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("is"))
-			it.Is, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Is = data
 		case "null":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("null"))
-			it.Null, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Null = data
 		case "notNull":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notNull"))
-			it.NotNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotNull = data
 		}
 	}
 
@@ -10619,66 +10624,74 @@ func (ec *executionContext) unmarshalInputCatFiltersInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.ID = data
 		case "name":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "birthDay":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("birthDay"))
-			it.BirthDay, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.BirthDay = data
 		case "userID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
-			it.UserID, err = ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
+			data, err := ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UserID = data
 		case "alive":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("alive"))
-			it.Alive, err = ec.unmarshalOBooleanFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐBooleanFilterInput(ctx, v)
+			data, err := ec.unmarshalOBooleanFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐBooleanFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Alive = data
 		case "and":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOCatFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCatFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOCatFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCatFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOCatFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCatFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		}
 	}
 
@@ -10703,34 +10716,38 @@ func (ec *executionContext) unmarshalInputCatInput(ctx context.Context, obj inte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "birthDay":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("birthDay"))
-			it.BirthDay, err = ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.BirthDay = data
 		case "userID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
-			it.UserID, err = ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UserID = data
 		case "alive":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("alive"))
-			it.Alive, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Alive = data
 		}
 	}
 
@@ -10755,18 +10772,20 @@ func (ec *executionContext) unmarshalInputCatOrder(ctx context.Context, obj inte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("asc"))
-			it.Asc, err = ec.unmarshalOCatOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatOrderable(ctx, v)
+			data, err := ec.unmarshalOCatOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Asc = data
 		case "desc":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOCatOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatOrderable(ctx, v)
+			data, err := ec.unmarshalOCatOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Desc = data
 		}
 	}
 
@@ -10791,34 +10810,38 @@ func (ec *executionContext) unmarshalInputCatPatch(ctx context.Context, obj inte
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "birthDay":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("birthDay"))
-			it.BirthDay, err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.BirthDay = data
 		case "userID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
-			it.UserID, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UserID = data
 		case "alive":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("alive"))
-			it.Alive, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Alive = data
 		}
 	}
 
@@ -10843,74 +10866,83 @@ func (ec *executionContext) unmarshalInputCompanyFiltersInput(ctx context.Contex
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.ID = data
 		case "name":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "description":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			it.Description, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Description = data
 		case "motherCompanyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("motherCompanyID"))
-			it.MotherCompanyID, err = ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
+			data, err := ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.MotherCompanyID = data
 		case "motherCompany":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("motherCompany"))
-			it.MotherCompany, err = ec.unmarshalOCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.MotherCompany = data
 		case "createdAt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
-			it.CreatedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.CreatedAt = data
 		case "and":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOCompanyFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCompanyFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOCompanyFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCompanyFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		}
 	}
 
@@ -10935,34 +10967,38 @@ func (ec *executionContext) unmarshalInputCompanyInput(ctx context.Context, obj 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "description":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			it.Description, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Description = data
 		case "motherCompanyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("motherCompanyID"))
-			it.MotherCompanyID, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.MotherCompanyID = data
 		case "motherCompany":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("motherCompany"))
-			it.MotherCompany, err = ec.unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx, v)
+			data, err := ec.unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.MotherCompany = data
 		}
 	}
 
@@ -10987,18 +11023,20 @@ func (ec *executionContext) unmarshalInputCompanyOrder(ctx context.Context, obj 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("asc"))
-			it.Asc, err = ec.unmarshalOCompanyOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyOrderable(ctx, v)
+			data, err := ec.unmarshalOCompanyOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Asc = data
 		case "desc":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOCompanyOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyOrderable(ctx, v)
+			data, err := ec.unmarshalOCompanyOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Desc = data
 		}
 	}
 
@@ -11023,34 +11061,38 @@ func (ec *executionContext) unmarshalInputCompanyPatch(ctx context.Context, obj 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "description":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("description"))
-			it.Description, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Description = data
 		case "motherCompanyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("motherCompanyID"))
-			it.MotherCompanyID, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.MotherCompanyID = data
 		case "motherCompany":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("motherCompany"))
-			it.MotherCompany, err = ec.unmarshalOCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
+			data, err := ec.unmarshalOCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.MotherCompany = data
 		}
 	}
 
@@ -11075,74 +11117,83 @@ func (ec *executionContext) unmarshalInputIDFilterInput(ctx context.Context, obj
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOID2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOID2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOID2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOID2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		case "eq":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("eq"))
-			it.Eq, err = ec.unmarshalOID2ᚖint(ctx, v)
+			data, err := ec.unmarshalOID2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Eq = data
 		case "ne":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ne"))
-			it.Ne, err = ec.unmarshalOID2ᚖint(ctx, v)
+			data, err := ec.unmarshalOID2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Ne = data
 		case "null":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("null"))
-			it.Null, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Null = data
 		case "notNull":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notNull"))
-			it.NotNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotNull = data
 		case "in":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
-			it.In, err = ec.unmarshalOID2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOID2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.In = data
 		case "notin":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notin"))
-			it.Notin, err = ec.unmarshalOID2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOID2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Notin = data
 		}
 	}
 
@@ -11167,18 +11218,20 @@ func (ec *executionContext) unmarshalInputIntFilterBetween(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("start"))
-			it.Start, err = ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Start = data
 		case "end":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("end"))
-			it.End, err = ec.unmarshalNInt2int(ctx, v)
+			data, err := ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.End = data
 		}
 	}
 
@@ -11203,114 +11256,128 @@ func (ec *executionContext) unmarshalInputIntFilterInput(ctx context.Context, ob
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
+			data, err := ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		case "eq":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("eq"))
-			it.Eq, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Eq = data
 		case "ne":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ne"))
-			it.Ne, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Ne = data
 		case "gt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gt"))
-			it.Gt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Gt = data
 		case "gte":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gte"))
-			it.Gte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Gte = data
 		case "lt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lt"))
-			it.Lt, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Lt = data
 		case "lte":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lte"))
-			it.Lte, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Lte = data
 		case "null":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("null"))
-			it.Null, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Null = data
 		case "notNull":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notNull"))
-			it.NotNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotNull = data
 		case "in":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
-			it.In, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.In = data
 		case "notIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
-			it.NotIn, err = ec.unmarshalOInt2ᚕᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚕᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotIn = data
 		case "between":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("between"))
-			it.Between, err = ec.unmarshalOIntFilterBetween2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterBetween(ctx, v)
+			data, err := ec.unmarshalOIntFilterBetween2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterBetween(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Between = data
 		}
 	}
 
@@ -11335,58 +11402,65 @@ func (ec *executionContext) unmarshalInputSmartPhoneFiltersInput(ctx context.Con
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.ID = data
 		case "brand":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("brand"))
-			it.Brand, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Brand = data
 		case "phonenumber":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phonenumber"))
-			it.Phonenumber, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Phonenumber = data
 		case "userID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
-			it.UserID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UserID = data
 		case "and":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOSmartPhoneFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			data, err := ec.unmarshalOSmartPhoneFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOSmartPhoneFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			data, err := ec.unmarshalOSmartPhoneFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			data, err := ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		}
 	}
 
@@ -11411,26 +11485,29 @@ func (ec *executionContext) unmarshalInputSmartPhoneInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("brand"))
-			it.Brand, err = ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Brand = data
 		case "phonenumber":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phonenumber"))
-			it.Phonenumber, err = ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Phonenumber = data
 		case "userID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
-			it.UserID, err = ec.unmarshalNID2int(ctx, v)
+			data, err := ec.unmarshalNID2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UserID = data
 		}
 	}
 
@@ -11455,18 +11532,20 @@ func (ec *executionContext) unmarshalInputSmartPhoneOrder(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("asc"))
-			it.Asc, err = ec.unmarshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx, v)
+			data, err := ec.unmarshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Asc = data
 		case "desc":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx, v)
+			data, err := ec.unmarshalOSmartPhoneOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Desc = data
 		}
 	}
 
@@ -11491,26 +11570,29 @@ func (ec *executionContext) unmarshalInputSmartPhonePatch(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("brand"))
-			it.Brand, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Brand = data
 		case "phonenumber":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phonenumber"))
-			it.Phonenumber, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Phonenumber = data
 		case "userID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userID"))
-			it.UserID, err = ec.unmarshalOID2ᚖint(ctx, v)
+			data, err := ec.unmarshalOID2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UserID = data
 		}
 	}
 
@@ -11535,18 +11617,20 @@ func (ec *executionContext) unmarshalInputSqlCreateExtension(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("value"))
-			it.Value, err = ec.unmarshalNBoolean2bool(ctx, v)
+			data, err := ec.unmarshalNBoolean2bool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Value = data
 		case "directiveExt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("directiveExt"))
-			it.DirectiveExt, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.DirectiveExt = data
 		}
 	}
 
@@ -11571,34 +11655,38 @@ func (ec *executionContext) unmarshalInputSqlMutationParams(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("add"))
-			it.Add, err = ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
+			data, err := ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Add = data
 		case "update":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("update"))
-			it.Update, err = ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
+			data, err := ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Update = data
 		case "delete":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("delete"))
-			it.Delete, err = ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
+			data, err := ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Delete = data
 		case "directiveExt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("directiveExt"))
-			it.DirectiveExt, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.DirectiveExt = data
 		}
 	}
 
@@ -11623,26 +11711,29 @@ func (ec *executionContext) unmarshalInputSqlQueryParams(ctx context.Context, ob
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("get"))
-			it.Get, err = ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
+			data, err := ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Get = data
 		case "query":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("query"))
-			it.Query, err = ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
+			data, err := ec.unmarshalOSqlCreateExtension2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSQLCreateExtension(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Query = data
 		case "directiveExt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("directiveExt"))
-			it.DirectiveExt, err = ec.unmarshalOString2ᚕstringᚄ(ctx, v)
+			data, err := ec.unmarshalOString2ᚕstringᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.DirectiveExt = data
 		}
 	}
 
@@ -11667,130 +11758,146 @@ func (ec *executionContext) unmarshalInputStringFilterInput(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		case "eq":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("eq"))
-			it.Eq, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Eq = data
 		case "eqi":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("eqi"))
-			it.Eqi, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Eqi = data
 		case "ne":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ne"))
-			it.Ne, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Ne = data
 		case "startsWith":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("startsWith"))
-			it.StartsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.StartsWith = data
 		case "endsWith":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("endsWith"))
-			it.EndsWith, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.EndsWith = data
 		case "contains":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("contains"))
-			it.Contains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Contains = data
 		case "notContains":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notContains"))
-			it.NotContains, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotContains = data
 		case "containsi":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("containsi"))
-			it.Containsi, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Containsi = data
 		case "notContainsi":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notContainsi"))
-			it.NotContainsi, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotContainsi = data
 		case "null":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("null"))
-			it.Null, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Null = data
 		case "notNull":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notNull"))
-			it.NotNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotNull = data
 		case "in":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
-			it.In, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.In = data
 		case "notIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
-			it.NotIn, err = ec.unmarshalOString2ᚕᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚕᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotIn = data
 		}
 	}
 
@@ -11815,18 +11922,20 @@ func (ec *executionContext) unmarshalInputTimeFilterBetween(ctx context.Context,
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("start"))
-			it.Start, err = ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Start = data
 		case "end":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("end"))
-			it.End, err = ec.unmarshalNTime2timeᚐTime(ctx, v)
+			data, err := ec.unmarshalNTime2timeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.End = data
 		}
 	}
 
@@ -11851,114 +11960,128 @@ func (ec *executionContext) unmarshalInputTimeFilterInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		case "eq":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("eq"))
-			it.Eq, err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Eq = data
 		case "ne":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ne"))
-			it.Ne, err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Ne = data
 		case "gt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gt"))
-			it.Gt, err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Gt = data
 		case "gte":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gte"))
-			it.Gte, err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Gte = data
 		case "lt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lt"))
-			it.Lt, err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Lt = data
 		case "lte":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lte"))
-			it.Lte, err = ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Lte = data
 		case "null":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("null"))
-			it.Null, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Null = data
 		case "notNull":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notNull"))
-			it.NotNull, err = ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotNull = data
 		case "in":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
-			it.In, err = ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.In = data
 		case "notIn":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
-			it.NotIn, err = ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
+			data, err := ec.unmarshalOTime2ᚕᚖtimeᚐTime(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.NotIn = data
 		case "between":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("between"))
-			it.Between, err = ec.unmarshalOTimeFilterBetween2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterBetween(ctx, v)
+			data, err := ec.unmarshalOTimeFilterBetween2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterBetween(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Between = data
 		}
 	}
 
@@ -11983,106 +12106,119 @@ func (ec *executionContext) unmarshalInputTodoFiltersInput(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.ID = data
 		case "name":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "users":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("users"))
-			it.Users, err = ec.unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
+			data, err := ec.unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Users = data
 		case "owner":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("owner"))
-			it.Owner, err = ec.unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
+			data, err := ec.unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Owner = data
 		case "ownerID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ownerID"))
-			it.OwnerID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.OwnerID = data
 		case "createdAt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
-			it.CreatedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.CreatedAt = data
 		case "updatedAt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
-			it.UpdatedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UpdatedAt = data
 		case "deletedAt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("deletedAt"))
-			it.DeletedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.DeletedAt = data
 		case "etype1":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype1"))
-			it.Etype1, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Etype1 = data
 		case "etype5":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
-			it.Etype5, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Etype5 = data
 		case "and":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOTodoFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
+			data, err := ec.unmarshalOTodoFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOTodoFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
+			data, err := ec.unmarshalOTodoFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOTodoFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
+			data, err := ec.unmarshalOTodoFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		}
 	}
 
@@ -12107,34 +12243,38 @@ func (ec *executionContext) unmarshalInputTodoInput(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "etype1":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype1"))
-			it.Etype1, err = ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			data, err := ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Etype1 = data
 		case "etype5":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
-			it.Etype5, err = ec.unmarshalNTodoType2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			data, err := ec.unmarshalNTodoType2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Etype5 = data
 		case "test123":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("test123"))
-			it.Test123, err = ec.unmarshalOTest2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOTest2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Test123 = data
 		}
 	}
 
@@ -12159,18 +12299,20 @@ func (ec *executionContext) unmarshalInputTodoOrder(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("asc"))
-			it.Asc, err = ec.unmarshalOTodoOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoOrderable(ctx, v)
+			data, err := ec.unmarshalOTodoOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Asc = data
 		case "desc":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOTodoOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoOrderable(ctx, v)
+			data, err := ec.unmarshalOTodoOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Desc = data
 		}
 	}
 
@@ -12195,34 +12337,38 @@ func (ec *executionContext) unmarshalInputTodoPatch(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "etype1":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype1"))
-			it.Etype1, err = ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			data, err := ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Etype1 = data
 		case "etype5":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("etype5"))
-			it.Etype5, err = ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
+			data, err := ec.unmarshalOTodoType2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoType(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Etype5 = data
 		case "test123":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("test123"))
-			it.Test123, err = ec.unmarshalOTest2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOTest2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Test123 = data
 		}
 	}
 
@@ -12247,18 +12393,20 @@ func (ec *executionContext) unmarshalInputUpdateCatInput(ctx context.Context, ob
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-			it.Filter, err = ec.unmarshalNCatFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
+			data, err := ec.unmarshalNCatFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Filter = data
 		case "set":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
-			it.Set, err = ec.unmarshalNCatPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatPatch(ctx, v)
+			data, err := ec.unmarshalNCatPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatPatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Set = data
 		}
 	}
 
@@ -12283,18 +12431,20 @@ func (ec *executionContext) unmarshalInputUpdateCompanyInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-			it.Filter, err = ec.unmarshalNCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
+			data, err := ec.unmarshalNCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Filter = data
 		case "set":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
-			it.Set, err = ec.unmarshalNCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
+			data, err := ec.unmarshalNCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Set = data
 		}
 	}
 
@@ -12319,18 +12469,20 @@ func (ec *executionContext) unmarshalInputUpdateSmartPhoneInput(ctx context.Cont
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-			it.Filter, err = ec.unmarshalNSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			data, err := ec.unmarshalNSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Filter = data
 		case "set":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
-			it.Set, err = ec.unmarshalNSmartPhonePatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatch(ctx, v)
+			data, err := ec.unmarshalNSmartPhonePatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Set = data
 		}
 	}
 
@@ -12355,18 +12507,20 @@ func (ec *executionContext) unmarshalInputUpdateTodoInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-			it.Filter, err = ec.unmarshalNTodoFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
+			data, err := ec.unmarshalNTodoFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Filter = data
 		case "set":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
-			it.Set, err = ec.unmarshalNTodoPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoPatch(ctx, v)
+			data, err := ec.unmarshalNTodoPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoPatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Set = data
 		}
 	}
 
@@ -12391,18 +12545,20 @@ func (ec *executionContext) unmarshalInputUpdateUserInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-			it.Filter, err = ec.unmarshalNUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
+			data, err := ec.unmarshalNUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Filter = data
 		case "set":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
-			it.Set, err = ec.unmarshalNUserPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserPatch(ctx, v)
+			data, err := ec.unmarshalNUserPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserPatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Set = data
 		}
 	}
 
@@ -12427,98 +12583,110 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-			it.ID, err = ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
+			data, err := ec.unmarshalOIDFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIDFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.ID = data
 		case "name":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "createdAt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("createdAt"))
-			it.CreatedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.CreatedAt = data
 		case "updatedAt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("updatedAt"))
-			it.UpdatedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.UpdatedAt = data
 		case "deletedAt":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("deletedAt"))
-			it.DeletedAt, err = ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.DeletedAt = data
 		case "cat":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cat"))
-			it.Cat, err = ec.unmarshalOCatFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCatFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Cat = data
 		case "companyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyID"))
-			it.CompanyID, err = ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
+			data, err := ec.unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐIntFilterInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.CompanyID = data
 		case "company":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
-			it.Company, err = ec.unmarshalOCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
+			data, err := ec.unmarshalOCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Company = data
 		case "smartPhones":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
-			it.SmartPhones, err = ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
+			data, err := ec.unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.SmartPhones = data
 		case "and":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
-			it.And, err = ec.unmarshalOUserFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
+			data, err := ec.unmarshalOUserFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.And = data
 		case "or":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
-			it.Or, err = ec.unmarshalOUserFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
+			data, err := ec.unmarshalOUserFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Or = data
 		case "not":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
-			it.Not, err = ec.unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
+			data, err := ec.unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Not = data
 		}
 	}
 
@@ -12543,42 +12711,47 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			data, err := ec.unmarshalNString2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "cat":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cat"))
-			it.Cat, err = ec.unmarshalOCatInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatInput(ctx, v)
+			data, err := ec.unmarshalOCatInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Cat = data
 		case "companyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyID"))
-			it.CompanyID, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.CompanyID = data
 		case "company":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
-			it.Company, err = ec.unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx, v)
+			data, err := ec.unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Company = data
 		case "smartPhones":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
-			it.SmartPhones, err = ec.unmarshalOSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx, v)
+			data, err := ec.unmarshalOSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.SmartPhones = data
 		}
 	}
 
@@ -12603,18 +12776,20 @@ func (ec *executionContext) unmarshalInputUserOrder(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("asc"))
-			it.Asc, err = ec.unmarshalOUserOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserOrderable(ctx, v)
+			data, err := ec.unmarshalOUserOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Asc = data
 		case "desc":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
-			it.Desc, err = ec.unmarshalOUserOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserOrderable(ctx, v)
+			data, err := ec.unmarshalOUserOrderable2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserOrderable(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Desc = data
 		}
 	}
 
@@ -12639,42 +12814,47 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			it.Name, err = ec.unmarshalOString2ᚖstring(ctx, v)
+			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Name = data
 		case "cat":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cat"))
-			it.Cat, err = ec.unmarshalOCatPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatPatch(ctx, v)
+			data, err := ec.unmarshalOCatPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatPatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Cat = data
 		case "companyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyID"))
-			it.CompanyID, err = ec.unmarshalOInt2ᚖint(ctx, v)
+			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.CompanyID = data
 		case "company":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
-			it.Company, err = ec.unmarshalOCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
+			data, err := ec.unmarshalOCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Company = data
 		case "smartPhones":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
-			it.SmartPhones, err = ec.unmarshalOSmartPhonePatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatchᚄ(ctx, v)
+			data, err := ec.unmarshalOSmartPhonePatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatchᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.SmartPhones = data
 		}
 	}
 
@@ -12699,18 +12879,20 @@ func (ec *executionContext) unmarshalInputUserRef2TodosInput(ctx context.Context
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("filter"))
-			it.Filter, err = ec.unmarshalNTodoFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
+			data, err := ec.unmarshalNTodoFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Filter = data
 		case "set":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
-			it.Set, err = ec.unmarshalNID2ᚕintᚄ(ctx, v)
+			data, err := ec.unmarshalNID2ᚕintᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
+			it.Set = data
 		}
 	}
 

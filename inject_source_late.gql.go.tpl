@@ -1,6 +1,5 @@
 {{- $root := .}}
 
-
 input IDFilterInput {
   and: [ID]
   or: [ID]
@@ -85,111 +84,110 @@ input TimeFilterBetween{
 }
 {{- range $objectName, $object := $root.List.Objects}}
 
-input {{$object.Name}}Input{
-  {{- range $entityKey, $entity := $object.InputEntities}}
-  {{$entity.Name}}: {{$entity.GqlType "Input"}}{{$entity.RequiredChar}}
-  {{- end}}
-}
+  input {{$object.Name}}Input{
+    {{- range $entityKey, $entity := $object.InputEntities}}
+      {{$entity.Name}}: {{$entity.GqlType "Input"}}{{$entity.RequiredChar}}
+    {{- end}}
+  }
 
-input {{$object.Name}}Patch{
-  {{- range $entityKey, $entity := $object.PatchEntities}}
-  {{$entity.Name}}: {{$entity.GqlType "Patch"}}
-  {{- end}}
-} 
+  input {{$object.Name}}Patch{
+    {{- range $entityKey, $entity := $object.PatchEntities}}
+      {{$entity.Name}}: {{$entity.GqlType "Patch"}}
+    {{- end}}
+  } 
 
 
-{{- if $object.HasSqlDirective}}
+  {{- if $object.HasSqlDirective}}
 
-input Update{{$object.Name}}Input{
-  filter: {{$object.Name}}FiltersInput!
-  set: {{$object.Name}}Patch!
-}
+    input Update{{$object.Name}}Input{
+      filter: {{$object.Name}}FiltersInput!
+      set: {{$object.Name}}Patch!
+    }
 
-type Add{{$object.Name}}Payload{
-  {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
-}
+    type Add{{$object.Name}}Payload{
+      {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
+    }
 
-type Update{{$object.Name}}Payload{
-  {{lcFirst  $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
-  count: Int!
-}
+    type Update{{$object.Name}}Payload{
+      {{lcFirst  $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
+      count: Int!
+    }
 
-type Delete{{$object.Name}}Payload{
-  {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
-  count: Int!
-  msg: String
-}
+    type Delete{{$object.Name}}Payload{
+      {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
+      count: Int!
+      msg: String
+    }
 
-type {{$object.Name}}QueryResult{
-  data: [{{$object.Name}}!]!
-  count: Int!
-  totalCount: Int!
-}
+    type {{$object.Name}}QueryResult{
+      data: [{{$object.Name}}!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum {{$object.Name}}Orderable {
-  {{- range $entityKey, $entity := $object.OrderAbleEntities}}
-  {{$entity.Name}}
-  {{- end}}
-}
-
-{{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
-{{$refType := $root.List.PrimaryEntityOfObject $m2mEntity.GqlTypeName}}
-input {{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput{
-  filter: {{$object.Name}}FiltersInput!
-  set: [{{$refType.GqlTypeName}}!]!
-}
-{{- end}}
-input {{$object.Name}}Order{
-  asc: {{$object.Name}}Orderable
-  desc: {{$object.Name}}Orderable
-}
-
-input {{$object.Name}}FiltersInput{
-  {{- range $entityKey, $entity := $object.InputFilterEntities}}
-    {{- if $entity.IsPrimitive }}
-    {{$entity.Name}}: {{$entity.GqlTypeName}}FilterInput
-    {{- else}}
-      {{- if $entity.IsEnum}}
-        {{$entity.Name}}: StringFilterInput
-      {{- else }}
-        {{- if $entity.GqlTypeObj.HasSqlDirective}}
-          {{$entity.Name}}:{{$entity.GqlTypeName}}FiltersInput
-        {{- end}}
+    enum {{$object.Name}}Orderable {
+      {{- range $entityKey, $entity := $object.OrderAbleEntities}}
+        {{$entity.Name}}
       {{- end}}
-    {{- end}}  
-  {{- end}}
-  and: [{{$object.Name}}FiltersInput]
-  or: [{{$object.Name}}FiltersInput]
-  not: {{$object.Name}}FiltersInput
-}
+    }
 
-
-{{- if $object.SQLDirective.HasQueries}}
-extend type Query {
-    {{- if $object.SQLDirective.Query.Get}}
-  get{{$object.Name}}({{range $entryKey, $entity := $object.PrimaryKeys}}{{$entity.Name}}: {{$entity.GqlType "Patch"}}!, {{end}}): {{$object.Name}} {{ $object.SQLDirectiveValues "query" "Get" | join " "}}
+    {{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
+      {{$refType := $root.List.PrimaryEntityOfObject $m2mEntity.GqlTypeName}}
+      input {{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput{
+        filter: {{$object.Name}}FiltersInput!
+        set: [{{$refType.GqlTypeName}}!]!
+      }
     {{- end}}
-    {{- if $object.SQLDirective.Query.Query}}
-  query{{$object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int ): {{$object.Name}}QueryResult {{ $object.SQLDirectiveValues "query" "Query" | join " "}}
-    {{- end}}
-}
-{{- end}}
-{{- if $object.SQLDirective.HasMutation}}
-extend type Mutation {
-{{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
-  add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(input:{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput!): Update{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Add" | join " "}}
-{{- end}}
-  {{- if $object.SQLDirective.Mutation.Add}}
-  add{{$object.Name}}(input: [{{$object.Name}}Input!]!): Add{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Add" | join " "}}
-  {{- end}}
-  {{- if $object.SQLDirective.Mutation.Update}}
-  update{{$object.Name}}(input: Update{{$object.Name}}Input!): Update{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Update" | join " "}}
-  {{- end}}
-  {{- if $object.SQLDirective.Mutation.Delete}}
-  delete{{$object.Name}}(filter: {{$object.Name}}FiltersInput!): Delete{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Delete" | join " "}}
-  {{- end}}
-}
-{{- end}}
-{{- end}}
+    input {{$object.Name}}Order{
+      asc: {{$object.Name}}Orderable
+      desc: {{$object.Name}}Orderable
+    }
 
+    input {{$object.Name}}FiltersInput{
+      {{- range $entityKey, $entity := $object.InputFilterEntities}}
+        {{- if $entity.IsPrimitive }}
+          {{$entity.Name}}: {{$entity.GqlTypeName}}FilterInput
+        {{- else}}
+          {{- if $entity.IsEnum}}
+            {{$entity.Name}}: StringFilterInput
+          {{- else }}
+            {{- if $entity.GqlTypeObj.HasSqlDirective}}
+              {{$entity.Name}}:{{$entity.GqlTypeName}}FiltersInput
+            {{- end}}
+          {{- end}}
+        {{- end}}  
+      {{- end}}
+      and: [{{$object.Name}}FiltersInput]
+      or: [{{$object.Name}}FiltersInput]
+      not: {{$object.Name}}FiltersInput
+    }
+
+
+    {{- if $object.SQLDirective.HasQueries}}
+      extend type Query {
+      {{- if $object.SQLDirective.Query.Get}}
+        get{{$object.Name}}({{range $entryKey, $entity := $object.PrimaryKeys}}{{$entity.Name}}: {{$entity.GqlType "Patch"}}!, {{end}}): {{$object.Name}} {{ $object.SQLDirectiveValues "query" "Get" | join " "}}
+      {{- end}}
+      {{- if $object.SQLDirective.Query.Query}}
+        query{{$object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int ): {{$object.Name}}QueryResult {{ $object.SQLDirectiveValues "query" "Query" | join " "}}
+      {{- end}}
+      }
+    {{- end}}
+    {{- if $object.SQLDirective.HasMutation}}
+      extend type Mutation {
+      {{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
+        add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(input:{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput!): Update{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Add" | join " "}}
+      {{- end}}
+      {{- if $object.SQLDirective.Mutation.Add}}
+        add{{$object.Name}}(input: [{{$object.Name}}Input!]!): Add{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Add" | join " "}}
+      {{- end}}
+      {{- if $object.SQLDirective.Mutation.Update}}
+        update{{$object.Name}}(input: Update{{$object.Name}}Input!): Update{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Update" | join " "}}
+      {{- end}}
+      {{- if $object.SQLDirective.Mutation.Delete}}
+        delete{{$object.Name}}(filter: {{$object.Name}}FiltersInput!): Delete{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Delete" | join " "}}
+      {{- end}}
+      }
+    {{- end}}
+  {{- end}}
 {{- end}}

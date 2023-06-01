@@ -8,19 +8,15 @@ func (d *TodoType) MergeToType() TodoType {
 
 func (d *CatPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
-
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
-
 	if d.BirthDay != nil {
 		res["birth_day"] = *d.BirthDay
 	}
-
 	if d.UserID != nil {
 		res["user_id"] = *d.UserID
 	}
-
 	if d.Alive != nil {
 		res["alive"] = d.Alive
 	}
@@ -49,15 +45,12 @@ func (d *CatInput) MergeToType() Cat {
 
 func (d *CompanyPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
-
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
-
 	if d.Description != nil {
 		res["description"] = d.Description
 	}
-
 	if d.MotherCompanyID != nil {
 		res["mother_company_id"] = d.MotherCompanyID
 	}
@@ -95,15 +88,12 @@ func (d *CompanyInput) MergeToType() Company {
 
 func (d *SmartPhonePatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
-
 	if d.Brand != nil {
 		res["brand"] = *d.Brand
 	}
-
 	if d.Phonenumber != nil {
 		res["phonenumber"] = *d.Phonenumber
 	}
-
 	if d.UserID != nil {
 		res["user_id"] = *d.UserID
 	}
@@ -126,7 +116,6 @@ func (d *SmartPhoneInput) MergeToType() SmartPhone {
 
 func (d *TodoPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
-
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
@@ -168,14 +157,12 @@ func (d *TodoInput) MergeToType() Todo {
 
 func (d *UserPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
-
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
 	if d.Cat != nil {
 		res["cat"] = d.Cat.MergeToType()
 	}
-
 	if d.CompanyID != nil {
 		res["company_id"] = d.CompanyID
 	}
