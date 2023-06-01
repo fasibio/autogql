@@ -9,81 +9,81 @@ const extendsDatabaseFieldNameFormat string = "%[2]s.%[1]s%[3]s%[1]s"
 {{- $root := .}}
 
 {{- range $objectName, $object := .Handler.List.Objects }}
-{{- if $object.HasSqlDirective}}
+	{{- if $object.HasSqlDirective}}
 
-func (d *{{$object.Name}}FiltersInput) PrimaryKeyName() string {
-	return "{{$root.PrimaryKeyOfObject $object.Name}}"
-}
-
-func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias string,deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
-	res := make([]runtimehelper.ConditionElement, 0)
-	if d.And != nil {
-		tmp := make([]runtimehelper.ConditionElement, 0)
-		for _, v := range d.And {
-			tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd,v.ExtendsDatabaseQuery(db, alias, true,blackList)...))
-		}
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationAnd,tmp...))
+	func (d *{{$object.Name}}FiltersInput) PrimaryKeyName() string {
+		return "{{$root.PrimaryKeyOfObject $object.Name}}"
 	}
 
-	if d.Or != nil {
-		tmp := make([]runtimehelper.ConditionElement, 0)
-		for _, v := range d.Or {
-			
-			tmp  = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true,blackList)...))
-		}
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationOr,tmp...))
-	}
-
-	if d.Not != nil {
-		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db, alias, true,blackList)...))
-	}
-  {{- range $entityKey, $entity := $object.InputFilterEntities }}
-  {{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
-
-	{{-  if or $entity.IsPrimitive $entity.GqlTypeObj.HasSqlDirective $entity.IsEnum }}
-	if d.{{$entityGoName}} != nil {
-    {{-  if or $entity.IsPrimitive $entity.IsEnum }}
-    res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf(extendsDatabaseFieldNameFormat,runtimehelper.GetQuoteChar(db), alias,"{{snakecase $entityGoName}}"),true,blackList)...)
-    {{- else }}
-			{{- if $entity.HasMany2ManyDirective}}
-    tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
-		{{- $m2mTableName := $entity.Many2ManyDirectiveTable}}
-		if _, ok := blackList["{{$m2mTableName}}"]; !ok {
-			blackList["{{$m2mTableName}}"] = struct{}{}
-			db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s{{$m2mTableName}}%[1]s ON %[1]s{{$m2mTableName}}%[1]s.%[1]s{{$object.Name | snakecase}}_{{$root.PrimaryKeyOfObject $object.Name}}%[1]s = %[2]s.%[1]s{{$root.PrimaryKeyOfObject $object.Name}}%[1]s JOIN %[1]s%[3]s%[1]s ON %[1]s{{$m2mTableName}}%[1]s.%[1]s{{$entity.GqlTypeName | snakecase}}_{{$root.PrimaryKeyOfObject $entity.GqlTypeName | snakecase}}%[1]s = %[1]s%[3]s%[1]s.%[1]s{{$root.PrimaryKeyOfObject $object.Name}}%[1]s",runtimehelper.GetQuoteChar(db), alias, tableName))
-    }
-		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName),true,blackList)...)
-			{{- else if eq $object.Name $entity.GqlTypeName}}
-		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s{{$entityGoName}}%[1]s",runtimehelper.GetQuoteChar(db)),true,blackList)...)
-			{{- else }}
-		if _, ok := blackList["{{$entityGoName}}"]; !ok {
-			blackList["{{$entityGoName}}"] = struct{}{}
-			if deep {
-				tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
-				{{- $fnKeyResult := $root.ForeignName $object $entity}}
-				foreignKeyName := "{{$fnKeyResult.Key | snakecase}}"
-				{{- $fnKeyNumber := 5}}
-				{{- $currentKeyNumber := 3}}
-				{{- if eq $fnKeyResult.Table.Name $object.Name }}
-					{{- $fnKeyNumber = 3}}
-					{{- $currentKeyNumber = 5}}
-				{{- end}}
-				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]s{{$entityGoName}}%[1]s ON %[1]s{{$entityGoName}}%[1]s.%[1]s%[{{$fnKeyNumber}}]s%[1]s = %[4]s.%[1]s%[{{$currentKeyNumber}}]s%[1]s",runtimehelper.GetQuoteChar(db),tableName,d.PrimaryKeyName(), alias, foreignKeyName))
-
-			}else {
-				db = db.Joins("{{$entityGoName}}")
+	func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias string,deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
+		res := make([]runtimehelper.ConditionElement, 0)
+		if d.And != nil {
+			tmp := make([]runtimehelper.ConditionElement, 0)
+			for _, v := range d.And {
+				tmp = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd,v.ExtendsDatabaseQuery(db, alias, true,blackList)...))
 			}
-		}	
-		res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s{{$entityGoName}}%[1]s",runtimehelper.GetQuoteChar(db)),true,blackList)...)
+			res = append(res, runtimehelper.Complex(runtimehelper.RelationAnd,tmp...))
+		}
+
+		if d.Or != nil {
+			tmp := make([]runtimehelper.ConditionElement, 0)
+			for _, v := range d.Or {
+				
+				tmp  = append(tmp, runtimehelper.Complex(runtimehelper.RelationAnd, v.ExtendsDatabaseQuery(db, alias, true,blackList)...))
+			}
+			res = append(res, runtimehelper.Complex(runtimehelper.RelationOr,tmp...))
+		}
+
+		if d.Not != nil {
+			res = append(res, runtimehelper.Complex(runtimehelper.RelationNot,d.Not.ExtendsDatabaseQuery(db, alias, true,blackList)...))
+		}
+		{{- range $entityKey, $entity := $object.InputFilterEntities }}
+			{{- $entityGoName :=  $root.GetGoFieldName $objectName $entity}}
+
+			{{-  if or $entity.IsPrimitive $entity.GqlTypeObj.HasSqlDirective $entity.IsEnum }}
+				if d.{{$entityGoName}} != nil {
+				{{-  if or $entity.IsPrimitive $entity.IsEnum }}
+					res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf(extendsDatabaseFieldNameFormat,runtimehelper.GetQuoteChar(db), alias,"{{snakecase $entityGoName}}"),true,blackList)...)
+				{{- else }}
+					{{- if $entity.HasMany2ManyDirective}}
+						tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
+						{{- $m2mTableName := $entity.Many2ManyDirectiveTable}}
+						if _, ok := blackList["{{$m2mTableName}}"]; !ok {
+							blackList["{{$m2mTableName}}"] = struct{}{}
+							db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s{{$m2mTableName}}%[1]s ON %[1]s{{$m2mTableName}}%[1]s.%[1]s{{$object.Name | snakecase}}_{{$root.PrimaryKeyOfObject $object.Name}}%[1]s = %[2]s.%[1]s{{$root.PrimaryKeyOfObject $object.Name}}%[1]s JOIN %[1]s%[3]s%[1]s ON %[1]s{{$m2mTableName}}%[1]s.%[1]s{{$entity.GqlTypeName | snakecase}}_{{$root.PrimaryKeyOfObject $entity.GqlTypeName | snakecase}}%[1]s = %[1]s%[3]s%[1]s.%[1]s{{$root.PrimaryKeyOfObject $object.Name}}%[1]s",runtimehelper.GetQuoteChar(db), alias, tableName))
+						}
+						res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName),true,blackList)...)
+					{{- else if eq $object.Name $entity.GqlTypeName}}
+						res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s{{$entityGoName}}%[1]s",runtimehelper.GetQuoteChar(db)),true,blackList)...)
+					{{- else }}
+						if _, ok := blackList["{{$entityGoName}}"]; !ok {
+							blackList["{{$entityGoName}}"] = struct{}{}
+							if deep {
+								tableName := db.Config.NamingStrategy.TableName("{{$root.GetGoFieldTypeName $objectName $entity }}")
+								{{- $fnKeyResult := $root.ForeignName $object $entity}}
+								foreignKeyName := "{{$fnKeyResult.Key | snakecase}}"
+								{{- $fnKeyNumber := 5}}
+								{{- $currentKeyNumber := 3}}
+								{{- if eq $fnKeyResult.Table.Name $object.Name }}
+									{{- $fnKeyNumber = 3}}
+									{{- $currentKeyNumber = 5}}
+								{{- end}}
+								db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]s{{$entityGoName}}%[1]s ON %[1]s{{$entityGoName}}%[1]s.%[1]s%[{{$fnKeyNumber}}]s%[1]s = %[4]s.%[1]s%[{{$currentKeyNumber}}]s%[1]s",runtimehelper.GetQuoteChar(db),tableName,d.PrimaryKeyName(), alias, foreignKeyName))
+
+							}else {
+								db = db.Joins("{{$entityGoName}}")
+							}
+						}	
+						res = append(res, d.{{$entityGoName}}.{{$methodeName}}(db, fmt.Sprintf("%[1]s{{$entityGoName}}%[1]s",runtimehelper.GetQuoteChar(db)),true,blackList)...)
+					{{- end}}
+				{{- end}}
+				}
 			{{- end}}
-    {{- end}}
+		{{- end}}
+
+		return res
 	}
 	{{- end}}
-  {{- end}}
-
-	return res
-}
-{{- end}}
 {{- end}}
 
 func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {

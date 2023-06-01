@@ -15,24 +15,24 @@ type Many2ManyName string
 
 const (
 	{{- range $objectName, $object := .Handler.List.Objects }}
-	{{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
-	Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s Many2ManyName = "Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s"
-	{{- end}}
-	{{- if $object.SQLDirective.Query.Get}}
-	Get{{$object.Name}} GetName = "Get{{$object.Name}}"
-	{{- end}}
-	{{- if $object.SQLDirective.Query.Query}}
-	Query{{$object.Name}} QueryName = "Query{{$object.Name}}"
-	{{- end}}
-	{{- if $object.SQLDirective.Mutation.Add}}
-	Add{{$object.Name}} AddName = "Add{{$object.Name}}"
-	{{- end}}
-	{{- if $object.SQLDirective.Mutation.Update}}
-	Update{{$object.Name}} UpdateName = "Update{{$object.Name}}"
-	{{- end}}
-	{{- if $object.SQLDirective.Mutation.Delete}}
-	Delete{{$object.Name}} DeleteName = "Delete{{$object.Name}}"
-	{{- end}}
+		{{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
+			Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s Many2ManyName = "Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s"
+		{{- end}}
+		{{- if $object.SQLDirective.Query.Get}}
+			Get{{$object.Name}} GetName = "Get{{$object.Name}}"
+		{{- end}}
+		{{- if $object.SQLDirective.Query.Query}}
+			Query{{$object.Name}} QueryName = "Query{{$object.Name}}"
+		{{- end}}
+		{{- if $object.SQLDirective.Mutation.Add}}
+			Add{{$object.Name}} AddName = "Add{{$object.Name}}"
+		{{- end}}
+		{{- if $object.SQLDirective.Mutation.Update}}
+			Update{{$object.Name}} UpdateName = "Update{{$object.Name}}"
+		{{- end}}
+		{{- if $object.SQLDirective.Mutation.Delete}}
+			Delete{{$object.Name}} DeleteName = "Delete{{$object.Name}}"
+		{{- end}}
 	{{- end}}
 )
 
