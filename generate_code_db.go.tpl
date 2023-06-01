@@ -4,20 +4,20 @@
 {{- range $import := .Imports }}
 	{{ reserveImport $import }}
 {{- end}}
-{{$hookBaseName := "AutoGql"}}
+{{$baseName := "AutoGql"}}
 
-type {{$hookBaseName}}DB struct {
+type {{$baseName}}DB struct {
 	Db *gorm.DB
 	Hooks map[string]any
 }
-func New{{$hookBaseName}}DB(db *gorm.DB) {{$hookBaseName}}DB {
-	return {{$hookBaseName}}DB{
+func New{{$baseName}}DB(db *gorm.DB) {{$baseName}}DB {
+	return {{$baseName}}DB{
 		Db:    db,
 		Hooks: make(map[string]any),
 	}
 }
 
-func (db *{{$hookBaseName}}DB) Init() {
+func (db *{{$baseName}}DB) Init() {
 	db.Db.AutoMigrate({{.ModelsMigrations}})
 }
 
