@@ -1441,7 +1441,6 @@ var sources = []*ast.Source{
 	`, BuiltIn: true},
 	{Name: "../autogql/autogql.graphql", Input: `
 
-
 input IDFilterInput {
   and: [ID]
   or: [ID]
@@ -1525,373 +1524,373 @@ input TimeFilterBetween{
   end: Time!
 }
 
-input CatInput{
-  name: String!
-  birthDay: Time!
-  userID: Int!
-  alive: Boolean
-}
+  input CatInput{
+      name: String!
+      birthDay: Time!
+      userID: Int!
+      alive: Boolean
+  }
 
-input CatPatch{
-  name: String
-  birthDay: Time
-  userID: Int
-  alive: Boolean
-}
+  input CatPatch{
+      name: String
+      birthDay: Time
+      userID: Int
+      alive: Boolean
+  }
 
-input UpdateCatInput{
-  filter: CatFiltersInput!
-  set: CatPatch!
-}
+    input UpdateCatInput{
+      filter: CatFiltersInput!
+      set: CatPatch!
+    }
 
-type AddCatPayload{
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
-}
+    type AddCatPayload{
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+    }
 
-type UpdateCatPayload{
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
-  count: Int!
-}
+    type UpdateCatPayload{
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      count: Int!
+    }
 
-type DeleteCatPayload{
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteCatPayload{
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type CatQueryResult{
-  data: [Cat!]!
-  count: Int!
-  totalCount: Int!
-}
+    type CatQueryResult{
+      data: [Cat!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum CatOrderable {
-  id
-  name
-  userID
-  alive
-}
-input CatOrder{
-  asc: CatOrderable
-  desc: CatOrderable
-}
+    enum CatOrderable {
+        id
+        name
+        userID
+        alive
+    }
+    input CatOrder{
+      asc: CatOrderable
+      desc: CatOrderable
+    }
 
-input CatFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-    birthDay: TimeFilterInput
-    userID: IntFilterInput
-    alive: BooleanFilterInput
-  and: [CatFiltersInput]
-  or: [CatFiltersInput]
-  not: CatFiltersInput
-}
-extend type Query {
-  getCat(id: ID!, ): Cat 
-  queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int ): CatQueryResult 
-}
-extend type Mutation {
-  addCat(input: [CatInput!]!): AddCatPayload 
-  updateCat(input: UpdateCatInput!): UpdateCatPayload 
-  deleteCat(filter: CatFiltersInput!): DeleteCatPayload 
-}
+    input CatFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+          birthDay: TimeFilterInput
+          userID: IntFilterInput
+          alive: BooleanFilterInput
+      and: [CatFiltersInput]
+      or: [CatFiltersInput]
+      not: CatFiltersInput
+    }
+      extend type Query {
+        getCat(id: ID!, ): Cat 
+        queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int ): CatQueryResult 
+      }
+      extend type Mutation {
+        addCat(input: [CatInput!]!): AddCatPayload 
+        updateCat(input: UpdateCatInput!): UpdateCatPayload 
+        deleteCat(filter: CatFiltersInput!): DeleteCatPayload 
+      }
 
-input CompanyInput{
-  name: String!
-  description: String
-  motherCompanyID: Int
-  motherCompany: CompanyInput
-}
+  input CompanyInput{
+      name: String!
+      description: String
+      motherCompanyID: Int
+      motherCompany: CompanyInput
+  }
 
-input CompanyPatch{
-  name: String
-  description: String
-  motherCompanyID: Int
-  motherCompany: CompanyPatch
-}
+  input CompanyPatch{
+      name: String
+      description: String
+      motherCompanyID: Int
+      motherCompany: CompanyPatch
+  }
 
-input UpdateCompanyInput{
-  filter: CompanyFiltersInput!
-  set: CompanyPatch!
-}
+    input UpdateCompanyInput{
+      filter: CompanyFiltersInput!
+      set: CompanyPatch!
+    }
 
-type AddCompanyPayload{
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
-}
+    type AddCompanyPayload{
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+    }
 
-type UpdateCompanyPayload{
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
-  count: Int!
-}
+    type UpdateCompanyPayload{
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      count: Int!
+    }
 
-type DeleteCompanyPayload{
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteCompanyPayload{
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type CompanyQueryResult{
-  data: [Company!]!
-  count: Int!
-  totalCount: Int!
-}
+    type CompanyQueryResult{
+      data: [Company!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum CompanyOrderable {
-  id
-  name
-  description
-  motherCompanyID
-}
-input CompanyOrder{
-  asc: CompanyOrderable
-  desc: CompanyOrderable
-}
+    enum CompanyOrderable {
+        id
+        name
+        description
+        motherCompanyID
+    }
+    input CompanyOrder{
+      asc: CompanyOrderable
+      desc: CompanyOrderable
+    }
 
-input CompanyFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-    description: StringFilterInput
-    motherCompanyID: IntFilterInput
-          motherCompany:CompanyFiltersInput
-    createdAt: TimeFilterInput
-  and: [CompanyFiltersInput]
-  or: [CompanyFiltersInput]
-  not: CompanyFiltersInput
-}
-extend type Query {
-  getCompany(id: ID!, ): Company 
-  queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int ): CompanyQueryResult 
-}
-extend type Mutation {
-  addCompany(input: [CompanyInput!]!): AddCompanyPayload 
-  updateCompany(input: UpdateCompanyInput!): UpdateCompanyPayload 
-  deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload 
-}
+    input CompanyFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+          description: StringFilterInput
+          motherCompanyID: IntFilterInput
+              motherCompany:CompanyFiltersInput
+          createdAt: TimeFilterInput
+      and: [CompanyFiltersInput]
+      or: [CompanyFiltersInput]
+      not: CompanyFiltersInput
+    }
+      extend type Query {
+        getCompany(id: ID!, ): Company 
+        queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int ): CompanyQueryResult 
+      }
+      extend type Mutation {
+        addCompany(input: [CompanyInput!]!): AddCompanyPayload 
+        updateCompany(input: UpdateCompanyInput!): UpdateCompanyPayload 
+        deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload 
+      }
 
-input SmartPhoneInput{
-  brand: String!
-  phonenumber: String!
-  userID: ID!
-}
+  input SmartPhoneInput{
+      brand: String!
+      phonenumber: String!
+      userID: ID!
+  }
 
-input SmartPhonePatch{
-  brand: String
-  phonenumber: String
-  userID: ID
-}
+  input SmartPhonePatch{
+      brand: String
+      phonenumber: String
+      userID: ID
+  }
 
-input UpdateSmartPhoneInput{
-  filter: SmartPhoneFiltersInput!
-  set: SmartPhonePatch!
-}
+    input UpdateSmartPhoneInput{
+      filter: SmartPhoneFiltersInput!
+      set: SmartPhonePatch!
+    }
 
-type AddSmartPhonePayload{
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
-}
+    type AddSmartPhonePayload{
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+    }
 
-type UpdateSmartPhonePayload{
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
-  count: Int!
-}
+    type UpdateSmartPhonePayload{
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      count: Int!
+    }
 
-type DeleteSmartPhonePayload{
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteSmartPhonePayload{
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type SmartPhoneQueryResult{
-  data: [SmartPhone!]!
-  count: Int!
-  totalCount: Int!
-}
+    type SmartPhoneQueryResult{
+      data: [SmartPhone!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum SmartPhoneOrderable {
-  id
-  brand
-  phonenumber
-  userID
-}
-input SmartPhoneOrder{
-  asc: SmartPhoneOrderable
-  desc: SmartPhoneOrderable
-}
+    enum SmartPhoneOrderable {
+        id
+        brand
+        phonenumber
+        userID
+    }
+    input SmartPhoneOrder{
+      asc: SmartPhoneOrderable
+      desc: SmartPhoneOrderable
+    }
 
-input SmartPhoneFiltersInput{
-    id: IDFilterInput
-    brand: StringFilterInput
-    phonenumber: StringFilterInput
-    userID: IDFilterInput
-  and: [SmartPhoneFiltersInput]
-  or: [SmartPhoneFiltersInput]
-  not: SmartPhoneFiltersInput
-}
-extend type Query {
-  getSmartPhone(id: ID!, ): SmartPhone 
-  querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int ): SmartPhoneQueryResult 
-}
-extend type Mutation {
-  addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload 
-  updateSmartPhone(input: UpdateSmartPhoneInput!): UpdateSmartPhonePayload 
-  deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload 
-}
+    input SmartPhoneFiltersInput{
+          id: IDFilterInput
+          brand: StringFilterInput
+          phonenumber: StringFilterInput
+          userID: IDFilterInput
+      and: [SmartPhoneFiltersInput]
+      or: [SmartPhoneFiltersInput]
+      not: SmartPhoneFiltersInput
+    }
+      extend type Query {
+        getSmartPhone(id: ID!, ): SmartPhone 
+        querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int ): SmartPhoneQueryResult 
+      }
+      extend type Mutation {
+        addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload 
+        updateSmartPhone(input: UpdateSmartPhoneInput!): UpdateSmartPhonePayload 
+        deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload 
+      }
 
-input TodoInput{
-  name: String!
-  etype1: TodoType
-  etype5: TodoType!
-  test123: Test
-}
+  input TodoInput{
+      name: String!
+      etype1: TodoType
+      etype5: TodoType!
+      test123: Test
+  }
 
-input TodoPatch{
-  name: String
-  etype1: TodoType
-  etype5: TodoType
-  test123: Test
-}
+  input TodoPatch{
+      name: String
+      etype1: TodoType
+      etype5: TodoType
+      test123: Test
+  }
 
-input UpdateTodoInput{
-  filter: TodoFiltersInput!
-  set: TodoPatch!
-}
+    input UpdateTodoInput{
+      filter: TodoFiltersInput!
+      set: TodoPatch!
+    }
 
-type AddTodoPayload{
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
-}
+    type AddTodoPayload{
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+    }
 
-type UpdateTodoPayload{
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
-  count: Int!
-}
+    type UpdateTodoPayload{
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      count: Int!
+    }
 
-type DeleteTodoPayload{
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
-  count: Int!
-  msg: String
-}
+    type DeleteTodoPayload{
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type TodoQueryResult{
-  data: [Todo!]!
-  count: Int!
-  totalCount: Int!
-}
+    type TodoQueryResult{
+      data: [Todo!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-enum TodoOrderable {
-  id
-  name
-  ownerID
-}
+    enum TodoOrderable {
+        id
+        name
+        ownerID
+    }
+      
+      input UserRef2TodosInput{
+        filter: TodoFiltersInput!
+        set: [ID!]!
+      }
+    input TodoOrder{
+      asc: TodoOrderable
+      desc: TodoOrderable
+    }
 
-input UserRef2TodosInput{
-  filter: TodoFiltersInput!
-  set: [ID!]!
-}
-input TodoOrder{
-  asc: TodoOrderable
-  desc: TodoOrderable
-}
+    input TodoFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+              users:UserFiltersInput
+              owner:UserFiltersInput
+          ownerID: IDFilterInput
+          createdAt: TimeFilterInput
+          updatedAt: TimeFilterInput
+          deletedAt: TimeFilterInput
+            etype1: StringFilterInput
+            etype5: StringFilterInput
+      and: [TodoFiltersInput]
+      or: [TodoFiltersInput]
+      not: TodoFiltersInput
+    }
+      extend type Query {
+        getTodo(id: ID!, ): Todo 
+        queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int ): TodoQueryResult 
+      }
+      extend type Mutation {
+        addUser2Todos(input:UserRef2TodosInput!): UpdateTodoPayload 
+        addTodo(input: [TodoInput!]!): AddTodoPayload 
+        updateTodo(input: UpdateTodoInput!): UpdateTodoPayload 
+        deleteTodo(filter: TodoFiltersInput!): DeleteTodoPayload 
+      }
 
-input TodoFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-          users:UserFiltersInput
-          owner:UserFiltersInput
-    ownerID: IDFilterInput
-    createdAt: TimeFilterInput
-    updatedAt: TimeFilterInput
-    deletedAt: TimeFilterInput
-        etype1: StringFilterInput
-        etype5: StringFilterInput
-  and: [TodoFiltersInput]
-  or: [TodoFiltersInput]
-  not: TodoFiltersInput
-}
-extend type Query {
-  getTodo(id: ID!, ): Todo 
-  queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int ): TodoQueryResult 
-}
-extend type Mutation {
-  addUser2Todos(input:UserRef2TodosInput!): UpdateTodoPayload 
-  addTodo(input: [TodoInput!]!): AddTodoPayload 
-  updateTodo(input: UpdateTodoInput!): UpdateTodoPayload 
-  deleteTodo(filter: TodoFiltersInput!): DeleteTodoPayload 
-}
+  input UserInput{
+      name: String!
+      cat: CatInput
+      companyID: Int
+      company: CompanyInput
+      smartPhones: [SmartPhoneInput!]
+  }
 
-input UserInput{
-  name: String!
-  cat: CatInput
-  companyID: Int
-  company: CompanyInput
-  smartPhones: [SmartPhoneInput!]
-}
+  input UserPatch{
+      name: String
+      cat: CatPatch
+      companyID: Int
+      company: CompanyPatch
+      smartPhones: [SmartPhonePatch!]
+  }
 
-input UserPatch{
-  name: String
-  cat: CatPatch
-  companyID: Int
-  company: CompanyPatch
-  smartPhones: [SmartPhonePatch!]
-}
+    input UpdateUserInput{
+      filter: UserFiltersInput!
+      set: UserPatch!
+    }
 
-input UpdateUserInput{
-  filter: UserFiltersInput!
-  set: UserPatch!
-}
+    type AddUserPayload{
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+    }
 
-type AddUserPayload{
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
-}
+    type UpdateUserPayload{
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      count: Int!
+    }
 
-type UpdateUserPayload{
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
-  count: Int!
-}
+    type DeleteUserPayload{
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      count: Int!
+      msg: String
+    }
 
-type DeleteUserPayload{
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
-  count: Int!
-  msg: String
-}
+    type UserQueryResult{
+      data: [User!]!
+      count: Int!
+      totalCount: Int!
+    }
 
-type UserQueryResult{
-  data: [User!]!
-  count: Int!
-  totalCount: Int!
-}
+    enum UserOrderable {
+        id
+        name
+        companyID
+    }
+    input UserOrder{
+      asc: UserOrderable
+      desc: UserOrderable
+    }
 
-enum UserOrderable {
-  id
-  name
-  companyID
-}
-input UserOrder{
-  asc: UserOrderable
-  desc: UserOrderable
-}
-
-input UserFiltersInput{
-    id: IDFilterInput
-    name: StringFilterInput
-    createdAt: TimeFilterInput
-    updatedAt: TimeFilterInput
-    deletedAt: TimeFilterInput
-          cat:CatFiltersInput
-    companyID: IntFilterInput
-          company:CompanyFiltersInput
-          smartPhones:SmartPhoneFiltersInput
-  and: [UserFiltersInput]
-  or: [UserFiltersInput]
-  not: UserFiltersInput
-}
-extend type Query {
-  getUser(id: ID!, ): User 
-  queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int ): UserQueryResult 
-}
-extend type Mutation {
-  addUser(input: [UserInput!]!): AddUserPayload 
-  updateUser(input: UpdateUserInput!): UpdateUserPayload 
-  deleteUser(filter: UserFiltersInput!): DeleteUserPayload 
-}`, BuiltIn: false},
+    input UserFiltersInput{
+          id: IDFilterInput
+          name: StringFilterInput
+          createdAt: TimeFilterInput
+          updatedAt: TimeFilterInput
+          deletedAt: TimeFilterInput
+              cat:CatFiltersInput
+          companyID: IntFilterInput
+              company:CompanyFiltersInput
+              smartPhones:SmartPhoneFiltersInput
+      and: [UserFiltersInput]
+      or: [UserFiltersInput]
+      not: UserFiltersInput
+    }
+      extend type Query {
+        getUser(id: ID!, ): User 
+        queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int ): UserQueryResult 
+      }
+      extend type Mutation {
+        addUser(input: [UserInput!]!): AddUserPayload 
+        updateUser(input: UpdateUserInput!): UpdateUserPayload 
+        deleteUser(filter: UserFiltersInput!): DeleteUserPayload 
+      }`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
