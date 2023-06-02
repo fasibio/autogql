@@ -35,6 +35,8 @@ type User @SQL(order: 2){
   companyID: Int
   company: Company
   smartPhones: [SmartPhone]
+  email: String! @SQL_INPUTTYPE_TAGS(value:"validate:\"required, email\"") @SQL_INPUTTYPE_DIRECTIVE(value:" @VALIDATE(value:\"required, email\")")
+
 }
 
 type Company @SQL(order: 1){
@@ -61,3 +63,5 @@ type SmartPhone @SQL(order: 5){
   phonenumber: String!
   userID: ID!
 }
+
+	directive @VALIDATE (value: String!) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION

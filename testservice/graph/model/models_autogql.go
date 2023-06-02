@@ -177,6 +177,9 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 		}
 		res["smart_phones"] = tmpSmartPhones
 	}
+	if d.Email != nil {
+		res["email"] = *d.Email
+	}
 	return res
 }
 
@@ -207,11 +210,14 @@ func (d *UserInput) MergeToType() User {
 			tmpSmartPhones = append(tmpSmartPhones, &tmp)
 		}
 	}
+
+	tmpEmail := d.Email
 	return User{
 		Name:        tmpName,
 		Cat:         &tmpCat,
 		CompanyID:   tmpCompanyID,
 		Company:     &tmpCompany,
 		SmartPhones: tmpSmartPhones,
+		Email:       tmpEmail,
 	}
 }

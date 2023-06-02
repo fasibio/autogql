@@ -180,12 +180,27 @@ Description:
 		query: SqlCreateExtension
 		directiveExt: [String!] # add directive to all mutations
 	}
-	directive @SQL(order: Int, query:SqlQueryParams, mutation: SqlMutationParams ) on OBJECT # order to define relations (if Type A(order: 1) have a releation to type B(order: 2)
+	# order to define relations (if Type A(order: 1) have a releation to type B(order: 2)
+	directive @SQL(order: Int, query:SqlQueryParams, mutation: SqlMutationParams ) on OBJECT 
+
+	# database primary key
 	directive @SQL_PRIMARY on FIELD_DEFINITION
+
+	# database index
 	directive @SQL_INDEX on FIELD_DEFINITION
 
-	directive @SQL_GORM (value: String)on FIELD_DEFINITION # each gorm command ==> not all useable at the moment pls open issue if you find one
-	directive @SQL_SKIP_MUTATION on FIELD_DEFINITION # to remove this value from input and patch generated Inputs
+	# each gorm command ==> not all useable at the moment pls open issue if you find one
+	directive @SQL_GORM (value: String)on FIELD_DEFINITION 
+
+	# to remove this value from input and patch generated Inputs
+	directive @SQL_SKIP_MUTATION on FIELD_DEFINITION 
+
+	# to add a tag to input go struct
+	directive @SQL_INPUTTYPE_TAGS (value: [String!]) on FIELD_DEFINITION 
+
+	#to add a directive to input graphql type (directive have to be decelerated with INPUT_FIELD_DEFINITION )
+	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION 
+
 
 	scalar Time #activated for createdAt, deletedAt, updatedAt etc
 

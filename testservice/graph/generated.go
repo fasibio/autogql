@@ -58,6 +58,7 @@ type ResolverRoot interface {
 }
 
 type DirectiveRoot struct {
+	VALIDATE func(ctx context.Context, obj interface{}, next graphql.Resolver, value string) (res interface{}, err error)
 }
 
 type ComplexityRoot struct {
@@ -237,6 +238,7 @@ type ComplexityRoot struct {
 		CompanyID   func(childComplexity int) int
 		CreatedAt   func(childComplexity int) int
 		DeletedAt   func(childComplexity int) int
+		Email       func(childComplexity int) int
 		ID          func(childComplexity int) int
 		Name        func(childComplexity int) int
 		SmartPhones func(childComplexity int) int
@@ -1246,6 +1248,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.DeletedAt(childComplexity), true
 
+	case "User.email":
+		if e.complexity.User.Email == nil {
+			break
+		}
+
+		return e.complexity.User.Email(childComplexity), true
+
 	case "User.id":
 		if e.complexity.User.ID == nil {
 			break
@@ -1437,7 +1446,17 @@ var sources = []*ast.Source{
 	directive @SQL_GORM (value: String)on FIELD_DEFINITION
   
 	directive @SQL_SKIP_MUTATION on FIELD_DEFINITION
+
+	directive @SQL_INPUTTYPE_TAGS (value: [String!]) on FIELD_DEFINITION
+
+	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION
+
 	scalar Time
+
+# internal directive
+directive @SQL_INPUTTYPE_TAGS_INTERNAL (value: [String!]) on INPUT_FIELD_DEFINITION
+
+## internal directive end
 	`, BuiltIn: true},
 	{Name: "../autogql/autogql.graphql", Input: `
 
@@ -1525,17 +1544,17 @@ input TimeFilterBetween{
 }
 
   input CatInput{
-      name: String!
-      birthDay: Time!
-      userID: Int!
-      alive: Boolean
+      name: String!  
+      birthDay: Time!  
+      userID: Int!  
+      alive: Boolean  
   }
 
   input CatPatch{
-      name: String
-      birthDay: Time
-      userID: Int
-      alive: Boolean
+      name: String  
+      birthDay: Time  
+      userID: Int  
+      alive: Boolean  
   }
 
     input UpdateCatInput{
@@ -1596,17 +1615,17 @@ input TimeFilterBetween{
       }
 
   input CompanyInput{
-      name: String!
-      description: String
-      motherCompanyID: Int
-      motherCompany: CompanyInput
+      name: String!  
+      description: String  
+      motherCompanyID: Int  
+      motherCompany: CompanyInput  
   }
 
   input CompanyPatch{
-      name: String
-      description: String
-      motherCompanyID: Int
-      motherCompany: CompanyPatch
+      name: String  
+      description: String  
+      motherCompanyID: Int  
+      motherCompany: CompanyPatch  
   }
 
     input UpdateCompanyInput{
@@ -1668,15 +1687,15 @@ input TimeFilterBetween{
       }
 
   input SmartPhoneInput{
-      brand: String!
-      phonenumber: String!
-      userID: ID!
+      brand: String!  
+      phonenumber: String!  
+      userID: ID!  
   }
 
   input SmartPhonePatch{
-      brand: String
-      phonenumber: String
-      userID: ID
+      brand: String  
+      phonenumber: String  
+      userID: ID  
   }
 
     input UpdateSmartPhoneInput{
@@ -1736,17 +1755,17 @@ input TimeFilterBetween{
       }
 
   input TodoInput{
-      name: String!
-      etype1: TodoType
-      etype5: TodoType!
-      test123: Test
+      name: String!  
+      etype1: TodoType  
+      etype5: TodoType!  
+      test123: Test  
   }
 
   input TodoPatch{
-      name: String
-      etype1: TodoType
-      etype5: TodoType
-      test123: Test
+      name: String  
+      etype1: TodoType  
+      etype5: TodoType  
+      test123: Test  
   }
 
     input UpdateTodoInput{
@@ -1817,19 +1836,21 @@ input TimeFilterBetween{
       }
 
   input UserInput{
-      name: String!
-      cat: CatInput
-      companyID: Int
-      company: CompanyInput
-      smartPhones: [SmartPhoneInput!]
+      name: String!  
+      cat: CatInput  
+      companyID: Int  
+      company: CompanyInput  
+      smartPhones: [SmartPhoneInput!]  
+      email: String! @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required, email\""])  @VALIDATE(value:"required, email")
   }
 
   input UserPatch{
-      name: String
-      cat: CatPatch
-      companyID: Int
-      company: CompanyPatch
-      smartPhones: [SmartPhonePatch!]
+      name: String  
+      cat: CatPatch  
+      companyID: Int  
+      company: CompanyPatch  
+      smartPhones: [SmartPhonePatch!]  
+      email: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required, email\""])  @VALIDATE(value:"required, email")
   }
 
     input UpdateUserInput{
@@ -1862,6 +1883,7 @@ input TimeFilterBetween{
         id
         name
         companyID
+        email
     }
     input UserOrder{
       asc: UserOrderable
@@ -1878,6 +1900,7 @@ input TimeFilterBetween{
           companyID: IntFilterInput
               company:CompanyFiltersInput
               smartPhones:SmartPhoneFiltersInput
+          email: StringFilterInput
       and: [UserFiltersInput]
       or: [UserFiltersInput]
       not: UserFiltersInput
@@ -1897,6 +1920,21 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) dir_VALIDATE_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["value"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("value"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["value"] = arg0
+	return args, nil
+}
 
 func (ec *executionContext) field_AddCatPayload_cat_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -6469,6 +6507,8 @@ func (ec *executionContext) fieldContext_Query_getUser(ctx context.Context, fiel
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -7139,6 +7179,8 @@ func (ec *executionContext) fieldContext_Todo_users(ctx context.Context, field g
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -7203,6 +7245,8 @@ func (ec *executionContext) fieldContext_Todo_owner(ctx context.Context, field g
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -8607,6 +8651,50 @@ func (ec *executionContext) fieldContext_User_smartPhones(ctx context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_email(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Email, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_email(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UserQueryResult_data(ctx context.Context, field graphql.CollectedField, obj *model.UserQueryResult) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UserQueryResult_data(ctx, field)
 	if err != nil {
@@ -8664,6 +8752,8 @@ func (ec *executionContext) fieldContext_UserQueryResult_data(ctx context.Contex
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -12572,7 +12662,7 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "company", "smartPhones", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "company", "smartPhones", "email", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12660,6 +12750,15 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 				return it, err
 			}
 			it.SmartPhones = data
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Email = data
 		case "and":
 			var err error
 
@@ -12700,7 +12799,7 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12752,6 +12851,32 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 				return it, err
 			}
 			it.SmartPhones = data
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalNString2string(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				value, err := ec.unmarshalNString2string(ctx, "required, email")
+				if err != nil {
+					return nil, err
+				}
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0, value)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(string); ok {
+				it.Email = data
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		}
 	}
 
@@ -12803,7 +12928,7 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12855,6 +12980,34 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 				return it, err
 			}
 			it.SmartPhones = data
+		case "email":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOString2ᚖstring(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				value, err := ec.unmarshalNString2string(ctx, "required, email")
+				if err != nil {
+					return nil, err
+				}
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0, value)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*string); ok {
+				it.Email = data
+			} else if tmp == nil {
+				it.Email = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		}
 	}
 
@@ -14440,6 +14593,13 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 
 			out.Values[i] = ec._User_smartPhones(ctx, field, obj)
 
+		case "email":
+
+			out.Values[i] = ec._User_email(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

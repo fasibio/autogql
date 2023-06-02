@@ -407,6 +407,7 @@ type User struct {
 	CompanyID   *int          `json:"companyID,omitempty"`
 	Company     *Company      `json:"company,omitempty"`
 	SmartPhones []*SmartPhone `json:"smartPhones,omitempty"`
+	Email       string        `json:"email"`
 }
 
 type UserFiltersInput struct {
@@ -419,6 +420,7 @@ type UserFiltersInput struct {
 	CompanyID   *IntFilterInput         `json:"companyID,omitempty"`
 	Company     *CompanyFiltersInput    `json:"company,omitempty"`
 	SmartPhones *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
+	Email       *StringFilterInput      `json:"email,omitempty"`
 	And         []*UserFiltersInput     `json:"and,omitempty"`
 	Or          []*UserFiltersInput     `json:"or,omitempty"`
 	Not         *UserFiltersInput       `json:"not,omitempty"`
@@ -430,6 +432,7 @@ type UserInput struct {
 	CompanyID   *int               `json:"companyID,omitempty"`
 	Company     *CompanyInput      `json:"company,omitempty"`
 	SmartPhones []*SmartPhoneInput `json:"smartPhones,omitempty"`
+	Email       string             `json:"email" validate:"required, email"`
 }
 
 type UserOrder struct {
@@ -443,6 +446,7 @@ type UserPatch struct {
 	CompanyID   *int               `json:"companyID,omitempty"`
 	Company     *CompanyPatch      `json:"company,omitempty"`
 	SmartPhones []*SmartPhonePatch `json:"smartPhones,omitempty"`
+	Email       *string            `json:"email,omitempty" validate:"required, email"`
 }
 
 type UserQueryResult struct {
@@ -681,17 +685,19 @@ const (
 	UserOrderableID        UserOrderable = "id"
 	UserOrderableName      UserOrderable = "name"
 	UserOrderableCompanyID UserOrderable = "companyID"
+	UserOrderableEmail     UserOrderable = "email"
 )
 
 var AllUserOrderable = []UserOrderable{
 	UserOrderableID,
 	UserOrderableName,
 	UserOrderableCompanyID,
+	UserOrderableEmail,
 }
 
 func (e UserOrderable) IsValid() bool {
 	switch e {
-	case UserOrderableID, UserOrderableName, UserOrderableCompanyID:
+	case UserOrderableID, UserOrderableName, UserOrderableCompanyID, UserOrderableEmail:
 		return true
 	}
 	return false

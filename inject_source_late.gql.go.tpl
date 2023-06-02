@@ -86,13 +86,13 @@ input TimeFilterBetween{
 
   input {{$object.Name}}Input{
     {{- range $entityKey, $entity := $object.InputEntities}}
-      {{$entity.Name}}: {{$entity.GqlType "Input"}}{{$entity.RequiredChar}}
+      {{$entity.Name}}: {{$entity.GqlType "Input"}}{{$entity.RequiredChar}} {{$entity.InputTypeDirectiveGql}}
     {{- end}}
   }
 
   input {{$object.Name}}Patch{
     {{- range $entityKey, $entity := $object.PatchEntities}}
-      {{$entity.Name}}: {{$entity.GqlType "Patch"}}
+      {{$entity.Name}}: {{$entity.GqlType "Patch"}} {{$entity.InputTypeDirectiveGql}}
     {{- end}}
   } 
 
