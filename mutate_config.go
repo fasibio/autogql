@@ -37,7 +37,6 @@ func (ggs *AutoGqlPlugin) MutateConfig(cfg *config.Config) error {
 
 	}
 	return ggs.remapInputType2Type(cfg)
-	// return nil
 }
 func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.FieldDefinition, f *modelgen.Field) (*modelgen.Field, error) {
 	return func(td *ast.Definition, fd *ast.FieldDefinition, f *modelgen.Field) (*modelgen.Field, error) {

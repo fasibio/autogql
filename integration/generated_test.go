@@ -97,30 +97,37 @@ func (suite *QueryTestSuite) AddUsers(t *testing.T) {
 		{
 			Name:      "Jan",
 			CompanyID: getPointerOf(1),
+			Email:     "test@mail.com",
 		},
 		{
 			Name:      "Klaas",
 			CompanyID: getPointerOf(1),
+			Email:     "test@mail.com",
 		},
 		{
 			Name:      "Peter",
 			CompanyID: getPointerOf(1),
+			Email:     "test@mail.com",
 		},
 		{
 			Name:      "Schmadel",
 			CompanyID: getPointerOf(1),
+			Email:     "test@mail.com",
 		},
 		{
 			Name:      "Jan",
 			CompanyID: getPointerOf(2),
+			Email:     "test@mail.com",
 		},
 		{
 			Name:      "Boris",
 			CompanyID: getPointerOf(2),
+			Email:     "test@mail.com",
 		},
 	})
 	assert.Nil(t, err)
 	snaps.MatchSnapshot(t, resp)
+
 }
 
 func (suite *QueryTestSuite) AddCats(t *testing.T) {

@@ -1,10 +1,12 @@
 package testservice
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
 
+	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
 	"github.com/fasibio/autogql/testservice/graph"
@@ -24,7 +26,14 @@ func StartServer(dbCon *gorm.DB) {
 	dborm := db.NewAutoGqlDB(dbCon)
 	dborm.Init()
 	db.AddAddHook[model.Todo, model.TodoInput, model.AddTodoPayload](&dborm, "AddTodo", AddTodoHook{})
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{Sql: &dborm}}))
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{
+		Resolvers: &graph.Resolver{Sql: &dborm},
+		Directives: graph.DirectiveRoot{
+			VALIDATE: func(ctx context.Context, obj interface{}, next graphql.Resolver, value string) (res interface{}, err error) {
+				return next(ctx)
+			},
+		},
+	}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
