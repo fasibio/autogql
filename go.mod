@@ -3,13 +3,13 @@ module github.com/fasibio/autogql
 go 1.19
 
 require (
-	github.com/99designs/gqlgen v0.17.31
+	github.com/99designs/gqlgen v0.17.32
 	github.com/Khan/genqlient v0.6.0
 	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/gkampitakis/go-snaps v0.4.5
 	github.com/huandu/xstrings v1.4.0
 	github.com/stretchr/testify v1.8.4
-	github.com/vektah/gqlparser/v2 v2.5.1
+	github.com/vektah/gqlparser/v2 v2.5.2-0.20230422221642-25e09f9d292d
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/driver/sqlite v1.5.1
