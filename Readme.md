@@ -1,6 +1,6 @@
 # AutoGql
 
-AutoGQL is a GraphQL GORM CRUD generator. It's a plugin for 99designs/gqlgen that helps you quickly create CRUD functionality for your application so you can focus on the unique aspects of your business
+AutoGQL is the best GraphQL GORM CRUD generator. It's a plugin for 99designs/gqlgen that helps you quickly create CRUD functionality for your application so you can focus on the unique aspects of your business
 
 ## Setup
 
