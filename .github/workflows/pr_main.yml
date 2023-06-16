@@ -7,4 +7,7 @@ jobs:
   tests:
     name: Test
     uses: ./.github/workflows/job_tests.yml
+  tests2:
+    name: Test2
+    uses: ./.github/workflows/job_tests.yml
 
