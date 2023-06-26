@@ -1,7 +1,7 @@
 name: PR
 on: 
   pull_request:
-    branches: [ main ]
+    branches: [ main, 06262023_dep_update_2 ]
 
 jobs:
   tests:

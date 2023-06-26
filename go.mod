@@ -6,10 +6,10 @@ require (
 	github.com/99designs/gqlgen v0.17.34
 	github.com/Khan/genqlient v0.6.0
 	github.com/Masterminds/sprig/v3 v3.2.3
-	github.com/gkampitakis/go-snaps v0.4.5
+	github.com/gkampitakis/go-snaps v0.4.7
 	github.com/huandu/xstrings v1.4.0
 	github.com/stretchr/testify v1.8.4
-	github.com/vektah/gqlparser/v2 v2.5.4
+	github.com/vektah/gqlparser/v2 v2.5.5
 	gorm.io/driver/mysql v1.5.1
 	gorm.io/driver/postgres v1.5.2
 	gorm.io/driver/sqlite v1.5.2
