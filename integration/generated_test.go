@@ -130,6 +130,18 @@ func (suite *QueryTestSuite) AddUsers(t *testing.T) {
 
 }
 
+func (suite *QueryTestSuite) AddUsersWillFail(t *testing.T) {
+	_, err := addUsers(context.TODO(), suite.Client, []*UserInput{
+		{
+			Name:      "Jan",
+			CompanyID: getPointerOf(1),
+			Email:     "wrong_mail_address",
+		},
+	})
+	assert.Error(t, err)
+	snaps.MatchSnapshot(t, err)
+}
+
 func (suite *QueryTestSuite) AddCats(t *testing.T) {
 	resp, err := addCats(context.TODO(), suite.Client, []*CatInput{
 		{
@@ -229,6 +241,7 @@ func queryTester(f queryTesterFunction) func(*testing.T) {
 func (suite *QueryTestSuite) TestComplexCombination() {
 	suite.T().Run("addCompanies", suite.AddCompanies)
 	suite.T().Run("addUsers", suite.AddUsers)
+	suite.T().Run("addUser ==> will failed", suite.AddUsersWillFail)
 	suite.T().Run("addCats", suite.AddCats)
 	suite.T().Run("addTodos", suite.AddTodos)
 	suite.T().Run("addUsers2Todo", suite.AddUsers2Todo)

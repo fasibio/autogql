@@ -8808,3 +8808,21 @@
     },
 }
 ---
+
+[TestQueryTestSuite/TestComplexCombination/addUser_==>_will_failed - 1]
+gqlerror.List{
+    &gqlerror.Error{
+        err:     nil,
+        Message: "validationerror:  Key: 'UserInput.Email' Error:Field validation for 'Email' failed on the 'email' tag",
+        Path:    {
+            "addUser",
+            "input",
+            ast.PathIndex(0),
+            "name",
+        },
+        Locations:  nil,
+        Extensions: {},
+        Rule:       "",
+    },
+}
+---
