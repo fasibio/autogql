@@ -1,7 +1,22 @@
 
+{{ reserveImport "fmt"  }}
 {{ reserveImport "time"  }}
+{{ reserveImport "github.com/99designs/gqlgen/graphql"  }}
+{{ reserveImport "github.com/mitchellh/mapstructure"  }}
+
 {{- $root := .}}
 {{- $input2TypeName := "MergeToType"}}
+
+func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error) {
+	switch name {
+    {{- range $objectName, $object := .Handler.List.Objects }}
+      case "{{$objectName}}Input":
+        return {{$objectName}}InputFromMap(obj)
+    {{- end}}
+  }
+	return nil, fmt.Errorf("%s not found", name)
+}
+
 {{- range $objectName, $object := .Handler.List.Enums }}
   func (d *{{$objectName}}) {{$input2TypeName}}() {{$objectName}} {
     return *d
@@ -10,6 +25,12 @@
 
 {{- range $objectName, $object := .Handler.List.Objects }}
   {{$objectName := $object.Name}}
+
+  func {{$objectName}}InputFromMap(data map[string]interface{}) ({{$objectName}}Input, error) {
+      model := {{$objectName}}Input{}
+      err := mapstructure.Decode(data, &model); 
+      return model, err
+  }
 
   func (d *{{$objectName}}Patch) {{$input2TypeName}}() map[string]interface{} {
     res := make(map[string]interface{})

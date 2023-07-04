@@ -58,7 +58,7 @@ type ResolverRoot interface {
 }
 
 type DirectiveRoot struct {
-	VALIDATE func(ctx context.Context, obj interface{}, next graphql.Resolver, value string) (res interface{}, err error)
+	VALIDATE func(ctx context.Context, obj interface{}, next graphql.Resolver) (res interface{}, err error)
 }
 
 type ComplexityRoot struct {
@@ -233,16 +233,17 @@ type ComplexityRoot struct {
 	}
 
 	User struct {
-		Cat         func(childComplexity int) int
-		Company     func(childComplexity int) int
-		CompanyID   func(childComplexity int) int
-		CreatedAt   func(childComplexity int) int
-		DeletedAt   func(childComplexity int) int
-		Email       func(childComplexity int) int
-		ID          func(childComplexity int) int
-		Name        func(childComplexity int) int
-		SmartPhones func(childComplexity int) int
-		UpdatedAt   func(childComplexity int) int
+		Cat          func(childComplexity int) int
+		Company      func(childComplexity int) int
+		CompanyID    func(childComplexity int) int
+		CreatedAt    func(childComplexity int) int
+		DeletedAt    func(childComplexity int) int
+		Email        func(childComplexity int) int
+		FavoritColor func(childComplexity int) int
+		ID           func(childComplexity int) int
+		Name         func(childComplexity int) int
+		SmartPhones  func(childComplexity int) int
+		UpdatedAt    func(childComplexity int) int
 	}
 
 	UserQueryResult struct {
@@ -1255,6 +1256,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Email(childComplexity), true
 
+	case "User.favoritColor":
+		if e.complexity.User.FavoritColor == nil {
+			break
+		}
+
+		return e.complexity.User.FavoritColor(childComplexity), true
+
 	case "User.id":
 		if e.complexity.User.ID == nil {
 			break
@@ -1486,7 +1494,7 @@ var sources = []*ast.Source{
 
 	directive @SQL_INPUTTYPE_TAGS (value: [String!]) on FIELD_DEFINITION
 
-	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION
+	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION | OBJECT
 
 	scalar Time
 
@@ -1580,14 +1588,14 @@ input TimeFilterBetween{
   end: Time!
 }
 
-  input CatInput{
+  input CatInput {
       name: String!  
       birthDay: Time!  
       userID: Int!  
       alive: Boolean  
   }
 
-  input CatPatch{
+  input CatPatch {
       name: String  
       birthDay: Time  
       userID: Int  
@@ -1651,14 +1659,14 @@ input TimeFilterBetween{
         deleteCat(filter: CatFiltersInput!): DeleteCatPayload 
       }
 
-  input CompanyInput{
+  input CompanyInput {
       name: String!  
       description: String  
       motherCompanyID: Int  
       motherCompany: CompanyInput  
   }
 
-  input CompanyPatch{
+  input CompanyPatch {
       name: String  
       description: String  
       motherCompanyID: Int  
@@ -1723,13 +1731,13 @@ input TimeFilterBetween{
         deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload 
       }
 
-  input SmartPhoneInput{
+  input SmartPhoneInput {
       brand: String!  
       phonenumber: String!  
       userID: ID!  
   }
 
-  input SmartPhonePatch{
+  input SmartPhonePatch {
       brand: String  
       phonenumber: String  
       userID: ID  
@@ -1791,14 +1799,14 @@ input TimeFilterBetween{
         deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload 
       }
 
-  input TodoInput{
+  input TodoInput {
       name: String!  
       etype1: TodoType  
       etype5: TodoType!  
       test123: Test  
   }
 
-  input TodoPatch{
+  input TodoPatch {
       name: String  
       etype1: TodoType  
       etype5: TodoType  
@@ -1872,22 +1880,24 @@ input TimeFilterBetween{
         deleteTodo(filter: TodoFiltersInput!): DeleteTodoPayload 
       }
 
-  input UserInput{
+  input UserInput  @VALIDATE{
       name: String!  
       cat: CatInput  
       companyID: Int  
       company: CompanyInput  
       smartPhones: [SmartPhoneInput!]  
-      email: String! @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required, email\""])  @VALIDATE(value:"required, email")
+      favoritColor: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"omitempty,hexcolor|rgb|rgba\""]) 
+      email: String! @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required,email\""]) 
   }
 
-  input UserPatch{
+  input UserPatch  @VALIDATE{
       name: String  
       cat: CatPatch  
       companyID: Int  
       company: CompanyPatch  
       smartPhones: [SmartPhonePatch!]  
-      email: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required, email\""])  @VALIDATE(value:"required, email")
+      favoritColor: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"omitempty,hexcolor|rgb|rgba\""]) 
+      email: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required,email\""]) 
   }
 
     input UpdateUserInput{
@@ -1920,6 +1930,7 @@ input TimeFilterBetween{
         id
         name
         companyID
+        favoritColor
         email
     }
     input UserOrder{
@@ -1937,6 +1948,7 @@ input TimeFilterBetween{
           companyID: IntFilterInput
               company:CompanyFiltersInput
               smartPhones:SmartPhoneFiltersInput
+          favoritColor: StringFilterInput
           email: StringFilterInput
       and: [UserFiltersInput]
       or: [UserFiltersInput]
@@ -1957,21 +1969,6 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
-
-func (ec *executionContext) dir_VALIDATE_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
-	var err error
-	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["value"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("value"))
-		arg0, err = ec.unmarshalNString2string(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["value"] = arg0
-	return args, nil
-}
 
 func (ec *executionContext) field_AddCatPayload_cat_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -6544,6 +6541,8 @@ func (ec *executionContext) fieldContext_Query_getUser(ctx context.Context, fiel
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "favoritColor":
+				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
 			}
@@ -7216,6 +7215,8 @@ func (ec *executionContext) fieldContext_Todo_users(ctx context.Context, field g
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "favoritColor":
+				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
 			}
@@ -7282,6 +7283,8 @@ func (ec *executionContext) fieldContext_Todo_owner(ctx context.Context, field g
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "favoritColor":
+				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
 			}
@@ -8688,6 +8691,47 @@ func (ec *executionContext) fieldContext_User_smartPhones(ctx context.Context, f
 	return fc, nil
 }
 
+func (ec *executionContext) _User_favoritColor(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_favoritColor(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FavoritColor, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_favoritColor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _User_email(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_email(ctx, field)
 	if err != nil {
@@ -8789,6 +8833,8 @@ func (ec *executionContext) fieldContext_UserQueryResult_data(ctx context.Contex
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
 				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "favoritColor":
+				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
 			}
@@ -12681,11 +12727,28 @@ func (ec *executionContext) unmarshalInputUpdateUserInput(ctx context.Context, o
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("set"))
-			data, err := ec.unmarshalNUserPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserPatch(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalNUserPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserPatch(ctx, v)
 			}
-			it.Set = data
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.UserPatch); ok {
+				it.Set = data
+			} else if tmp == nil {
+				it.Set = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/fasibio/autogql/testservice/graph/model.UserPatch`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		}
 	}
 
@@ -12699,7 +12762,7 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "company", "smartPhones", "email", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "company", "smartPhones", "favoritColor", "email", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12787,6 +12850,15 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 				return it, err
 			}
 			it.SmartPhones = data
+		case "favoritColor":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("favoritColor"))
+			data, err := ec.unmarshalOStringFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐStringFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.FavoritColor = data
 		case "email":
 			var err error
 
@@ -12836,7 +12908,7 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "email"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "favoritColor", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12847,61 +12919,160 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			data, err := ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalNString2string(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
 			}
-			it.Name = data
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(string); ok {
+				it.Name = data
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "cat":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cat"))
-			data, err := ec.unmarshalOCatInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatInput(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOCatInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatInput(ctx, v)
 			}
-			it.Cat = data
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.CatInput); ok {
+				it.Cat = data
+			} else if tmp == nil {
+				it.Cat = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/fasibio/autogql/testservice/graph/model.CatInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "companyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyID"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOInt2ᚖint(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
 			}
-			it.CompanyID = data
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*int); ok {
+				it.CompanyID = data
+			} else if tmp == nil {
+				it.CompanyID = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *int`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "company":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
-			data, err := ec.unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx, v)
 			}
-			it.Company = data
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.CompanyInput); ok {
+				it.Company = data
+			} else if tmp == nil {
+				it.Company = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/fasibio/autogql/testservice/graph/model.CompanyInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "smartPhones":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
-			data, err := ec.unmarshalOSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx, v)
 			}
-			it.SmartPhones = data
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.([]*model.SmartPhoneInput); ok {
+				it.SmartPhones = data
+			} else if tmp == nil {
+				it.SmartPhones = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be []*github.com/fasibio/autogql/testservice/graph/model.SmartPhoneInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "favoritColor":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("favoritColor"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOString2ᚖstring(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*string); ok {
+				it.FavoritColor = data
+			} else if tmp == nil {
+				it.FavoritColor = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "email":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalNString2string(ctx, v) }
 			directive1 := func(ctx context.Context) (interface{}, error) {
-				value, err := ec.unmarshalNString2string(ctx, "required, email")
-				if err != nil {
-					return nil, err
-				}
 				if ec.directives.VALIDATE == nil {
 					return nil, errors.New("directive VALIDATE is not implemented")
 				}
-				return ec.directives.VALIDATE(ctx, obj, directive0, value)
+				return ec.directives.VALIDATE(ctx, obj, directive0)
 			}
 
 			tmp, err := directive1(ctx)
@@ -12965,7 +13136,7 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "email"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "favoritColor", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12976,61 +13147,162 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
-			data, err := ec.unmarshalOString2ᚖstring(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOString2ᚖstring(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
 			}
-			it.Name = data
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*string); ok {
+				it.Name = data
+			} else if tmp == nil {
+				it.Name = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "cat":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cat"))
-			data, err := ec.unmarshalOCatPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatPatch(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOCatPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatPatch(ctx, v)
 			}
-			it.Cat = data
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.CatPatch); ok {
+				it.Cat = data
+			} else if tmp == nil {
+				it.Cat = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/fasibio/autogql/testservice/graph/model.CatPatch`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "companyID":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("companyID"))
-			data, err := ec.unmarshalOInt2ᚖint(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOInt2ᚖint(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
 			}
-			it.CompanyID = data
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*int); ok {
+				it.CompanyID = data
+			} else if tmp == nil {
+				it.CompanyID = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *int`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "company":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("company"))
-			data, err := ec.unmarshalOCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOCompanyPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyPatch(ctx, v)
 			}
-			it.Company = data
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*model.CompanyPatch); ok {
+				it.Company = data
+			} else if tmp == nil {
+				it.Company = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *github.com/fasibio/autogql/testservice/graph/model.CompanyPatch`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "smartPhones":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("smartPhones"))
-			data, err := ec.unmarshalOSmartPhonePatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatchᚄ(ctx, v)
-			if err != nil {
-				return it, err
+			directive0 := func(ctx context.Context) (interface{}, error) {
+				return ec.unmarshalOSmartPhonePatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhonePatchᚄ(ctx, v)
 			}
-			it.SmartPhones = data
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.([]*model.SmartPhonePatch); ok {
+				it.SmartPhones = data
+			} else if tmp == nil {
+				it.SmartPhones = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be []*github.com/fasibio/autogql/testservice/graph/model.SmartPhonePatch`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "favoritColor":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("favoritColor"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOString2ᚖstring(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*string); ok {
+				it.FavoritColor = data
+			} else if tmp == nil {
+				it.FavoritColor = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		case "email":
 			var err error
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("email"))
 			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOString2ᚖstring(ctx, v) }
 			directive1 := func(ctx context.Context) (interface{}, error) {
-				value, err := ec.unmarshalNString2string(ctx, "required, email")
-				if err != nil {
-					return nil, err
-				}
 				if ec.directives.VALIDATE == nil {
 					return nil, errors.New("directive VALIDATE is not implemented")
 				}
-				return ec.directives.VALIDATE(ctx, obj, directive0, value)
+				return ec.directives.VALIDATE(ctx, obj, directive0)
 			}
 
 			tmp, err := directive1(ctx)
@@ -15022,6 +15294,8 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._User_company(ctx, field, obj)
 		case "smartPhones":
 			out.Values[i] = ec._User_smartPhones(ctx, field, obj)
+		case "favoritColor":
+			out.Values[i] = ec._User_favoritColor(ctx, field, obj)
 		case "email":
 			out.Values[i] = ec._User_email(ctx, field, obj)
 			if out.Values[i] == graphql.Null {

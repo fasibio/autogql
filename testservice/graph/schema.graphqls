@@ -25,9 +25,9 @@ type Todo @SQL(order: 3){
   test123: Test
   }
 
-type User @SQL(order: 2){
+type User @SQL(order: 2) @SQL_INPUTTYPE_DIRECTIVE(value:" @VALIDATE"){
   id: ID! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
-  name: String!
+  name: String! 
   createdAt: Time
   updatedAt: Time
   deletedAt: Time
@@ -35,7 +35,8 @@ type User @SQL(order: 2){
   companyID: Int
   company: Company
   smartPhones: [SmartPhone]
-  email: String! @SQL_INPUTTYPE_TAGS(value:"validate:\"required, email\"") @SQL_INPUTTYPE_DIRECTIVE(value:" @VALIDATE(value:\"required, email\")")
+  favoritColor: String @SQL_INPUTTYPE_TAGS(value:"validate:\"omitempty,hexcolor|rgb|rgba\"") 
+  email: String! @SQL_INPUTTYPE_TAGS(value:"validate:\"required,email\"") 
 
 }
 
@@ -64,4 +65,4 @@ type SmartPhone @SQL(order: 5){
   userID: ID!
 }
 
-	directive @VALIDATE (value: String!) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+	directive @VALIDATE on INPUT_OBJECT

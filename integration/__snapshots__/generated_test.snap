@@ -7059,6 +7059,21 @@
                             DeprecationReason: (*string)(nil),
                         },
                         &integration.FullTypeFieldsField{
+                            Name:        "favoritColor",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
                             Name:        "email",
                             Description: (*string)(nil),
                             Args:        {
@@ -7216,6 +7231,20 @@
                                     TypeRef: integration.TypeRef{
                                         Kind:   "INPUT_OBJECT",
                                         Name:   &"SmartPhoneFiltersInput",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "favoritColor",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "INPUT_OBJECT",
+                                        Name:   &"StringFilterInput",
                                         OfType: (*integration.TypeRefOfType)(nil),
                                     },
                                 },
@@ -7387,6 +7416,20 @@
                         },
                         &integration.FullTypeInputFieldsInputValue{
                             InputValue: integration.InputValue{
+                                Name:        "favoritColor",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"String",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
                                 Name:        "email",
                                 Description: (*string)(nil),
                                 Type:        &integration.InputValueType{
@@ -7488,6 +7531,12 @@
                             DeprecationReason: (*string)(nil),
                         },
                         &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "favoritColor",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
                             Name:              "email",
                             Description:       (*string)(nil),
                             IsDeprecated:      false,
@@ -7579,6 +7628,20 @@
                                                 OfType: (*integration.TypeRefOfTypeOfTypeOfType)(nil),
                                             },
                                         },
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "favoritColor",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"String",
+                                        OfType: (*integration.TypeRefOfType)(nil),
                                     },
                                 },
                                 DefaultValue: (*string)(nil),
@@ -7832,7 +7895,7 @@
             &integration.IntrospectionQuerySchemaDirectivesDirective{
                 Name:        "SQL_INPUTTYPE_DIRECTIVE",
                 Description: (*string)(nil),
-                Locations:   {"FIELD_DEFINITION"},
+                Locations:   {"FIELD_DEFINITION", "OBJECT"},
                 Args:        {
                     &integration.IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue{
                         InputValue: integration.InputValue{
@@ -7933,26 +7996,8 @@
             &integration.IntrospectionQuerySchemaDirectivesDirective{
                 Name:        "VALIDATE",
                 Description: (*string)(nil),
-                Locations:   {"FIELD_DEFINITION", "INPUT_FIELD_DEFINITION"},
+                Locations:   {"INPUT_OBJECT"},
                 Args:        {
-                    &integration.IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue{
-                        InputValue: integration.InputValue{
-                            Name:        "value",
-                            Description: (*string)(nil),
-                            Type:        &integration.InputValueType{
-                                TypeRef: integration.TypeRef{
-                                    Kind:   "NON_NULL",
-                                    Name:   (*string)(nil),
-                                    OfType: &integration.TypeRefOfType{
-                                        Kind:   "SCALAR",
-                                        Name:   &"String",
-                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
-                                    },
-                                },
-                            },
-                            DefaultValue: (*string)(nil),
-                        },
-                    },
                 },
             },
             &integration.IntrospectionQuerySchemaDirectivesDirective{

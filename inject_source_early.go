@@ -40,7 +40,7 @@ func (ggs *AutoGqlPlugin) InjectSourceEarly() *ast.Source {
 
 	directive @%s (value: [String!]) on FIELD_DEFINITION
 
-	directive @%s (value: [String!]) on FIELD_DEFINITION
+	directive @%s (value: [String!]) on FIELD_DEFINITION | OBJECT
 
 	scalar Time
 

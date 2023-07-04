@@ -198,8 +198,8 @@ Description:
 	# to add a tag to input go struct
 	directive @SQL_INPUTTYPE_TAGS (value: [String!]) on FIELD_DEFINITION 
 
-	#to add a directive to input graphql type (directive have to be decelerated with INPUT_FIELD_DEFINITION )
-	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION 
+	#to add a directive to input graphql type (directive have to be decelerated with INPUT_FIELD_DEFINITION or INPUT_OBJECT )
+	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION | OBJECT
 
 
 	scalar Time #activated for createdAt, deletedAt, updatedAt etc
