@@ -43,7 +43,7 @@ func CombineSimpleQuery(elements []ConditionElement, relation Relation) (string,
 		} else {
 			if len(query.Children) == 0 {
 				sql += fmt.Sprintf(" %s %s %s ?", relation, query.Field, query.Operator)
-				values = append(values, query.Value)
+				values = append(values, query.Value...)
 			} else {
 				querySql, queryValues := CombineSimpleQuery(query.Children, query.ChildrenRelation)
 				sql += fmt.Sprintf(" %s (%s)", relation, querySql)
