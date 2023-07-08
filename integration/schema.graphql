@@ -4,9 +4,17 @@ directive @SQL_GORM(value: String) on FIELD_DEFINITION
 
 directive @SQL_INDEX on FIELD_DEFINITION
 
+directive @SQL_INPUTTYPE_DIRECTIVE(value: [String!]) on FIELD_DEFINITION
+
+directive @SQL_INPUTTYPE_TAGS(value: [String!]) on FIELD_DEFINITION
+
+directive @SQL_INPUTTYPE_TAGS_INTERNAL(value: [String!]) on INPUT_FIELD_DEFINITION
+
 directive @SQL_PRIMARY on FIELD_DEFINITION
 
 directive @SQL_SKIP_MUTATION on FIELD_DEFINITION
+
+directive @VALIDATE(value: String!) on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
 
 """
 The @specifiedBy built-in directive is used within the type system definition
@@ -378,6 +386,8 @@ input TodoFiltersInput {
   createdAt: TimeFilterInput
   updatedAt: TimeFilterInput
   deletedAt: TimeFilterInput
+  etype1: StringFilterInput
+  etype5: StringFilterInput
   and: [TodoFiltersInput]
   or: [TodoFiltersInput]
   not: TodoFiltersInput
@@ -479,7 +489,7 @@ type User {
   companyID: Int
   company: Company
   smartPhones: [SmartPhone]
-  smartPhones2: [SmartPhone!]!
+  email: String!
 }
 
 input UserFiltersInput {
@@ -492,7 +502,7 @@ input UserFiltersInput {
   companyID: IntFilterInput
   company: CompanyFiltersInput
   smartPhones: SmartPhoneFiltersInput
-  smartPhones2: SmartPhoneFiltersInput
+  email: StringFilterInput
   and: [UserFiltersInput]
   or: [UserFiltersInput]
   not: UserFiltersInput
@@ -504,7 +514,7 @@ input UserInput {
   companyID: Int
   company: CompanyInput
   smartPhones: [SmartPhoneInput!]
-  smartPhones2: [SmartPhoneInput!]!
+  email: String!
 }
 
 input UserOrder {
@@ -516,6 +526,7 @@ enum UserOrderable {
   id
   name
   companyID
+  email
 }
 
 input UserPatch {
@@ -524,7 +535,7 @@ input UserPatch {
   companyID: Int
   company: CompanyPatch
   smartPhones: [SmartPhonePatch!]
-  smartPhones2: [SmartPhonePatch!]
+  email: String
 }
 
 type UserQueryResult {
