@@ -8,6 +8,7 @@ import (
 	"github.com/99designs/gqlgen/codegen/config"
 	"github.com/99designs/gqlgen/codegen/templates"
 	"github.com/99designs/gqlgen/plugin/modelgen"
+	"github.com/fasibio/autogql/helper"
 	"github.com/fasibio/autogql/structure"
 	"github.com/vektah/gqlparser/v2/ast"
 )
@@ -20,6 +21,9 @@ func (ggs *AutoGqlPlugin) MutateConfig(cfg *config.Config) error {
 	cfg.Directives[string(structure.DirectiveSQLIndex)] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveSQLGorm)] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveNoMutation)] = config.DirectiveConfig{SkipRuntime: true}
+	cfg.Directives[string(structure.DirectiveSQLInputTypeTags)] = config.DirectiveConfig{SkipRuntime: true}
+	cfg.Directives[string(structure.DirectiveSQLInputTypeTags.InternalName())] = config.DirectiveConfig{SkipRuntime: true}
+	cfg.Directives[string(structure.DirectiveSQLInputTypeDirective)] = config.DirectiveConfig{SkipRuntime: true}
 	for k := range ggs.Handler.List {
 		makeResolverFor := []string{fmt.Sprintf("Add%sPayload", k), fmt.Sprintf("Update%sPayload", k), fmt.Sprintf("Delete%sPayload", k)}
 		for _, r := range makeResolverFor {
@@ -33,10 +37,21 @@ func (ggs *AutoGqlPlugin) MutateConfig(cfg *config.Config) error {
 
 	}
 	return ggs.remapInputType2Type(cfg)
-	// return nil
 }
 func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.FieldDefinition, f *modelgen.Field) (*modelgen.Field, error) {
 	return func(td *ast.Definition, fd *ast.FieldDefinition, f *modelgen.Field) (*modelgen.Field, error) {
+		if f, err := modelgen.DefaultFieldMutateHook(td, fd, f); err != nil {
+			return f, err
+		}
+		if inputTagDirective := fd.Directives.ForName(structure.DirectiveSQLInputTypeTags.InternalName()); inputTagDirective != nil {
+			v, err := inputTagDirective.Arguments.ForName("value").Value.Value(nil)
+			if err != nil {
+				return f, err
+			}
+			val := helper.GetArrayOfInterface[string](v)
+			f.Tag += fmt.Sprintf(" %s", strings.Join(val, "; "))
+
+		}
 		if o, ok := ggs.Handler.List[td.Name]; ok {
 			if o.HasSqlDirective() {
 				for _, e := range o.Entities {

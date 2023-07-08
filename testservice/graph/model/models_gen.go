@@ -398,38 +398,44 @@ type UpdateUserPayload struct {
 }
 
 type User struct {
-	ID          int           `json:"id" gorm:"primaryKey;autoIncrement;"`
-	Name        string        `json:"name"`
-	CreatedAt   *time.Time    `json:"createdAt,omitempty"`
-	UpdatedAt   *time.Time    `json:"updatedAt,omitempty"`
-	DeletedAt   *time.Time    `json:"deletedAt,omitempty"`
-	Cat         *Cat          `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
-	CompanyID   *int          `json:"companyID,omitempty"`
-	Company     *Company      `json:"company,omitempty"`
-	SmartPhones []*SmartPhone `json:"smartPhones,omitempty"`
+	ID           int           `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Name         string        `json:"name"`
+	CreatedAt    *time.Time    `json:"createdAt,omitempty"`
+	UpdatedAt    *time.Time    `json:"updatedAt,omitempty"`
+	DeletedAt    *time.Time    `json:"deletedAt,omitempty"`
+	Cat          *Cat          `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
+	CompanyID    *int          `json:"companyID,omitempty"`
+	Company      *Company      `json:"company,omitempty"`
+	SmartPhones  []*SmartPhone `json:"smartPhones,omitempty"`
+	FavoritColor *string       `json:"favoritColor,omitempty"`
+	Email        string        `json:"email"`
 }
 
 type UserFiltersInput struct {
-	ID          *IDFilterInput          `json:"id,omitempty"`
-	Name        *StringFilterInput      `json:"name,omitempty"`
-	CreatedAt   *TimeFilterInput        `json:"createdAt,omitempty"`
-	UpdatedAt   *TimeFilterInput        `json:"updatedAt,omitempty"`
-	DeletedAt   *TimeFilterInput        `json:"deletedAt,omitempty"`
-	Cat         *CatFiltersInput        `json:"cat,omitempty"`
-	CompanyID   *IntFilterInput         `json:"companyID,omitempty"`
-	Company     *CompanyFiltersInput    `json:"company,omitempty"`
-	SmartPhones *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
-	And         []*UserFiltersInput     `json:"and,omitempty"`
-	Or          []*UserFiltersInput     `json:"or,omitempty"`
-	Not         *UserFiltersInput       `json:"not,omitempty"`
+	ID           *IDFilterInput          `json:"id,omitempty"`
+	Name         *StringFilterInput      `json:"name,omitempty"`
+	CreatedAt    *TimeFilterInput        `json:"createdAt,omitempty"`
+	UpdatedAt    *TimeFilterInput        `json:"updatedAt,omitempty"`
+	DeletedAt    *TimeFilterInput        `json:"deletedAt,omitempty"`
+	Cat          *CatFiltersInput        `json:"cat,omitempty"`
+	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
+	Company      *CompanyFiltersInput    `json:"company,omitempty"`
+	SmartPhones  *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
+	FavoritColor *StringFilterInput      `json:"favoritColor,omitempty"`
+	Email        *StringFilterInput      `json:"email,omitempty"`
+	And          []*UserFiltersInput     `json:"and,omitempty"`
+	Or           []*UserFiltersInput     `json:"or,omitempty"`
+	Not          *UserFiltersInput       `json:"not,omitempty"`
 }
 
 type UserInput struct {
-	Name        string             `json:"name"`
-	Cat         *CatInput          `json:"cat,omitempty"`
-	CompanyID   *int               `json:"companyID,omitempty"`
-	Company     *CompanyInput      `json:"company,omitempty"`
-	SmartPhones []*SmartPhoneInput `json:"smartPhones,omitempty"`
+	Name         string             `json:"name"`
+	Cat          *CatInput          `json:"cat,omitempty"`
+	CompanyID    *int               `json:"companyID,omitempty"`
+	Company      *CompanyInput      `json:"company,omitempty"`
+	SmartPhones  []*SmartPhoneInput `json:"smartPhones,omitempty"`
+	FavoritColor *string            `json:"favoritColor,omitempty" validate:"omitempty,hexcolor|rgb|rgba"`
+	Email        string             `json:"email" validate:"required,email"`
 }
 
 type UserOrder struct {
@@ -438,11 +444,13 @@ type UserOrder struct {
 }
 
 type UserPatch struct {
-	Name        *string            `json:"name,omitempty"`
-	Cat         *CatPatch          `json:"cat,omitempty"`
-	CompanyID   *int               `json:"companyID,omitempty"`
-	Company     *CompanyPatch      `json:"company,omitempty"`
-	SmartPhones []*SmartPhonePatch `json:"smartPhones,omitempty"`
+	Name         *string            `json:"name,omitempty"`
+	Cat          *CatPatch          `json:"cat,omitempty"`
+	CompanyID    *int               `json:"companyID,omitempty"`
+	Company      *CompanyPatch      `json:"company,omitempty"`
+	SmartPhones  []*SmartPhonePatch `json:"smartPhones,omitempty"`
+	FavoritColor *string            `json:"favoritColor,omitempty" validate:"omitempty,hexcolor|rgb|rgba"`
+	Email        *string            `json:"email,omitempty" validate:"required,email"`
 }
 
 type UserQueryResult struct {
@@ -678,20 +686,24 @@ func (e TodoType) MarshalGQL(w io.Writer) {
 type UserOrderable string
 
 const (
-	UserOrderableID        UserOrderable = "id"
-	UserOrderableName      UserOrderable = "name"
-	UserOrderableCompanyID UserOrderable = "companyID"
+	UserOrderableID           UserOrderable = "id"
+	UserOrderableName         UserOrderable = "name"
+	UserOrderableCompanyID    UserOrderable = "companyID"
+	UserOrderableFavoritColor UserOrderable = "favoritColor"
+	UserOrderableEmail        UserOrderable = "email"
 )
 
 var AllUserOrderable = []UserOrderable{
 	UserOrderableID,
 	UserOrderableName,
 	UserOrderableCompanyID,
+	UserOrderableFavoritColor,
+	UserOrderableEmail,
 }
 
 func (e UserOrderable) IsValid() bool {
 	switch e {
-	case UserOrderableID, UserOrderableName, UserOrderableCompanyID:
+	case UserOrderableID, UserOrderableName, UserOrderableCompanyID, UserOrderableFavoritColor, UserOrderableEmail:
 		return true
 	}
 	return false

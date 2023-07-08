@@ -309,6 +309,12 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 		}
 		res = append(res, d.SmartPhones.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]sSmartPhones%[1]s", runtimehelper.GetQuoteChar(db)), true, blackList)...)
 	}
+	if d.FavoritColor != nil {
+		res = append(res, d.FavoritColor.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "favorit_color"), true, blackList)...)
+	}
+	if d.Email != nil {
+		res = append(res, d.Email.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "email"), true, blackList)...)
+	}
 
 	return res
 }

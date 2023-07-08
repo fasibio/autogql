@@ -128,6 +128,74 @@ func (e *Entity) IsEnum() bool {
 	return e.RawObject.Kind == ast.Enum
 }
 
+func (e *Entity) HasInputTypeTagsDirective() bool {
+	return e.InputTypeTagsDirective() != nil
+}
+
+func (e *Entity) InputTypeTagsDirective() []string {
+	d := e.Raw.Directives.ForName(string(DirectiveSQLInputTypeTags))
+	if d == nil {
+		return nil
+	}
+	a := d.Arguments.ForName("value")
+	v, _ := a.Value.Value(nil)
+	switch v.(type) {
+	case []interface{}:
+		{
+			res := helper.GetArrayOfInterface[string](v)
+			return res
+		}
+	case interface{}:
+		return []string{v.(string)}
+	}
+	return nil
+}
+
+func (e *Entity) HasInputTypeDirective() bool {
+	return e.InputTypeDirective() != nil
+}
+
+// returns the Directive string to extends to template
+func (e *Entity) InputTypeDirectiveGql() string {
+	tags := e.InputTypeTagsDirective()
+	inputTags := ""
+	if tags != nil {
+		t := make([]string, len(tags))
+		for i, v := range tags {
+			t[i] = strings.ReplaceAll(v, "\"", "\\\"")
+		}
+
+		inputTags = fmt.Sprintf("@%s(value: [\"%s\"])", DirectiveSQLInputTypeTags.InternalName(), strings.Join(t, ","))
+	}
+
+	inputDirectives := e.InputTypeDirective()
+	inputDirectivesStr := ""
+	if inputDirectives != nil {
+		inputDirectivesStr = strings.Join(inputDirectives, " ")
+	}
+
+	return fmt.Sprintf("%s %s", inputTags, inputDirectivesStr)
+}
+
+func (e *Entity) InputTypeDirective() []string {
+	d := e.Raw.Directives.ForName(string(DirectiveSQLInputTypeDirective))
+	if d == nil {
+		return nil
+	}
+	a := d.Arguments.ForName("value")
+	v, _ := a.Value.Value(nil)
+	switch v.(type) {
+	case []interface{}:
+		{
+			res := helper.GetArrayOfInterface[string](v)
+			return res
+		}
+	case interface{}:
+		return []string{v.(string)}
+	}
+	return nil
+}
+
 func (e *Entity) IsPrimitive() bool {
 	return e.BuiltIn && e.RawObject.Kind == ast.Scalar
 }

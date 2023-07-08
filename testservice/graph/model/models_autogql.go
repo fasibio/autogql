@@ -2,8 +2,35 @@
 
 package model
 
+import (
+	"fmt"
+
+	"github.com/mitchellh/mapstructure"
+)
+
+func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error) {
+	switch name {
+	case "CatInput":
+		return CatInputFromMap(obj)
+	case "CompanyInput":
+		return CompanyInputFromMap(obj)
+	case "SmartPhoneInput":
+		return SmartPhoneInputFromMap(obj)
+	case "TodoInput":
+		return TodoInputFromMap(obj)
+	case "UserInput":
+		return UserInputFromMap(obj)
+	}
+	return nil, fmt.Errorf("%s not found", name)
+}
 func (d *TodoType) MergeToType() TodoType {
 	return *d
+}
+
+func CatInputFromMap(data map[string]interface{}) (CatInput, error) {
+	model := CatInput{}
+	err := mapstructure.Decode(data, &model)
+	return model, err
 }
 
 func (d *CatPatch) MergeToType() map[string]interface{} {
@@ -41,6 +68,12 @@ func (d *CatInput) MergeToType() Cat {
 		UserID:   tmpUserID,
 		Alive:    tmpAlive,
 	}
+}
+
+func CompanyInputFromMap(data map[string]interface{}) (CompanyInput, error) {
+	model := CompanyInput{}
+	err := mapstructure.Decode(data, &model)
+	return model, err
 }
 
 func (d *CompanyPatch) MergeToType() map[string]interface{} {
@@ -86,6 +119,12 @@ func (d *CompanyInput) MergeToType() Company {
 	}
 }
 
+func SmartPhoneInputFromMap(data map[string]interface{}) (SmartPhoneInput, error) {
+	model := SmartPhoneInput{}
+	err := mapstructure.Decode(data, &model)
+	return model, err
+}
+
 func (d *SmartPhonePatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 	if d.Brand != nil {
@@ -112,6 +151,12 @@ func (d *SmartPhoneInput) MergeToType() SmartPhone {
 		Phonenumber: tmpPhonenumber,
 		UserID:      tmpUserID,
 	}
+}
+
+func TodoInputFromMap(data map[string]interface{}) (TodoInput, error) {
+	model := TodoInput{}
+	err := mapstructure.Decode(data, &model)
+	return model, err
 }
 
 func (d *TodoPatch) MergeToType() map[string]interface{} {
@@ -155,6 +200,12 @@ func (d *TodoInput) MergeToType() Todo {
 	}
 }
 
+func UserInputFromMap(data map[string]interface{}) (UserInput, error) {
+	model := UserInput{}
+	err := mapstructure.Decode(data, &model)
+	return model, err
+}
+
 func (d *UserPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 	if d.Name != nil {
@@ -176,6 +227,12 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 			tmpSmartPhones = append(tmpSmartPhones, tmp)
 		}
 		res["smart_phones"] = tmpSmartPhones
+	}
+	if d.FavoritColor != nil {
+		res["favorit_color"] = d.FavoritColor
+	}
+	if d.Email != nil {
+		res["email"] = *d.Email
 	}
 	return res
 }
@@ -207,11 +264,20 @@ func (d *UserInput) MergeToType() User {
 			tmpSmartPhones = append(tmpSmartPhones, &tmp)
 		}
 	}
+
+	var tmpFavoritColor *string
+	if d.FavoritColor != nil {
+		tmpFavoritColor = d.FavoritColor
+	}
+
+	tmpEmail := d.Email
 	return User{
-		Name:        tmpName,
-		Cat:         &tmpCat,
-		CompanyID:   tmpCompanyID,
-		Company:     &tmpCompany,
-		SmartPhones: tmpSmartPhones,
+		Name:         tmpName,
+		Cat:          &tmpCat,
+		CompanyID:    tmpCompanyID,
+		Company:      &tmpCompany,
+		SmartPhones:  tmpSmartPhones,
+		FavoritColor: tmpFavoritColor,
+		Email:        tmpEmail,
 	}
 }

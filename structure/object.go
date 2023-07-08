@@ -35,6 +35,36 @@ func (o Object) GetOrder() int64 {
 	return o.SQLDirective().Order
 }
 
+func (o Object) InputTypeDirective() []string {
+	d := o.Raw.Directives.ForName(string(DirectiveSQLInputTypeDirective))
+	if d == nil {
+		return nil
+	}
+	a := d.Arguments.ForName("value")
+	v, _ := a.Value.Value(nil)
+	switch v.(type) {
+	case []interface{}:
+		{
+			res := helper.GetArrayOfInterface[string](v)
+			return res
+		}
+	case interface{}:
+		return []string{v.(string)}
+	}
+	return nil
+}
+
+// returns the Directive string to extends to template
+func (o Object) InputTypeDirectiveGql() string {
+	inputDirectives := o.InputTypeDirective()
+	inputDirectivesStr := ""
+	if inputDirectives != nil {
+		inputDirectivesStr = strings.Join(inputDirectives, " ")
+	}
+
+	return inputDirectivesStr
+}
+
 func (o Object) isEntityTimeManipulation(e Entity) bool {
 	t := strings.ToLower(e.Name())
 	return t == "createdat" || t == "updatedat" || t == "deletedat"

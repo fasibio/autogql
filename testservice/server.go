@@ -10,12 +10,16 @@ import (
 	"github.com/fasibio/autogql/testservice/graph"
 	"github.com/fasibio/autogql/testservice/graph/db"
 	"github.com/fasibio/autogql/testservice/graph/model"
+	"github.com/go-playground/validator/v10"
 	"gorm.io/gorm"
 )
 
 const defaultPort = "8432"
 
+var validate *validator.Validate
+
 func StartServer(dbCon *gorm.DB) {
+	validate = validator.New()
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = defaultPort
@@ -23,8 +27,13 @@ func StartServer(dbCon *gorm.DB) {
 
 	dborm := db.NewAutoGqlDB(dbCon)
 	dborm.Init()
-	db.AddAddHook[model.Todo, model.TodoInput, model.AddTodoPayload](&dborm, "AddTodo", AddTodoHook{})
-	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{Sql: &dborm}}))
+	db.AddAddHook[model.Todo, model.TodoInput, model.AddTodoPayload](&dborm, db.AddTodo, AddTodoHook{})
+	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{
+		Resolvers: &graph.Resolver{Sql: &dborm},
+		Directives: graph.DirectiveRoot{
+			VALIDATE: ValidateDirective,
+		},
+	}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
 	http.Handle("/query", srv)
