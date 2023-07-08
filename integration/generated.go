@@ -2420,11 +2420,10 @@ func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResult) GetData() []*comple
 
 // complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo struct {
-	Id        string                                                                 `json:"id"`
-	Name      string                                                                 `json:"name"`
-	CreatedAt *time.Time                                                             `json:"createdAt"`
-	Test123   *string                                                                `json:"test123"`
-	Users     []*complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Test123 *string                                                                `json:"test123"`
+	Users   []*complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
 }
 
 // GetId returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -2432,11 +2431,6 @@ func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetId() str
 
 // GetName returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
 func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
-
-// GetCreatedAt returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.CreatedAt, and is useful for accessing the field via an interface.
-func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetCreatedAt() *time.Time {
-	return v.CreatedAt
-}
 
 // GetTest123 returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
 func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetTest123() *string {
@@ -2496,11 +2490,10 @@ func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResult) GetData() []*comple
 
 // complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo struct {
-	Id        string                                                                 `json:"id"`
-	Name      string                                                                 `json:"name"`
-	CreatedAt *time.Time                                                             `json:"createdAt"`
-	Test123   *string                                                                `json:"test123"`
-	Users     []*complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Test123 *string                                                                `json:"test123"`
+	Users   []*complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
 }
 
 // GetId returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -2508,11 +2501,6 @@ func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetId() str
 
 // GetName returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
 func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
-
-// GetCreatedAt returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.CreatedAt, and is useful for accessing the field via an interface.
-func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetCreatedAt() *time.Time {
-	return v.CreatedAt
-}
 
 // GetTest123 returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
 func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetTest123() *string {
@@ -2572,11 +2560,10 @@ func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResult) GetData() []*comple
 
 // complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo struct {
-	Id        string                                                                 `json:"id"`
-	Name      string                                                                 `json:"name"`
-	CreatedAt *time.Time                                                             `json:"createdAt"`
-	Test123   *string                                                                `json:"test123"`
-	Users     []*complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Test123 *string                                                                `json:"test123"`
+	Users   []*complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
 }
 
 // GetId returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -2584,11 +2571,6 @@ func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetId() str
 
 // GetName returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
 func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
-
-// GetCreatedAt returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.CreatedAt, and is useful for accessing the field via an interface.
-func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetCreatedAt() *time.Time {
-	return v.CreatedAt
-}
 
 // GetTest123 returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
 func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetTest123() *string {
@@ -3574,7 +3556,6 @@ query complexWithInAndOrAndJoin1 {
 		data {
 			id
 			name
-			createdAt
 			test123
 			users {
 				name
@@ -3613,7 +3594,6 @@ query complexWithInAndOrAndJoin2 {
 		data {
 			id
 			name
-			createdAt
 			test123
 			users {
 				name
@@ -3652,7 +3632,6 @@ query complexWithInAndOrAndJoin3 {
 		data {
 			id
 			name
-			createdAt
 			test123
 			users {
 				name
@@ -3688,7 +3667,7 @@ func deleteUser(
 	req := &graphql.Request{
 		OpName: "deleteUser",
 		Query: `
-# delete
+# delete 
 mutation deleteUser ($userId: ID!) {
 	deleteUser(filter: {id:{eq:$userId}}) {
 		count
@@ -3844,7 +3823,7 @@ func updateUserChangeCompany(
 	req := &graphql.Request{
 		OpName: "updateUserChangeCompany",
 		Query: `
-# Edit
+# Edit 
 mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
 	updateUser(input: {filter:{id:{eq:$userId}},set:{companyID:$companyID}}) {
 		count

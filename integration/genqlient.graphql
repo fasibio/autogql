@@ -369,7 +369,6 @@ query complexWithInAndOrAndJoin1 {
     data {
       id
       name
-      createdAt
       test123
       users {
         name
@@ -394,7 +393,6 @@ query complexWithInAndOrAndJoin2 {
     data {
       id
       name
-      createdAt
       test123
       users {
         name
@@ -419,7 +417,6 @@ query complexWithInAndOrAndJoin3 {
     data {
       id
       name
-      createdAt
       test123
       users {
         name

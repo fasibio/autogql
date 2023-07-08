@@ -8824,11 +8824,10 @@
     QueryTodo: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResult{
         Data: {
             &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo{
-                Id:        "1",
-                Name:      "Task 1",
-                CreatedAt: time.Date(2023, time.July, 8, 14, 20, 46, 181776249, time.Local),
-                Test123:   &"Scalar A",
-                Users:     {
+                Id:      "1",
+                Name:    "Task 1",
+                Test123: &"Scalar A",
+                Users:   {
                     &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
                         Name:    "Jan",
                         Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
@@ -8840,11 +8839,10 @@
                 },
             },
             &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo{
-                Id:        "3",
-                Name:      "Task 3",
-                CreatedAt: time.Date(2023, time.July, 8, 14, 20, 46, 181776249, time.Local),
-                Test123:   &"Scalar A",
-                Users:     {
+                Id:      "3",
+                Name:    "Task 3",
+                Test123: &"Scalar A",
+                Users:   {
                     &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
                         Name:    "Jan",
                         Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
@@ -8856,11 +8854,10 @@
                 },
             },
             &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo{
-                Id:        "5",
-                Name:      "Task 5",
-                CreatedAt: time.Date(2023, time.July, 8, 14, 20, 46, 181776249, time.Local),
-                Test123:   &"",
-                Users:     {
+                Id:      "5",
+                Name:    "Task 5",
+                Test123: &"",
+                Users:   {
                     &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
                         Name:    "Jan",
                         Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
@@ -8881,6 +8878,24 @@
     QueryTodo: &integration.complexWithInAndOrAndJoin3QueryTodoTodoQueryResult{
         Data: {
         },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/addUser_==>_will_failed - 1]
+gqlerror.List{
+    &gqlerror.Error{
+        err:     nil,
+        Message: "validationerror:  Key: 'UserInput.Email' Error:Field validation for 'Email' failed on the 'email' tag",
+        Path:    {
+            "addUser",
+            "input",
+            ast.PathIndex(0),
+            "name",
+        },
+        Locations:  nil,
+        Extensions: {},
+        Rule:       "",
     },
 }
 ---
