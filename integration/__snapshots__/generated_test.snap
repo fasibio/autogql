@@ -8580,3 +8580,78 @@
     },
 }
 ---
+
+[TestQueryTestSuite/TestComplexCombination/complexWithInAndOrAndJoin1 - 1]
+&integration.complexWithInAndOrAndJoin1Response{
+    QueryTodo: &integration.complexWithInAndOrAndJoin1QueryTodoTodoQueryResult{
+        Data: {
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/complexWithInAndOrAndJoin2 - 1]
+&integration.complexWithInAndOrAndJoin2Response{
+    QueryTodo: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResult{
+        Data: {
+            &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo{
+                Id:        "1",
+                Name:      "Task 1",
+                CreatedAt: time.Date(2023, time.July, 8, 14, 16, 6, 425892570, time.Local),
+                Test123:   &"Scalar A",
+                Users:     {
+                    &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
+                        Name:    "Jan",
+                        Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
+                        Name:    "Peter",
+                        Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo{
+                Id:        "3",
+                Name:      "Task 3",
+                CreatedAt: time.Date(2023, time.July, 8, 14, 16, 6, 425892570, time.Local),
+                Test123:   &"Scalar A",
+                Users:     {
+                    &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
+                        Name:    "Jan",
+                        Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
+                        Name:    "Peter",
+                        Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+            &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo{
+                Id:        "5",
+                Name:      "Task 5",
+                CreatedAt: time.Date(2023, time.July, 8, 14, 16, 6, 425892570, time.Local),
+                Test123:   &"",
+                Users:     {
+                    &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
+                        Name:    "Jan",
+                        Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                    &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser{
+                        Name:    "Peter",
+                        Company: &integration.complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany{Name:"TestCompany1"},
+                    },
+                },
+            },
+        },
+    },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/complexWithInAndOrAndJoin3 - 1]
+&integration.complexWithInAndOrAndJoin3Response{
+    QueryTodo: &integration.complexWithInAndOrAndJoin3QueryTodoTodoQueryResult{
+        Data: {
+        },
+    },
+}
+---

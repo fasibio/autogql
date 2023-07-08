@@ -355,3 +355,78 @@ mutation deleteUserByUserName($userName:String!){
   }
 }
 
+
+query complexWithInAndOrAndJoin1 {
+  queryTodo(
+    filter: {
+      users: {name: {in: ["Peter", "Klaus"]}}
+      or: [
+        {name: {eq: "Bla"}}, 
+        {name: {eq: "Foo"}}, 
+      ]
+    }
+  ) {
+    data {
+      id
+      name
+      createdAt
+      test123
+      users {
+        name
+        company {
+          name
+        }
+      }
+    }
+  }
+}
+
+query complexWithInAndOrAndJoin2 {
+  queryTodo(
+    filter: {
+      or: [
+        {name: {eq: "Bla"}}, 
+        {name: {eq: "Foo"}}, 
+        {users: {name: {in: ["Peter", "Klaus"]}}}
+      ]
+    }
+  ) {
+    data {
+      id
+      name
+      createdAt
+      test123
+      users {
+        name
+        company {
+          name
+        }
+      }
+    }
+  }
+}
+
+query complexWithInAndOrAndJoin3 {
+  queryTodo(
+    filter: {
+      or: [
+        {name: {eq: "Bla"}}, 
+        {name: {eq: "Foo"}}, 
+      ]
+      users: {name: {in: ["Peter", "Klaus"]}}
+    }
+  ) {
+    data {
+      id
+      name
+      createdAt
+      test123
+      users {
+        name
+        company {
+          name
+        }
+      }
+    }
+  }
+}
