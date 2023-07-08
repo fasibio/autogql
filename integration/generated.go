@@ -2408,6 +2408,216 @@ func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQ
 	return v.UserID
 }
 
+// complexWithInAndOrAndJoin1QueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type complexWithInAndOrAndJoin1QueryTodoTodoQueryResult struct {
+	Data []*complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetData returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResult) GetData() []*complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo struct {
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Test123 *string                                                                `json:"test123"`
+	Users   []*complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+}
+
+// GetId returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetId() string { return v.Id }
+
+// GetName returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
+
+// GetTest123 returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetTest123() *string {
+	return v.Test123
+}
+
+// GetUsers returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo) GetUsers() []*complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser {
+	return v.Users
+}
+
+// complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
+type complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser struct {
+	Name    string                                                                      `json:"name"`
+	Company *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUserCompany `json:"company"`
+}
+
+// GetName returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser) GetName() string {
+	return v.Name
+}
+
+// GetCompany returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser.Company, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUser) GetCompany() *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUserCompany {
+	return v.Company
+}
+
+// complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUserCompany includes the requested fields of the GraphQL type Company.
+type complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUserCompany) GetName() string {
+	return v.Name
+}
+
+// complexWithInAndOrAndJoin1Response is returned by complexWithInAndOrAndJoin1 on success.
+type complexWithInAndOrAndJoin1Response struct {
+	QueryTodo *complexWithInAndOrAndJoin1QueryTodoTodoQueryResult `json:"queryTodo"`
+}
+
+// GetQueryTodo returns complexWithInAndOrAndJoin1Response.QueryTodo, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin1Response) GetQueryTodo() *complexWithInAndOrAndJoin1QueryTodoTodoQueryResult {
+	return v.QueryTodo
+}
+
+// complexWithInAndOrAndJoin2QueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type complexWithInAndOrAndJoin2QueryTodoTodoQueryResult struct {
+	Data []*complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetData returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResult) GetData() []*complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo struct {
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Test123 *string                                                                `json:"test123"`
+	Users   []*complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+}
+
+// GetId returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetId() string { return v.Id }
+
+// GetName returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
+
+// GetTest123 returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetTest123() *string {
+	return v.Test123
+}
+
+// GetUsers returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo) GetUsers() []*complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser {
+	return v.Users
+}
+
+// complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
+type complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser struct {
+	Name    string                                                                      `json:"name"`
+	Company *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany `json:"company"`
+}
+
+// GetName returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser) GetName() string {
+	return v.Name
+}
+
+// GetCompany returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser.Company, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUser) GetCompany() *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany {
+	return v.Company
+}
+
+// complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany includes the requested fields of the GraphQL type Company.
+type complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserCompany) GetName() string {
+	return v.Name
+}
+
+// complexWithInAndOrAndJoin2Response is returned by complexWithInAndOrAndJoin2 on success.
+type complexWithInAndOrAndJoin2Response struct {
+	QueryTodo *complexWithInAndOrAndJoin2QueryTodoTodoQueryResult `json:"queryTodo"`
+}
+
+// GetQueryTodo returns complexWithInAndOrAndJoin2Response.QueryTodo, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin2Response) GetQueryTodo() *complexWithInAndOrAndJoin2QueryTodoTodoQueryResult {
+	return v.QueryTodo
+}
+
+// complexWithInAndOrAndJoin3QueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type complexWithInAndOrAndJoin3QueryTodoTodoQueryResult struct {
+	Data []*complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetData returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResult) GetData() []*complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo struct {
+	Id      string                                                                 `json:"id"`
+	Name    string                                                                 `json:"name"`
+	Test123 *string                                                                `json:"test123"`
+	Users   []*complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+}
+
+// GetId returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetId() string { return v.Id }
+
+// GetName returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetName() string { return v.Name }
+
+// GetTest123 returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.Test123, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetTest123() *string {
+	return v.Test123
+}
+
+// GetUsers returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo) GetUsers() []*complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser {
+	return v.Users
+}
+
+// complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
+type complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser struct {
+	Name    string                                                                      `json:"name"`
+	Company *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUserCompany `json:"company"`
+}
+
+// GetName returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser) GetName() string {
+	return v.Name
+}
+
+// GetCompany returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser.Company, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUser) GetCompany() *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUserCompany {
+	return v.Company
+}
+
+// complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUserCompany includes the requested fields of the GraphQL type Company.
+type complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUserCompany struct {
+	Name string `json:"name"`
+}
+
+// GetName returns complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUserCompany.Name, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUserCompany) GetName() string {
+	return v.Name
+}
+
+// complexWithInAndOrAndJoin3Response is returned by complexWithInAndOrAndJoin3 on success.
+type complexWithInAndOrAndJoin3Response struct {
+	QueryTodo *complexWithInAndOrAndJoin3QueryTodoTodoQueryResult `json:"queryTodo"`
+}
+
+// GetQueryTodo returns complexWithInAndOrAndJoin3Response.QueryTodo, and is useful for accessing the field via an interface.
+func (v *complexWithInAndOrAndJoin3Response) GetQueryTodo() *complexWithInAndOrAndJoin3QueryTodoTodoQueryResult {
+	return v.QueryTodo
+}
+
 // deleteUserByCatNameDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
 type deleteUserByCatNameDeleteUserDeleteUserPayload struct {
 	Count int                                                                `json:"count"`
@@ -2899,6 +3109,7 @@ func addCompanies(
 	req := &graphql.Request{
 		OpName: "addCompanies",
 		Query: `
+# ADD
 mutation addCompanies ($input: [CompanyInput!]!) {
 	addCompany(input: $input) {
 		company {
@@ -3189,6 +3400,7 @@ func allUserFromCompany(
 	req := &graphql.Request{
 		OpName: "allUserFromCompany",
 		Query: `
+# Query
 query allUserFromCompany ($company: String!, $offset: Int) {
 	queryUser(filter: {company:{name:{eq:$company}}}, first: 2, offset: $offset) {
 		totalCount
@@ -3264,6 +3476,7 @@ func allUserWithACatOnlyUserId(
 	req := &graphql.Request{
 		OpName: "allUserWithACatOnlyUserId",
 		Query: `
+# Test for https://github.com/fasibio/autogql/issues/24
 query allUserWithACatOnlyUserId {
 	queryUser(filter: {cat:{userID:{notNull:true}}}) {
 		data {
@@ -3331,6 +3544,120 @@ mutation changeAllCatsToSameOwnerButNotOneByName ($userID: Int!, $notMoveCatName
 	return &data, err
 }
 
+func complexWithInAndOrAndJoin1(
+	ctx context.Context,
+	client graphql.Client,
+) (*complexWithInAndOrAndJoin1Response, error) {
+	req := &graphql.Request{
+		OpName: "complexWithInAndOrAndJoin1",
+		Query: `
+query complexWithInAndOrAndJoin1 {
+	queryTodo(filter: {users:{name:{in:["Peter","Klaus"]}},or:[{name:{eq:"Bla"}},{name:{eq:"Foo"}}]}) {
+		data {
+			id
+			name
+			test123
+			users {
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+	}
+	var err error
+
+	var data complexWithInAndOrAndJoin1Response
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func complexWithInAndOrAndJoin2(
+	ctx context.Context,
+	client graphql.Client,
+) (*complexWithInAndOrAndJoin2Response, error) {
+	req := &graphql.Request{
+		OpName: "complexWithInAndOrAndJoin2",
+		Query: `
+query complexWithInAndOrAndJoin2 {
+	queryTodo(filter: {or:[{name:{eq:"Bla"}},{name:{eq:"Foo"}},{users:{name:{in:["Peter","Klaus"]}}}]}) {
+		data {
+			id
+			name
+			test123
+			users {
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+	}
+	var err error
+
+	var data complexWithInAndOrAndJoin2Response
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func complexWithInAndOrAndJoin3(
+	ctx context.Context,
+	client graphql.Client,
+) (*complexWithInAndOrAndJoin3Response, error) {
+	req := &graphql.Request{
+		OpName: "complexWithInAndOrAndJoin3",
+		Query: `
+query complexWithInAndOrAndJoin3 {
+	queryTodo(filter: {or:[{name:{eq:"Bla"}},{name:{eq:"Foo"}}],users:{name:{in:["Peter","Klaus"]}}}) {
+		data {
+			id
+			name
+			test123
+			users {
+				name
+				company {
+					name
+				}
+			}
+		}
+	}
+}
+`,
+	}
+	var err error
+
+	var data complexWithInAndOrAndJoin3Response
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // delete
 func deleteUser(
 	ctx context.Context,
@@ -3340,6 +3667,7 @@ func deleteUser(
 	req := &graphql.Request{
 		OpName: "deleteUser",
 		Query: `
+# delete 
 mutation deleteUser ($userId: ID!) {
 	deleteUser(filter: {id:{eq:$userId}}) {
 		count
@@ -3495,6 +3823,7 @@ func updateUserChangeCompany(
 	req := &graphql.Request{
 		OpName: "updateUserChangeCompany",
 		Query: `
+# Edit 
 mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
 	updateUser(input: {filter:{id:{eq:$userId}},set:{companyID:$companyID}}) {
 		count

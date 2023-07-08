@@ -293,6 +293,15 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 	suite.T().Run("changeAllCatsToSameOwner => user id 6 and cat not called Schnuffel", queryTester(func() (any, error) {
 		return changeAllCatsToSameOwnerButNotOneByName(context.Background(), suite.Client, 6, "Schnuffel")
 	}))
+	suite.T().Run("complexWithInAndOrAndJoin1", queryTester(func() (any, error) {
+		return complexWithInAndOrAndJoin1(context.Background(), suite.Client)
+	}))
+	suite.T().Run("complexWithInAndOrAndJoin2", queryTester(func() (any, error) {
+		return complexWithInAndOrAndJoin2(context.Background(), suite.Client)
+	}))
+	suite.T().Run("complexWithInAndOrAndJoin3", queryTester(func() (any, error) {
+		return complexWithInAndOrAndJoin3(context.Background(), suite.Client)
+	}))
 	suite.T().Run("deleteUser => user with id 1", queryTester(func() (any, error) {
 		return deleteUser(context.Background(), suite.Client, "1")
 	}))
@@ -305,6 +314,7 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 	suite.T().Run("deleteUserByUserName => user 4 with name Schmadel", queryTester(func() (any, error) {
 		return deleteUserByUserName(context.Background(), suite.Client, "Schmadel")
 	}))
+
 }
 
 func TestQueryTestSuite(t *testing.T) {

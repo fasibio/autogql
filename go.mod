@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/99designs/gqlgen v0.17.34
-	github.com/Khan/genqlient v0.6.0
+	github.com/Khan/genqlient v0.5.0
 	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/gkampitakis/go-snaps v0.4.7
 	github.com/go-playground/validator/v10 v10.14.1
