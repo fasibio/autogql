@@ -8809,7 +8809,7 @@
 }
 ---
 
-<<<<<<< HEAD
+
 [TestQueryTestSuite/TestComplexCombination/complexWithInAndOrAndJoin1 - 1]
 &integration.complexWithInAndOrAndJoin1Response{
     QueryTodo: &integration.complexWithInAndOrAndJoin1QueryTodoTodoQueryResult{
