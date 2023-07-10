@@ -204,11 +204,15 @@ func (r *mutationResolver) UpdateCat(ctx context.Context, input model.UpdateCatI
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
 	affectedRes := make([]*model.Cat, 0)
-	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
-		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
-		affectedDb = affectedDb.Model(&obj)
-		affectedDb.Find(&affectedRes)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
 	}
+
 	res := &model.UpdateCatPayload{
 		Count:    int(db.RowsAffected),
 		Affected: affectedRes,
@@ -461,11 +465,15 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Update
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
 	affectedRes := make([]*model.Company, 0)
-	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
-		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
-		affectedDb = affectedDb.Model(&obj)
-		affectedDb.Find(&affectedRes)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
 	}
+
 	res := &model.UpdateCompanyPayload{
 		Count:    int(db.RowsAffected),
 		Affected: affectedRes,
@@ -718,11 +726,15 @@ func (r *mutationResolver) UpdateSmartPhone(ctx context.Context, input model.Upd
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
 	affectedRes := make([]*model.SmartPhone, 0)
-	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
-		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
-		affectedDb = affectedDb.Model(&obj)
-		affectedDb.Find(&affectedRes)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
 	}
+
 	res := &model.UpdateSmartPhonePayload{
 		Count:    int(db.RowsAffected),
 		Affected: affectedRes,
@@ -943,8 +955,13 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 		affectedResWhereIn[i] = v["TodoID"]
 	}
 	affectedDb := r.Sql.Db
-	affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0])
-	affectedDb.Where("id IN ?", affectedResWhereIn).Find(&affectedRes)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, preloadMap)
+			affectedDb.Where("id IN ?", affectedResWhereIn).Find(&affectedRes)
+		}
+	}
 	result := &model.UpdateTodoPayload{
 		Affected: affectedRes,
 		Count:    int(d.RowsAffected),
@@ -1033,11 +1050,15 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
 	affectedRes := make([]*model.Todo, 0)
-	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
-		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
-		affectedDb = affectedDb.Model(&obj)
-		affectedDb.Find(&affectedRes)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
 	}
+
 	res := &model.UpdateTodoPayload{
 		Count:    int(db.RowsAffected),
 		Affected: affectedRes,
@@ -1290,11 +1311,15 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUse
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
 	affectedRes := make([]*model.User, 0)
-	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
-		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
-		affectedDb = affectedDb.Model(&obj)
-		affectedDb.Find(&affectedRes)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
 	}
+
 	res := &model.UpdateUserPayload{
 		Count:    int(db.RowsAffected),
 		Affected: affectedRes,

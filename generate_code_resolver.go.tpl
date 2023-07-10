@@ -176,8 +176,13 @@
             affectedResWhereIn[i] = v["{{ucFirst $object.Name}}{{$table1ID}}"]
           }
           affectedDb := r.Sql.Db
-          affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0])
-          affectedDb.Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?", affectedResWhereIn).Find(&affectedRes)
+          subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+          if len(subTables) > 0 {
+            if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+              affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, preloadMap)
+              affectedDb.Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?", affectedResWhereIn).Find(&affectedRes)
+            }
+          }
           result :=  &model.Update{{$object.Name}}Payload{
             Affected: affectedRes,
             Count: int(d.RowsAffected),
@@ -269,11 +274,15 @@
           }
           db = db.Model(&obj).Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?",ids).Updates(update)
           affectedRes := make([]*model.{{$object.Name}}, 0)
-          if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
-            affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
-            affectedDb = affectedDb.Model(&obj)
-            affectedDb.Find(&affectedRes)
+          subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+          if len(subTables) > 0 {
+            if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+              affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+              affectedDb = affectedDb.Model(&obj)
+              affectedDb.Find(&affectedRes)
+            }
           }
+          
           res := &model.Update{{$object.Name}}Payload{
             Count: int(db.RowsAffected),
             Affected: affectedRes,
