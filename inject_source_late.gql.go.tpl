@@ -106,11 +106,13 @@ input TimeFilterBetween{
 
     type Add{{$object.Name}}Payload{
       {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
+      affected: [{{$object.Name}}!]!
     }
 
     type Update{{$object.Name}}Payload{
       {{lcFirst  $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
       count: Int!
+      affected: [{{$object.Name}}!]!
     }
 
     type Delete{{$object.Name}}Payload{

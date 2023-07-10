@@ -101,6 +101,10 @@
 
   mutation addCompanies($input: [CompanyInput!]!){
   addCompany(input:$input){
+    affected{
+      id
+      name
+    }
     company{
       data{
         id
@@ -112,6 +116,10 @@
 
 mutation addCompanyQueryResult($name: String!){
   addCompany(input:{name:$name}){
+    affected{
+      id
+      name
+    }
     company(filter: {name: {eq: $name}}){
     data{
         id
@@ -123,6 +131,10 @@ mutation addCompanyQueryResult($name: String!){
 
 mutation addUsers($input: [UserInput!]!){
   addUser(input: $input){
+    affected{
+      id
+      name
+    }
     user{
       data{
         id
@@ -137,6 +149,10 @@ mutation addUsers($input: [UserInput!]!){
 
 mutation addTodos($input: [TodoInput!]!){
   addTodo(input: $input){
+    affected{
+      id
+      name
+    }
     todo{
       data{
         id
@@ -151,6 +167,10 @@ mutation addTodos($input: [TodoInput!]!){
 
 mutation addUser2Todo($input: UserRef2TodosInput!){
   addUser2Todos(input:$input){
+    affected{
+      id
+      name
+    }
     todo{
       data{
         id
@@ -275,6 +295,10 @@ query getUserById($userId:ID!){
 # Edit 
 mutation updateUserChangeCompany($userId:ID!, $companyID:Int!){
   updateUser(input:{filter:{id:{eq:$userId}}, set:{companyID:$companyID}}){
+    affected{
+      id
+      name
+    }
     count
     user(order:{asc:id}){
       data{
@@ -290,6 +314,10 @@ mutation updateUserChangeCompany($userId:ID!, $companyID:Int!){
 
 mutation updateUserChangeCompanyByCatName($catName:String!, $companyID:Int!){
   updateUser(input:{filter:{cat:{name:{eq: $catName}}}, set:{companyID:$companyID}}){
+    affected{
+      id
+      name
+    }
     count
     user(order:{asc:id}){
       data{
@@ -307,6 +335,10 @@ mutation changeAllCatsToSameOwnerButNotOneByName($userID: Int!, $notMoveCatName:
   updateCat(
     input: {filter: {userID: {ne: $userID}, name: {ne: $notMoveCatName}}, set: {userID: $userID}}
   ) {
+    affected{
+      id
+      name
+    }
     cat(order:{asc:id} ) {
       data {
         id
