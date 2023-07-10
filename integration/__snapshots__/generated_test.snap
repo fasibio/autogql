@@ -91,6 +91,33 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"Cat",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -177,6 +204,33 @@
                                         Kind:   "OBJECT",
                                         Name:   &"CompanyQueryResult",
                                         OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"Company",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -275,6 +329,33 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"SmartPhone",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -367,6 +448,33 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"Todo",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -453,6 +561,33 @@
                                         Kind:   "OBJECT",
                                         Name:   &"UserQueryResult",
                                         OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"User",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -6238,6 +6373,33 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"Cat",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -6396,6 +6558,33 @@
                                         Kind:   "SCALAR",
                                         Name:   &"Int",
                                         OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"Company",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -6566,6 +6755,33 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"SmartPhone",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -6730,6 +6946,33 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"Todo",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -6888,6 +7131,33 @@
                                         Kind:   "SCALAR",
                                         Name:   &"Int",
                                         OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "affected",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"User",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
                                     },
                                 },
                             },
@@ -8139,6 +8409,10 @@
 [TestQueryTestSuite/TestComplexCombination/addCompanies - 1]
 &integration.addCompaniesResponse{
     AddCompany: &integration.addCompaniesAddCompanyAddCompanyPayload{
+        Affected: {
+            &integration.addCompaniesAddCompanyAddCompanyPayloadAffectedCompany{Id:"1", Name:"TestCompany1"},
+            &integration.addCompaniesAddCompanyAddCompanyPayloadAffectedCompany{Id:"2", Name:"TestCompany2"},
+        },
         Company: &integration.addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult{
             Data: {
                 &integration.addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany{Id:"1", Name:"TestCompany1"},
@@ -8152,6 +8426,14 @@
 [TestQueryTestSuite/TestComplexCombination/addUsers - 1]
 &integration.addUsersResponse{
     AddUser: &integration.addUsersAddUserAddUserPayload{
+        Affected: {
+            &integration.addUsersAddUserAddUserPayloadAffectedUser{Id:"1", Name:"Jan"},
+            &integration.addUsersAddUserAddUserPayloadAffectedUser{Id:"2", Name:"Klaas"},
+            &integration.addUsersAddUserAddUserPayloadAffectedUser{Id:"3", Name:"Peter"},
+            &integration.addUsersAddUserAddUserPayloadAffectedUser{Id:"4", Name:"Schmadel"},
+            &integration.addUsersAddUserAddUserPayloadAffectedUser{Id:"5", Name:"Jan"},
+            &integration.addUsersAddUserAddUserPayloadAffectedUser{Id:"6", Name:"Boris"},
+        },
         User: &integration.addUsersAddUserAddUserPayloadUserUserQueryResult{
             Data: {
                 &integration.addUsersAddUserAddUserPayloadUserUserQueryResultDataUser{
@@ -8208,6 +8490,13 @@
 [TestQueryTestSuite/TestComplexCombination/addTodos - 1]
 &integration.addTodosResponse{
     AddTodo: &integration.addTodosAddTodoAddTodoPayload{
+        Affected: {
+            &integration.addTodosAddTodoAddTodoPayloadAffectedTodo{Id:"1", Name:"Task 1"},
+            &integration.addTodosAddTodoAddTodoPayloadAffectedTodo{Id:"2", Name:"Task 2"},
+            &integration.addTodosAddTodoAddTodoPayloadAffectedTodo{Id:"3", Name:"Task 3"},
+            &integration.addTodosAddTodoAddTodoPayloadAffectedTodo{Id:"4", Name:"Task 4"},
+            &integration.addTodosAddTodoAddTodoPayloadAffectedTodo{Id:"5", Name:"Task 5"},
+        },
         Todo: &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResult{
             Data: {
                 &integration.addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo{
@@ -8254,6 +8543,11 @@
 [TestQueryTestSuite/TestComplexCombination/addUsers2Todo - 1]
 &integration.addUser2TodoResponse{
     AddUser2Todos: &integration.addUser2TodoAddUser2TodosUpdateTodoPayload{
+        Affected: {
+            &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadAffectedTodo{Id:"1", Name:"Task 1"},
+            &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadAffectedTodo{Id:"3", Name:"Task 3"},
+            &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadAffectedTodo{Id:"5", Name:"Task 5"},
+        },
         Todo: &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult{
             Data: {
                 &integration.addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo{
@@ -8559,6 +8853,9 @@
 [TestQueryTestSuite/TestComplexCombination/updateUserChangeCompany_=>_user_with_id_2_from_Company_1_to_2 - 1]
 &integration.updateUserChangeCompanyResponse{
     UpdateUser: &integration.updateUserChangeCompanyUpdateUserUpdateUserPayload{
+        Affected: {
+            &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadAffectedUser{Id:"2", Name:"Klaas"},
+        },
         Count: 1,
         User:  &integration.updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult{
             Data: {
@@ -8601,6 +8898,9 @@
 [TestQueryTestSuite/TestComplexCombination/updateUserChangeCompanyByCatName_=>_user_with_id_2_from_Company_2_to_1_by_cat_name_Schnuffel - 1]
 &integration.updateUserChangeCompanyByCatNameResponse{
     UpdateUser: &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload{
+        Affected: {
+            &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadAffectedUser{Id:"2", Name:"Klaas"},
+        },
         Count: 1,
         User:  &integration.updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult{
             Data: {
@@ -8705,6 +9005,11 @@
 [TestQueryTestSuite/TestComplexCombination/changeAllCatsToSameOwner_=>_user_id_6_and_cat_not_called_Schnuffel - 1]
 &integration.changeAllCatsToSameOwnerButNotOneByNameResponse{
     UpdateCat: &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload{
+        Affected: {
+            &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadAffectedCat{Id:"1", Name:"Pussy"},
+            &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadAffectedCat{Id:"3", Name:"Mauz"},
+            &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadAffectedCat{Id:"4", Name:"Mi jau"},
+        },
         Cat: &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult{
             Data: {
                 &integration.changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat{Id:"1", Name:"Pussy", UserID:6},

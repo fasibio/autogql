@@ -10,23 +10,28 @@ import (
 )
 
 type AddCatPayload struct {
-	Cat *CatQueryResult `json:"cat"`
+	Cat      *CatQueryResult `json:"cat"`
+	Affected []*Cat          `json:"affected"`
 }
 
 type AddCompanyPayload struct {
-	Company *CompanyQueryResult `json:"company"`
+	Company  *CompanyQueryResult `json:"company"`
+	Affected []*Company          `json:"affected"`
 }
 
 type AddSmartPhonePayload struct {
 	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
+	Affected   []*SmartPhone          `json:"affected"`
 }
 
 type AddTodoPayload struct {
-	Todo *TodoQueryResult `json:"todo"`
+	Todo     *TodoQueryResult `json:"todo"`
+	Affected []*Todo          `json:"affected"`
 }
 
 type AddUserPayload struct {
-	User *UserQueryResult `json:"user"`
+	User     *UserQueryResult `json:"user"`
+	Affected []*User          `json:"affected"`
 }
 
 type BooleanFilterInput struct {
@@ -353,8 +358,9 @@ type UpdateCatInput struct {
 }
 
 type UpdateCatPayload struct {
-	Cat   *CatQueryResult `json:"cat"`
-	Count int             `json:"count"`
+	Cat      *CatQueryResult `json:"cat"`
+	Count    int             `json:"count"`
+	Affected []*Cat          `json:"affected"`
 }
 
 type UpdateCompanyInput struct {
@@ -363,8 +369,9 @@ type UpdateCompanyInput struct {
 }
 
 type UpdateCompanyPayload struct {
-	Company *CompanyQueryResult `json:"company"`
-	Count   int                 `json:"count"`
+	Company  *CompanyQueryResult `json:"company"`
+	Count    int                 `json:"count"`
+	Affected []*Company          `json:"affected"`
 }
 
 type UpdateSmartPhoneInput struct {
@@ -375,6 +382,7 @@ type UpdateSmartPhoneInput struct {
 type UpdateSmartPhonePayload struct {
 	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
 	Count      int                    `json:"count"`
+	Affected   []*SmartPhone          `json:"affected"`
 }
 
 type UpdateTodoInput struct {
@@ -383,8 +391,9 @@ type UpdateTodoInput struct {
 }
 
 type UpdateTodoPayload struct {
-	Todo  *TodoQueryResult `json:"todo"`
-	Count int              `json:"count"`
+	Todo     *TodoQueryResult `json:"todo"`
+	Count    int              `json:"count"`
+	Affected []*Todo          `json:"affected"`
 }
 
 type UpdateUserInput struct {
@@ -393,8 +402,9 @@ type UpdateUserInput struct {
 }
 
 type UpdateUserPayload struct {
-	User  *UserQueryResult `json:"user"`
-	Count int              `json:"count"`
+	User     *UserQueryResult `json:"user"`
+	Count    int              `json:"count"`
+	Affected []*User          `json:"affected"`
 }
 
 type User struct {

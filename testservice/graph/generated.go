@@ -63,23 +63,28 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	AddCatPayload struct {
-		Cat func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
+		Affected func(childComplexity int) int
+		Cat      func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
 	}
 
 	AddCompanyPayload struct {
-		Company func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
+		Affected func(childComplexity int) int
+		Company  func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
 	}
 
 	AddSmartPhonePayload struct {
+		Affected   func(childComplexity int) int
 		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
 	}
 
 	AddTodoPayload struct {
-		Todo func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
+		Affected func(childComplexity int) int
+		Todo     func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
 	}
 
 	AddUserPayload struct {
-		User func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+		Affected func(childComplexity int) int
+		User     func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
 	}
 
 	Cat struct {
@@ -208,28 +213,33 @@ type ComplexityRoot struct {
 	}
 
 	UpdateCatPayload struct {
-		Cat   func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
-		Count func(childComplexity int) int
+		Affected func(childComplexity int) int
+		Cat      func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
+		Count    func(childComplexity int) int
 	}
 
 	UpdateCompanyPayload struct {
-		Company func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
-		Count   func(childComplexity int) int
+		Affected func(childComplexity int) int
+		Company  func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
+		Count    func(childComplexity int) int
 	}
 
 	UpdateSmartPhonePayload struct {
+		Affected   func(childComplexity int) int
 		Count      func(childComplexity int) int
 		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
 	}
 
 	UpdateTodoPayload struct {
-		Count func(childComplexity int) int
-		Todo  func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
+		Affected func(childComplexity int) int
+		Count    func(childComplexity int) int
+		Todo     func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
 	}
 
 	UpdateUserPayload struct {
-		Count func(childComplexity int) int
-		User  func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+		Affected func(childComplexity int) int
+		Count    func(childComplexity int) int
+		User     func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
 	}
 
 	User struct {
@@ -344,6 +354,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
+	case "AddCatPayload.affected":
+		if e.complexity.AddCatPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.AddCatPayload.Affected(childComplexity), true
+
 	case "AddCatPayload.cat":
 		if e.complexity.AddCatPayload.Cat == nil {
 			break
@@ -355,6 +372,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AddCatPayload.Cat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int)), true
+
+	case "AddCompanyPayload.affected":
+		if e.complexity.AddCompanyPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.AddCompanyPayload.Affected(childComplexity), true
 
 	case "AddCompanyPayload.company":
 		if e.complexity.AddCompanyPayload.Company == nil {
@@ -368,6 +392,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.AddCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int)), true
 
+	case "AddSmartPhonePayload.affected":
+		if e.complexity.AddSmartPhonePayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.AddSmartPhonePayload.Affected(childComplexity), true
+
 	case "AddSmartPhonePayload.smartPhone":
 		if e.complexity.AddSmartPhonePayload.SmartPhone == nil {
 			break
@@ -380,6 +411,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.AddSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
 
+	case "AddTodoPayload.affected":
+		if e.complexity.AddTodoPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.AddTodoPayload.Affected(childComplexity), true
+
 	case "AddTodoPayload.todo":
 		if e.complexity.AddTodoPayload.Todo == nil {
 			break
@@ -391,6 +429,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.AddTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int)), true
+
+	case "AddUserPayload.affected":
+		if e.complexity.AddUserPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.AddUserPayload.Affected(childComplexity), true
 
 	case "AddUserPayload.user":
 		if e.complexity.AddUserPayload.User == nil {
@@ -1119,6 +1164,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.TodoQueryResult.TotalCount(childComplexity), true
 
+	case "UpdateCatPayload.affected":
+		if e.complexity.UpdateCatPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.UpdateCatPayload.Affected(childComplexity), true
+
 	case "UpdateCatPayload.cat":
 		if e.complexity.UpdateCatPayload.Cat == nil {
 			break
@@ -1137,6 +1189,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.UpdateCatPayload.Count(childComplexity), true
+
+	case "UpdateCompanyPayload.affected":
+		if e.complexity.UpdateCompanyPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.UpdateCompanyPayload.Affected(childComplexity), true
 
 	case "UpdateCompanyPayload.company":
 		if e.complexity.UpdateCompanyPayload.Company == nil {
@@ -1157,6 +1216,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.UpdateCompanyPayload.Count(childComplexity), true
 
+	case "UpdateSmartPhonePayload.affected":
+		if e.complexity.UpdateSmartPhonePayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.UpdateSmartPhonePayload.Affected(childComplexity), true
+
 	case "UpdateSmartPhonePayload.count":
 		if e.complexity.UpdateSmartPhonePayload.Count == nil {
 			break
@@ -1176,6 +1242,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.UpdateSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
 
+	case "UpdateTodoPayload.affected":
+		if e.complexity.UpdateTodoPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.UpdateTodoPayload.Affected(childComplexity), true
+
 	case "UpdateTodoPayload.count":
 		if e.complexity.UpdateTodoPayload.Count == nil {
 			break
@@ -1194,6 +1267,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.UpdateTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int)), true
+
+	case "UpdateUserPayload.affected":
+		if e.complexity.UpdateUserPayload.Affected == nil {
+			break
+		}
+
+		return e.complexity.UpdateUserPayload.Affected(childComplexity), true
 
 	case "UpdateUserPayload.count":
 		if e.complexity.UpdateUserPayload.Count == nil {
@@ -1609,11 +1689,13 @@ input TimeFilterBetween{
 
     type AddCatPayload{
       cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      affected: [Cat!]!
     }
 
     type UpdateCatPayload{
       cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
       count: Int!
+      affected: [Cat!]!
     }
 
     type DeleteCatPayload{
@@ -1680,11 +1762,13 @@ input TimeFilterBetween{
 
     type AddCompanyPayload{
       company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      affected: [Company!]!
     }
 
     type UpdateCompanyPayload{
       company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
       count: Int!
+      affected: [Company!]!
     }
 
     type DeleteCompanyPayload{
@@ -1750,11 +1834,13 @@ input TimeFilterBetween{
 
     type AddSmartPhonePayload{
       smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      affected: [SmartPhone!]!
     }
 
     type UpdateSmartPhonePayload{
       smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
       count: Int!
+      affected: [SmartPhone!]!
     }
 
     type DeleteSmartPhonePayload{
@@ -1820,11 +1906,13 @@ input TimeFilterBetween{
 
     type AddTodoPayload{
       todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      affected: [Todo!]!
     }
 
     type UpdateTodoPayload{
       todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
       count: Int!
+      affected: [Todo!]!
     }
 
     type DeleteTodoPayload{
@@ -1907,11 +1995,13 @@ input TimeFilterBetween{
 
     type AddUserPayload{
       user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      affected: [User!]!
     }
 
     type UpdateUserPayload{
       user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
       count: Int!
+      affected: [User!]!
     }
 
     type DeleteUserPayload{
@@ -3241,6 +3331,64 @@ func (ec *executionContext) fieldContext_AddCatPayload_cat(ctx context.Context, 
 	return fc, nil
 }
 
+func (ec *executionContext) _AddCatPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.AddCatPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AddCatPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Cat)
+	fc.Result = res
+	return ec.marshalNCat2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AddCatPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AddCatPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Cat_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Cat_name(ctx, field)
+			case "birthDay":
+				return ec.fieldContext_Cat_birthDay(ctx, field)
+			case "age":
+				return ec.fieldContext_Cat_age(ctx, field)
+			case "userID":
+				return ec.fieldContext_Cat_userID(ctx, field)
+			case "alive":
+				return ec.fieldContext_Cat_alive(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Cat", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _AddCompanyPayload_company(ctx context.Context, field graphql.CollectedField, obj *model.AddCompanyPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_AddCompanyPayload_company(ctx, field)
 	if err != nil {
@@ -3300,6 +3448,64 @@ func (ec *executionContext) fieldContext_AddCompanyPayload_company(ctx context.C
 	if fc.Args, err = ec.field_AddCompanyPayload_company_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AddCompanyPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.AddCompanyPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AddCompanyPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Company)
+	fc.Result = res
+	return ec.marshalNCompany2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AddCompanyPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AddCompanyPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Company_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Company_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Company_description(ctx, field)
+			case "motherCompanyID":
+				return ec.fieldContext_Company_motherCompanyID(ctx, field)
+			case "motherCompany":
+				return ec.fieldContext_Company_motherCompany(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Company_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
+		},
 	}
 	return fc, nil
 }
@@ -3367,6 +3573,60 @@ func (ec *executionContext) fieldContext_AddSmartPhonePayload_smartPhone(ctx con
 	return fc, nil
 }
 
+func (ec *executionContext) _AddSmartPhonePayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.AddSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AddSmartPhonePayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.SmartPhone)
+	fc.Result = res
+	return ec.marshalNSmartPhone2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AddSmartPhonePayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AddSmartPhonePayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SmartPhone_id(ctx, field)
+			case "brand":
+				return ec.fieldContext_SmartPhone_brand(ctx, field)
+			case "phonenumber":
+				return ec.fieldContext_SmartPhone_phonenumber(ctx, field)
+			case "userID":
+				return ec.fieldContext_SmartPhone_userID(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhone", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _AddTodoPayload_todo(ctx context.Context, field graphql.CollectedField, obj *model.AddTodoPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_AddTodoPayload_todo(ctx, field)
 	if err != nil {
@@ -3430,6 +3690,74 @@ func (ec *executionContext) fieldContext_AddTodoPayload_todo(ctx context.Context
 	return fc, nil
 }
 
+func (ec *executionContext) _AddTodoPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.AddTodoPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AddTodoPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Todo)
+	fc.Result = res
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AddTodoPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AddTodoPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Todo_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Todo_name(ctx, field)
+			case "users":
+				return ec.fieldContext_Todo_users(ctx, field)
+			case "owner":
+				return ec.fieldContext_Todo_owner(ctx, field)
+			case "ownerID":
+				return ec.fieldContext_Todo_ownerID(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Todo_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Todo_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Todo_deletedAt(ctx, field)
+			case "etype1":
+				return ec.fieldContext_Todo_etype1(ctx, field)
+			case "etype5":
+				return ec.fieldContext_Todo_etype5(ctx, field)
+			case "test123":
+				return ec.fieldContext_Todo_test123(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _AddUserPayload_user(ctx context.Context, field graphql.CollectedField, obj *model.AddUserPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_AddUserPayload_user(ctx, field)
 	if err != nil {
@@ -3489,6 +3817,74 @@ func (ec *executionContext) fieldContext_AddUserPayload_user(ctx context.Context
 	if fc.Args, err = ec.field_AddUserPayload_user_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _AddUserPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.AddUserPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_AddUserPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_AddUserPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "AddUserPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_User_id(ctx, field)
+			case "name":
+				return ec.fieldContext_User_name(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_User_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_User_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "cat":
+				return ec.fieldContext_User_cat(ctx, field)
+			case "companyID":
+				return ec.fieldContext_User_companyID(ctx, field)
+			case "company":
+				return ec.fieldContext_User_company(ctx, field)
+			case "smartPhones":
+				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "favoritColor":
+				return ec.fieldContext_User_favoritColor(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
+		},
 	}
 	return fc, nil
 }
@@ -5087,6 +5483,8 @@ func (ec *executionContext) fieldContext_Mutation_addCat(ctx context.Context, fi
 			switch field.Name {
 			case "cat":
 				return ec.fieldContext_AddCatPayload_cat(ctx, field)
+			case "affected":
+				return ec.fieldContext_AddCatPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type AddCatPayload", field.Name)
 		},
@@ -5145,6 +5543,8 @@ func (ec *executionContext) fieldContext_Mutation_updateCat(ctx context.Context,
 				return ec.fieldContext_UpdateCatPayload_cat(ctx, field)
 			case "count":
 				return ec.fieldContext_UpdateCatPayload_count(ctx, field)
+			case "affected":
+				return ec.fieldContext_UpdateCatPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type UpdateCatPayload", field.Name)
 		},
@@ -5261,6 +5661,8 @@ func (ec *executionContext) fieldContext_Mutation_addCompany(ctx context.Context
 			switch field.Name {
 			case "company":
 				return ec.fieldContext_AddCompanyPayload_company(ctx, field)
+			case "affected":
+				return ec.fieldContext_AddCompanyPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type AddCompanyPayload", field.Name)
 		},
@@ -5319,6 +5721,8 @@ func (ec *executionContext) fieldContext_Mutation_updateCompany(ctx context.Cont
 				return ec.fieldContext_UpdateCompanyPayload_company(ctx, field)
 			case "count":
 				return ec.fieldContext_UpdateCompanyPayload_count(ctx, field)
+			case "affected":
+				return ec.fieldContext_UpdateCompanyPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type UpdateCompanyPayload", field.Name)
 		},
@@ -5435,6 +5839,8 @@ func (ec *executionContext) fieldContext_Mutation_addSmartPhone(ctx context.Cont
 			switch field.Name {
 			case "smartPhone":
 				return ec.fieldContext_AddSmartPhonePayload_smartPhone(ctx, field)
+			case "affected":
+				return ec.fieldContext_AddSmartPhonePayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type AddSmartPhonePayload", field.Name)
 		},
@@ -5493,6 +5899,8 @@ func (ec *executionContext) fieldContext_Mutation_updateSmartPhone(ctx context.C
 				return ec.fieldContext_UpdateSmartPhonePayload_smartPhone(ctx, field)
 			case "count":
 				return ec.fieldContext_UpdateSmartPhonePayload_count(ctx, field)
+			case "affected":
+				return ec.fieldContext_UpdateSmartPhonePayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type UpdateSmartPhonePayload", field.Name)
 		},
@@ -5611,6 +6019,8 @@ func (ec *executionContext) fieldContext_Mutation_addUser2Todos(ctx context.Cont
 				return ec.fieldContext_UpdateTodoPayload_todo(ctx, field)
 			case "count":
 				return ec.fieldContext_UpdateTodoPayload_count(ctx, field)
+			case "affected":
+				return ec.fieldContext_UpdateTodoPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type UpdateTodoPayload", field.Name)
 		},
@@ -5667,6 +6077,8 @@ func (ec *executionContext) fieldContext_Mutation_addTodo(ctx context.Context, f
 			switch field.Name {
 			case "todo":
 				return ec.fieldContext_AddTodoPayload_todo(ctx, field)
+			case "affected":
+				return ec.fieldContext_AddTodoPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type AddTodoPayload", field.Name)
 		},
@@ -5725,6 +6137,8 @@ func (ec *executionContext) fieldContext_Mutation_updateTodo(ctx context.Context
 				return ec.fieldContext_UpdateTodoPayload_todo(ctx, field)
 			case "count":
 				return ec.fieldContext_UpdateTodoPayload_count(ctx, field)
+			case "affected":
+				return ec.fieldContext_UpdateTodoPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type UpdateTodoPayload", field.Name)
 		},
@@ -5841,6 +6255,8 @@ func (ec *executionContext) fieldContext_Mutation_addUser(ctx context.Context, f
 			switch field.Name {
 			case "user":
 				return ec.fieldContext_AddUserPayload_user(ctx, field)
+			case "affected":
+				return ec.fieldContext_AddUserPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type AddUserPayload", field.Name)
 		},
@@ -5899,6 +6315,8 @@ func (ec *executionContext) fieldContext_Mutation_updateUser(ctx context.Context
 				return ec.fieldContext_UpdateUserPayload_user(ctx, field)
 			case "count":
 				return ec.fieldContext_UpdateUserPayload_count(ctx, field)
+			case "affected":
+				return ec.fieldContext_UpdateUserPayload_affected(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type UpdateUserPayload", field.Name)
 		},
@@ -7850,6 +8268,64 @@ func (ec *executionContext) fieldContext_UpdateCatPayload_count(ctx context.Cont
 	return fc, nil
 }
 
+func (ec *executionContext) _UpdateCatPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.UpdateCatPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UpdateCatPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Cat)
+	fc.Result = res
+	return ec.marshalNCat2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UpdateCatPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UpdateCatPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Cat_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Cat_name(ctx, field)
+			case "birthDay":
+				return ec.fieldContext_Cat_birthDay(ctx, field)
+			case "age":
+				return ec.fieldContext_Cat_age(ctx, field)
+			case "userID":
+				return ec.fieldContext_Cat_userID(ctx, field)
+			case "alive":
+				return ec.fieldContext_Cat_alive(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Cat", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UpdateCompanyPayload_company(ctx context.Context, field graphql.CollectedField, obj *model.UpdateCompanyPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UpdateCompanyPayload_company(ctx, field)
 	if err != nil {
@@ -7952,6 +8428,64 @@ func (ec *executionContext) fieldContext_UpdateCompanyPayload_count(ctx context.
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UpdateCompanyPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.UpdateCompanyPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UpdateCompanyPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Company)
+	fc.Result = res
+	return ec.marshalNCompany2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UpdateCompanyPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UpdateCompanyPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Company_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Company_name(ctx, field)
+			case "description":
+				return ec.fieldContext_Company_description(ctx, field)
+			case "motherCompanyID":
+				return ec.fieldContext_Company_motherCompanyID(ctx, field)
+			case "motherCompany":
+				return ec.fieldContext_Company_motherCompany(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Company_createdAt(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
 		},
 	}
 	return fc, nil
@@ -8064,6 +8598,60 @@ func (ec *executionContext) fieldContext_UpdateSmartPhonePayload_count(ctx conte
 	return fc, nil
 }
 
+func (ec *executionContext) _UpdateSmartPhonePayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.UpdateSmartPhonePayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UpdateSmartPhonePayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.SmartPhone)
+	fc.Result = res
+	return ec.marshalNSmartPhone2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UpdateSmartPhonePayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UpdateSmartPhonePayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_SmartPhone_id(ctx, field)
+			case "brand":
+				return ec.fieldContext_SmartPhone_brand(ctx, field)
+			case "phonenumber":
+				return ec.fieldContext_SmartPhone_phonenumber(ctx, field)
+			case "userID":
+				return ec.fieldContext_SmartPhone_userID(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type SmartPhone", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UpdateTodoPayload_todo(ctx context.Context, field graphql.CollectedField, obj *model.UpdateTodoPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UpdateTodoPayload_todo(ctx, field)
 	if err != nil {
@@ -8171,6 +8759,74 @@ func (ec *executionContext) fieldContext_UpdateTodoPayload_count(ctx context.Con
 	return fc, nil
 }
 
+func (ec *executionContext) _UpdateTodoPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.UpdateTodoPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UpdateTodoPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Todo)
+	fc.Result = res
+	return ec.marshalNTodo2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UpdateTodoPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UpdateTodoPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_Todo_id(ctx, field)
+			case "name":
+				return ec.fieldContext_Todo_name(ctx, field)
+			case "users":
+				return ec.fieldContext_Todo_users(ctx, field)
+			case "owner":
+				return ec.fieldContext_Todo_owner(ctx, field)
+			case "ownerID":
+				return ec.fieldContext_Todo_ownerID(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_Todo_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_Todo_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_Todo_deletedAt(ctx, field)
+			case "etype1":
+				return ec.fieldContext_Todo_etype1(ctx, field)
+			case "etype5":
+				return ec.fieldContext_Todo_etype5(ctx, field)
+			case "test123":
+				return ec.fieldContext_Todo_test123(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UpdateUserPayload_user(ctx context.Context, field graphql.CollectedField, obj *model.UpdateUserPayload) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UpdateUserPayload_user(ctx, field)
 	if err != nil {
@@ -8273,6 +8929,74 @@ func (ec *executionContext) fieldContext_UpdateUserPayload_count(ctx context.Con
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UpdateUserPayload_affected(ctx context.Context, field graphql.CollectedField, obj *model.UpdateUserPayload) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UpdateUserPayload_affected(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Affected, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UpdateUserPayload_affected(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UpdateUserPayload",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_User_id(ctx, field)
+			case "name":
+				return ec.fieldContext_User_name(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_User_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_User_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "cat":
+				return ec.fieldContext_User_cat(ctx, field)
+			case "companyID":
+				return ec.fieldContext_User_companyID(ctx, field)
+			case "company":
+				return ec.fieldContext_User_company(ctx, field)
+			case "smartPhones":
+				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "favoritColor":
+				return ec.fieldContext_User_favoritColor(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
 	}
 	return fc, nil
@@ -13416,6 +14140,11 @@ func (ec *executionContext) _AddCatPayload(ctx context.Context, sel ast.Selectio
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "affected":
+			out.Values[i] = ec._AddCatPayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13486,6 +14215,11 @@ func (ec *executionContext) _AddCompanyPayload(ctx context.Context, sel ast.Sele
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "affected":
+			out.Values[i] = ec._AddCompanyPayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13556,6 +14290,11 @@ func (ec *executionContext) _AddSmartPhonePayload(ctx context.Context, sel ast.S
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "affected":
+			out.Values[i] = ec._AddSmartPhonePayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13626,6 +14365,11 @@ func (ec *executionContext) _AddTodoPayload(ctx context.Context, sel ast.Selecti
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "affected":
+			out.Values[i] = ec._AddTodoPayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -13696,6 +14440,11 @@ func (ec *executionContext) _AddUserPayload(ctx context.Context, sel ast.Selecti
 			}
 
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
+		case "affected":
+			out.Values[i] = ec._AddUserPayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -14936,6 +15685,11 @@ func (ec *executionContext) _UpdateCatPayload(ctx context.Context, sel ast.Selec
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "affected":
+			out.Values[i] = ec._UpdateCatPayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -15008,6 +15762,11 @@ func (ec *executionContext) _UpdateCompanyPayload(ctx context.Context, sel ast.S
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "count":
 			out.Values[i] = ec._UpdateCompanyPayload_count(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "affected":
+			out.Values[i] = ec._UpdateCompanyPayload_affected(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
@@ -15086,6 +15845,11 @@ func (ec *executionContext) _UpdateSmartPhonePayload(ctx context.Context, sel as
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "affected":
+			out.Values[i] = ec._UpdateSmartPhonePayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -15161,6 +15925,11 @@ func (ec *executionContext) _UpdateTodoPayload(ctx context.Context, sel ast.Sele
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}
+		case "affected":
+			out.Values[i] = ec._UpdateTodoPayload_affected(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -15233,6 +16002,11 @@ func (ec *executionContext) _UpdateUserPayload(ctx context.Context, sel ast.Sele
 			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "count":
 			out.Values[i] = ec._UpdateUserPayload_count(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&out.Invalids, 1)
+			}
+		case "affected":
+			out.Values[i] = ec._UpdateUserPayload_affected(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				atomic.AddUint32(&out.Invalids, 1)
 			}

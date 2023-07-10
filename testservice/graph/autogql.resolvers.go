@@ -155,6 +155,12 @@ func (r *mutationResolver) AddCat(ctx context.Context, input []*model.CatInput) 
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.Cat, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -197,8 +203,15 @@ func (r *mutationResolver) UpdateCat(ctx context.Context, input model.UpdateCatI
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.Cat, 0)
+	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
+		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+		affectedDb = affectedDb.Model(&obj)
+		affectedDb.Find(&affectedRes)
+	}
 	res := &model.UpdateCatPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -399,6 +412,12 @@ func (r *mutationResolver) AddCompany(ctx context.Context, input []*model.Compan
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.Company, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -441,8 +460,15 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Update
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.Company, 0)
+	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
+		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+		affectedDb = affectedDb.Model(&obj)
+		affectedDb.Find(&affectedRes)
+	}
 	res := &model.UpdateCompanyPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -643,6 +669,12 @@ func (r *mutationResolver) AddSmartPhone(ctx context.Context, input []*model.Sma
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.SmartPhone, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -685,8 +717,15 @@ func (r *mutationResolver) UpdateSmartPhone(ctx context.Context, input model.Upd
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.SmartPhone, 0)
+	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
+		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+		affectedDb = affectedDb.Model(&obj)
+		affectedDb.Find(&affectedRes)
+	}
 	res := &model.UpdateSmartPhonePayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -898,8 +937,17 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 		}
 	}
 	d := r.Sql.Db.Model(&TodoUsers{}).Create(resIds)
+	affectedRes := make([]*model.Todo, len(resIds))
+	affectedResWhereIn := make([]interface{}, len(resIds))
+	for i, v := range resIds {
+		affectedResWhereIn[i] = v["TodoID"]
+	}
+	affectedDb := r.Sql.Db
+	affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0])
+	affectedDb.Where("id IN ?", affectedResWhereIn).Find(&affectedRes)
 	result := &model.UpdateTodoPayload{
-		Count: int(d.RowsAffected),
+		Affected: affectedRes,
+		Count:    int(d.RowsAffected),
 	}
 	if okHook {
 		var err error
@@ -936,6 +984,12 @@ func (r *mutationResolver) AddTodo(ctx context.Context, input []*model.TodoInput
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.Todo, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -978,8 +1032,15 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.Todo, 0)
+	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
+		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+		affectedDb = affectedDb.Model(&obj)
+		affectedDb.Find(&affectedRes)
+	}
 	res := &model.UpdateTodoPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -1180,6 +1241,12 @@ func (r *mutationResolver) AddUser(ctx context.Context, input []*model.UserInput
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.User, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -1222,8 +1289,15 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUse
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.User, 0)
+	if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
+		affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+		affectedDb = affectedDb.Model(&obj)
+		affectedDb.Find(&affectedRes)
+	}
 	res := &model.UpdateUserPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error

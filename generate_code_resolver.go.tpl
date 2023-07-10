@@ -170,7 +170,16 @@
             } 
           }
           d := r.Sql.Db.Model(&{{camelcase $m2mKey}}{}).Create(resIds)
+          affectedRes := make([]*model.{{$object.Name}},len(resIds))
+          affectedResWhereIn := make([]interface{}, len(resIds))
+          for i, v := range resIds {
+            affectedResWhereIn[i] = v["{{ucFirst $object.Name}}{{$table1ID}}"]
+          }
+          affectedDb := r.Sql.Db
+          affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0])
+          affectedDb.Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?", affectedResWhereIn).Find(&affectedRes)
           result :=  &model.Update{{$object.Name}}Payload{
+            Affected: affectedRes,
             Count: int(d.RowsAffected),
           }
           if okHook {
@@ -209,6 +218,12 @@
             }
           }
           db = db.Create(&obj)
+          affectedRes := make([]*model.{{$object.Name}},len(obj))
+          for i, v := range obj{
+            tmp := v
+            affectedRes[i] = &tmp
+          }
+          res.Affected = affectedRes
           if okHook {
             var err error
             res, err = v.BeforeReturn(ctx,db, obj, res)
@@ -253,10 +268,17 @@
             ids[i] = one.{{$root.GetGoFieldName $object.Name $primaryEntity}}
           }
           db = db.Model(&obj).Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?",ids).Updates(update)
+          affectedRes := make([]*model.{{$object.Name}}, 0)
+          if preloadMap := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables[0]; len(preloadMap.Fields) > 0 {
+            affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+            affectedDb = affectedDb.Model(&obj)
+            affectedDb.Find(&affectedRes)
+          }
           res := &model.Update{{$object.Name}}Payload{
             Count: int(db.RowsAffected),
+            Affected: affectedRes,
           }
-            if okHook {
+          if okHook {
             var err error 
             res, err = v.BeforeReturn(ctx, db, res)
             if err != nil {
