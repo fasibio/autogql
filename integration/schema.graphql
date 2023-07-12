@@ -34,27 +34,27 @@ custom scalar types.
 directive @specifiedBy(url: String!) on SCALAR
 
 type AddCatPayload {
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
   affected: [Cat!]!
 }
 
 type AddCompanyPayload {
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
   affected: [Company!]!
 }
 
 type AddSmartPhonePayload {
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
   affected: [SmartPhone!]!
 }
 
 type AddTodoPayload {
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
   affected: [Todo!]!
 }
 
 type AddUserPayload {
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
   affected: [User!]!
 }
 
@@ -85,6 +85,14 @@ input CatFiltersInput {
   and: [CatFiltersInput]
   or: [CatFiltersInput]
   not: CatFiltersInput
+}
+
+enum CatGroup {
+  id
+  name
+  birthDay
+  userID
+  alive
 }
 
 input CatInput {
@@ -140,6 +148,14 @@ input CompanyFiltersInput {
   not: CompanyFiltersInput
 }
 
+enum CompanyGroup {
+  id
+  name
+  description
+  motherCompanyID
+  createdAt
+}
+
 input CompanyInput {
   name: String!
   description: String
@@ -173,31 +189,31 @@ type CompanyQueryResult {
 }
 
 type DeleteCatPayload {
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
   count: Int!
   msg: String
 }
 
 type DeleteCompanyPayload {
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
   count: Int!
   msg: String
 }
 
 type DeleteSmartPhonePayload {
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
   count: Int!
   msg: String
 }
 
 type DeleteTodoPayload {
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
   count: Int!
   msg: String
 }
 
 type DeleteUserPayload {
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
   count: Int!
   msg: String
 }
@@ -257,15 +273,15 @@ type Mutation {
 
 type Query {
   getCat(id: ID!): Cat
-  queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult
+  queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult
   getCompany(id: ID!): Company
-  queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult
+  queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult
   getSmartPhone(id: ID!): SmartPhone
-  querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult
+  querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult
   getTodo(id: ID!): Todo
-  queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult
+  queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult
   getUser(id: ID!): User
-  queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult
+  queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult
 }
 
 type SmartPhone {
@@ -283,6 +299,13 @@ input SmartPhoneFiltersInput {
   and: [SmartPhoneFiltersInput]
   or: [SmartPhoneFiltersInput]
   not: SmartPhoneFiltersInput
+}
+
+enum SmartPhoneGroup {
+  id
+  brand
+  phonenumber
+  userID
 }
 
 input SmartPhoneInput {
@@ -408,6 +431,15 @@ input TodoFiltersInput {
   not: TodoFiltersInput
 }
 
+enum TodoGroup {
+  id
+  name
+  ownerID
+  createdAt
+  updatedAt
+  deletedAt
+}
+
 input TodoInput {
   name: String!
   etype1: TodoType
@@ -450,7 +482,7 @@ input UpdateCatInput {
 }
 
 type UpdateCatPayload {
-  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+  cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
   count: Int!
   affected: [Cat!]!
 }
@@ -461,7 +493,7 @@ input UpdateCompanyInput {
 }
 
 type UpdateCompanyPayload {
-  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+  company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
   count: Int!
   affected: [Company!]!
 }
@@ -472,7 +504,7 @@ input UpdateSmartPhoneInput {
 }
 
 type UpdateSmartPhonePayload {
-  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+  smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
   count: Int!
   affected: [SmartPhone!]!
 }
@@ -483,7 +515,7 @@ input UpdateTodoInput {
 }
 
 type UpdateTodoPayload {
-  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+  todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
   count: Int!
   affected: [Todo!]!
 }
@@ -494,7 +526,7 @@ input UpdateUserInput {
 }
 
 type UpdateUserPayload {
-  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+  user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
   count: Int!
   affected: [User!]!
 }
@@ -528,6 +560,17 @@ input UserFiltersInput {
   and: [UserFiltersInput]
   or: [UserFiltersInput]
   not: UserFiltersInput
+}
+
+enum UserGroup {
+  id
+  name
+  createdAt
+  updatedAt
+  deletedAt
+  companyID
+  favoritColor
+  email
 }
 
 input UserInput {

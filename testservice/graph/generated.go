@@ -64,27 +64,27 @@ type DirectiveRoot struct {
 type ComplexityRoot struct {
 	AddCatPayload struct {
 		Affected func(childComplexity int) int
-		Cat      func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
+		Cat      func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) int
 	}
 
 	AddCompanyPayload struct {
 		Affected func(childComplexity int) int
-		Company  func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
+		Company  func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) int
 	}
 
 	AddSmartPhonePayload struct {
 		Affected   func(childComplexity int) int
-		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
+		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) int
 	}
 
 	AddTodoPayload struct {
 		Affected func(childComplexity int) int
-		Todo     func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
+		Todo     func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) int
 	}
 
 	AddUserPayload struct {
 		Affected func(childComplexity int) int
-		User     func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+		User     func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) int
 	}
 
 	Cat struct {
@@ -118,13 +118,13 @@ type ComplexityRoot struct {
 	}
 
 	DeleteCatPayload struct {
-		Cat   func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
+		Cat   func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) int
 		Count func(childComplexity int) int
 		Msg   func(childComplexity int) int
 	}
 
 	DeleteCompanyPayload struct {
-		Company func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
+		Company func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) int
 		Count   func(childComplexity int) int
 		Msg     func(childComplexity int) int
 	}
@@ -132,19 +132,19 @@ type ComplexityRoot struct {
 	DeleteSmartPhonePayload struct {
 		Count      func(childComplexity int) int
 		Msg        func(childComplexity int) int
-		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
+		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) int
 	}
 
 	DeleteTodoPayload struct {
 		Count func(childComplexity int) int
 		Msg   func(childComplexity int) int
-		Todo  func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
+		Todo  func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) int
 	}
 
 	DeleteUserPayload struct {
 		Count func(childComplexity int) int
 		Msg   func(childComplexity int) int
-		User  func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+		User  func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) int
 	}
 
 	Mutation struct {
@@ -172,11 +172,11 @@ type ComplexityRoot struct {
 		GetSmartPhone   func(childComplexity int, id int) int
 		GetTodo         func(childComplexity int, id int) int
 		GetUser         func(childComplexity int, id int) int
-		QueryCat        func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
-		QueryCompany    func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
-		QuerySmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
-		QueryTodo       func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
-		QueryUser       func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+		QueryCat        func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) int
+		QueryCompany    func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) int
+		QuerySmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) int
+		QueryTodo       func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) int
+		QueryUser       func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) int
 	}
 
 	SmartPhone struct {
@@ -214,32 +214,32 @@ type ComplexityRoot struct {
 
 	UpdateCatPayload struct {
 		Affected func(childComplexity int) int
-		Cat      func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) int
+		Cat      func(childComplexity int, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) int
 		Count    func(childComplexity int) int
 	}
 
 	UpdateCompanyPayload struct {
 		Affected func(childComplexity int) int
-		Company  func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) int
+		Company  func(childComplexity int, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) int
 		Count    func(childComplexity int) int
 	}
 
 	UpdateSmartPhonePayload struct {
 		Affected   func(childComplexity int) int
 		Count      func(childComplexity int) int
-		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) int
+		SmartPhone func(childComplexity int, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) int
 	}
 
 	UpdateTodoPayload struct {
 		Affected func(childComplexity int) int
 		Count    func(childComplexity int) int
-		Todo     func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) int
+		Todo     func(childComplexity int, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) int
 	}
 
 	UpdateUserPayload struct {
 		Affected func(childComplexity int) int
 		Count    func(childComplexity int) int
-		User     func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) int
+		User     func(childComplexity int, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) int
 	}
 
 	User struct {
@@ -264,34 +264,34 @@ type ComplexityRoot struct {
 }
 
 type AddCatPayloadResolver interface {
-	Cat(ctx context.Context, obj *model.AddCatPayload, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) (*model.CatQueryResult, error)
+	Cat(ctx context.Context, obj *model.AddCatPayload, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error)
 }
 type AddCompanyPayloadResolver interface {
-	Company(ctx context.Context, obj *model.AddCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
+	Company(ctx context.Context, obj *model.AddCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) (*model.CompanyQueryResult, error)
 }
 type AddSmartPhonePayloadResolver interface {
-	SmartPhone(ctx context.Context, obj *model.AddSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
+	SmartPhone(ctx context.Context, obj *model.AddSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) (*model.SmartPhoneQueryResult, error)
 }
 type AddTodoPayloadResolver interface {
-	Todo(ctx context.Context, obj *model.AddTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
+	Todo(ctx context.Context, obj *model.AddTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) (*model.TodoQueryResult, error)
 }
 type AddUserPayloadResolver interface {
-	User(ctx context.Context, obj *model.AddUserPayload, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) (*model.UserQueryResult, error)
+	User(ctx context.Context, obj *model.AddUserPayload, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error)
 }
 type DeleteCatPayloadResolver interface {
-	Cat(ctx context.Context, obj *model.DeleteCatPayload, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) (*model.CatQueryResult, error)
+	Cat(ctx context.Context, obj *model.DeleteCatPayload, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error)
 }
 type DeleteCompanyPayloadResolver interface {
-	Company(ctx context.Context, obj *model.DeleteCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
+	Company(ctx context.Context, obj *model.DeleteCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) (*model.CompanyQueryResult, error)
 }
 type DeleteSmartPhonePayloadResolver interface {
-	SmartPhone(ctx context.Context, obj *model.DeleteSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
+	SmartPhone(ctx context.Context, obj *model.DeleteSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) (*model.SmartPhoneQueryResult, error)
 }
 type DeleteTodoPayloadResolver interface {
-	Todo(ctx context.Context, obj *model.DeleteTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
+	Todo(ctx context.Context, obj *model.DeleteTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) (*model.TodoQueryResult, error)
 }
 type DeleteUserPayloadResolver interface {
-	User(ctx context.Context, obj *model.DeleteUserPayload, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) (*model.UserQueryResult, error)
+	User(ctx context.Context, obj *model.DeleteUserPayload, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error)
 }
 type MutationResolver interface {
 	AddCat(ctx context.Context, input []*model.CatInput) (*model.AddCatPayload, error)
@@ -313,30 +313,30 @@ type MutationResolver interface {
 }
 type QueryResolver interface {
 	GetCat(ctx context.Context, id int) (*model.Cat, error)
-	QueryCat(ctx context.Context, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) (*model.CatQueryResult, error)
+	QueryCat(ctx context.Context, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error)
 	GetCompany(ctx context.Context, id int) (*model.Company, error)
-	QueryCompany(ctx context.Context, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
+	QueryCompany(ctx context.Context, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) (*model.CompanyQueryResult, error)
 	GetSmartPhone(ctx context.Context, id int) (*model.SmartPhone, error)
-	QuerySmartPhone(ctx context.Context, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
+	QuerySmartPhone(ctx context.Context, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) (*model.SmartPhoneQueryResult, error)
 	GetTodo(ctx context.Context, id int) (*model.Todo, error)
-	QueryTodo(ctx context.Context, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
+	QueryTodo(ctx context.Context, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) (*model.TodoQueryResult, error)
 	GetUser(ctx context.Context, id int) (*model.User, error)
-	QueryUser(ctx context.Context, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) (*model.UserQueryResult, error)
+	QueryUser(ctx context.Context, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error)
 }
 type UpdateCatPayloadResolver interface {
-	Cat(ctx context.Context, obj *model.UpdateCatPayload, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) (*model.CatQueryResult, error)
+	Cat(ctx context.Context, obj *model.UpdateCatPayload, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error)
 }
 type UpdateCompanyPayloadResolver interface {
-	Company(ctx context.Context, obj *model.UpdateCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error)
+	Company(ctx context.Context, obj *model.UpdateCompanyPayload, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) (*model.CompanyQueryResult, error)
 }
 type UpdateSmartPhonePayloadResolver interface {
-	SmartPhone(ctx context.Context, obj *model.UpdateSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error)
+	SmartPhone(ctx context.Context, obj *model.UpdateSmartPhonePayload, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) (*model.SmartPhoneQueryResult, error)
 }
 type UpdateTodoPayloadResolver interface {
-	Todo(ctx context.Context, obj *model.UpdateTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error)
+	Todo(ctx context.Context, obj *model.UpdateTodoPayload, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) (*model.TodoQueryResult, error)
 }
 type UpdateUserPayloadResolver interface {
-	User(ctx context.Context, obj *model.UpdateUserPayload, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) (*model.UserQueryResult, error)
+	User(ctx context.Context, obj *model.UpdateUserPayload, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error)
 }
 
 type executableSchema struct {
@@ -371,7 +371,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.AddCatPayload.Cat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.AddCatPayload.Cat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CatGroup)), true
 
 	case "AddCompanyPayload.affected":
 		if e.complexity.AddCompanyPayload.Affected == nil {
@@ -390,7 +390,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.AddCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.AddCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CompanyGroup)), true
 
 	case "AddSmartPhonePayload.affected":
 		if e.complexity.AddSmartPhonePayload.Affected == nil {
@@ -409,7 +409,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.AddSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.AddSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.SmartPhoneGroup)), true
 
 	case "AddTodoPayload.affected":
 		if e.complexity.AddTodoPayload.Affected == nil {
@@ -428,7 +428,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.AddTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.AddTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.TodoGroup)), true
 
 	case "AddUserPayload.affected":
 		if e.complexity.AddUserPayload.Affected == nil {
@@ -447,7 +447,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.AddUserPayload.User(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.AddUserPayload.User(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.UserGroup)), true
 
 	case "Cat.age":
 		if e.complexity.Cat.Age == nil {
@@ -585,7 +585,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.DeleteCatPayload.Cat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.DeleteCatPayload.Cat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CatGroup)), true
 
 	case "DeleteCatPayload.count":
 		if e.complexity.DeleteCatPayload.Count == nil {
@@ -611,7 +611,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.DeleteCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.DeleteCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CompanyGroup)), true
 
 	case "DeleteCompanyPayload.count":
 		if e.complexity.DeleteCompanyPayload.Count == nil {
@@ -651,7 +651,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.DeleteSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.DeleteSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.SmartPhoneGroup)), true
 
 	case "DeleteTodoPayload.count":
 		if e.complexity.DeleteTodoPayload.Count == nil {
@@ -677,7 +677,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.DeleteTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.DeleteTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.TodoGroup)), true
 
 	case "DeleteUserPayload.count":
 		if e.complexity.DeleteUserPayload.Count == nil {
@@ -703,7 +703,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.DeleteUserPayload.User(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.DeleteUserPayload.User(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.UserGroup)), true
 
 	case "Mutation.addCat":
 		if e.complexity.Mutation.AddCat == nil {
@@ -967,7 +967,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.QueryCat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.QueryCat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CatGroup)), true
 
 	case "Query.queryCompany":
 		if e.complexity.Query.QueryCompany == nil {
@@ -979,7 +979,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.QueryCompany(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.QueryCompany(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CompanyGroup)), true
 
 	case "Query.querySmartPhone":
 		if e.complexity.Query.QuerySmartPhone == nil {
@@ -991,7 +991,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.QuerySmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.QuerySmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.SmartPhoneGroup)), true
 
 	case "Query.queryTodo":
 		if e.complexity.Query.QueryTodo == nil {
@@ -1003,7 +1003,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.QueryTodo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.QueryTodo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.TodoGroup)), true
 
 	case "Query.queryUser":
 		if e.complexity.Query.QueryUser == nil {
@@ -1015,7 +1015,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Query.QueryUser(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.Query.QueryUser(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.UserGroup)), true
 
 	case "SmartPhone.brand":
 		if e.complexity.SmartPhone.Brand == nil {
@@ -1181,7 +1181,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.UpdateCatPayload.Cat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.UpdateCatPayload.Cat(childComplexity, args["filter"].(*model.CatFiltersInput), args["order"].(*model.CatOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CatGroup)), true
 
 	case "UpdateCatPayload.count":
 		if e.complexity.UpdateCatPayload.Count == nil {
@@ -1207,7 +1207,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.UpdateCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.UpdateCompanyPayload.Company(childComplexity, args["filter"].(*model.CompanyFiltersInput), args["order"].(*model.CompanyOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.CompanyGroup)), true
 
 	case "UpdateCompanyPayload.count":
 		if e.complexity.UpdateCompanyPayload.Count == nil {
@@ -1240,7 +1240,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.UpdateSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.UpdateSmartPhonePayload.SmartPhone(childComplexity, args["filter"].(*model.SmartPhoneFiltersInput), args["order"].(*model.SmartPhoneOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.SmartPhoneGroup)), true
 
 	case "UpdateTodoPayload.affected":
 		if e.complexity.UpdateTodoPayload.Affected == nil {
@@ -1266,7 +1266,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.UpdateTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.UpdateTodoPayload.Todo(childComplexity, args["filter"].(*model.TodoFiltersInput), args["order"].(*model.TodoOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.TodoGroup)), true
 
 	case "UpdateUserPayload.affected":
 		if e.complexity.UpdateUserPayload.Affected == nil {
@@ -1292,7 +1292,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.UpdateUserPayload.User(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int)), true
+		return e.complexity.UpdateUserPayload.User(childComplexity, args["filter"].(*model.UserFiltersInput), args["order"].(*model.UserOrder), args["first"].(*int), args["offset"].(*int), args["group"].([]model.UserGroup)), true
 
 	case "User.cat":
 		if e.complexity.User.Cat == nil {
@@ -1688,18 +1688,18 @@ input TimeFilterBetween{
     }
 
     type AddCatPayload{
-      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
       affected: [Cat!]!
     }
 
     type UpdateCatPayload{
-      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
       count: Int!
       affected: [Cat!]!
     }
 
     type DeleteCatPayload{
-      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int): CatQueryResult!
+      cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
       count: Int!
       msg: String
     }
@@ -1720,7 +1720,13 @@ input TimeFilterBetween{
       asc: CatOrderable
       desc: CatOrderable
     }
-
+    enum CatGroup {
+          id
+          name
+          birthDay
+          userID
+          alive
+    }
     input CatFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -1733,7 +1739,7 @@ input TimeFilterBetween{
     }
       extend type Query {
         getCat(id: ID!, ): Cat 
-        queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int ): CatQueryResult 
+        queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!] ): CatQueryResult 
       }
       extend type Mutation {
         addCat(input: [CatInput!]!): AddCatPayload 
@@ -1761,18 +1767,18 @@ input TimeFilterBetween{
     }
 
     type AddCompanyPayload{
-      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
       affected: [Company!]!
     }
 
     type UpdateCompanyPayload{
-      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
       count: Int!
       affected: [Company!]!
     }
 
     type DeleteCompanyPayload{
-      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int): CompanyQueryResult!
+      company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
       count: Int!
       msg: String
     }
@@ -1793,7 +1799,13 @@ input TimeFilterBetween{
       asc: CompanyOrderable
       desc: CompanyOrderable
     }
-
+    enum CompanyGroup {
+          id
+          name
+          description
+          motherCompanyID
+          createdAt
+    }
     input CompanyFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -1807,7 +1819,7 @@ input TimeFilterBetween{
     }
       extend type Query {
         getCompany(id: ID!, ): Company 
-        queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int ): CompanyQueryResult 
+        queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!] ): CompanyQueryResult 
       }
       extend type Mutation {
         addCompany(input: [CompanyInput!]!): AddCompanyPayload 
@@ -1833,18 +1845,18 @@ input TimeFilterBetween{
     }
 
     type AddSmartPhonePayload{
-      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
       affected: [SmartPhone!]!
     }
 
     type UpdateSmartPhonePayload{
-      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
       count: Int!
       affected: [SmartPhone!]!
     }
 
     type DeleteSmartPhonePayload{
-      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int): SmartPhoneQueryResult!
+      smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
       count: Int!
       msg: String
     }
@@ -1865,7 +1877,12 @@ input TimeFilterBetween{
       asc: SmartPhoneOrderable
       desc: SmartPhoneOrderable
     }
-
+    enum SmartPhoneGroup {
+          id
+          brand
+          phonenumber
+          userID
+    }
     input SmartPhoneFiltersInput{
           id: IDFilterInput
           brand: StringFilterInput
@@ -1877,7 +1894,7 @@ input TimeFilterBetween{
     }
       extend type Query {
         getSmartPhone(id: ID!, ): SmartPhone 
-        querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int ): SmartPhoneQueryResult 
+        querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!] ): SmartPhoneQueryResult 
       }
       extend type Mutation {
         addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload 
@@ -1905,18 +1922,18 @@ input TimeFilterBetween{
     }
 
     type AddTodoPayload{
-      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
       affected: [Todo!]!
     }
 
     type UpdateTodoPayload{
-      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
       count: Int!
       affected: [Todo!]!
     }
 
     type DeleteTodoPayload{
-      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int): TodoQueryResult!
+      todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
       count: Int!
       msg: String
     }
@@ -1941,7 +1958,14 @@ input TimeFilterBetween{
       asc: TodoOrderable
       desc: TodoOrderable
     }
-
+    enum TodoGroup {
+          id
+          name
+          ownerID
+          createdAt
+          updatedAt
+          deletedAt
+    }
     input TodoFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -1959,7 +1983,7 @@ input TimeFilterBetween{
     }
       extend type Query {
         getTodo(id: ID!, ): Todo 
-        queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int ): TodoQueryResult 
+        queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!] ): TodoQueryResult 
       }
       extend type Mutation {
         addUser2Todos(input:UserRef2TodosInput!): UpdateTodoPayload 
@@ -1994,18 +2018,18 @@ input TimeFilterBetween{
     }
 
     type AddUserPayload{
-      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
       affected: [User!]!
     }
 
     type UpdateUserPayload{
-      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
       count: Int!
       affected: [User!]!
     }
 
     type DeleteUserPayload{
-      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int): UserQueryResult!
+      user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
       count: Int!
       msg: String
     }
@@ -2027,7 +2051,16 @@ input TimeFilterBetween{
       asc: UserOrderable
       desc: UserOrderable
     }
-
+    enum UserGroup {
+          id
+          name
+          createdAt
+          updatedAt
+          deletedAt
+          companyID
+          favoritColor
+          email
+    }
     input UserFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -2046,7 +2079,7 @@ input TimeFilterBetween{
     }
       extend type Query {
         getUser(id: ID!, ): User 
-        queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int ): UserQueryResult 
+        queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!] ): UserQueryResult 
       }
       extend type Mutation {
         addUser(input: [UserInput!]!): AddUserPayload 
@@ -2099,6 +2132,15 @@ func (ec *executionContext) field_AddCatPayload_cat_args(ctx context.Context, ra
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CatGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCatGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2141,6 +2183,15 @@ func (ec *executionContext) field_AddCompanyPayload_company_args(ctx context.Con
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CompanyGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCompanyGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2183,6 +2234,15 @@ func (ec *executionContext) field_AddSmartPhonePayload_smartPhone_args(ctx conte
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.SmartPhoneGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOSmartPhoneGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2225,6 +2285,15 @@ func (ec *executionContext) field_AddTodoPayload_todo_args(ctx context.Context, 
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.TodoGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOTodoGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2267,6 +2336,15 @@ func (ec *executionContext) field_AddUserPayload_user_args(ctx context.Context, 
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.UserGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOUserGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2309,6 +2387,15 @@ func (ec *executionContext) field_DeleteCatPayload_cat_args(ctx context.Context,
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CatGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCatGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2351,6 +2438,15 @@ func (ec *executionContext) field_DeleteCompanyPayload_company_args(ctx context.
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CompanyGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCompanyGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2393,6 +2489,15 @@ func (ec *executionContext) field_DeleteSmartPhonePayload_smartPhone_args(ctx co
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.SmartPhoneGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOSmartPhoneGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2435,6 +2540,15 @@ func (ec *executionContext) field_DeleteTodoPayload_todo_args(ctx context.Contex
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.TodoGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOTodoGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2477,6 +2591,15 @@ func (ec *executionContext) field_DeleteUserPayload_user_args(ctx context.Contex
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.UserGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOUserGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2849,6 +2972,15 @@ func (ec *executionContext) field_Query_queryCat_args(ctx context.Context, rawAr
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CatGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCatGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2891,6 +3023,15 @@ func (ec *executionContext) field_Query_queryCompany_args(ctx context.Context, r
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CompanyGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCompanyGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2933,6 +3074,15 @@ func (ec *executionContext) field_Query_querySmartPhone_args(ctx context.Context
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.SmartPhoneGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOSmartPhoneGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -2975,6 +3125,15 @@ func (ec *executionContext) field_Query_queryTodo_args(ctx context.Context, rawA
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.TodoGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOTodoGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -3017,6 +3176,15 @@ func (ec *executionContext) field_Query_queryUser_args(ctx context.Context, rawA
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.UserGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOUserGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -3059,6 +3227,15 @@ func (ec *executionContext) field_UpdateCatPayload_cat_args(ctx context.Context,
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CatGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCatGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -3101,6 +3278,15 @@ func (ec *executionContext) field_UpdateCompanyPayload_company_args(ctx context.
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.CompanyGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOCompanyGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -3143,6 +3329,15 @@ func (ec *executionContext) field_UpdateSmartPhonePayload_smartPhone_args(ctx co
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.SmartPhoneGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOSmartPhoneGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -3185,6 +3380,15 @@ func (ec *executionContext) field_UpdateTodoPayload_todo_args(ctx context.Contex
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.TodoGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOTodoGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -3227,6 +3431,15 @@ func (ec *executionContext) field_UpdateUserPayload_user_args(ctx context.Contex
 		}
 	}
 	args["offset"] = arg3
+	var arg4 []model.UserGroup
+	if tmp, ok := rawArgs["group"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("group"))
+		arg4, err = ec.unmarshalOUserGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroupᚄ(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["group"] = arg4
 	return args, nil
 }
 
@@ -3282,7 +3495,7 @@ func (ec *executionContext) _AddCatPayload_cat(ctx context.Context, field graphq
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.AddCatPayload().Cat(rctx, obj, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.AddCatPayload().Cat(rctx, obj, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CatGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3403,7 +3616,7 @@ func (ec *executionContext) _AddCompanyPayload_company(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.AddCompanyPayload().Company(rctx, obj, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.AddCompanyPayload().Company(rctx, obj, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CompanyGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3524,7 +3737,7 @@ func (ec *executionContext) _AddSmartPhonePayload_smartPhone(ctx context.Context
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.AddSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.AddSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.SmartPhoneGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3641,7 +3854,7 @@ func (ec *executionContext) _AddTodoPayload_todo(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.AddTodoPayload().Todo(rctx, obj, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.AddTodoPayload().Todo(rctx, obj, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.TodoGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3772,7 +3985,7 @@ func (ec *executionContext) _AddUserPayload_user(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.AddUserPayload().User(rctx, obj, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.AddUserPayload().User(rctx, obj, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.UserGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4719,7 +4932,7 @@ func (ec *executionContext) _DeleteCatPayload_cat(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.DeleteCatPayload().Cat(rctx, obj, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.DeleteCatPayload().Cat(rctx, obj, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CatGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4867,7 +5080,7 @@ func (ec *executionContext) _DeleteCompanyPayload_company(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.DeleteCompanyPayload().Company(rctx, obj, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.DeleteCompanyPayload().Company(rctx, obj, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CompanyGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5015,7 +5228,7 @@ func (ec *executionContext) _DeleteSmartPhonePayload_smartPhone(ctx context.Cont
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.DeleteSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.DeleteSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.SmartPhoneGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5163,7 +5376,7 @@ func (ec *executionContext) _DeleteTodoPayload_todo(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.DeleteTodoPayload().Todo(rctx, obj, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.DeleteTodoPayload().Todo(rctx, obj, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.TodoGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -5311,7 +5524,7 @@ func (ec *executionContext) _DeleteUserPayload_user(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.DeleteUserPayload().User(rctx, obj, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.DeleteUserPayload().User(rctx, obj, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.UserGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6475,7 +6688,7 @@ func (ec *executionContext) _Query_queryCat(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().QueryCat(rctx, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().QueryCat(rctx, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CatGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6601,7 +6814,7 @@ func (ec *executionContext) _Query_queryCompany(ctx context.Context, field graph
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().QueryCompany(rctx, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().QueryCompany(rctx, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CompanyGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6723,7 +6936,7 @@ func (ec *executionContext) _Query_querySmartPhone(ctx context.Context, field gr
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().QuerySmartPhone(rctx, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().QuerySmartPhone(rctx, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.SmartPhoneGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6859,7 +7072,7 @@ func (ec *executionContext) _Query_queryTodo(ctx context.Context, field graphql.
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().QueryTodo(rctx, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().QueryTodo(rctx, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.TodoGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -6995,7 +7208,7 @@ func (ec *executionContext) _Query_queryUser(ctx context.Context, field graphql.
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().QueryUser(rctx, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.Query().QueryUser(rctx, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.UserGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8175,7 +8388,7 @@ func (ec *executionContext) _UpdateCatPayload_cat(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.UpdateCatPayload().Cat(rctx, obj, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.UpdateCatPayload().Cat(rctx, obj, fc.Args["filter"].(*model.CatFiltersInput), fc.Args["order"].(*model.CatOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CatGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8340,7 +8553,7 @@ func (ec *executionContext) _UpdateCompanyPayload_company(ctx context.Context, f
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.UpdateCompanyPayload().Company(rctx, obj, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.UpdateCompanyPayload().Company(rctx, obj, fc.Args["filter"].(*model.CompanyFiltersInput), fc.Args["order"].(*model.CompanyOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.CompanyGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8505,7 +8718,7 @@ func (ec *executionContext) _UpdateSmartPhonePayload_smartPhone(ctx context.Cont
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.UpdateSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.UpdateSmartPhonePayload().SmartPhone(rctx, obj, fc.Args["filter"].(*model.SmartPhoneFiltersInput), fc.Args["order"].(*model.SmartPhoneOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.SmartPhoneGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8666,7 +8879,7 @@ func (ec *executionContext) _UpdateTodoPayload_todo(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.UpdateTodoPayload().Todo(rctx, obj, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.UpdateTodoPayload().Todo(rctx, obj, fc.Args["filter"].(*model.TodoFiltersInput), fc.Args["order"].(*model.TodoOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.TodoGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8841,7 +9054,7 @@ func (ec *executionContext) _UpdateUserPayload_user(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.UpdateUserPayload().User(rctx, obj, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int))
+		return ec.resolvers.UpdateUserPayload().User(rctx, obj, fc.Args["filter"].(*model.UserFiltersInput), fc.Args["order"].(*model.UserOrder), fc.Args["first"].(*int), fc.Args["offset"].(*int), fc.Args["group"].([]model.UserGroup))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -16552,6 +16765,16 @@ func (ec *executionContext) unmarshalNCatFiltersInput2ᚖgithubᚗcomᚋfasibio�
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNCatGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroup(ctx context.Context, v interface{}) (model.CatGroup, error) {
+	var res model.CatGroup
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCatGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroup(ctx context.Context, sel ast.SelectionSet, v model.CatGroup) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) unmarshalNCatInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatInputᚄ(ctx context.Context, v interface{}) ([]*model.CatInput, error) {
 	var vSlice []interface{}
 	if v != nil {
@@ -16655,6 +16878,16 @@ func (ec *executionContext) unmarshalNCompanyFiltersInput2githubᚗcomᚋfasibio
 func (ec *executionContext) unmarshalNCompanyFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx context.Context, v interface{}) (*model.CompanyFiltersInput, error) {
 	res, err := ec.unmarshalInputCompanyFiltersInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNCompanyGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroup(ctx context.Context, v interface{}) (model.CompanyGroup, error) {
+	var res model.CompanyGroup
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNCompanyGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroup(ctx context.Context, sel ast.SelectionSet, v model.CompanyGroup) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNCompanyInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInputᚄ(ctx context.Context, v interface{}) ([]*model.CompanyInput, error) {
@@ -16824,6 +17057,16 @@ func (ec *executionContext) unmarshalNSmartPhoneFiltersInput2ᚖgithubᚗcomᚋf
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalNSmartPhoneGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroup(ctx context.Context, v interface{}) (model.SmartPhoneGroup, error) {
+	var res model.SmartPhoneGroup
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNSmartPhoneGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroup(ctx context.Context, sel ast.SelectionSet, v model.SmartPhoneGroup) graphql.Marshaler {
+	return v
+}
+
 func (ec *executionContext) unmarshalNSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx context.Context, v interface{}) ([]*model.SmartPhoneInput, error) {
 	var vSlice []interface{}
 	if v != nil {
@@ -16957,6 +17200,16 @@ func (ec *executionContext) unmarshalNTodoFiltersInput2githubᚗcomᚋfasibioᚋ
 func (ec *executionContext) unmarshalNTodoFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoFiltersInput(ctx context.Context, v interface{}) (*model.TodoFiltersInput, error) {
 	res, err := ec.unmarshalInputTodoFiltersInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNTodoGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroup(ctx context.Context, v interface{}) (model.TodoGroup, error) {
+	var res model.TodoGroup
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNTodoGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroup(ctx context.Context, sel ast.SelectionSet, v model.TodoGroup) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNTodoInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoInputᚄ(ctx context.Context, v interface{}) ([]*model.TodoInput, error) {
@@ -17097,6 +17350,16 @@ func (ec *executionContext) unmarshalNUserFiltersInput2githubᚗcomᚋfasibioᚋ
 func (ec *executionContext) unmarshalNUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx context.Context, v interface{}) (*model.UserFiltersInput, error) {
 	res, err := ec.unmarshalInputUserFiltersInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalNUserGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroup(ctx context.Context, v interface{}) (model.UserGroup, error) {
+	var res model.UserGroup
+	err := res.UnmarshalGQL(v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNUserGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroup(ctx context.Context, sel ast.SelectionSet, v model.UserGroup) graphql.Marshaler {
+	return v
 }
 
 func (ec *executionContext) unmarshalNUserInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserInputᚄ(ctx context.Context, v interface{}) ([]*model.UserInput, error) {
@@ -17534,6 +17797,73 @@ func (ec *executionContext) unmarshalOCatFiltersInput2ᚖgithubᚗcomᚋfasibio�
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalOCatGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroupᚄ(ctx context.Context, v interface{}) ([]model.CatGroup, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]model.CatGroup, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNCatGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroup(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOCatGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []model.CatGroup) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNCatGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatGroup(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
 func (ec *executionContext) unmarshalOCatInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatInput(ctx context.Context, v interface{}) (*model.CatInput, error) {
 	if v == nil {
 		return nil, nil
@@ -17614,6 +17944,73 @@ func (ec *executionContext) unmarshalOCompanyFiltersInput2ᚖgithubᚗcomᚋfasi
 	}
 	res, err := ec.unmarshalInputCompanyFiltersInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOCompanyGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroupᚄ(ctx context.Context, v interface{}) ([]model.CompanyGroup, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]model.CompanyGroup, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNCompanyGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroup(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOCompanyGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []model.CompanyGroup) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNCompanyGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyGroup(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalOCompanyInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyInput(ctx context.Context, v interface{}) (*model.CompanyInput, error) {
@@ -17892,6 +18289,73 @@ func (ec *executionContext) unmarshalOSmartPhoneFiltersInput2ᚖgithubᚗcomᚋf
 	}
 	res, err := ec.unmarshalInputSmartPhoneFiltersInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOSmartPhoneGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroupᚄ(ctx context.Context, v interface{}) ([]model.SmartPhoneGroup, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]model.SmartPhoneGroup, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNSmartPhoneGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroup(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOSmartPhoneGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []model.SmartPhoneGroup) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNSmartPhoneGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneGroup(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalOSmartPhoneInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhoneInputᚄ(ctx context.Context, v interface{}) ([]*model.SmartPhoneInput, error) {
@@ -18198,6 +18662,73 @@ func (ec *executionContext) unmarshalOTodoFiltersInput2ᚖgithubᚗcomᚋfasibio
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) unmarshalOTodoGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroupᚄ(ctx context.Context, v interface{}) ([]model.TodoGroup, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]model.TodoGroup, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNTodoGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroup(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOTodoGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []model.TodoGroup) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNTodoGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoGroup(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
 func (ec *executionContext) unmarshalOTodoOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTodoOrder(ctx context.Context, v interface{}) (*model.TodoOrder, error) {
 	if v == nil {
 		return nil, nil
@@ -18313,6 +18844,73 @@ func (ec *executionContext) unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibio
 	}
 	res, err := ec.unmarshalInputUserFiltersInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOUserGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroupᚄ(ctx context.Context, v interface{}) ([]model.UserGroup, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]model.UserGroup, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNUserGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroup(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOUserGroup2ᚕgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroupᚄ(ctx context.Context, sel ast.SelectionSet, v []model.UserGroup) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNUserGroup2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserGroup(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalOUserOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserOrder(ctx context.Context, v interface{}) (*model.UserOrder, error) {

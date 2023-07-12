@@ -2890,6 +2890,66 @@ func (v *deleteUserResponse) GetDeleteUser() *deleteUserDeleteUserDeleteUserPayl
 	return v.DeleteUser
 }
 
+// getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+type getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult struct {
+	Count int                                                             `json:"count"`
+	Data  []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo `json:"data"`
+}
+
+// GetCount returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult.Count, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult) GetCount() int { return v.Count }
+
+// GetData returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult) GetData() []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo {
+	return v.Data
+}
+
+// getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
+type getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo struct {
+	Id    string                                                                   `json:"id"`
+	Name  string                                                                   `json:"name"`
+	Users []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+}
+
+// GetId returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo) GetId() string { return v.Id }
+
+// GetName returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo.Name, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo) GetName() string {
+	return v.Name
+}
+
+// GetUsers returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo) GetUsers() []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser {
+	return v.Users
+}
+
+// getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
+type getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser struct {
+	Id   string `json:"id"`
+	Name string `json:"name"`
+}
+
+// GetId returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser.Id, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser) GetName() string {
+	return v.Name
+}
+
+// getAllTodosWithUserGroupByIdResponse is returned by getAllTodosWithUserGroupById on success.
+type getAllTodosWithUserGroupByIdResponse struct {
+	QueryTodo *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult `json:"queryTodo"`
+}
+
+// GetQueryTodo returns getAllTodosWithUserGroupByIdResponse.QueryTodo, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdResponse) GetQueryTodo() *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult {
+	return v.QueryTodo
+}
+
 // getUserByIdGetUser includes the requested fields of the GraphQL type User.
 type getUserByIdGetUser struct {
 	Id      string                     `json:"id"`
@@ -3951,6 +4011,42 @@ mutation deleteUserByUserName ($userName: String!) {
 	var err error
 
 	var data deleteUserByUserNameResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func getAllTodosWithUserGroupById(
+	ctx context.Context,
+	client graphql.Client,
+) (*getAllTodosWithUserGroupByIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "getAllTodosWithUserGroupById",
+		Query: `
+query getAllTodosWithUserGroupById {
+	queryTodo(filter: {users:{id:{notNull:true}}}, group: [id]) {
+		count
+		data {
+			id
+			name
+			users {
+				id
+				name
+			}
+		}
+	}
+}
+`,
+	}
+	var err error
+
+	var data getAllTodosWithUserGroupByIdResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
