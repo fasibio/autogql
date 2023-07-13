@@ -1,7 +1,8 @@
-
-{{ reserveImport "context"  }}
-{{ reserveImport "fmt"  }}
-{{ reserveImport "gorm.io/gorm/clause"}}
+{{ reserveImport "strings" }}
+{{ reserveImport "github.com/huandu/xstrings" }}
+{{ reserveImport "context" }}
+{{ reserveImport "fmt" }}
+{{ reserveImport "gorm.io/gorm/clause" }}
 {{ range $import := .Imports }}
   {{ reserveImport $import }}
 {{end}}
@@ -52,7 +53,7 @@
       {{- end}}
       {{- if $object.SQLDirective.Query.Query}}
         // Query{{$object.Name}} is the resolver for the query{{$object.Name}} field.
-        func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model.{{$object.Name}}FiltersInput, order *model.{{$object.Name}}Order, first *int, offset *int) (*model.{{$object.Name}}QueryResult, error) {
+        func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model.{{$object.Name}}FiltersInput, order *model.{{$object.Name}}Order, first *int, offset *int, group []model.{{$object.Name}}Group) (*model.{{$object.Name}}QueryResult, error) {
           v, okHook := r.Sql.Hooks[string(db.Query{{$object.Name}})].(db.{{$hookBaseName}}HookQuery[model.{{$object.Name}}, model.{{$object.Name}}FiltersInput,model.{{$object.Name}}Order])
           db := r.Sql.Db
           if okHook {
@@ -93,6 +94,13 @@
           if offset != nil {
             db = db.Offset(*offset)
           }
+          if len(group) > 0 {
+            garr := make([]string, len(group))
+            for i, g := range group {
+              garr[i] = fmt.Sprintf("%s.%s",tableName, xstrings.ToSnakeCase(string(g)))
+            }
+            db = db.Group(strings.Join(garr, ","))
+          }
           db = db.Find(&res)
           if okHook {
             var err error
@@ -126,8 +134,8 @@
       type {{lcFirst $object.Name}}PayloadResolver[T  {{lcFirst $object.Name}}Payload] struct {
         *Resolver
       }
-      func (r *{{lcFirst $object.Name}}PayloadResolver[T]) {{$object.Name}}(ctx context.Context, obj T, filter *model.{{$object.Name}}FiltersInput, order *model.{{$object.Name}}Order, first *int, offset *int) (*model.{{$object.Name}}QueryResult, error){
-        return r.Query().Query{{$object.Name}}(ctx,filter,order,first,offset)
+      func (r *{{lcFirst $object.Name}}PayloadResolver[T]) {{$object.Name}}(ctx context.Context, obj T, filter *model.{{$object.Name}}FiltersInput, order *model.{{$object.Name}}Order, first *int, offset *int, group []model.{{$object.Name}}Group) (*model.{{$object.Name}}QueryResult, error){
+        return r.Query().Query{{$object.Name}}(ctx,filter,order,first,offset,group)
       }
       {{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
         func (r *mutationResolver) Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(ctx context.Context, input model.{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput) (*model.Update{{$object.Name}}Payload, error){

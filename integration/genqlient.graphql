@@ -279,6 +279,20 @@ query allTodosByUserCatName($catName:String){
   }
 }
 
+query getAllTodosWithUserGroupById{
+  queryTodo(filter: {users:{id: {notNull: true}}}, group:[id], order:{asc: id}){
+    count
+    data{
+      id
+      name
+      users{
+        id
+        name
+      }
+    }
+  }
+}
+
 query getUserById($userId:ID!){
   getUser(id:$userId){
     id

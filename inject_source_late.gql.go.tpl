@@ -105,18 +105,18 @@ input TimeFilterBetween{
     }
 
     type Add{{$object.Name}}Payload{
-      {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
+      {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int, group: [{{$object.Name}}Group!]): {{$object.Name}}QueryResult!
       affected: [{{$object.Name}}!]!
     }
 
     type Update{{$object.Name}}Payload{
-      {{lcFirst  $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
+      {{lcFirst  $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int, group: [{{$object.Name}}Group!]): {{$object.Name}}QueryResult!
       count: Int!
       affected: [{{$object.Name}}!]!
     }
 
     type Delete{{$object.Name}}Payload{
-      {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int): {{$object.Name}}QueryResult!
+      {{lcFirst $object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int, group: [{{$object.Name}}Group!]): {{$object.Name}}QueryResult!
       count: Int!
       msg: String
     }
@@ -144,7 +144,13 @@ input TimeFilterBetween{
       asc: {{$object.Name}}Orderable
       desc: {{$object.Name}}Orderable
     }
-
+    enum {{$object.Name}}Group {
+      {{- range $entityKey, $entity := $object.InputFilterEntities}}
+        {{- if $entity.IsPrimitive }}
+          {{$entity.Name}}
+        {{- end }}
+      {{- end}}
+    }
     input {{$object.Name}}FiltersInput{
       {{- range $entityKey, $entity := $object.InputFilterEntities}}
         {{- if $entity.IsPrimitive }}
@@ -171,7 +177,7 @@ input TimeFilterBetween{
         get{{$object.Name}}({{range $entryKey, $entity := $object.PrimaryKeys}}{{$entity.Name}}: {{$entity.GqlType "Patch"}}!, {{end}}): {{$object.Name}} {{ $object.SQLDirectiveValues "query" "Get" | join " "}}
       {{- end}}
       {{- if $object.SQLDirective.Query.Query}}
-        query{{$object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int ): {{$object.Name}}QueryResult {{ $object.SQLDirectiveValues "query" "Query" | join " "}}
+        query{{$object.Name}}(filter: {{$object.Name}}FiltersInput, order: {{$object.Name}}Order, first: Int, offset: Int, group: [{{$object.Name}}Group!] ): {{$object.Name}}QueryResult {{ $object.SQLDirectiveValues "query" "Query" | join " "}}
       {{- end}}
       }
     {{- end}}
