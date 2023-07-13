@@ -280,7 +280,7 @@ query allTodosByUserCatName($catName:String){
 }
 
 query getAllTodosWithUserGroupById{
-  queryTodo(filter: {users:{id: {notNull: true}}}, group:[id]){
+  queryTodo(filter: {users:{id: {notNull: true}}}, group:[id], order:{asc: id}){
     count
     data{
       id
