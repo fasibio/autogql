@@ -166,6 +166,12 @@ type ComplexityRoot struct {
 		UpdateUser       func(childComplexity int, input model.UpdateUserInput) int
 	}
 
+	NoSqlControl struct {
+		A  func(childComplexity int) int
+		B  func(childComplexity int) int
+		ID func(childComplexity int) int
+	}
+
 	Query struct {
 		GetCat          func(childComplexity int, id int) int
 		GetCompany      func(childComplexity int, id int) int
@@ -199,6 +205,7 @@ type ComplexityRoot struct {
 		Etype5    func(childComplexity int) int
 		ID        func(childComplexity int) int
 		Name      func(childComplexity int) int
+		NoControl func(childComplexity int) int
 		Owner     func(childComplexity int) int
 		OwnerID   func(childComplexity int) int
 		Test123   func(childComplexity int) int
@@ -897,6 +904,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateUser(childComplexity, args["input"].(model.UpdateUserInput)), true
 
+	case "NoSqlControl.a":
+		if e.complexity.NoSqlControl.A == nil {
+			break
+		}
+
+		return e.complexity.NoSqlControl.A(childComplexity), true
+
+	case "NoSqlControl.b":
+		if e.complexity.NoSqlControl.B == nil {
+			break
+		}
+
+		return e.complexity.NoSqlControl.B(childComplexity), true
+
+	case "NoSqlControl.id":
+		if e.complexity.NoSqlControl.ID == nil {
+			break
+		}
+
+		return e.complexity.NoSqlControl.ID(childComplexity), true
+
 	case "Query.getCat":
 		if e.complexity.Query.GetCat == nil {
 			break
@@ -1107,6 +1135,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Todo.Name(childComplexity), true
+
+	case "Todo.noControl":
+		if e.complexity.Todo.NoControl == nil {
+			break
+		}
+
+		return e.complexity.Todo.NoControl(childComplexity), true
 
 	case "Todo.owner":
 		if e.complexity.Todo.Owner == nil {
@@ -1680,7 +1715,9 @@ input TimeFilterBetween{
       birthDay: Time  
       userID: Int  
       alive: Boolean  
-  }
+  } 
+
+
 
     input UpdateCatInput{
       filter: CatFiltersInput!
@@ -1759,7 +1796,9 @@ input TimeFilterBetween{
       description: String  
       motherCompanyID: Int  
       motherCompany: CompanyPatch  
-  }
+  } 
+
+
 
     input UpdateCompanyInput{
       filter: CompanyFiltersInput!
@@ -1837,7 +1876,9 @@ input TimeFilterBetween{
       brand: String  
       phonenumber: String  
       userID: ID  
-  }
+  } 
+
+
 
     input UpdateSmartPhoneInput{
       filter: SmartPhoneFiltersInput!
@@ -1914,7 +1955,9 @@ input TimeFilterBetween{
       etype1: TodoType  
       etype5: TodoType  
       test123: Test  
-  }
+  } 
+
+
 
     input UpdateTodoInput{
       filter: TodoFiltersInput!
@@ -2010,7 +2053,9 @@ input TimeFilterBetween{
       smartPhones: [SmartPhonePatch!]  
       favoritColor: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"omitempty,hexcolor|rgb|rgba\""]) 
       email: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required,email\""]) 
-  }
+  } 
+
+
 
     input UpdateUserInput{
       filter: UserFiltersInput!
@@ -3964,6 +4009,8 @@ func (ec *executionContext) fieldContext_AddTodoPayload_affected(ctx context.Con
 				return ec.fieldContext_Todo_etype5(ctx, field)
 			case "test123":
 				return ec.fieldContext_Todo_test123(ctx, field)
+			case "noControl":
+				return ec.fieldContext_Todo_noControl(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -6608,6 +6655,135 @@ func (ec *executionContext) fieldContext_Mutation_deleteUser(ctx context.Context
 	return fc, nil
 }
 
+func (ec *executionContext) _NoSqlControl_id(ctx context.Context, field graphql.CollectedField, obj *model.NoSQLControl) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NoSqlControl_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNID2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NoSqlControl_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NoSqlControl",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NoSqlControl_a(ctx context.Context, field graphql.CollectedField, obj *model.NoSQLControl) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NoSqlControl_a(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.A, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NoSqlControl_a(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NoSqlControl",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _NoSqlControl_b(ctx context.Context, field graphql.CollectedField, obj *model.NoSQLControl) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_NoSqlControl_b(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.B, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_NoSqlControl_b(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "NoSqlControl",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Query_getCat(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Query_getCat(ctx, field)
 	if err != nil {
@@ -7040,6 +7216,8 @@ func (ec *executionContext) fieldContext_Query_getTodo(ctx context.Context, fiel
 				return ec.fieldContext_Todo_etype5(ctx, field)
 			case "test123":
 				return ec.fieldContext_Todo_test123(ctx, field)
+			case "noControl":
+				return ec.fieldContext_Todo_noControl(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -8218,6 +8396,55 @@ func (ec *executionContext) fieldContext_Todo_test123(ctx context.Context, field
 	return fc, nil
 }
 
+func (ec *executionContext) _Todo_noControl(ctx context.Context, field graphql.CollectedField, obj *model.Todo) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Todo_noControl(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.NoControl, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.NoSQLControl)
+	fc.Result = res
+	return ec.marshalONoSqlControl2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐNoSQLControl(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Todo_noControl(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Todo",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_NoSqlControl_id(ctx, field)
+			case "a":
+				return ec.fieldContext_NoSqlControl_a(ctx, field)
+			case "b":
+				return ec.fieldContext_NoSqlControl_b(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type NoSqlControl", field.Name)
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _TodoQueryResult_data(ctx context.Context, field graphql.CollectedField, obj *model.TodoQueryResult) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_TodoQueryResult_data(ctx, field)
 	if err != nil {
@@ -8279,6 +8506,8 @@ func (ec *executionContext) fieldContext_TodoQueryResult_data(ctx context.Contex
 				return ec.fieldContext_Todo_etype5(ctx, field)
 			case "test123":
 				return ec.fieldContext_Todo_test123(ctx, field)
+			case "noControl":
+				return ec.fieldContext_Todo_noControl(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -9033,6 +9262,8 @@ func (ec *executionContext) fieldContext_UpdateTodoPayload_affected(ctx context.
 				return ec.fieldContext_Todo_etype5(ctx, field)
 			case "test123":
 				return ec.fieldContext_Todo_test123(ctx, field)
+			case "noControl":
+				return ec.fieldContext_Todo_noControl(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Todo", field.Name)
 		},
@@ -15380,6 +15611,52 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 	return out
 }
 
+var noSqlControlImplementors = []string{"NoSqlControl"}
+
+func (ec *executionContext) _NoSqlControl(ctx context.Context, sel ast.SelectionSet, obj *model.NoSQLControl) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, noSqlControlImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	deferred := make(map[string]*graphql.FieldSet)
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("NoSqlControl")
+		case "id":
+			out.Values[i] = ec._NoSqlControl_id(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "a":
+			out.Values[i] = ec._NoSqlControl_a(ctx, field, obj)
+		case "b":
+			out.Values[i] = ec._NoSqlControl_b(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch(ctx)
+	if out.Invalids > 0 {
+		return graphql.Null
+	}
+
+	atomic.AddInt32(&ec.deferred, int32(len(deferred)))
+
+	for label, dfs := range deferred {
+		ec.processDeferredGroup(graphql.DeferredGroup{
+			Label:    label,
+			Path:     graphql.GetPath(ctx),
+			FieldSet: dfs,
+			Context:  ctx,
+		})
+	}
+
+	return out
+}
+
 var queryImplementors = []string{"Query"}
 
 func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -15774,6 +16051,8 @@ func (ec *executionContext) _Todo(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "test123":
 			out.Values[i] = ec._Todo_test123(ctx, field, obj)
+		case "noControl":
+			out.Values[i] = ec._Todo_noControl(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -18213,6 +18492,13 @@ func (ec *executionContext) unmarshalOIntFilterInput2ᚖgithubᚗcomᚋfasibio�
 	}
 	res, err := ec.unmarshalInputIntFilterInput(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalONoSqlControl2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐNoSQLControl(ctx context.Context, sel ast.SelectionSet, v *model.NoSQLControl) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	return ec._NoSqlControl(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalOSmartPhone2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSmartPhone(ctx context.Context, sel ast.SelectionSet, v []*model.SmartPhone) graphql.Marshaler {

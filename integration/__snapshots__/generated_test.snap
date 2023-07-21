@@ -3925,6 +3925,76 @@
             &integration.IntrospectionQuerySchemaTypesType{
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
+                    Name:        &"NoSqlControl",
+                    Description: (*string)(nil),
+                    Fields:      {
+                        &integration.FullTypeFieldsField{
+                            Name:        "id",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"ID",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "a",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "b",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Int",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "OBJECT",
                     Name:        &"Query",
                     Description: (*string)(nil),
                     Fields:      {
@@ -6116,6 +6186,21 @@
                                 TypeRef: integration.TypeRef{
                                     Kind:   "SCALAR",
                                     Name:   &"Test",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "noControl",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "OBJECT",
+                                    Name:   &"NoSqlControl",
                                     OfType: (*integration.TypeRefOfType)(nil),
                                 },
                             },
@@ -9884,7 +9969,7 @@
 gqlerror.List{
     &gqlerror.Error{
         err:     nil,
-        Message: "validationerror:  Key: 'UserInput.Email' Error:Field validation for 'Email' failed on the 'email' tag",
+        Message: "Key: 'UserInput.Email' Error:Field validation for 'Email' failed on the 'email' tag",
         Path:    {
             "addUser",
             "input",
@@ -9892,8 +9977,13 @@ gqlerror.List{
             "name",
         },
         Locations:  nil,
-        Extensions: {},
-        Rule:       "",
+        Extensions: {
+            "code":      "INPUT_VALIDATION_ERROR",
+            "field":     "Email",
+            "namespace": "UserInput.Email",
+            "tag":       "email",
+        },
+        Rule: "",
     },
 }
 ---
