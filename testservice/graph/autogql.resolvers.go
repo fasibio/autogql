@@ -5,10 +5,12 @@ package graph
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/fasibio/autogql/runtimehelper"
 	"github.com/fasibio/autogql/testservice/graph/db"
 	"github.com/fasibio/autogql/testservice/graph/model"
+	"github.com/huandu/xstrings"
 	"gorm.io/gorm/clause"
 )
 
@@ -49,7 +51,7 @@ func (r *queryResolver) GetCat(ctx context.Context, id int) (*model.Cat, error) 
 }
 
 // QueryCat is the resolver for the queryCat field.
-func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) (*model.CatQueryResult, error) {
+func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error) {
 	v, okHook := r.Sql.Hooks[string(db.QueryCat)].(db.AutoGqlHookQuery[model.Cat, model.CatFiltersInput, model.CatOrder])
 	db := r.Sql.Db
 	if okHook {
@@ -90,6 +92,13 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 	if offset != nil {
 		db = db.Offset(*offset)
 	}
+	if len(group) > 0 {
+		garr := make([]string, len(group))
+		for i, g := range group {
+			garr[i] = fmt.Sprintf("%s.%s", tableName, xstrings.ToSnakeCase(string(g)))
+		}
+		db = db.Group(strings.Join(garr, ","))
+	}
 	db = db.Find(&res)
 	if okHook {
 		var err error
@@ -126,8 +135,8 @@ type catPayloadResolver[T catPayload] struct {
 	*Resolver
 }
 
-func (r *catPayloadResolver[T]) Cat(ctx context.Context, obj T, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int) (*model.CatQueryResult, error) {
-	return r.Query().QueryCat(ctx, filter, order, first, offset)
+func (r *catPayloadResolver[T]) Cat(ctx context.Context, obj T, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error) {
+	return r.Query().QueryCat(ctx, filter, order, first, offset, group)
 }
 
 // AddCat is the resolver for the addCat field.
@@ -155,6 +164,12 @@ func (r *mutationResolver) AddCat(ctx context.Context, input []*model.CatInput) 
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.Cat, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -197,8 +212,19 @@ func (r *mutationResolver) UpdateCat(ctx context.Context, input model.UpdateCatI
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.Cat, 0)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
+	}
+
 	res := &model.UpdateCatPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -293,7 +319,7 @@ func (r *queryResolver) GetCompany(ctx context.Context, id int) (*model.Company,
 }
 
 // QueryCompany is the resolver for the queryCompany field.
-func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error) {
+func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) (*model.CompanyQueryResult, error) {
 	v, okHook := r.Sql.Hooks[string(db.QueryCompany)].(db.AutoGqlHookQuery[model.Company, model.CompanyFiltersInput, model.CompanyOrder])
 	db := r.Sql.Db
 	if okHook {
@@ -334,6 +360,13 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 	if offset != nil {
 		db = db.Offset(*offset)
 	}
+	if len(group) > 0 {
+		garr := make([]string, len(group))
+		for i, g := range group {
+			garr[i] = fmt.Sprintf("%s.%s", tableName, xstrings.ToSnakeCase(string(g)))
+		}
+		db = db.Group(strings.Join(garr, ","))
+	}
 	db = db.Find(&res)
 	if okHook {
 		var err error
@@ -370,8 +403,8 @@ type companyPayloadResolver[T companyPayload] struct {
 	*Resolver
 }
 
-func (r *companyPayloadResolver[T]) Company(ctx context.Context, obj T, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int) (*model.CompanyQueryResult, error) {
-	return r.Query().QueryCompany(ctx, filter, order, first, offset)
+func (r *companyPayloadResolver[T]) Company(ctx context.Context, obj T, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) (*model.CompanyQueryResult, error) {
+	return r.Query().QueryCompany(ctx, filter, order, first, offset, group)
 }
 
 // AddCompany is the resolver for the addCompany field.
@@ -399,6 +432,12 @@ func (r *mutationResolver) AddCompany(ctx context.Context, input []*model.Compan
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.Company, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -441,8 +480,19 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Update
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.Company, 0)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
+	}
+
 	res := &model.UpdateCompanyPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -537,7 +587,7 @@ func (r *queryResolver) GetSmartPhone(ctx context.Context, id int) (*model.Smart
 }
 
 // QuerySmartPhone is the resolver for the querySmartPhone field.
-func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error) {
+func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) (*model.SmartPhoneQueryResult, error) {
 	v, okHook := r.Sql.Hooks[string(db.QuerySmartPhone)].(db.AutoGqlHookQuery[model.SmartPhone, model.SmartPhoneFiltersInput, model.SmartPhoneOrder])
 	db := r.Sql.Db
 	if okHook {
@@ -578,6 +628,13 @@ func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.Smart
 	if offset != nil {
 		db = db.Offset(*offset)
 	}
+	if len(group) > 0 {
+		garr := make([]string, len(group))
+		for i, g := range group {
+			garr[i] = fmt.Sprintf("%s.%s", tableName, xstrings.ToSnakeCase(string(g)))
+		}
+		db = db.Group(strings.Join(garr, ","))
+	}
 	db = db.Find(&res)
 	if okHook {
 		var err error
@@ -614,8 +671,8 @@ type smartPhonePayloadResolver[T smartPhonePayload] struct {
 	*Resolver
 }
 
-func (r *smartPhonePayloadResolver[T]) SmartPhone(ctx context.Context, obj T, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int) (*model.SmartPhoneQueryResult, error) {
-	return r.Query().QuerySmartPhone(ctx, filter, order, first, offset)
+func (r *smartPhonePayloadResolver[T]) SmartPhone(ctx context.Context, obj T, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) (*model.SmartPhoneQueryResult, error) {
+	return r.Query().QuerySmartPhone(ctx, filter, order, first, offset, group)
 }
 
 // AddSmartPhone is the resolver for the addSmartPhone field.
@@ -643,6 +700,12 @@ func (r *mutationResolver) AddSmartPhone(ctx context.Context, input []*model.Sma
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.SmartPhone, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -685,8 +748,19 @@ func (r *mutationResolver) UpdateSmartPhone(ctx context.Context, input model.Upd
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.SmartPhone, 0)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
+	}
+
 	res := &model.UpdateSmartPhonePayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -781,7 +855,7 @@ func (r *queryResolver) GetTodo(ctx context.Context, id int) (*model.Todo, error
 }
 
 // QueryTodo is the resolver for the queryTodo field.
-func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error) {
+func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) (*model.TodoQueryResult, error) {
 	v, okHook := r.Sql.Hooks[string(db.QueryTodo)].(db.AutoGqlHookQuery[model.Todo, model.TodoFiltersInput, model.TodoOrder])
 	db := r.Sql.Db
 	if okHook {
@@ -822,6 +896,13 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 	if offset != nil {
 		db = db.Offset(*offset)
 	}
+	if len(group) > 0 {
+		garr := make([]string, len(group))
+		for i, g := range group {
+			garr[i] = fmt.Sprintf("%s.%s", tableName, xstrings.ToSnakeCase(string(g)))
+		}
+		db = db.Group(strings.Join(garr, ","))
+	}
 	db = db.Find(&res)
 	if okHook {
 		var err error
@@ -858,8 +939,8 @@ type todoPayloadResolver[T todoPayload] struct {
 	*Resolver
 }
 
-func (r *todoPayloadResolver[T]) Todo(ctx context.Context, obj T, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int) (*model.TodoQueryResult, error) {
-	return r.Query().QueryTodo(ctx, filter, order, first, offset)
+func (r *todoPayloadResolver[T]) Todo(ctx context.Context, obj T, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) (*model.TodoQueryResult, error) {
+	return r.Query().QueryTodo(ctx, filter, order, first, offset, group)
 }
 func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRef2TodosInput) (*model.UpdateTodoPayload, error) {
 	v, okHook := r.Sql.Hooks[string(db.AddUser2Todos)].(db.AutoGqlHookMany2Many[model.UserRef2TodosInput, model.UpdateTodoPayload])
@@ -898,8 +979,22 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 		}
 	}
 	d := r.Sql.Db.Model(&TodoUsers{}).Create(resIds)
+	affectedRes := make([]*model.Todo, len(resIds))
+	affectedResWhereIn := make([]interface{}, len(resIds))
+	for i, v := range resIds {
+		affectedResWhereIn[i] = v["TodoID"]
+	}
+	affectedDb := r.Sql.Db
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, preloadMap)
+			affectedDb.Where("id IN ?", affectedResWhereIn).Find(&affectedRes)
+		}
+	}
 	result := &model.UpdateTodoPayload{
-		Count: int(d.RowsAffected),
+		Affected: affectedRes,
+		Count:    int(d.RowsAffected),
 	}
 	if okHook {
 		var err error
@@ -936,6 +1031,12 @@ func (r *mutationResolver) AddTodo(ctx context.Context, input []*model.TodoInput
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.Todo, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -978,8 +1079,19 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.Todo, 0)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
+	}
+
 	res := &model.UpdateTodoPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error
@@ -1074,7 +1186,7 @@ func (r *queryResolver) GetUser(ctx context.Context, id int) (*model.User, error
 }
 
 // QueryUser is the resolver for the queryUser field.
-func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) (*model.UserQueryResult, error) {
+func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error) {
 	v, okHook := r.Sql.Hooks[string(db.QueryUser)].(db.AutoGqlHookQuery[model.User, model.UserFiltersInput, model.UserOrder])
 	db := r.Sql.Db
 	if okHook {
@@ -1115,6 +1227,13 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 	if offset != nil {
 		db = db.Offset(*offset)
 	}
+	if len(group) > 0 {
+		garr := make([]string, len(group))
+		for i, g := range group {
+			garr[i] = fmt.Sprintf("%s.%s", tableName, xstrings.ToSnakeCase(string(g)))
+		}
+		db = db.Group(strings.Join(garr, ","))
+	}
 	db = db.Find(&res)
 	if okHook {
 		var err error
@@ -1151,8 +1270,8 @@ type userPayloadResolver[T userPayload] struct {
 	*Resolver
 }
 
-func (r *userPayloadResolver[T]) User(ctx context.Context, obj T, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int) (*model.UserQueryResult, error) {
-	return r.Query().QueryUser(ctx, filter, order, first, offset)
+func (r *userPayloadResolver[T]) User(ctx context.Context, obj T, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error) {
+	return r.Query().QueryUser(ctx, filter, order, first, offset, group)
 }
 
 // AddUser is the resolver for the addUser field.
@@ -1180,6 +1299,12 @@ func (r *mutationResolver) AddUser(ctx context.Context, input []*model.UserInput
 		}
 	}
 	db = db.Create(&obj)
+	affectedRes := make([]*model.User, len(obj))
+	for i, v := range obj {
+		tmp := v
+		affectedRes[i] = &tmp
+	}
+	res.Affected = affectedRes
 	if okHook {
 		var err error
 		res, err = v.BeforeReturn(ctx, db, obj, res)
@@ -1222,8 +1347,19 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUse
 		ids[i] = one.ID
 	}
 	db = db.Model(&obj).Where("id IN ?", ids).Updates(update)
+	affectedRes := make([]*model.User, 0)
+	subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
+	if len(subTables) > 0 {
+		if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+			affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
+			affectedDb = affectedDb.Model(&obj)
+			affectedDb.Find(&affectedRes)
+		}
+	}
+
 	res := &model.UpdateUserPayload{
-		Count: int(db.RowsAffected),
+		Count:    int(db.RowsAffected),
+		Affected: affectedRes,
 	}
 	if okHook {
 		var err error

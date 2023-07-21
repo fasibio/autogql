@@ -274,6 +274,10 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 		return allTodosByUserCatName(context.Background(), suite.Client, &catName)
 	}))
 
+	suite.T().Run("getAllTodosWithUserGroupById", queryTester(func() (any, error) {
+		return getAllTodosWithUserGroupById(context.Background(), suite.Client)
+	}))
+
 	suite.T().Run("allTodosPartOfCompany => TestCompany2", queryTester(func() (any, error) {
 		companyName := "TestCompany2"
 		return allTodosPartOfCompany(context.Background(), suite.Client, &companyName)

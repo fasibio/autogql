@@ -10,23 +10,28 @@ import (
 )
 
 type AddCatPayload struct {
-	Cat *CatQueryResult `json:"cat"`
+	Cat      *CatQueryResult `json:"cat"`
+	Affected []*Cat          `json:"affected"`
 }
 
 type AddCompanyPayload struct {
-	Company *CompanyQueryResult `json:"company"`
+	Company  *CompanyQueryResult `json:"company"`
+	Affected []*Company          `json:"affected"`
 }
 
 type AddSmartPhonePayload struct {
 	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
+	Affected   []*SmartPhone          `json:"affected"`
 }
 
 type AddTodoPayload struct {
-	Todo *TodoQueryResult `json:"todo"`
+	Todo     *TodoQueryResult `json:"todo"`
+	Affected []*Todo          `json:"affected"`
 }
 
 type AddUserPayload struct {
-	User *UserQueryResult `json:"user"`
+	User     *UserQueryResult `json:"user"`
+	Affected []*User          `json:"affected"`
 }
 
 type BooleanFilterInput struct {
@@ -353,8 +358,9 @@ type UpdateCatInput struct {
 }
 
 type UpdateCatPayload struct {
-	Cat   *CatQueryResult `json:"cat"`
-	Count int             `json:"count"`
+	Cat      *CatQueryResult `json:"cat"`
+	Count    int             `json:"count"`
+	Affected []*Cat          `json:"affected"`
 }
 
 type UpdateCompanyInput struct {
@@ -363,8 +369,9 @@ type UpdateCompanyInput struct {
 }
 
 type UpdateCompanyPayload struct {
-	Company *CompanyQueryResult `json:"company"`
-	Count   int                 `json:"count"`
+	Company  *CompanyQueryResult `json:"company"`
+	Count    int                 `json:"count"`
+	Affected []*Company          `json:"affected"`
 }
 
 type UpdateSmartPhoneInput struct {
@@ -375,6 +382,7 @@ type UpdateSmartPhoneInput struct {
 type UpdateSmartPhonePayload struct {
 	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
 	Count      int                    `json:"count"`
+	Affected   []*SmartPhone          `json:"affected"`
 }
 
 type UpdateTodoInput struct {
@@ -383,8 +391,9 @@ type UpdateTodoInput struct {
 }
 
 type UpdateTodoPayload struct {
-	Todo  *TodoQueryResult `json:"todo"`
-	Count int              `json:"count"`
+	Todo     *TodoQueryResult `json:"todo"`
+	Count    int              `json:"count"`
+	Affected []*Todo          `json:"affected"`
 }
 
 type UpdateUserInput struct {
@@ -393,8 +402,9 @@ type UpdateUserInput struct {
 }
 
 type UpdateUserPayload struct {
-	User  *UserQueryResult `json:"user"`
-	Count int              `json:"count"`
+	User     *UserQueryResult `json:"user"`
+	Count    int              `json:"count"`
+	Affected []*User          `json:"affected"`
 }
 
 type User struct {
@@ -464,6 +474,53 @@ type UserRef2TodosInput struct {
 	Set    []int             `json:"set"`
 }
 
+type CatGroup string
+
+const (
+	CatGroupID       CatGroup = "id"
+	CatGroupName     CatGroup = "name"
+	CatGroupBirthDay CatGroup = "birthDay"
+	CatGroupUserID   CatGroup = "userID"
+	CatGroupAlive    CatGroup = "alive"
+)
+
+var AllCatGroup = []CatGroup{
+	CatGroupID,
+	CatGroupName,
+	CatGroupBirthDay,
+	CatGroupUserID,
+	CatGroupAlive,
+}
+
+func (e CatGroup) IsValid() bool {
+	switch e {
+	case CatGroupID, CatGroupName, CatGroupBirthDay, CatGroupUserID, CatGroupAlive:
+		return true
+	}
+	return false
+}
+
+func (e CatGroup) String() string {
+	return string(e)
+}
+
+func (e *CatGroup) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CatGroup(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CatGroup", str)
+	}
+	return nil
+}
+
+func (e CatGroup) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type CatOrderable string
 
 const (
@@ -506,6 +563,53 @@ func (e *CatOrderable) UnmarshalGQL(v interface{}) error {
 }
 
 func (e CatOrderable) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type CompanyGroup string
+
+const (
+	CompanyGroupID              CompanyGroup = "id"
+	CompanyGroupName            CompanyGroup = "name"
+	CompanyGroupDescription     CompanyGroup = "description"
+	CompanyGroupMotherCompanyID CompanyGroup = "motherCompanyID"
+	CompanyGroupCreatedAt       CompanyGroup = "createdAt"
+)
+
+var AllCompanyGroup = []CompanyGroup{
+	CompanyGroupID,
+	CompanyGroupName,
+	CompanyGroupDescription,
+	CompanyGroupMotherCompanyID,
+	CompanyGroupCreatedAt,
+}
+
+func (e CompanyGroup) IsValid() bool {
+	switch e {
+	case CompanyGroupID, CompanyGroupName, CompanyGroupDescription, CompanyGroupMotherCompanyID, CompanyGroupCreatedAt:
+		return true
+	}
+	return false
+}
+
+func (e CompanyGroup) String() string {
+	return string(e)
+}
+
+func (e *CompanyGroup) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = CompanyGroup(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid CompanyGroup", str)
+	}
+	return nil
+}
+
+func (e CompanyGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -554,6 +658,51 @@ func (e CompanyOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+type SmartPhoneGroup string
+
+const (
+	SmartPhoneGroupID          SmartPhoneGroup = "id"
+	SmartPhoneGroupBrand       SmartPhoneGroup = "brand"
+	SmartPhoneGroupPhonenumber SmartPhoneGroup = "phonenumber"
+	SmartPhoneGroupUserID      SmartPhoneGroup = "userID"
+)
+
+var AllSmartPhoneGroup = []SmartPhoneGroup{
+	SmartPhoneGroupID,
+	SmartPhoneGroupBrand,
+	SmartPhoneGroupPhonenumber,
+	SmartPhoneGroupUserID,
+}
+
+func (e SmartPhoneGroup) IsValid() bool {
+	switch e {
+	case SmartPhoneGroupID, SmartPhoneGroupBrand, SmartPhoneGroupPhonenumber, SmartPhoneGroupUserID:
+		return true
+	}
+	return false
+}
+
+func (e SmartPhoneGroup) String() string {
+	return string(e)
+}
+
+func (e *SmartPhoneGroup) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = SmartPhoneGroup(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid SmartPhoneGroup", str)
+	}
+	return nil
+}
+
+func (e SmartPhoneGroup) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
 type SmartPhoneOrderable string
 
 const (
@@ -596,6 +745,55 @@ func (e *SmartPhoneOrderable) UnmarshalGQL(v interface{}) error {
 }
 
 func (e SmartPhoneOrderable) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type TodoGroup string
+
+const (
+	TodoGroupID        TodoGroup = "id"
+	TodoGroupName      TodoGroup = "name"
+	TodoGroupOwnerID   TodoGroup = "ownerID"
+	TodoGroupCreatedAt TodoGroup = "createdAt"
+	TodoGroupUpdatedAt TodoGroup = "updatedAt"
+	TodoGroupDeletedAt TodoGroup = "deletedAt"
+)
+
+var AllTodoGroup = []TodoGroup{
+	TodoGroupID,
+	TodoGroupName,
+	TodoGroupOwnerID,
+	TodoGroupCreatedAt,
+	TodoGroupUpdatedAt,
+	TodoGroupDeletedAt,
+}
+
+func (e TodoGroup) IsValid() bool {
+	switch e {
+	case TodoGroupID, TodoGroupName, TodoGroupOwnerID, TodoGroupCreatedAt, TodoGroupUpdatedAt, TodoGroupDeletedAt:
+		return true
+	}
+	return false
+}
+
+func (e TodoGroup) String() string {
+	return string(e)
+}
+
+func (e *TodoGroup) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = TodoGroup(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid TodoGroup", str)
+	}
+	return nil
+}
+
+func (e TodoGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
@@ -680,6 +878,59 @@ func (e *TodoType) UnmarshalGQL(v interface{}) error {
 }
 
 func (e TodoType) MarshalGQL(w io.Writer) {
+	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+type UserGroup string
+
+const (
+	UserGroupID           UserGroup = "id"
+	UserGroupName         UserGroup = "name"
+	UserGroupCreatedAt    UserGroup = "createdAt"
+	UserGroupUpdatedAt    UserGroup = "updatedAt"
+	UserGroupDeletedAt    UserGroup = "deletedAt"
+	UserGroupCompanyID    UserGroup = "companyID"
+	UserGroupFavoritColor UserGroup = "favoritColor"
+	UserGroupEmail        UserGroup = "email"
+)
+
+var AllUserGroup = []UserGroup{
+	UserGroupID,
+	UserGroupName,
+	UserGroupCreatedAt,
+	UserGroupUpdatedAt,
+	UserGroupDeletedAt,
+	UserGroupCompanyID,
+	UserGroupFavoritColor,
+	UserGroupEmail,
+}
+
+func (e UserGroup) IsValid() bool {
+	switch e {
+	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupFavoritColor, UserGroupEmail:
+		return true
+	}
+	return false
+}
+
+func (e UserGroup) String() string {
+	return string(e)
+}
+
+func (e *UserGroup) UnmarshalGQL(v interface{}) error {
+	str, ok := v.(string)
+	if !ok {
+		return fmt.Errorf("enums must be strings")
+	}
+
+	*e = UserGroup(str)
+	if !e.IsValid() {
+		return fmt.Errorf("%s is not a valid UserGroup", str)
+	}
+	return nil
+}
+
+func (e UserGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
