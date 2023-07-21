@@ -198,6 +198,12 @@ type IntFilterInput struct {
 	Between *IntFilterBetween `json:"between,omitempty"`
 }
 
+type NoSQLControl struct {
+	ID int     `json:"id"`
+	A  *string `json:"a,omitempty"`
+	B  int     `json:"b"`
+}
+
 type SmartPhone struct {
 	ID          int    `json:"id" gorm:"primaryKey;autoIncrement;"`
 	Brand       string `json:"brand"`
@@ -298,17 +304,18 @@ type TimeFilterInput struct {
 }
 
 type Todo struct {
-	ID        int        `json:"id" gorm:"primaryKey;autoIncrement;"`
-	Name      string     `json:"name"`
-	Users     []*User    `json:"users" gorm:"many2many:todo_users;constraint:OnDelete:CASCADE;"`
-	Owner     *User      `json:"owner"`
-	OwnerID   int        `json:"ownerID"`
-	CreatedAt *time.Time `json:"createdAt,omitempty"`
-	UpdatedAt *time.Time `json:"updatedAt,omitempty"`
-	DeletedAt *time.Time `json:"deletedAt,omitempty"`
-	Etype1    *TodoType  `json:"etype1,omitempty"`
-	Etype5    TodoType   `json:"etype5"`
-	Test123   *string    `json:"test123,omitempty"`
+	ID        int           `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Name      string        `json:"name"`
+	Users     []*User       `json:"users" gorm:"many2many:todo_users;constraint:OnDelete:CASCADE;"`
+	Owner     *User         `json:"owner"`
+	OwnerID   int           `json:"ownerID"`
+	CreatedAt *time.Time    `json:"createdAt,omitempty"`
+	UpdatedAt *time.Time    `json:"updatedAt,omitempty"`
+	DeletedAt *time.Time    `json:"deletedAt,omitempty"`
+	Etype1    *TodoType     `json:"etype1,omitempty"`
+	Etype5    TodoType      `json:"etype5"`
+	Test123   *string       `json:"test123,omitempty"`
+	NoControl *NoSQLControl `json:"noControl,omitempty" gorm:"-;-;"`
 }
 
 type TodoFiltersInput struct {

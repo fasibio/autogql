@@ -83,6 +83,7 @@ input TimeFilterBetween{
   end: Time!
 }
 {{- range $objectName, $object := $root.List.Objects}}
+  {{- if $object.HasSqlDirective}}
 
   input {{$object.Name}}Input {{$object.InputTypeDirectiveGql}}{
     {{- range $entityKey, $entity := $object.InputEntities}}
@@ -97,7 +98,6 @@ input TimeFilterBetween{
   } 
 
 
-  {{- if $object.HasSqlDirective}}
 
     input Update{{$object.Name}}Input{
       filter: {{$object.Name}}FiltersInput!
