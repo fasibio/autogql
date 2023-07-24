@@ -289,6 +289,10 @@ query getAllTodosWithUserGroupById{
         id
         name
       }
+      noControl{
+        id
+        a
+      }
     }
   }
 }

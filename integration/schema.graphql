@@ -271,6 +271,12 @@ type Mutation {
   deleteUser(filter: UserFiltersInput!): DeleteUserPayload
 }
 
+type NoSqlControl {
+  id: ID!
+  a: String
+  b: Int!
+}
+
 type Query {
   getCat(id: ID!): Cat
   queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult
@@ -413,6 +419,7 @@ type Todo {
   etype1: TodoType
   etype5: TodoType!
   test123: Test
+  noControl: NoSqlControl
 }
 
 input TodoFiltersInput {

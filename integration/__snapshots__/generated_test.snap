@@ -10000,6 +10000,10 @@ gqlerror.List{
                     &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser{Id:"1", Name:"Jan"},
                     &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser{Id:"3", Name:"Peter"},
                 },
+                NoControl: &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl{
+                    Id: "1234",
+                    A:  &"AAAA",
+                },
             },
             &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo{
                 Id:    "3",
@@ -10008,6 +10012,10 @@ gqlerror.List{
                     &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser{Id:"1", Name:"Jan"},
                     &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser{Id:"3", Name:"Peter"},
                 },
+                NoControl: &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl{
+                    Id: "1234",
+                    A:  &"AAAA",
+                },
             },
             &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo{
                 Id:    "5",
@@ -10015,6 +10023,10 @@ gqlerror.List{
                 Users: {
                     &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser{Id:"1", Name:"Jan"},
                     &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser{Id:"3", Name:"Peter"},
+                },
+                NoControl: &integration.getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl{
+                    Id: "1234",
+                    A:  &"AAAA",
                 },
             },
         },

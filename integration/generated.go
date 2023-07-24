@@ -2906,9 +2906,10 @@ func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult) GetData() []*getA
 
 // getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo includes the requested fields of the GraphQL type Todo.
 type getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo struct {
-	Id    string                                                                   `json:"id"`
-	Name  string                                                                   `json:"name"`
-	Users []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser `json:"users"`
+	Id        string                                                                             `json:"id"`
+	Name      string                                                                             `json:"name"`
+	Users     []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser           `json:"users"`
+	NoControl *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl `json:"noControl"`
 }
 
 // GetId returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo.Id, and is useful for accessing the field via an interface.
@@ -2922,6 +2923,27 @@ func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo) GetName()
 // GetUsers returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo.Users, and is useful for accessing the field via an interface.
 func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo) GetUsers() []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser {
 	return v.Users
+}
+
+// GetNoControl returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo.NoControl, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo) GetNoControl() *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl {
+	return v.NoControl
+}
+
+// getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl includes the requested fields of the GraphQL type NoSqlControl.
+type getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl struct {
+	Id string  `json:"id"`
+	A  *string `json:"a"`
+}
+
+// GetId returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl.Id, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl) GetId() string {
+	return v.Id
+}
+
+// GetA returns getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl.A, and is useful for accessing the field via an interface.
+func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoNoControlNoSqlControl) GetA() *string {
+	return v.A
 }
 
 // getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser includes the requested fields of the GraphQL type User.
@@ -4030,7 +4052,7 @@ func getAllTodosWithUserGroupById(
 		OpName: "getAllTodosWithUserGroupById",
 		Query: `
 query getAllTodosWithUserGroupById {
-	queryTodo(filter: {users:{id:{notNull:true}}}, group: [id]) {
+	queryTodo(filter: {users:{id:{notNull:true}}}, group: [id], order: {asc:id}) {
 		count
 		data {
 			id
@@ -4038,6 +4060,10 @@ query getAllTodosWithUserGroupById {
 			users {
 				id
 				name
+			}
+			noControl {
+				id
+				a
 			}
 		}
 	}

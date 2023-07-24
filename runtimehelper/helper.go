@@ -59,6 +59,8 @@ func GetNestedPreloadsMap(ctx *graphql.OperationContext, fields []graphql.Collec
 		Fields: make([]string, 0),
 	}
 
+	ignoreFields := make(map[string]bool)
+
 	ownIdAdded := false
 
 	for _, column := range fields {
@@ -72,11 +74,21 @@ func GetNestedPreloadsMap(ctx *graphql.OperationContext, fields []graphql.Collec
 		}
 		pTableIdentifier := xstrings.FirstRuneToLower(parentTableName + "ID")
 		for _, a := range column.ObjectDefinition.Fields {
+			e := structure.Entity{
+				Raw:     a,
+				BuiltIn: false,
+			}
+			if e.HasGormDirective() && e.GormDirectiveValue() == "-" && !e.IsPrimitive() {
+				ignoreFields[e.Name()] = true
+			}
 			if a.Name == pTableIdentifier {
 				res.Fields = append(res.Fields, xstrings.ToSnakeCase(a.Name))
 			}
 		}
 		if len(column.Field.SelectionSet) != 0 { // To remove all parent objects
+			if _, ok := ignoreFields[column.Name]; ok {
+				continue
+			}
 			if res.SubTables == nil {
 				res.SubTables = make([]PreloadFields, 0)
 			}
