@@ -76,7 +76,7 @@ testCiSqlLite:
 testCiMySql:
   doc: for ci ==> mysql Test
   script: 
-    - DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql' go test ./integration . -v
+    - DATABASE_TYPE=mysql DATABASE_CONNECTION_STRING='root:password@tcp(127.0.0.1:3306)/autogql?parseTime=true' go test ./integration . -v
 
 testCiPostgres:
   doc: for ci ==> postgres Test
