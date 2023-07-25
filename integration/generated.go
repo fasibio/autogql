@@ -3016,6 +3016,22 @@ type getUserByIdResponse struct {
 // GetGetUser returns getUserByIdResponse.GetUser, and is useful for accessing the field via an interface.
 func (v *getUserByIdResponse) GetGetUser() *getUserByIdGetUser { return v.GetUser }
 
+// noDataQueryQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+type noDataQueryQueryUserUserQueryResult struct {
+	Typename *string `json:"__typename"`
+}
+
+// GetTypename returns noDataQueryQueryUserUserQueryResult.Typename, and is useful for accessing the field via an interface.
+func (v *noDataQueryQueryUserUserQueryResult) GetTypename() *string { return v.Typename }
+
+// noDataQueryResponse is returned by noDataQuery on success.
+type noDataQueryResponse struct {
+	QueryUser *noDataQueryQueryUserUserQueryResult `json:"queryUser"`
+}
+
+// GetQueryUser returns noDataQueryResponse.QueryUser, and is useful for accessing the field via an interface.
+func (v *noDataQueryResponse) GetQueryUser() *noDataQueryQueryUserUserQueryResult { return v.QueryUser }
+
 // updateUserChangeCompanyByCatNameResponse is returned by updateUserChangeCompanyByCatName on success.
 type updateUserChangeCompanyByCatNameResponse struct {
 	UpdateUser *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload `json:"updateUser"`
@@ -4112,6 +4128,34 @@ query getUserById ($userId: ID!) {
 	var err error
 
 	var data getUserByIdResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func noDataQuery(
+	ctx context.Context,
+	client graphql.Client,
+) (*noDataQueryResponse, error) {
+	req := &graphql.Request{
+		OpName: "noDataQuery",
+		Query: `
+query noDataQuery {
+	queryUser(filter: {cat:{userID:{notNull:true}}}) {
+		__typename
+	}
+}
+`,
+	}
+	var err error
+
+	var data noDataQueryResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(

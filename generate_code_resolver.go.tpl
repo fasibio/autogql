@@ -65,7 +65,10 @@
           }
           var res []*model.{{$object.Name}}
           tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
-          db = runtimehelper.GetPreloadSelection(ctx, db,runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+          preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
+          if len(preloadSubTables)> 0{
+            db = runtimehelper.GetPreloadSelection(ctx, db,runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+          }
           if filter != nil{
             blackList := make(map[string]struct{})
             sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")

@@ -240,6 +240,12 @@ query allUserWithACatOnlyUserId{
   }
 }
 
+query noDataQuery{
+  queryUser(filter:{cat:{userID: {notNull:true}}}){
+    __typename
+  }
+}
+
 query allTodosPartOfCompany($companyName:String){
   queryTodo(filter: { users:{company: {name: {eq: $companyName}}}}, order:{desc:id}){
     data{
@@ -296,6 +302,7 @@ query getAllTodosWithUserGroupById{
     }
   }
 }
+
 
 query getUserById($userId:ID!){
   getUser(id:$userId){

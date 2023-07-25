@@ -10033,3 +10033,11 @@ gqlerror.List{
     },
 }
 ---
+
+[TestQueryTestSuite/TestComplexCombination/no_data_query - 1]
+&integration.noDataQueryResponse{
+    QueryUser: &integration.noDataQueryQueryUserUserQueryResult{
+        Typename: &"UserQueryResult",
+    },
+}
+---

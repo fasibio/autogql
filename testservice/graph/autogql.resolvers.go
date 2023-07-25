@@ -63,7 +63,10 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 	}
 	var res []*model.Cat
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
-	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
+	if len(preloadSubTables) > 0 {
+		db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	}
 	if filter != nil {
 		blackList := make(map[string]struct{})
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -331,7 +334,10 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 	}
 	var res []*model.Company
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
-	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
+	if len(preloadSubTables) > 0 {
+		db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	}
 	if filter != nil {
 		blackList := make(map[string]struct{})
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -599,7 +605,10 @@ func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.Smart
 	}
 	var res []*model.SmartPhone
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
-	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
+	if len(preloadSubTables) > 0 {
+		db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	}
 	if filter != nil {
 		blackList := make(map[string]struct{})
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -867,7 +876,10 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 	}
 	var res []*model.Todo
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
-	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
+	if len(preloadSubTables) > 0 {
+		db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	}
 	if filter != nil {
 		blackList := make(map[string]struct{})
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -1198,7 +1210,10 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 	}
 	var res []*model.User
 	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
-	db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
+	if len(preloadSubTables) > 0 {
+		db = runtimehelper.GetPreloadSelection(ctx, db, runtimehelper.GetPreloadsMap(ctx, "data").SubTables[0])
+	}
 	if filter != nil {
 		blackList := make(map[string]struct{})
 		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
