@@ -18,6 +18,7 @@ func ValidateDirective(ctx context.Context, obj interface{}, next graphql.Resolv
 			if err != nil {
 				continue
 			}
+
 			if err := validate.Struct(model); err != nil {
 				switch err := err.(type) {
 				case validator.ValidationErrors:

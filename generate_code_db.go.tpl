@@ -10,6 +10,8 @@ type {{$baseName}}DB struct {
   Db *gorm.DB
   Hooks map[string]any
 }
+
+// Create a new {{$baseName}}DB
 func New{{$baseName}}DB(db *gorm.DB) {{$baseName}}DB {
   return {{$baseName}}DB{
     Db:    db,
@@ -17,6 +19,7 @@ func New{{$baseName}}DB(db *gorm.DB) {{$baseName}}DB {
   }
 }
 
+//execute Gorm AutoMigrate with all @SQL Graphql Types
 func (db *{{$baseName}}DB) Init() {
   db.Db.AutoMigrate({{.ModelsMigrations}})
 }

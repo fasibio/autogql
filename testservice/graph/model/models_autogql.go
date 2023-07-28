@@ -8,6 +8,25 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
+// GetInputStruct returns struct filled from map obj defined by name
+// Example useage struct validation with github.com/go-playground/validator by directive:
+//
+//	func ValidateDirective(ctx context.Context, obj interface{}, next graphql.Resolver) (res interface{}, err error) {
+//	  field := graphql.GetPathContext(ctx)
+//	  if data, ok := obj.(map[string]interface{}); ok {
+//	    for _, v := range field.ParentField.Field.Arguments {
+//	      name := v.Value.ExpectedType.Name()
+//	      model, err := model.GetInputStruct(name, data)
+//	      if err != nil {
+//	        //handle not found error
+//	      }
+//	      if err := validate.Struct(model); err != nil {
+//	      //handle error
+//	      }
+//	    }
+//	  }
+//	  return next(ctx)
+//	}
 func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error) {
 	switch name {
 	case "CatInput":
@@ -23,16 +42,21 @@ func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error
 	}
 	return nil, fmt.Errorf("%s not found", name)
 }
+
+// MergeToType for enum value TodoType
 func (d *TodoType) MergeToType() TodoType {
 	return *d
 }
 
+// CatInputFromMap return a CatInput from data map
+// use github.com/mitchellh/mapstructure with reflaction
 func CatInputFromMap(data map[string]interface{}) (CatInput, error) {
 	model := CatInput{}
 	err := mapstructure.Decode(data, &model)
 	return model, err
 }
 
+// MergeToType returns a map with all values set to CatPatch
 func (d *CatPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 	if d.Name != nil {
@@ -50,6 +74,7 @@ func (d *CatPatch) MergeToType() map[string]interface{} {
 	return res
 }
 
+// MergeToType retuns a Cat filled from CatInput
 func (d *CatInput) MergeToType() Cat {
 
 	tmpName := d.Name
@@ -70,12 +95,15 @@ func (d *CatInput) MergeToType() Cat {
 	}
 }
 
+// CompanyInputFromMap return a CompanyInput from data map
+// use github.com/mitchellh/mapstructure with reflaction
 func CompanyInputFromMap(data map[string]interface{}) (CompanyInput, error) {
 	model := CompanyInput{}
 	err := mapstructure.Decode(data, &model)
 	return model, err
 }
 
+// MergeToType returns a map with all values set to CompanyPatch
 func (d *CompanyPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 	if d.Name != nil {
@@ -93,6 +121,7 @@ func (d *CompanyPatch) MergeToType() map[string]interface{} {
 	return res
 }
 
+// MergeToType retuns a Company filled from CompanyInput
 func (d *CompanyInput) MergeToType() Company {
 
 	tmpName := d.Name
@@ -119,12 +148,15 @@ func (d *CompanyInput) MergeToType() Company {
 	}
 }
 
+// SmartPhoneInputFromMap return a SmartPhoneInput from data map
+// use github.com/mitchellh/mapstructure with reflaction
 func SmartPhoneInputFromMap(data map[string]interface{}) (SmartPhoneInput, error) {
 	model := SmartPhoneInput{}
 	err := mapstructure.Decode(data, &model)
 	return model, err
 }
 
+// MergeToType returns a map with all values set to SmartPhonePatch
 func (d *SmartPhonePatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 	if d.Brand != nil {
@@ -139,6 +171,7 @@ func (d *SmartPhonePatch) MergeToType() map[string]interface{} {
 	return res
 }
 
+// MergeToType retuns a SmartPhone filled from SmartPhoneInput
 func (d *SmartPhoneInput) MergeToType() SmartPhone {
 
 	tmpBrand := d.Brand
@@ -153,12 +186,15 @@ func (d *SmartPhoneInput) MergeToType() SmartPhone {
 	}
 }
 
+// TodoInputFromMap return a TodoInput from data map
+// use github.com/mitchellh/mapstructure with reflaction
 func TodoInputFromMap(data map[string]interface{}) (TodoInput, error) {
 	model := TodoInput{}
 	err := mapstructure.Decode(data, &model)
 	return model, err
 }
 
+// MergeToType returns a map with all values set to TodoPatch
 func (d *TodoPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 	if d.Name != nil {
@@ -176,6 +212,7 @@ func (d *TodoPatch) MergeToType() map[string]interface{} {
 	return res
 }
 
+// MergeToType retuns a Todo filled from TodoInput
 func (d *TodoInput) MergeToType() Todo {
 
 	tmpName := d.Name
@@ -200,12 +237,15 @@ func (d *TodoInput) MergeToType() Todo {
 	}
 }
 
+// UserInputFromMap return a UserInput from data map
+// use github.com/mitchellh/mapstructure with reflaction
 func UserInputFromMap(data map[string]interface{}) (UserInput, error) {
 	model := UserInput{}
 	err := mapstructure.Decode(data, &model)
 	return model, err
 }
 
+// MergeToType returns a map with all values set to UserPatch
 func (d *UserPatch) MergeToType() map[string]interface{} {
 	res := make(map[string]interface{})
 	if d.Name != nil {
@@ -237,6 +277,7 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 	return res
 }
 
+// MergeToType retuns a User filled from UserInput
 func (d *UserInput) MergeToType() User {
 
 	tmpName := d.Name

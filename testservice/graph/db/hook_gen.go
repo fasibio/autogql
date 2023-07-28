@@ -45,176 +45,379 @@ const (
 	DeleteUser       DeleteName    = "DeleteUser"
 )
 
+// Modelhooks
 type AutoGqlHookM interface {
 	model.Cat | model.Company | model.SmartPhone | model.Todo | model.User
 }
+
+// Filter Hooks
 type AutoGqlHookF interface {
 	model.CatFiltersInput | model.CompanyFiltersInput | model.SmartPhoneFiltersInput | model.TodoFiltersInput | model.UserFiltersInput
 }
+
+// Many2Many Hooks
 type AutoGqlHookM2M interface {
 	model.UserRef2TodosInput
 }
 
+// Order Hooks
 type AutoGqlHookQueryO interface {
 	model.CatOrder | model.CompanyOrder | model.SmartPhoneOrder | model.TodoOrder | model.UserOrder
 }
 
+// Input Hooks
 type AutoGqlHookI interface {
 	model.CatInput | model.CompanyInput | model.SmartPhoneInput | model.TodoInput | model.UserInput
 }
 
+// Update Hooks
 type AutoGqlHookU interface {
 	model.UpdateCatInput | model.UpdateCompanyInput | model.UpdateSmartPhoneInput | model.UpdateTodoInput | model.UpdateUserInput
 }
 
+// Update Payload Hooks
 type AutoGqlHookUP interface {
 	model.UpdateCatPayload | model.UpdateCompanyPayload | model.UpdateSmartPhonePayload | model.UpdateTodoPayload | model.UpdateUserPayload
 }
 
+// Delete Payload Hooks
 type AutoGqlHookDP interface {
 	model.DeleteCatPayload | model.DeleteCompanyPayload | model.DeleteSmartPhonePayload | model.DeleteTodoPayload | model.DeleteUserPayload
 }
 
+// Add Payload Hooks
 type AutoGqlHookAP interface {
 	model.AddCatPayload | model.AddCompanyPayload | model.AddSmartPhonePayload | model.AddTodoPayload | model.AddUserPayload
 }
 
+// Add a getHook
+// useable for
+//   - GetCat
+//   - GetCompany
+//   - GetSmartPhone
+//   - GetTodo
+//   - GetUser
 func AddGetHook[T AutoGqlHookM, I any](db *AutoGqlDB, name GetName, implementation AutoGqlHookGet[T, I]) {
 	db.Hooks[string(name)] = implementation
 }
 
+// Add a queryHook
+// useable for
+//   - QueryCat
+//   - QueryCompany
+//   - QuerySmartPhone
+//   - QueryTodo
+//   - QueryUser
 func AddQueryHook[M AutoGqlHookM, F AutoGqlHookF, O AutoGqlHookQueryO](db *AutoGqlDB, name QueryName, implementation AutoGqlHookQuery[M, F, O]) {
 	db.Hooks[string(name)] = implementation
 }
 
+// Add a addHook
+// useable for
+//   - AddCat
+//   - AddCompany
+//   - AddSmartPhone
+//   - AddTodo
+//   - AddUser
 func AddAddHook[M AutoGqlHookM, I AutoGqlHookI, AP AutoGqlHookAP](db *AutoGqlDB, name AddName, implementation AutoGqlHookAdd[M, I, AP]) {
 	db.Hooks[string(name)] = implementation
 }
 
+// Add a updateHook
+// useable for
+//   - UpdateCat
+//   - UpdateCompany
+//   - UpdateSmartPhone
+//   - UpdateTodo
+//   - UpdateUser
 func AddUpdateHook[M AutoGqlHookM, U AutoGqlHookU, UP AutoGqlHookUP](db *AutoGqlDB, name UpdateName, implementation AutoGqlHookUpdate[U, UP]) {
 	db.Hooks[string(name)] = implementation
 }
 
+// Add a Many2Many Hook
+// useable for
+//   - AddUser2Todos
 func AddMany2ManyHook[U AutoGqlHookM2M, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyName, implementation AutoGqlHookMany2Many[U, UP]) {
 	db.Hooks[string(name)] = implementation
 }
 
+// Add a updateHook
+// useable for
+//   - DeleteCat
+//   - DeleteCompany
+//   - DeleteSmartPhone
+//   - DeleteTodo
+//   - DeleteUser
 func AddDeleteHook[F AutoGqlHookF, DP AutoGqlHookDP](db *AutoGqlDB, name DeleteName, implementation AutoGqlHookDelete[F, DP]) {
 	db.Hooks[string(name)] = implementation
 }
 
+// Interface description of a getHook
+// Simple you can use DefaultGetHook and only implement the hooks you need:
+//
+//	type MyGetHook struct {
+//	   DefaultGetHook[model.Todo, model.TodoInput, model.AddTodoPayload]
+//	}
+//	func (m MyGetHook) BeforeCallDb(ctx context.Context, db *gorm.DB, data []model.Todo) (*gorm.DB, []model.Todo, error) {
+//	   //do some stuff
+//	   return db, data, nil
+//	}
 type AutoGqlHookGet[obj AutoGqlHookM, identifier any] interface {
-	Received(ctx context.Context, dbHelper *AutoGqlDB, id ...identifier) (*gorm.DB, error)
-	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
-	AfterCallDb(ctx context.Context, data *obj) (*obj, error)
-	BeforeReturn(ctx context.Context, data *obj, db *gorm.DB) (*obj, error)
+	Received(ctx context.Context, dbHelper *AutoGqlDB, id ...identifier) (*gorm.DB, error) // Direct after Resolver is call
+	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)                       // Direct before call Database
+	AfterCallDb(ctx context.Context, data *obj) (*obj, error)                              // After database call with resultset from database
+	BeforeReturn(ctx context.Context, data *obj, db *gorm.DB) (*obj, error)                // short before return the data
 }
 
+// Default get hook implementation
+// Simple you can use and only implement the hooks you need:
+//
+//	type MyGetHook struct {
+//	   DefaultGetHook[model.Todo, int64]
+//	}
+//	func (m MyGetHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, []model.Todo, error) {
+//	   //do some stuff
+//	   return db, data, nil
+//	}
 type DefaultGetHook[obj AutoGqlHookM, identifier any] struct{}
 
+// Direct after Resolver is call
 func (d DefaultGetHook[obj, identifier]) Received(ctx context.Context, dbHelper *AutoGqlDB, id ...identifier) (*gorm.DB, error) {
 	return dbHelper.Db, nil
 }
+
+// Direct before call Database
 func (d DefaultGetHook[obj, identifier]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
 	return db, nil
 }
+
+// After database call with resultset from database
 func (d DefaultGetHook[obj, identifier]) AfterCallDb(ctx context.Context, data *obj) (*obj, error) {
 	return data, nil
 }
+
+// short before return the data
 func (d DefaultGetHook[obj, identifier]) BeforeReturn(ctx context.Context, data *obj, db *gorm.DB) (*obj, error) {
 	return data, nil
 }
 
+// Interface description of a query Hook
+// Simple you can use DefaultQueryHook and only implement the hooks you need:
+//
+//	type MyQueryHook struct {
+//	   DefaultQueryHook[model.Todo, model.TodoFiltersInput, model.TodoOrder]
+//	}
+//	func (m MyQueryHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, []model.Todo, error) {
+//	   //do some stuff
+//	   return db, nil
+//	}
 type AutoGqlHookQuery[obj AutoGqlHookM, filter AutoGqlHookF, order AutoGqlHookQueryO] interface {
-	Received(ctx context.Context, dbHelper *AutoGqlDB, filter *filter, order *order, first, offset *int) (*gorm.DB, *filter, *order, *int, *int, error)
-	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
-	AfterCallDb(ctx context.Context, data []*obj) ([]*obj, error)
-	BeforeReturn(ctx context.Context, data []*obj, db *gorm.DB) ([]*obj, error)
+	Received(ctx context.Context, dbHelper *AutoGqlDB, filter *filter, order *order, first, offset *int) (*gorm.DB, *filter, *order, *int, *int, error) // Direct after Resolver is call
+	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)                                                                                    // Direct before call Database
+	AfterCallDb(ctx context.Context, data []*obj) ([]*obj, error)                                                                                       // After database call with resultset from database
+	BeforeReturn(ctx context.Context, data []*obj, db *gorm.DB) ([]*obj, error)                                                                         // short before return the data
 }
 
+// Default query hook implementation
+// Simple you can use DefaultQueryHook and only implement the hooks you need:
+//
+//	type MyQueryHook struct {
+//	   DefaultQueryHook[model.Todo, model.TodoFiltersInput, model.TodoOrder]
+//	}
+//	func (m MyQueryHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, []model.Todo, error) {
+//	   //do some stuff
+//	   return db, nil
+//	}
 type DefaultQueryHook[obj AutoGqlHookM, filter AutoGqlHookF, order AutoGqlHookQueryO] struct{}
 
+// Direct after Resolver is call
 func (d DefaultQueryHook[obj, filterType, orderType]) Received(ctx context.Context, dbHelper *AutoGqlDB, filter *filterType, order *orderType, first, offset *int) (*gorm.DB, *filterType, *orderType, *int, *int, error) {
 	return dbHelper.Db, filter, order, first, offset, nil
 }
+
+// Direct before call Database
 func (d DefaultQueryHook[obj, filter, order]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
 	return db, nil
 }
+
+// After database call with resultset from database
 func (d DefaultQueryHook[obj, filter, order]) AfterCallDb(ctx context.Context, data []*obj) ([]*obj, error) {
 	return data, nil
 }
+
+// short before return the data
 func (d DefaultQueryHook[obj, filter, order]) BeforeReturn(ctx context.Context, data []*obj, db *gorm.DB) ([]*obj, error) {
 	return data, nil
 }
 
+// Interface description of a add Hook
+// Simple you can use DefaultAddHook and only implement the hooks you need:
+//
+//	type MyAddHook struct {
+//	   DefaultAddHook[model.Todo, model.TodoInput, model.AddTodoPayload]
+//	}
+//	func (m MyAddHook) BeforeCallDb(ctx context.Context, db *gorm.DB, data []model.Todo) (*gorm.DB, []model.Todo, error) {
+//	   //do some stuff
+//	   return db, data, nil
+//	}
 type AutoGqlHookAdd[obj AutoGqlHookM, input AutoGqlHookI, res AutoGqlHookAP] interface {
-	Received(ctx context.Context, dbHelper *AutoGqlDB, input []*input) (*gorm.DB, []*input, error)
-	BeforeCallDb(ctx context.Context, db *gorm.DB, data []obj) (*gorm.DB, []obj, error)
-	BeforeReturn(ctx context.Context, db *gorm.DB, data []obj, res *res) (*res, error)
+	Received(ctx context.Context, dbHelper *AutoGqlDB, input []*input) (*gorm.DB, []*input, error) // Direct after Resolver is call
+	BeforeCallDb(ctx context.Context, db *gorm.DB, data []obj) (*gorm.DB, []obj, error)            // Direct before call Database
+	BeforeReturn(ctx context.Context, db *gorm.DB, data []obj, res *res) (*res, error)             // After database call with resultset from database
 }
 
+// Default add hook implementation
+// Simple you can use DefaultAddHook and only implement the hooks you need:
+//
+//	type MyAddHook struct {
+//	   DefaultAddHook[model.Todo, model.TodoInput, model.AddTodoPayload]
+//	}
+//	func (m MyAddHook) BeforeCallDb(ctx context.Context, db *gorm.DB, data []model.Todo) (*gorm.DB, []model.Todo, error) {
+//	   //do some stuff
+//	   return db, data, nil
+//	}
 type DefaultAddHook[obj AutoGqlHookM, input AutoGqlHookI, res AutoGqlHookAP] struct{}
 
+// Direct after Resolver is call
 func (d DefaultAddHook[obj, inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input []*inputType) (*gorm.DB, []*inputType, error) {
 	return dbHelper.Db, input, nil
 }
+
+// Direct before call Database
 func (d DefaultAddHook[obj, inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB, data []obj) (*gorm.DB, []obj, error) {
 	return db, data, nil
 }
+
+// After database call with resultset from database
 func (d DefaultAddHook[obj, inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, data []obj, res *resType) (*resType, error) {
 	return res, nil
 }
 
+// Interface description of a update Hook
+// Simple you can use DefaultUpdateHook and only implement the hooks you need:
+//
+//	type MyUpdateHook struct {
+//	   DefaultUpdateHook[model.TodoInput, model.UpdateTodoPayload]
+//	}
+//	func (m MyUpdateHook) BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB,  map[string]interface{}, error) {
+//	   //do some stuff
+//	   return db, data, nil
+//	}
 type AutoGqlHookUpdate[input AutoGqlHookU, res AutoGqlHookUP] interface {
-	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error)
-	BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}, error)
-	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
+	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error)                             // Direct after Resolver is call
+	BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}, error) // Direct before call Database
+	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)                                                // After database call with resultset from database
 }
 
-type AutoGqlHookMany2Many[input AutoGqlHookM2M, res AutoGqlHookUP] interface {
-	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error)
-	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
-	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
-}
-
-type DefaultMany2ManyHook[input AutoGqlHookM2M, res AutoGqlHookUP] struct{}
-
-func (d DefaultMany2ManyHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
-	return dbHelper.Db, *input, nil
-}
-func (d DefaultMany2ManyHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
-	return db, nil
-}
-func (d DefaultMany2ManyHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
-	return res, nil
-}
-
+// Default update hook implementation
+// Simple you can use DefaultUpdateHook and only implement the hooks you need:
+//
+//	type MyUpdateHook struct {
+//	   DefaultUpdateHook[model.TodoInput, model.UpdateTodoPayload]
+//	}
+//	func (m MyUpdateHook) BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB,  map[string]interface{}, error) {
+//	   //do some stuff
+//	   return db, data, nil
+//	}
 type DefaultUpdateHook[input AutoGqlHookU, res AutoGqlHookUP] struct{}
 
+// Direct after Resolver is call
 func (d DefaultUpdateHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
 	return dbHelper.Db, *input, nil
 }
+
+// Direct before call Database
 func (d DefaultUpdateHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB, data map[string]interface{}) (*gorm.DB, map[string]interface{}, error) {
 	return db, data, nil
 }
+
+// After database call with resultset from database
 func (d DefaultUpdateHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
 	return res, nil
 }
 
-type AutoGqlHookDelete[input AutoGqlHookF, res AutoGqlHookDP] interface {
-	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error)
-	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)
-	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)
+// Interface description of a many2many Hook
+// Simple you can use DefaultMany2ManyHook and only implement the hooks you need:
+//
+//	type MyM2mHook struct {
+//	   DefaultMany2ManyHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//	}
+//	func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//	   //do some stuff
+//	   return db, nil
+//	}
+type AutoGqlHookMany2Many[input AutoGqlHookM2M, res AutoGqlHookUP] interface {
+	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error) // Direct after Resolver is call
+	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)                          // Direct before call Database
+	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)                    // After database call with resultset from database
 }
 
+// Default many2many hook implementation
+// Simple you can use DefaultMany2ManyHook and only implement the hooks you need:
+//
+//	type MyM2mHook struct {
+//	   DefaultMany2ManyHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//	}
+//	func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//	   //do some stuff
+//	   return db, nil
+//	}
+type DefaultMany2ManyHook[input AutoGqlHookM2M, res AutoGqlHookUP] struct{}
+
+// Direct after Resolver is call
+func (d DefaultMany2ManyHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
+	return dbHelper.Db, *input, nil
+}
+
+// Direct before call Database
+func (d DefaultMany2ManyHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+	return db, nil
+}
+
+// After database call with resultset from database
+func (d DefaultMany2ManyHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
+	return res, nil
+}
+
+// Interface description of a delete Hook
+// Simple you can use DefaultDeleteHook and only implement the hooks you need:
+//
+//	type MyM2mHook struct {
+//	   DefaultDeleteHook[model.TodoFiltersInput, model.DeleteTodoPayload]
+//	}
+//	func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB, input model.TodoFiltersInput) (*gorm.DB, model.TodoFiltersInput, error) {
+//	   //do some stuff
+//	   return db, input, nil
+//	}
+type AutoGqlHookDelete[input AutoGqlHookF, res AutoGqlHookDP] interface {
+	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error) // Direct after Resolver is call
+	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)                          // Direct before call Database
+	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)                    // After database call with resultset from database
+}
+
+// Default delete hook implementation
+// Simple you can use DefaultDeleteHook and only implement the hooks you need:
+//
+//	type MyM2mHook struct {
+//	   DefaultDeleteHook[model.TodoFiltersInput, model.DeleteTodoPayload]
+//	}
+//	func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB, input model.TodoFiltersInput) (*gorm.DB, model.TodoFiltersInput, error) {
+//	   //do some stuff
+//	   return db, input, nil
+//	}
 type DefaultDeleteHook[input AutoGqlHookF, res AutoGqlHookDP] struct{}
 
+// Direct after Resolver is call
 func (d DefaultDeleteHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
 	return dbHelper.Db, *input, nil
 }
+
+// Direct before call Database
 func (d DefaultDeleteHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
 	return db, nil
 }
+
+// After database call with resultset from database
 func (d DefaultDeleteHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
 	return res, nil
 }

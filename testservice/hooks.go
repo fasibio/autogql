@@ -17,6 +17,7 @@ func (a AddTodoHook) BeforeCallDb(ctx context.Context, db *gorm.DB, data []model
 	for i, d := range data {
 		d.OwnerID = 6
 		newData[i] = d
+
 	}
 	return db, newData, nil
 }

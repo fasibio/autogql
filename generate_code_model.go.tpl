@@ -7,6 +7,24 @@
 {{- $root := .}}
 {{- $input2TypeName := "MergeToType"}}
 
+// GetInputStruct returns struct filled from map obj defined by name
+// Example useage struct validation with github.com/go-playground/validator by directive: 
+//    func ValidateDirective(ctx context.Context, obj interface{}, next graphql.Resolver) (res interface{}, err error) {
+//      field := graphql.GetPathContext(ctx)
+//      if data, ok := obj.(map[string]interface{}); ok {
+//        for _, v := range field.ParentField.Field.Arguments {
+//          name := v.Value.ExpectedType.Name()
+//          model, err := model.GetInputStruct(name, data)
+//          if err != nil {
+//            //handle not found error
+//          }
+//          if err := validate.Struct(model); err != nil {
+//          //handle error
+//          }
+//        }
+//      }
+//      return next(ctx)
+//    }
 func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error) {
 	switch name {
     {{- range $objectName, $object := .Handler.List.Objects }}
@@ -20,6 +38,7 @@ func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error
 }
 
 {{- range $objectName, $object := .Handler.List.Enums }}
+  // {{$input2TypeName}} for enum value {{$objectName}}
   func (d *{{$objectName}}) {{$input2TypeName}}() {{$objectName}} {
     return *d
   }
@@ -28,13 +47,15 @@ func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error
 {{- range $objectName, $object := .Handler.List.Objects }}
   {{- if $object.HasSqlDirective}}
     {{$objectName := $object.Name}}
-
+    // {{$objectName}}InputFromMap return a {{$objectName}}Input from data map
+    // use github.com/mitchellh/mapstructure with reflaction
     func {{$objectName}}InputFromMap(data map[string]interface{}) ({{$objectName}}Input, error) {
         model := {{$objectName}}Input{}
         err := mapstructure.Decode(data, &model); 
         return model, err
     }
 
+    // {{$input2TypeName}} returns a map with all values set to {{$objectName}}Patch
     func (d *{{$objectName}}Patch) {{$input2TypeName}}() map[string]interface{} {
       res := make(map[string]interface{})
 
@@ -75,6 +96,7 @@ func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error
       return res
     }
 
+    // {{$input2TypeName}} retuns a {{$objectName}} filled from {{$objectName}}Input
     func (d *{{$objectName}}Input) {{$input2TypeName}}() {{$objectName}} {
       {{- range $entityKey, $entity := $object.InputEntities }}
         {{- $entityGoName := $root.GetGoFieldName $objectName $entity}}
