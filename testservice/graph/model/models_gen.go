@@ -9,31 +9,37 @@ import (
 	"time"
 )
 
+// AddCat result with filterable data and affected rows
 type AddCatPayload struct {
 	Cat      *CatQueryResult `json:"cat"`
 	Affected []*Cat          `json:"affected"`
 }
 
+// AddCompany result with filterable data and affected rows
 type AddCompanyPayload struct {
 	Company  *CompanyQueryResult `json:"company"`
 	Affected []*Company          `json:"affected"`
 }
 
+// AddSmartPhone result with filterable data and affected rows
 type AddSmartPhonePayload struct {
 	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
 	Affected   []*SmartPhone          `json:"affected"`
 }
 
+// AddTodo result with filterable data and affected rows
 type AddTodoPayload struct {
 	Todo     *TodoQueryResult `json:"todo"`
 	Affected []*Todo          `json:"affected"`
 }
 
+// AddUser result with filterable data and affected rows
 type AddUserPayload struct {
 	User     *UserQueryResult `json:"user"`
 	Affected []*User          `json:"affected"`
 }
 
+// Boolean Filter simple datatypes
 type BooleanFilterInput struct {
 	And     []*bool             `json:"and,omitempty"`
 	Or      []*bool             `json:"or,omitempty"`
@@ -52,6 +58,8 @@ type Cat struct {
 	Alive    *bool     `json:"alive,omitempty" gorm:"default:true;"`
 }
 
+// Filter input selection for Cat
+// Can be used f.e.: by queryCat
 type CatFiltersInput struct {
 	ID       *IDFilterInput      `json:"id,omitempty"`
 	Name     *StringFilterInput  `json:"name,omitempty"`
@@ -63,6 +71,7 @@ type CatFiltersInput struct {
 	Not      *CatFiltersInput    `json:"not,omitempty"`
 }
 
+// Cat Input value to add new Cat
 type CatInput struct {
 	Name     string    `json:"name"`
 	BirthDay time.Time `json:"birthDay"`
@@ -70,11 +79,13 @@ type CatInput struct {
 	Alive    *bool     `json:"alive,omitempty"`
 }
 
+// Order Cat by asc or desc
 type CatOrder struct {
 	Asc  *CatOrderable `json:"asc,omitempty"`
 	Desc *CatOrderable `json:"desc,omitempty"`
 }
 
+// Cat Patch value all values are optional to update Cat entities
 type CatPatch struct {
 	Name     *string    `json:"name,omitempty"`
 	BirthDay *time.Time `json:"birthDay,omitempty"`
@@ -82,6 +93,7 @@ type CatPatch struct {
 	Alive    *bool      `json:"alive,omitempty"`
 }
 
+// Cat result
 type CatQueryResult struct {
 	Data       []*Cat `json:"data"`
 	Count      int    `json:"count"`
@@ -97,6 +109,8 @@ type Company struct {
 	CreatedAt       *time.Time `json:"createdAt,omitempty"`
 }
 
+// Filter input selection for Company
+// Can be used f.e.: by queryCompany
 type CompanyFiltersInput struct {
 	ID              *IDFilterInput         `json:"id,omitempty"`
 	Name            *StringFilterInput     `json:"name,omitempty"`
@@ -109,6 +123,7 @@ type CompanyFiltersInput struct {
 	Not             *CompanyFiltersInput   `json:"not,omitempty"`
 }
 
+// Company Input value to add new Company
 type CompanyInput struct {
 	Name            string        `json:"name"`
 	Description     *string       `json:"description,omitempty"`
@@ -116,11 +131,13 @@ type CompanyInput struct {
 	MotherCompany   *CompanyInput `json:"motherCompany,omitempty"`
 }
 
+// Order Company by asc or desc
 type CompanyOrder struct {
 	Asc  *CompanyOrderable `json:"asc,omitempty"`
 	Desc *CompanyOrderable `json:"desc,omitempty"`
 }
 
+// Company Patch value all values are optional to update Company entities
 type CompanyPatch struct {
 	Name            *string       `json:"name,omitempty"`
 	Description     *string       `json:"description,omitempty"`
@@ -128,42 +145,54 @@ type CompanyPatch struct {
 	MotherCompany   *CompanyPatch `json:"motherCompany,omitempty"`
 }
 
+// Company result
 type CompanyQueryResult struct {
 	Data       []*Company `json:"data"`
 	Count      int        `json:"count"`
 	TotalCount int        `json:"totalCount"`
 }
 
+// DeleteCat result with filterable data and count of affected entries
 type DeleteCatPayload struct {
-	Cat   *CatQueryResult `json:"cat"`
-	Count int             `json:"count"`
-	Msg   *string         `json:"msg,omitempty"`
+	Cat *CatQueryResult `json:"cat"`
+	// Count of deleted Cat entities
+	Count int     `json:"count"`
+	Msg   *string `json:"msg,omitempty"`
 }
 
+// DeleteCompany result with filterable data and count of affected entries
 type DeleteCompanyPayload struct {
 	Company *CompanyQueryResult `json:"company"`
-	Count   int                 `json:"count"`
-	Msg     *string             `json:"msg,omitempty"`
+	// Count of deleted Company entities
+	Count int     `json:"count"`
+	Msg   *string `json:"msg,omitempty"`
 }
 
+// DeleteSmartPhone result with filterable data and count of affected entries
 type DeleteSmartPhonePayload struct {
 	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
-	Count      int                    `json:"count"`
-	Msg        *string                `json:"msg,omitempty"`
+	// Count of deleted SmartPhone entities
+	Count int     `json:"count"`
+	Msg   *string `json:"msg,omitempty"`
 }
 
+// DeleteTodo result with filterable data and count of affected entries
 type DeleteTodoPayload struct {
-	Todo  *TodoQueryResult `json:"todo"`
-	Count int              `json:"count"`
-	Msg   *string          `json:"msg,omitempty"`
+	Todo *TodoQueryResult `json:"todo"`
+	// Count of deleted Todo entities
+	Count int     `json:"count"`
+	Msg   *string `json:"msg,omitempty"`
 }
 
+// DeleteUser result with filterable data and count of affected entries
 type DeleteUserPayload struct {
-	User  *UserQueryResult `json:"user"`
-	Count int              `json:"count"`
-	Msg   *string          `json:"msg,omitempty"`
+	User *UserQueryResult `json:"user"`
+	// Count of deleted User entities
+	Count int     `json:"count"`
+	Msg   *string `json:"msg,omitempty"`
 }
 
+// ID Filter simple datatypes
 type IDFilterInput struct {
 	And     []*int         `json:"and,omitempty"`
 	Or      []*int         `json:"or,omitempty"`
@@ -176,11 +205,13 @@ type IDFilterInput struct {
 	Notin   []*int         `json:"notin,omitempty"`
 }
 
+// Filter between start and end (start > value < end)
 type IntFilterBetween struct {
 	Start int `json:"start"`
 	End   int `json:"end"`
 }
 
+// Int Filter simple datatypes
 type IntFilterInput struct {
 	And     []*int            `json:"and,omitempty"`
 	Or      []*int            `json:"or,omitempty"`
@@ -211,6 +242,8 @@ type SmartPhone struct {
 	UserID      int    `json:"userID"`
 }
 
+// Filter input selection for SmartPhone
+// Can be used f.e.: by querySmartPhone
 type SmartPhoneFiltersInput struct {
 	ID          *IDFilterInput            `json:"id,omitempty"`
 	Brand       *StringFilterInput        `json:"brand,omitempty"`
@@ -221,23 +254,27 @@ type SmartPhoneFiltersInput struct {
 	Not         *SmartPhoneFiltersInput   `json:"not,omitempty"`
 }
 
+// SmartPhone Input value to add new SmartPhone
 type SmartPhoneInput struct {
 	Brand       string `json:"brand"`
 	Phonenumber string `json:"phonenumber"`
 	UserID      int    `json:"userID"`
 }
 
+// Order SmartPhone by asc or desc
 type SmartPhoneOrder struct {
 	Asc  *SmartPhoneOrderable `json:"asc,omitempty"`
 	Desc *SmartPhoneOrderable `json:"desc,omitempty"`
 }
 
+// SmartPhone Patch value all values are optional to update SmartPhone entities
 type SmartPhonePatch struct {
 	Brand       *string `json:"brand,omitempty"`
 	Phonenumber *string `json:"phonenumber,omitempty"`
 	UserID      *int    `json:"userID,omitempty"`
 }
 
+// SmartPhone result
 type SmartPhoneQueryResult struct {
 	Data       []*SmartPhone `json:"data"`
 	Count      int           `json:"count"`
@@ -262,6 +299,7 @@ type SQLQueryParams struct {
 	DirectiveExt []string            `json:"directiveExt,omitempty"`
 }
 
+// String Filter simple datatypes
 type StringFilterInput struct {
 	And          []*string          `json:"and,omitempty"`
 	Or           []*string          `json:"or,omitempty"`
@@ -281,11 +319,13 @@ type StringFilterInput struct {
 	NotIn        []*string          `json:"notIn,omitempty"`
 }
 
+// Filter between start and end (start > value < end)
 type TimeFilterBetween struct {
 	Start time.Time `json:"start"`
 	End   time.Time `json:"end"`
 }
 
+// Time Filter simple datatypes
 type TimeFilterInput struct {
 	And     []*time.Time       `json:"and,omitempty"`
 	Or      []*time.Time       `json:"or,omitempty"`
@@ -303,6 +343,8 @@ type TimeFilterInput struct {
 	Between *TimeFilterBetween `json:"between,omitempty"`
 }
 
+// Filter input selection for Todo
+// Can be used f.e.: by queryTodo
 type TodoFiltersInput struct {
 	ID        *IDFilterInput      `json:"id,omitempty"`
 	Name      *StringFilterInput  `json:"name,omitempty"`
@@ -319,6 +361,7 @@ type TodoFiltersInput struct {
 	Not       *TodoFiltersInput   `json:"not,omitempty"`
 }
 
+// Todo Input value to add new Todo
 type TodoInput struct {
 	Name    string    `json:"name"`
 	Etype1  *TodoType `json:"etype1,omitempty"`
@@ -326,11 +369,13 @@ type TodoInput struct {
 	Test123 *string   `json:"test123,omitempty"`
 }
 
+// Order Todo by asc or desc
 type TodoOrder struct {
 	Asc  *TodoOrderable `json:"asc,omitempty"`
 	Desc *TodoOrderable `json:"desc,omitempty"`
 }
 
+// Todo Patch value all values are optional to update Todo entities
 type TodoPatch struct {
 	Name    *string   `json:"name,omitempty"`
 	Etype1  *TodoType `json:"etype1,omitempty"`
@@ -338,65 +383,81 @@ type TodoPatch struct {
 	Test123 *string   `json:"test123,omitempty"`
 }
 
+// Todo result
 type TodoQueryResult struct {
 	Data       []*Todo `json:"data"`
 	Count      int     `json:"count"`
 	TotalCount int     `json:"totalCount"`
 }
 
+// Update rules for Cat multiupdates simple possible by global filtervalue
 type UpdateCatInput struct {
 	Filter *CatFiltersInput `json:"filter"`
 	Set    *CatPatch        `json:"set"`
 }
 
+// UpdateCat result with filterable data and affected rows
 type UpdateCatPayload struct {
-	Cat      *CatQueryResult `json:"cat"`
-	Count    int             `json:"count"`
-	Affected []*Cat          `json:"affected"`
+	Cat *CatQueryResult `json:"cat"`
+	// Count of affected updates
+	Count    int    `json:"count"`
+	Affected []*Cat `json:"affected"`
 }
 
+// Update rules for Company multiupdates simple possible by global filtervalue
 type UpdateCompanyInput struct {
 	Filter *CompanyFiltersInput `json:"filter"`
 	Set    *CompanyPatch        `json:"set"`
 }
 
+// UpdateCompany result with filterable data and affected rows
 type UpdateCompanyPayload struct {
-	Company  *CompanyQueryResult `json:"company"`
-	Count    int                 `json:"count"`
-	Affected []*Company          `json:"affected"`
+	Company *CompanyQueryResult `json:"company"`
+	// Count of affected updates
+	Count    int        `json:"count"`
+	Affected []*Company `json:"affected"`
 }
 
+// Update rules for SmartPhone multiupdates simple possible by global filtervalue
 type UpdateSmartPhoneInput struct {
 	Filter *SmartPhoneFiltersInput `json:"filter"`
 	Set    *SmartPhonePatch        `json:"set"`
 }
 
+// UpdateSmartPhone result with filterable data and affected rows
 type UpdateSmartPhonePayload struct {
 	SmartPhone *SmartPhoneQueryResult `json:"smartPhone"`
-	Count      int                    `json:"count"`
-	Affected   []*SmartPhone          `json:"affected"`
+	// Count of affected updates
+	Count    int           `json:"count"`
+	Affected []*SmartPhone `json:"affected"`
 }
 
+// Update rules for Todo multiupdates simple possible by global filtervalue
 type UpdateTodoInput struct {
 	Filter *TodoFiltersInput `json:"filter"`
 	Set    *TodoPatch        `json:"set"`
 }
 
+// UpdateTodo result with filterable data and affected rows
 type UpdateTodoPayload struct {
-	Todo     *TodoQueryResult `json:"todo"`
-	Count    int              `json:"count"`
-	Affected []*Todo          `json:"affected"`
+	Todo *TodoQueryResult `json:"todo"`
+	// Count of affected updates
+	Count    int     `json:"count"`
+	Affected []*Todo `json:"affected"`
 }
 
+// Update rules for User multiupdates simple possible by global filtervalue
 type UpdateUserInput struct {
 	Filter *UserFiltersInput `json:"filter"`
 	Set    *UserPatch        `json:"set"`
 }
 
+// UpdateUser result with filterable data and affected rows
 type UpdateUserPayload struct {
-	User     *UserQueryResult `json:"user"`
-	Count    int              `json:"count"`
-	Affected []*User          `json:"affected"`
+	User *UserQueryResult `json:"user"`
+	// Count of affected updates
+	Count    int     `json:"count"`
+	Affected []*User `json:"affected"`
 }
 
 type User struct {
@@ -413,6 +474,8 @@ type User struct {
 	Email        string        `json:"email"`
 }
 
+// Filter input selection for User
+// Can be used f.e.: by queryUser
 type UserFiltersInput struct {
 	ID           *IDFilterInput          `json:"id,omitempty"`
 	Name         *StringFilterInput      `json:"name,omitempty"`
@@ -430,6 +493,7 @@ type UserFiltersInput struct {
 	Not          *UserFiltersInput       `json:"not,omitempty"`
 }
 
+// User Input value to add new User
 type UserInput struct {
 	Name         string             `json:"name"`
 	Cat          *CatInput          `json:"cat,omitempty"`
@@ -440,11 +504,13 @@ type UserInput struct {
 	Email        string             `json:"email" validate:"required,email"`
 }
 
+// Order User by asc or desc
 type UserOrder struct {
 	Asc  *UserOrderable `json:"asc,omitempty"`
 	Desc *UserOrderable `json:"desc,omitempty"`
 }
 
+// User Patch value all values are optional to update User entities
 type UserPatch struct {
 	Name         *string            `json:"name,omitempty"`
 	Cat          *CatPatch          `json:"cat,omitempty"`
@@ -455,17 +521,22 @@ type UserPatch struct {
 	Email        *string            `json:"email,omitempty" validate:"required,email"`
 }
 
+// User result
 type UserQueryResult struct {
 	Data       []*User `json:"data"`
 	Count      int     `json:"count"`
 	TotalCount int     `json:"totalCount"`
 }
 
+// Many 2 many input between Todo and User
+// Filter to Select Todo and set to set list of User PrimaryKeys
 type UserRef2TodosInput struct {
 	Filter *TodoFiltersInput `json:"filter"`
 	Set    []int             `json:"set"`
 }
 
+// Groupable data for  Cat
+// Can be used f.e.: by queryCat
 type CatGroup string
 
 const (
@@ -513,6 +584,8 @@ func (e CatGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// for Cat a enum of all orderable entities
+// can be used f.e.: queryCat
 type CatOrderable string
 
 const (
@@ -558,6 +631,8 @@ func (e CatOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// Groupable data for  Company
+// Can be used f.e.: by queryCompany
 type CompanyGroup string
 
 const (
@@ -605,6 +680,8 @@ func (e CompanyGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// for Company a enum of all orderable entities
+// can be used f.e.: queryCompany
 type CompanyOrderable string
 
 const (
@@ -650,6 +727,8 @@ func (e CompanyOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// Groupable data for  SmartPhone
+// Can be used f.e.: by querySmartPhone
 type SmartPhoneGroup string
 
 const (
@@ -695,6 +774,8 @@ func (e SmartPhoneGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// for SmartPhone a enum of all orderable entities
+// can be used f.e.: querySmartPhone
 type SmartPhoneOrderable string
 
 const (
@@ -740,6 +821,8 @@ func (e SmartPhoneOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// Groupable data for  Todo
+// Can be used f.e.: by queryTodo
 type TodoGroup string
 
 const (
@@ -789,6 +872,8 @@ func (e TodoGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// for Todo a enum of all orderable entities
+// can be used f.e.: queryTodo
 type TodoOrderable string
 
 const (
@@ -873,6 +958,8 @@ func (e TodoType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// Groupable data for  User
+// Can be used f.e.: by queryUser
 type UserGroup string
 
 const (
@@ -926,6 +1013,8 @@ func (e UserGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
 }
 
+// for User a enum of all orderable entities
+// can be used f.e.: queryUser
 type UserOrderable string
 
 const (

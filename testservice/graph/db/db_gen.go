@@ -12,6 +12,7 @@ type AutoGqlDB struct {
 	Hooks map[string]any
 }
 
+// Create a new AutoGqlDB
 func NewAutoGqlDB(db *gorm.DB) AutoGqlDB {
 	return AutoGqlDB{
 		Db:    db,
@@ -19,6 +20,7 @@ func NewAutoGqlDB(db *gorm.DB) AutoGqlDB {
 	}
 }
 
+// execute Gorm AutoMigrate with all @SQL Graphql Types
 func (db *AutoGqlDB) Init() {
 	db.Db.AutoMigrate(&model.Company{}, &model.User{}, &model.Todo{}, &model.Cat{}, &model.SmartPhone{})
 }

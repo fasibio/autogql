@@ -12,10 +12,12 @@ import (
 
 const extendsDatabaseFieldNameFormat string = "%[2]s.%[1]s%[3]s%[1]s"
 
+// PrimaryKeyName return the name of primarykey for Table Cat
 func (d *CatFiltersInput) PrimaryKeyName() string {
 	return "id"
 }
 
+// ExtendsDatabaseQuery create condition from CatFiltersInput values
 func (d *CatFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 	if d.And != nil {
@@ -57,10 +59,12 @@ func (d *CatFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep b
 	return res
 }
 
+// PrimaryKeyName return the name of primarykey for Table Company
 func (d *CompanyFiltersInput) PrimaryKeyName() string {
 	return "id"
 }
 
+// ExtendsDatabaseQuery create condition from CompanyFiltersInput values
 func (d *CompanyFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 	if d.And != nil {
@@ -105,10 +109,12 @@ func (d *CompanyFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, de
 	return res
 }
 
+// PrimaryKeyName return the name of primarykey for Table SmartPhone
 func (d *SmartPhoneFiltersInput) PrimaryKeyName() string {
 	return "id"
 }
 
+// ExtendsDatabaseQuery create condition from SmartPhoneFiltersInput values
 func (d *SmartPhoneFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 	if d.And != nil {
@@ -147,10 +153,12 @@ func (d *SmartPhoneFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string,
 	return res
 }
 
+// PrimaryKeyName return the name of primarykey for Table Todo
 func (d *TodoFiltersInput) PrimaryKeyName() string {
 	return "id"
 }
 
+// ExtendsDatabaseQuery create condition from TodoFiltersInput values
 func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 	if d.And != nil {
@@ -223,10 +231,12 @@ func (d *TodoFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 	return res
 }
 
+// PrimaryKeyName return the name of primarykey for Table User
 func (d *UserFiltersInput) PrimaryKeyName() string {
 	return "id"
 }
 
+// ExtendsDatabaseQuery create condition from UserFiltersInput values
 func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 	if d.And != nil {
@@ -395,6 +405,7 @@ func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, 
 	return res
 }
 
+// ExtendsDatabaseQuery create condition from values
 func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 
 	res := make([]runtimehelper.ConditionElement, 0)
@@ -464,6 +475,7 @@ func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, dee
 	return res
 }
 
+// ExtendsDatabaseQuery create condition from values
 func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 	res := make([]runtimehelper.ConditionElement, 0)
 
@@ -502,6 +514,7 @@ func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string,
 	return res
 }
 
+// ExtendsDatabaseQuery create condition from values
 func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 
 	res := make([]runtimehelper.ConditionElement, 0)
@@ -572,6 +585,7 @@ func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, de
 	return res
 }
 
+// ExtendsDatabaseQuery create condition from values
 func (d *IDFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 
 	res := make([]runtimehelper.ConditionElement, 0)

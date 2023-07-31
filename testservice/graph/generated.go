@@ -1619,7 +1619,9 @@ directive @SQL_INPUTTYPE_TAGS_INTERNAL (value: [String!]) on INPUT_FIELD_DEFINIT
 ## internal directive end
 	`, BuiltIn: true},
 	{Name: "../autogql/autogql.graphql", Input: `
-
+"""
+ID Filter simple datatypes
+"""
 input IDFilterInput {
   and: [ID]
   or: [ID]
@@ -1632,6 +1634,9 @@ input IDFilterInput {
   notin: [ID]
 }
 
+"""
+String Filter simple datatypes
+"""
 input StringFilterInput {
   and: [String]
   or: [String]
@@ -1651,6 +1656,9 @@ input StringFilterInput {
   notIn: [String]
 }
 
+"""
+Int Filter simple datatypes
+"""
 input IntFilterInput {
   and: [Int]
   or: [Int]
@@ -1668,11 +1676,17 @@ input IntFilterInput {
   between: IntFilterBetween
 }
 
+"""
+Filter between start and end (start > value < end)
+"""
 input IntFilterBetween{
   start: Int!
   end: Int!
 }
 
+"""
+Boolean Filter simple datatypes
+"""
 input BooleanFilterInput{
   and: [Boolean]
   or: [Boolean]
@@ -1682,6 +1696,9 @@ input BooleanFilterInput{
   notNull: Boolean
 }
 
+"""
+Time Filter simple datatypes
+"""
 input TimeFilterInput {
   and: [Time]
   or: [Time]
@@ -1698,11 +1715,18 @@ input TimeFilterInput {
   notIn: [Time]
   between: TimeFilterBetween
 }
+
+"""
+Filter between start and end (start > value < end)
+"""
 input TimeFilterBetween{
   start: Time!
   end: Time!
 }
 
+  """
+  Cat Input value to add new Cat
+  """
   input CatInput {
       name: String!  
       birthDay: Time!  
@@ -1710,6 +1734,9 @@ input TimeFilterBetween{
       alive: Boolean  
   }
 
+  """
+  Cat Patch value all values are optional to update Cat entities
+  """
   input CatPatch {
       name: String  
       birthDay: Time  
@@ -1718,45 +1745,77 @@ input TimeFilterBetween{
   } 
 
 
-
+    """
+    Update rules for Cat multiupdates simple possible by global filtervalue
+    """
     input UpdateCatInput{
       filter: CatFiltersInput!
       set: CatPatch!
     }
 
+    """
+    AddCat result with filterable data and affected rows
+    """
     type AddCatPayload{
       cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
       affected: [Cat!]!
     }
 
+    """
+    UpdateCat result with filterable data and affected rows
+    """
     type UpdateCatPayload{
       cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
+      """
+      Count of affected updates
+      """
       count: Int!
       affected: [Cat!]!
     }
 
+    """
+    DeleteCat result with filterable data and count of affected entries
+    """
     type DeleteCatPayload{
       cat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!]): CatQueryResult!
+      """
+      Count of deleted Cat entities
+      """
       count: Int!
       msg: String
     }
 
+    """
+    Cat result
+    """
     type CatQueryResult{
       data: [Cat!]!
       count: Int!
       totalCount: Int!
     }
 
+    """
+    for Cat a enum of all orderable entities
+    can be used f.e.: queryCat
+    """
     enum CatOrderable {
         id
         name
         userID
         alive
     }
+    """
+    Order Cat by asc or desc 
+    """
     input CatOrder{
       asc: CatOrderable
       desc: CatOrderable
     }
+
+    """
+    Groupable data for  Cat
+    Can be used f.e.: by queryCat
+    """
     enum CatGroup {
           id
           name
@@ -1764,6 +1823,11 @@ input TimeFilterBetween{
           userID
           alive
     }
+
+    """
+    Filter input selection for Cat
+    Can be used f.e.: by queryCat
+    """
     input CatFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -1775,15 +1839,33 @@ input TimeFilterBetween{
       not: CatFiltersInput
     }
       extend type Query {
+        """
+        return one Cat selected by PrimaryKey(s)
+        """
         getCat(id: ID!, ): Cat 
+        """
+        return a list of  Cat filterable, pageination, orderbale, groupable ...
+        """
         queryCat(filter: CatFiltersInput, order: CatOrder, first: Int, offset: Int, group: [CatGroup!] ): CatQueryResult 
       }
       extend type Mutation {
+        """
+        Add new Cat
+        """
         addCat(input: [CatInput!]!): AddCatPayload 
+        """
+        update Cat filtered by selection and update all matched values
+        """
         updateCat(input: UpdateCatInput!): UpdateCatPayload 
+        """
+        delete Cat filtered by selection and delete all matched values
+        """
         deleteCat(filter: CatFiltersInput!): DeleteCatPayload 
       }
 
+  """
+  Company Input value to add new Company
+  """
   input CompanyInput {
       name: String!  
       description: String  
@@ -1791,6 +1873,9 @@ input TimeFilterBetween{
       motherCompany: CompanyInput  
   }
 
+  """
+  Company Patch value all values are optional to update Company entities
+  """
   input CompanyPatch {
       name: String  
       description: String  
@@ -1799,45 +1884,77 @@ input TimeFilterBetween{
   } 
 
 
-
+    """
+    Update rules for Company multiupdates simple possible by global filtervalue
+    """
     input UpdateCompanyInput{
       filter: CompanyFiltersInput!
       set: CompanyPatch!
     }
 
+    """
+    AddCompany result with filterable data and affected rows
+    """
     type AddCompanyPayload{
       company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
       affected: [Company!]!
     }
 
+    """
+    UpdateCompany result with filterable data and affected rows
+    """
     type UpdateCompanyPayload{
       company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
+      """
+      Count of affected updates
+      """
       count: Int!
       affected: [Company!]!
     }
 
+    """
+    DeleteCompany result with filterable data and count of affected entries
+    """
     type DeleteCompanyPayload{
       company(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!]): CompanyQueryResult!
+      """
+      Count of deleted Company entities
+      """
       count: Int!
       msg: String
     }
 
+    """
+    Company result
+    """
     type CompanyQueryResult{
       data: [Company!]!
       count: Int!
       totalCount: Int!
     }
 
+    """
+    for Company a enum of all orderable entities
+    can be used f.e.: queryCompany
+    """
     enum CompanyOrderable {
         id
         name
         description
         motherCompanyID
     }
+    """
+    Order Company by asc or desc 
+    """
     input CompanyOrder{
       asc: CompanyOrderable
       desc: CompanyOrderable
     }
+
+    """
+    Groupable data for  Company
+    Can be used f.e.: by queryCompany
+    """
     enum CompanyGroup {
           id
           name
@@ -1845,6 +1962,11 @@ input TimeFilterBetween{
           motherCompanyID
           createdAt
     }
+
+    """
+    Filter input selection for Company
+    Can be used f.e.: by queryCompany
+    """
     input CompanyFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -1857,21 +1979,42 @@ input TimeFilterBetween{
       not: CompanyFiltersInput
     }
       extend type Query {
+        """
+        return one Company selected by PrimaryKey(s)
+        """
         getCompany(id: ID!, ): Company 
+        """
+        return a list of  Company filterable, pageination, orderbale, groupable ...
+        """
         queryCompany(filter: CompanyFiltersInput, order: CompanyOrder, first: Int, offset: Int, group: [CompanyGroup!] ): CompanyQueryResult 
       }
       extend type Mutation {
+        """
+        Add new Company
+        """
         addCompany(input: [CompanyInput!]!): AddCompanyPayload 
+        """
+        update Company filtered by selection and update all matched values
+        """
         updateCompany(input: UpdateCompanyInput!): UpdateCompanyPayload 
+        """
+        delete Company filtered by selection and delete all matched values
+        """
         deleteCompany(filter: CompanyFiltersInput!): DeleteCompanyPayload 
       }
 
+  """
+  SmartPhone Input value to add new SmartPhone
+  """
   input SmartPhoneInput {
       brand: String!  
       phonenumber: String!  
       userID: ID!  
   }
 
+  """
+  SmartPhone Patch value all values are optional to update SmartPhone entities
+  """
   input SmartPhonePatch {
       brand: String  
       phonenumber: String  
@@ -1879,51 +2022,88 @@ input TimeFilterBetween{
   } 
 
 
-
+    """
+    Update rules for SmartPhone multiupdates simple possible by global filtervalue
+    """
     input UpdateSmartPhoneInput{
       filter: SmartPhoneFiltersInput!
       set: SmartPhonePatch!
     }
 
+    """
+    AddSmartPhone result with filterable data and affected rows
+    """
     type AddSmartPhonePayload{
       smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
       affected: [SmartPhone!]!
     }
 
+    """
+    UpdateSmartPhone result with filterable data and affected rows
+    """
     type UpdateSmartPhonePayload{
       smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
+      """
+      Count of affected updates
+      """
       count: Int!
       affected: [SmartPhone!]!
     }
 
+    """
+    DeleteSmartPhone result with filterable data and count of affected entries
+    """
     type DeleteSmartPhonePayload{
       smartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!]): SmartPhoneQueryResult!
+      """
+      Count of deleted SmartPhone entities
+      """
       count: Int!
       msg: String
     }
 
+    """
+    SmartPhone result
+    """
     type SmartPhoneQueryResult{
       data: [SmartPhone!]!
       count: Int!
       totalCount: Int!
     }
 
+    """
+    for SmartPhone a enum of all orderable entities
+    can be used f.e.: querySmartPhone
+    """
     enum SmartPhoneOrderable {
         id
         brand
         phonenumber
         userID
     }
+    """
+    Order SmartPhone by asc or desc 
+    """
     input SmartPhoneOrder{
       asc: SmartPhoneOrderable
       desc: SmartPhoneOrderable
     }
+
+    """
+    Groupable data for  SmartPhone
+    Can be used f.e.: by querySmartPhone
+    """
     enum SmartPhoneGroup {
           id
           brand
           phonenumber
           userID
     }
+
+    """
+    Filter input selection for SmartPhone
+    Can be used f.e.: by querySmartPhone
+    """
     input SmartPhoneFiltersInput{
           id: IDFilterInput
           brand: StringFilterInput
@@ -1934,15 +2114,33 @@ input TimeFilterBetween{
       not: SmartPhoneFiltersInput
     }
       extend type Query {
+        """
+        return one SmartPhone selected by PrimaryKey(s)
+        """
         getSmartPhone(id: ID!, ): SmartPhone 
+        """
+        return a list of  SmartPhone filterable, pageination, orderbale, groupable ...
+        """
         querySmartPhone(filter: SmartPhoneFiltersInput, order: SmartPhoneOrder, first: Int, offset: Int, group: [SmartPhoneGroup!] ): SmartPhoneQueryResult 
       }
       extend type Mutation {
+        """
+        Add new SmartPhone
+        """
         addSmartPhone(input: [SmartPhoneInput!]!): AddSmartPhonePayload 
+        """
+        update SmartPhone filtered by selection and update all matched values
+        """
         updateSmartPhone(input: UpdateSmartPhoneInput!): UpdateSmartPhonePayload 
+        """
+        delete SmartPhone filtered by selection and delete all matched values
+        """
         deleteSmartPhone(filter: SmartPhoneFiltersInput!): DeleteSmartPhonePayload 
       }
 
+  """
+  Todo Input value to add new Todo
+  """
   input TodoInput {
       name: String!  
       etype1: TodoType  
@@ -1950,6 +2148,9 @@ input TimeFilterBetween{
       test123: Test  
   }
 
+  """
+  Todo Patch value all values are optional to update Todo entities
+  """
   input TodoPatch {
       name: String  
       etype1: TodoType  
@@ -1958,49 +2159,85 @@ input TimeFilterBetween{
   } 
 
 
-
+    """
+    Update rules for Todo multiupdates simple possible by global filtervalue
+    """
     input UpdateTodoInput{
       filter: TodoFiltersInput!
       set: TodoPatch!
     }
 
+    """
+    AddTodo result with filterable data and affected rows
+    """
     type AddTodoPayload{
       todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
       affected: [Todo!]!
     }
 
+    """
+    UpdateTodo result with filterable data and affected rows
+    """
     type UpdateTodoPayload{
       todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
+      """
+      Count of affected updates
+      """
       count: Int!
       affected: [Todo!]!
     }
 
+    """
+    DeleteTodo result with filterable data and count of affected entries
+    """
     type DeleteTodoPayload{
       todo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!]): TodoQueryResult!
+      """
+      Count of deleted Todo entities
+      """
       count: Int!
       msg: String
     }
 
+    """
+    Todo result
+    """
     type TodoQueryResult{
       data: [Todo!]!
       count: Int!
       totalCount: Int!
     }
 
+    """
+    for Todo a enum of all orderable entities
+    can be used f.e.: queryTodo
+    """
     enum TodoOrderable {
         id
         name
         ownerID
     }
       
+      """
+      Many 2 many input between Todo and User
+      Filter to Select Todo and set to set list of User PrimaryKeys
+      """
       input UserRef2TodosInput{
         filter: TodoFiltersInput!
         set: [ID!]!
       }
+    """
+    Order Todo by asc or desc 
+    """
     input TodoOrder{
       asc: TodoOrderable
       desc: TodoOrderable
     }
+
+    """
+    Groupable data for  Todo
+    Can be used f.e.: by queryTodo
+    """
     enum TodoGroup {
           id
           name
@@ -2009,6 +2246,11 @@ input TimeFilterBetween{
           updatedAt
           deletedAt
     }
+
+    """
+    Filter input selection for Todo
+    Can be used f.e.: by queryTodo
+    """
     input TodoFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -2025,16 +2267,37 @@ input TimeFilterBetween{
       not: TodoFiltersInput
     }
       extend type Query {
+        """
+        return one Todo selected by PrimaryKey(s)
+        """
         getTodo(id: ID!, ): Todo 
+        """
+        return a list of  Todo filterable, pageination, orderbale, groupable ...
+        """
         queryTodo(filter: TodoFiltersInput, order: TodoOrder, first: Int, offset: Int, group: [TodoGroup!] ): TodoQueryResult 
       }
       extend type Mutation {
+        """
+        Add new Many2Many relation(s)
+        """
         addUser2Todos(input:UserRef2TodosInput!): UpdateTodoPayload 
+        """
+        Add new Todo
+        """
         addTodo(input: [TodoInput!]!): AddTodoPayload 
+        """
+        update Todo filtered by selection and update all matched values
+        """
         updateTodo(input: UpdateTodoInput!): UpdateTodoPayload 
+        """
+        delete Todo filtered by selection and delete all matched values
+        """
         deleteTodo(filter: TodoFiltersInput!): DeleteTodoPayload 
       }
 
+  """
+  User Input value to add new User
+  """
   input UserInput  @VALIDATE{
       name: String!  
       cat: CatInput  
@@ -2045,6 +2308,9 @@ input TimeFilterBetween{
       email: String! @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required,email\""]) 
   }
 
+  """
+  User Patch value all values are optional to update User entities
+  """
   input UserPatch  @VALIDATE{
       name: String  
       cat: CatPatch  
@@ -2056,35 +2322,59 @@ input TimeFilterBetween{
   } 
 
 
-
+    """
+    Update rules for User multiupdates simple possible by global filtervalue
+    """
     input UpdateUserInput{
       filter: UserFiltersInput!
       set: UserPatch!
     }
 
+    """
+    AddUser result with filterable data and affected rows
+    """
     type AddUserPayload{
       user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
       affected: [User!]!
     }
 
+    """
+    UpdateUser result with filterable data and affected rows
+    """
     type UpdateUserPayload{
       user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
+      """
+      Count of affected updates
+      """
       count: Int!
       affected: [User!]!
     }
 
+    """
+    DeleteUser result with filterable data and count of affected entries
+    """
     type DeleteUserPayload{
       user(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!]): UserQueryResult!
+      """
+      Count of deleted User entities
+      """
       count: Int!
       msg: String
     }
 
+    """
+    User result
+    """
     type UserQueryResult{
       data: [User!]!
       count: Int!
       totalCount: Int!
     }
 
+    """
+    for User a enum of all orderable entities
+    can be used f.e.: queryUser
+    """
     enum UserOrderable {
         id
         name
@@ -2092,10 +2382,18 @@ input TimeFilterBetween{
         favoritColor
         email
     }
+    """
+    Order User by asc or desc 
+    """
     input UserOrder{
       asc: UserOrderable
       desc: UserOrderable
     }
+
+    """
+    Groupable data for  User
+    Can be used f.e.: by queryUser
+    """
     enum UserGroup {
           id
           name
@@ -2106,6 +2404,11 @@ input TimeFilterBetween{
           favoritColor
           email
     }
+
+    """
+    Filter input selection for User
+    Can be used f.e.: by queryUser
+    """
     input UserFiltersInput{
           id: IDFilterInput
           name: StringFilterInput
@@ -2123,12 +2426,27 @@ input TimeFilterBetween{
       not: UserFiltersInput
     }
       extend type Query {
+        """
+        return one User selected by PrimaryKey(s)
+        """
         getUser(id: ID!, ): User 
+        """
+        return a list of  User filterable, pageination, orderbale, groupable ...
+        """
         queryUser(filter: UserFiltersInput, order: UserOrder, first: Int, offset: Int, group: [UserGroup!] ): UserQueryResult 
       }
       extend type Mutation {
+        """
+        Add new User
+        """
         addUser(input: [UserInput!]!): AddUserPayload 
+        """
+        update User filtered by selection and update all matched values
+        """
         updateUser(input: UpdateUserInput!): UpdateUserPayload 
+        """
+        delete User filtered by selection and delete all matched values
+        """
         deleteUser(filter: UserFiltersInput!): DeleteUserPayload 
       }`, BuiltIn: false},
 }

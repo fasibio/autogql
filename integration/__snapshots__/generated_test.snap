@@ -14,7 +14,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"AddCatPayload",
-                    Description: (*string)(nil),
+                    Description: &"AddCat result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "cat",
@@ -155,7 +155,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"AddCompanyPayload",
-                    Description: (*string)(nil),
+                    Description: &"AddCompany result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "company",
@@ -296,7 +296,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"AddSmartPhonePayload",
-                    Description: (*string)(nil),
+                    Description: &"AddSmartPhone result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "smartPhone",
@@ -437,7 +437,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"AddTodoPayload",
-                    Description: (*string)(nil),
+                    Description: &"AddTodo result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "todo",
@@ -578,7 +578,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"AddUserPayload",
-                    Description: (*string)(nil),
+                    Description: &"AddUser result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "user",
@@ -736,7 +736,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"BooleanFilterInput",
-                    Description: (*string)(nil),
+                    Description: &"Boolean Filter simple datatypes",
                     Fields:      {
                     },
                     InputFields: {
@@ -968,7 +968,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CatFiltersInput",
-                    Description: (*string)(nil),
+                    Description: &"Filter input selection for Cat\nCan be used f.e.: by queryCat",
                     Fields:      {
                     },
                     InputFields: {
@@ -1105,7 +1105,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"CatGroup",
-                    Description: (*string)(nil),
+                    Description: &"Groupable data for  Cat\nCan be used f.e.: by queryCat",
                     Fields:      {
                     },
                     InputFields: {
@@ -1152,7 +1152,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CatInput",
-                    Description: (*string)(nil),
+                    Description: &"Cat Input value to add new Cat",
                     Fields:      {
                     },
                     InputFields: {
@@ -1237,7 +1237,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CatOrder",
-                    Description: (*string)(nil),
+                    Description: &"Order Cat by asc or desc ",
                     Fields:      {
                     },
                     InputFields: {
@@ -1282,7 +1282,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"CatOrderable",
-                    Description: (*string)(nil),
+                    Description: &"for Cat a enum of all orderable entities\ncan be used f.e.: queryCat",
                     Fields:      {
                     },
                     InputFields: {
@@ -1323,7 +1323,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CatPatch",
-                    Description: (*string)(nil),
+                    Description: &"Cat Patch value all values are optional to update Cat entities",
                     Fields:      {
                     },
                     InputFields: {
@@ -1396,7 +1396,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"CatQueryResult",
-                    Description: (*string)(nil),
+                    Description: &"Cat result",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "data",
@@ -1593,7 +1593,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CompanyFiltersInput",
-                    Description: (*string)(nil),
+                    Description: &"Filter input selection for Company\nCan be used f.e.: by queryCompany",
                     Fields:      {
                     },
                     InputFields: {
@@ -1744,7 +1744,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"CompanyGroup",
-                    Description: (*string)(nil),
+                    Description: &"Groupable data for  Company\nCan be used f.e.: by queryCompany",
                     Fields:      {
                     },
                     InputFields: {
@@ -1791,7 +1791,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CompanyInput",
-                    Description: (*string)(nil),
+                    Description: &"Company Input value to add new Company",
                     Fields:      {
                     },
                     InputFields: {
@@ -1868,7 +1868,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CompanyOrder",
-                    Description: (*string)(nil),
+                    Description: &"Order Company by asc or desc ",
                     Fields:      {
                     },
                     InputFields: {
@@ -1913,7 +1913,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"CompanyOrderable",
-                    Description: (*string)(nil),
+                    Description: &"for Company a enum of all orderable entities\ncan be used f.e.: queryCompany",
                     Fields:      {
                     },
                     InputFields: {
@@ -1954,7 +1954,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"CompanyPatch",
-                    Description: (*string)(nil),
+                    Description: &"Company Patch value all values are optional to update Company entities",
                     Fields:      {
                     },
                     InputFields: {
@@ -2027,7 +2027,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"CompanyQueryResult",
-                    Description: (*string)(nil),
+                    Description: &"Company result",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "data",
@@ -2109,7 +2109,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"DeleteCatPayload",
-                    Description: (*string)(nil),
+                    Description: &"DeleteCat result with filterable data and count of affected entries",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "cat",
@@ -2210,7 +2210,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of deleted Cat entities",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -2257,7 +2257,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"DeleteCompanyPayload",
-                    Description: (*string)(nil),
+                    Description: &"DeleteCompany result with filterable data and count of affected entries",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "company",
@@ -2358,7 +2358,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of deleted Company entities",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -2405,7 +2405,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"DeleteSmartPhonePayload",
-                    Description: (*string)(nil),
+                    Description: &"DeleteSmartPhone result with filterable data and count of affected entries",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "smartPhone",
@@ -2506,7 +2506,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of deleted SmartPhone entities",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -2553,7 +2553,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"DeleteTodoPayload",
-                    Description: (*string)(nil),
+                    Description: &"DeleteTodo result with filterable data and count of affected entries",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "todo",
@@ -2654,7 +2654,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of deleted Todo entities",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -2701,7 +2701,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"DeleteUserPayload",
-                    Description: (*string)(nil),
+                    Description: &"DeleteUser result with filterable data and count of affected entries",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "user",
@@ -2802,7 +2802,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of deleted User entities",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -2883,7 +2883,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"IDFilterInput",
-                    Description: (*string)(nil),
+                    Description: &"ID Filter simple datatypes",
                     Fields:      {
                     },
                     InputFields: {
@@ -3059,7 +3059,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"IntFilterBetween",
-                    Description: (*string)(nil),
+                    Description: &"Filter between start and end (start > value < end)",
                     Fields:      {
                     },
                     InputFields: {
@@ -3112,7 +3112,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"IntFilterInput",
-                    Description: (*string)(nil),
+                    Description: &"Int Filter simple datatypes",
                     Fields:      {
                     },
                     InputFields: {
@@ -3345,7 +3345,7 @@
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "addCat",
-                            Description: (*string)(nil),
+                            Description: &"Add new Cat",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3386,7 +3386,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "updateCat",
-                            Description: (*string)(nil),
+                            Description: &"update Cat filtered by selection and update all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3419,7 +3419,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "deleteCat",
-                            Description: (*string)(nil),
+                            Description: &"delete Cat filtered by selection and delete all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3452,7 +3452,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "addCompany",
-                            Description: (*string)(nil),
+                            Description: &"Add new Company",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3493,7 +3493,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "updateCompany",
-                            Description: (*string)(nil),
+                            Description: &"update Company filtered by selection and update all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3526,7 +3526,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "deleteCompany",
-                            Description: (*string)(nil),
+                            Description: &"delete Company filtered by selection and delete all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3559,7 +3559,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "addSmartPhone",
-                            Description: (*string)(nil),
+                            Description: &"Add new SmartPhone",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3600,7 +3600,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "updateSmartPhone",
-                            Description: (*string)(nil),
+                            Description: &"update SmartPhone filtered by selection and update all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3633,7 +3633,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "deleteSmartPhone",
-                            Description: (*string)(nil),
+                            Description: &"delete SmartPhone filtered by selection and delete all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3666,7 +3666,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "addUser2Todos",
-                            Description: (*string)(nil),
+                            Description: &"Add new Many2Many relation(s)",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3699,7 +3699,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "addTodo",
-                            Description: (*string)(nil),
+                            Description: &"Add new Todo",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3740,7 +3740,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "updateTodo",
-                            Description: (*string)(nil),
+                            Description: &"update Todo filtered by selection and update all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3773,7 +3773,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "deleteTodo",
-                            Description: (*string)(nil),
+                            Description: &"delete Todo filtered by selection and delete all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3806,7 +3806,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "addUser",
-                            Description: (*string)(nil),
+                            Description: &"Add new User",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3847,7 +3847,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "updateUser",
-                            Description: (*string)(nil),
+                            Description: &"update User filtered by selection and update all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -3880,7 +3880,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "deleteUser",
-                            Description: (*string)(nil),
+                            Description: &"delete User filtered by selection and delete all matched values",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4000,7 +4000,7 @@
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "getCat",
-                            Description: (*string)(nil),
+                            Description: &"return one Cat selected by PrimaryKey(s)",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4033,7 +4033,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "queryCat",
-                            Description: (*string)(nil),
+                            Description: &"return a list of  Cat filterable, pageination, orderbale, groupable ...",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4126,7 +4126,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "getCompany",
-                            Description: (*string)(nil),
+                            Description: &"return one Company selected by PrimaryKey(s)",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4159,7 +4159,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "queryCompany",
-                            Description: (*string)(nil),
+                            Description: &"return a list of  Company filterable, pageination, orderbale, groupable ...",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4252,7 +4252,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "getSmartPhone",
-                            Description: (*string)(nil),
+                            Description: &"return one SmartPhone selected by PrimaryKey(s)",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4285,7 +4285,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "querySmartPhone",
-                            Description: (*string)(nil),
+                            Description: &"return a list of  SmartPhone filterable, pageination, orderbale, groupable ...",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4378,7 +4378,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "getTodo",
-                            Description: (*string)(nil),
+                            Description: &"return one Todo selected by PrimaryKey(s)",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4411,7 +4411,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "queryTodo",
-                            Description: (*string)(nil),
+                            Description: &"return a list of  Todo filterable, pageination, orderbale, groupable ...",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4504,7 +4504,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "getUser",
-                            Description: (*string)(nil),
+                            Description: &"return one User selected by PrimaryKey(s)",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4537,7 +4537,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "queryUser",
-                            Description: (*string)(nil),
+                            Description: &"return a list of  User filterable, pageination, orderbale, groupable ...",
                             Args:        {
                                 &integration.FullTypeFieldsFieldArgsInputValue{
                                     InputValue: integration.InputValue{
@@ -4736,7 +4736,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"SmartPhoneFiltersInput",
-                    Description: (*string)(nil),
+                    Description: &"Filter input selection for SmartPhone\nCan be used f.e.: by querySmartPhone",
                     Fields:      {
                     },
                     InputFields: {
@@ -4859,7 +4859,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"SmartPhoneGroup",
-                    Description: (*string)(nil),
+                    Description: &"Groupable data for  SmartPhone\nCan be used f.e.: by querySmartPhone",
                     Fields:      {
                     },
                     InputFields: {
@@ -4900,7 +4900,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"SmartPhoneInput",
-                    Description: (*string)(nil),
+                    Description: &"SmartPhone Input value to add new SmartPhone",
                     Fields:      {
                     },
                     InputFields: {
@@ -4971,7 +4971,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"SmartPhoneOrder",
-                    Description: (*string)(nil),
+                    Description: &"Order SmartPhone by asc or desc ",
                     Fields:      {
                     },
                     InputFields: {
@@ -5016,7 +5016,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"SmartPhoneOrderable",
-                    Description: (*string)(nil),
+                    Description: &"for SmartPhone a enum of all orderable entities\ncan be used f.e.: querySmartPhone",
                     Fields:      {
                     },
                     InputFields: {
@@ -5057,7 +5057,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"SmartPhonePatch",
-                    Description: (*string)(nil),
+                    Description: &"SmartPhone Patch value all values are optional to update SmartPhone entities",
                     Fields:      {
                     },
                     InputFields: {
@@ -5116,7 +5116,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"SmartPhoneQueryResult",
-                    Description: (*string)(nil),
+                    Description: &"SmartPhone result",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "data",
@@ -5420,7 +5420,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"StringFilterInput",
-                    Description: (*string)(nil),
+                    Description: &"String Filter simple datatypes",
                     Fields:      {
                     },
                     InputFields: {
@@ -5711,7 +5711,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"TimeFilterBetween",
-                    Description: (*string)(nil),
+                    Description: &"Filter between start and end (start > value < end)",
                     Fields:      {
                     },
                     InputFields: {
@@ -5764,7 +5764,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"TimeFilterInput",
-                    Description: (*string)(nil),
+                    Description: &"Time Filter simple datatypes",
                     Fields:      {
                     },
                     InputFields: {
@@ -6222,7 +6222,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"TodoFiltersInput",
-                    Description: (*string)(nil),
+                    Description: &"Filter input selection for Todo\nCan be used f.e.: by queryTodo",
                     Fields:      {
                     },
                     InputFields: {
@@ -6429,7 +6429,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"TodoGroup",
-                    Description: (*string)(nil),
+                    Description: &"Groupable data for  Todo\nCan be used f.e.: by queryTodo",
                     Fields:      {
                     },
                     InputFields: {
@@ -6482,7 +6482,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"TodoInput",
-                    Description: (*string)(nil),
+                    Description: &"Todo Input value to add new Todo",
                     Fields:      {
                     },
                     InputFields: {
@@ -6563,7 +6563,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"TodoOrder",
-                    Description: (*string)(nil),
+                    Description: &"Order Todo by asc or desc ",
                     Fields:      {
                     },
                     InputFields: {
@@ -6608,7 +6608,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"TodoOrderable",
-                    Description: (*string)(nil),
+                    Description: &"for Todo a enum of all orderable entities\ncan be used f.e.: queryTodo",
                     Fields:      {
                     },
                     InputFields: {
@@ -6643,7 +6643,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"TodoPatch",
-                    Description: (*string)(nil),
+                    Description: &"Todo Patch value all values are optional to update Todo entities",
                     Fields:      {
                     },
                     InputFields: {
@@ -6716,7 +6716,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"TodoQueryResult",
-                    Description: (*string)(nil),
+                    Description: &"Todo result",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "data",
@@ -6827,7 +6827,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UpdateCatInput",
-                    Description: (*string)(nil),
+                    Description: &"Update rules for Cat multiupdates simple possible by global filtervalue",
                     Fields:      {
                     },
                     InputFields: {
@@ -6880,7 +6880,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"UpdateCatPayload",
-                    Description: (*string)(nil),
+                    Description: &"UpdateCat result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "cat",
@@ -6981,7 +6981,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of affected updates",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -7040,7 +7040,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UpdateCompanyInput",
-                    Description: (*string)(nil),
+                    Description: &"Update rules for Company multiupdates simple possible by global filtervalue",
                     Fields:      {
                     },
                     InputFields: {
@@ -7093,7 +7093,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"UpdateCompanyPayload",
-                    Description: (*string)(nil),
+                    Description: &"UpdateCompany result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "company",
@@ -7194,7 +7194,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of affected updates",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -7253,7 +7253,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UpdateSmartPhoneInput",
-                    Description: (*string)(nil),
+                    Description: &"Update rules for SmartPhone multiupdates simple possible by global filtervalue",
                     Fields:      {
                     },
                     InputFields: {
@@ -7306,7 +7306,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"UpdateSmartPhonePayload",
-                    Description: (*string)(nil),
+                    Description: &"UpdateSmartPhone result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "smartPhone",
@@ -7407,7 +7407,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of affected updates",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -7466,7 +7466,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UpdateTodoInput",
-                    Description: (*string)(nil),
+                    Description: &"Update rules for Todo multiupdates simple possible by global filtervalue",
                     Fields:      {
                     },
                     InputFields: {
@@ -7519,7 +7519,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"UpdateTodoPayload",
-                    Description: (*string)(nil),
+                    Description: &"UpdateTodo result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "todo",
@@ -7620,7 +7620,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of affected updates",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -7679,7 +7679,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UpdateUserInput",
-                    Description: (*string)(nil),
+                    Description: &"Update rules for User multiupdates simple possible by global filtervalue",
                     Fields:      {
                     },
                     InputFields: {
@@ -7732,7 +7732,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"UpdateUserPayload",
-                    Description: (*string)(nil),
+                    Description: &"UpdateUser result with filterable data and affected rows",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "user",
@@ -7833,7 +7833,7 @@
                         },
                         &integration.FullTypeFieldsField{
                             Name:        "count",
-                            Description: (*string)(nil),
+                            Description: &"Count of affected updates",
                             Args:        {
                             },
                             Type: &integration.FullTypeFieldsFieldType{
@@ -8090,7 +8090,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UserFiltersInput",
-                    Description: (*string)(nil),
+                    Description: &"Filter input selection for User\nCan be used f.e.: by queryUser",
                     Fields:      {
                     },
                     InputFields: {
@@ -8311,7 +8311,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"UserGroup",
-                    Description: (*string)(nil),
+                    Description: &"Groupable data for  User\nCan be used f.e.: by queryUser",
                     Fields:      {
                     },
                     InputFields: {
@@ -8376,7 +8376,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UserInput",
-                    Description: (*string)(nil),
+                    Description: &"User Input value to add new User",
                     Fields:      {
                     },
                     InputFields: {
@@ -8507,7 +8507,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UserOrder",
-                    Description: (*string)(nil),
+                    Description: &"Order User by asc or desc ",
                     Fields:      {
                     },
                     InputFields: {
@@ -8552,7 +8552,7 @@
                 FullType: integration.FullType{
                     Kind:        "ENUM",
                     Name:        &"UserOrderable",
-                    Description: (*string)(nil),
+                    Description: &"for User a enum of all orderable entities\ncan be used f.e.: queryUser",
                     Fields:      {
                     },
                     InputFields: {
@@ -8599,7 +8599,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UserPatch",
-                    Description: (*string)(nil),
+                    Description: &"User Patch value all values are optional to update User entities",
                     Fields:      {
                     },
                     InputFields: {
@@ -8722,7 +8722,7 @@
                 FullType: integration.FullType{
                     Kind:        "OBJECT",
                     Name:        &"UserQueryResult",
-                    Description: (*string)(nil),
+                    Description: &"User result",
                     Fields:      {
                         &integration.FullTypeFieldsField{
                             Name:        "data",
@@ -8804,7 +8804,7 @@
                 FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"UserRef2TodosInput",
-                    Description: (*string)(nil),
+                    Description: &"Many 2 many input between Todo and User\nFilter to Select Todo and set to set list of User PrimaryKeys",
                     Fields:      {
                     },
                     InputFields: {

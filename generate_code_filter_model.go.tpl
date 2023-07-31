@@ -4,6 +4,8 @@
 {{ reserveImport "github.com/fasibio/autogql/runtimehelper" }}
   
 {{$methodeName := "ExtendsDatabaseQuery"}}
+{{- $methodeNameComment := printf "// %s create condition from values " $methodeName }}
+
 const extendsDatabaseFieldNameFormat string = "%[2]s.%[1]s%[3]s%[1]s"
 
 {{- $root := .}}
@@ -11,10 +13,12 @@ const extendsDatabaseFieldNameFormat string = "%[2]s.%[1]s%[3]s%[1]s"
 {{- range $objectName, $object := .Handler.List.Objects }}
   {{- if $object.HasSqlDirective}}
 
+  // PrimaryKeyName return the name of primarykey for Table {{$object.Name}}
   func (d *{{$object.Name}}FiltersInput) PrimaryKeyName() string {
     return "{{$root.PrimaryKeyOfObject $object.Name}}"
   }
 
+  // {{$methodeName}} create condition from {{$object.Name}}FiltersInput values
   func (d *{{$object.Name}}FiltersInput) {{$methodeName}}(db *gorm.DB, alias string,deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
     res := make([]runtimehelper.ConditionElement, 0)
     if d.And != nil {
@@ -162,6 +166,7 @@ func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, 
   return res
 }
 
+{{ $methodeNameComment }}
 func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 
   res := make([]runtimehelper.ConditionElement, 0)
@@ -231,6 +236,7 @@ func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, dee
   return res
 }
 
+{{ $methodeNameComment }}
 func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
   res := make([]runtimehelper.ConditionElement, 0)
 
@@ -269,6 +275,7 @@ func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string,
   return res
 }
 
+{{ $methodeNameComment }}
 func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 
   res := make([]runtimehelper.ConditionElement, 0)
@@ -339,6 +346,7 @@ func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, de
   return res
 }
 
+{{ $methodeNameComment }}
 func (d *IDFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
 
   res := make([]runtimehelper.ConditionElement, 0)
