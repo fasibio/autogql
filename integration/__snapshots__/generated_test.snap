@@ -10074,3 +10074,9 @@ gqlerror.List{
     },
 }
 ---
+
+[TestQueryTestSuite/TestComplexCombination/deleteUsersFromTasks_=>_task_3_user_with_id_3 - 1]
+&integration.deleteUsersFromTodosResponse{
+    DeleteUserFromTodos: &integration.deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload{Count:1},
+}
+---
