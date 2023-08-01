@@ -14,35 +14,37 @@ type GetName string
 type AddName string
 type UpdateName string
 type DeleteName string
-type Many2ManyName string
+type Many2ManyAddName string
+type Many2ManyDeleteName string
 
 const (
-	GetCat           GetName       = "GetCat"
-	QueryCat         QueryName     = "QueryCat"
-	AddCat           AddName       = "AddCat"
-	UpdateCat        UpdateName    = "UpdateCat"
-	DeleteCat        DeleteName    = "DeleteCat"
-	GetCompany       GetName       = "GetCompany"
-	QueryCompany     QueryName     = "QueryCompany"
-	AddCompany       AddName       = "AddCompany"
-	UpdateCompany    UpdateName    = "UpdateCompany"
-	DeleteCompany    DeleteName    = "DeleteCompany"
-	GetSmartPhone    GetName       = "GetSmartPhone"
-	QuerySmartPhone  QueryName     = "QuerySmartPhone"
-	AddSmartPhone    AddName       = "AddSmartPhone"
-	UpdateSmartPhone UpdateName    = "UpdateSmartPhone"
-	DeleteSmartPhone DeleteName    = "DeleteSmartPhone"
-	AddUser2Todos    Many2ManyName = "AddUser2Todos"
-	GetTodo          GetName       = "GetTodo"
-	QueryTodo        QueryName     = "QueryTodo"
-	AddTodo          AddName       = "AddTodo"
-	UpdateTodo       UpdateName    = "UpdateTodo"
-	DeleteTodo       DeleteName    = "DeleteTodo"
-	GetUser          GetName       = "GetUser"
-	QueryUser        QueryName     = "QueryUser"
-	AddUser          AddName       = "AddUser"
-	UpdateUser       UpdateName    = "UpdateUser"
-	DeleteUser       DeleteName    = "DeleteUser"
+	GetCat              GetName             = "GetCat"
+	QueryCat            QueryName           = "QueryCat"
+	AddCat              AddName             = "AddCat"
+	UpdateCat           UpdateName          = "UpdateCat"
+	DeleteCat           DeleteName          = "DeleteCat"
+	GetCompany          GetName             = "GetCompany"
+	QueryCompany        QueryName           = "QueryCompany"
+	AddCompany          AddName             = "AddCompany"
+	UpdateCompany       UpdateName          = "UpdateCompany"
+	DeleteCompany       DeleteName          = "DeleteCompany"
+	GetSmartPhone       GetName             = "GetSmartPhone"
+	QuerySmartPhone     QueryName           = "QuerySmartPhone"
+	AddSmartPhone       AddName             = "AddSmartPhone"
+	UpdateSmartPhone    UpdateName          = "UpdateSmartPhone"
+	DeleteSmartPhone    DeleteName          = "DeleteSmartPhone"
+	AddUser2Todos       Many2ManyAddName    = "AddUser2Todos"
+	DeleteUserFromTodos Many2ManyDeleteName = "DeleteUserfromTodos"
+	GetTodo             GetName             = "GetTodo"
+	QueryTodo           QueryName           = "QueryTodo"
+	AddTodo             AddName             = "AddTodo"
+	UpdateTodo          UpdateName          = "UpdateTodo"
+	DeleteTodo          DeleteName          = "DeleteTodo"
+	GetUser             GetName             = "GetUser"
+	QueryUser           QueryName           = "QueryUser"
+	AddUser             AddName             = "AddUser"
+	UpdateUser          UpdateName          = "UpdateUser"
+	DeleteUser          DeleteName          = "DeleteUser"
 )
 
 // Modelhooks
@@ -134,10 +136,17 @@ func AddUpdateHook[M AutoGqlHookM, U AutoGqlHookU, UP AutoGqlHookUP](db *AutoGql
 	db.Hooks[string(name)] = implementation
 }
 
-// Add a Many2Many Hook
+// Add a Many2Many Add Hook
 // useable for
 //   - AddUser2Todos
-func AddMany2ManyHook[U AutoGqlHookM2M, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyName, implementation AutoGqlHookMany2Many[U, UP]) {
+func AddMany2ManyAddHook[U AutoGqlHookM2M, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyAddName, implementation AutoGqlHookMany2ManyAdd[U, UP]) {
+	db.Hooks[string(name)] = implementation
+}
+
+// Add a Many2Many Delete Hook
+// useable for
+//   - AddUser2Todos
+func AddMany2ManyDeleteHook[U AutoGqlHookM2M, DP AutoGqlHookDP](db *AutoGqlDB, name Many2ManyAddName, implementation AutoGqlHookMany2ManyDelete[U, DP]) {
 	db.Hooks[string(name)] = implementation
 }
 
@@ -346,46 +355,89 @@ func (d DefaultUpdateHook[inputType, resType]) BeforeReturn(ctx context.Context,
 //	   //do some stuff
 //	   return db, nil
 //	}
-type AutoGqlHookMany2Many[input AutoGqlHookM2M, res AutoGqlHookUP] interface {
+type AutoGqlHookMany2ManyAdd[input AutoGqlHookM2M, res AutoGqlHookUP] interface {
 	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error) // Direct after Resolver is call
 	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)                          // Direct before call Database
 	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)                    // After database call with resultset from database
 }
 
 // Default many2many hook implementation
-// Simple you can use DefaultMany2ManyHook and only implement the hooks you need:
+// Simple you can use DefaultMany2ManyAddHook and only implement the hooks you need:
 //
 //	type MyM2mHook struct {
-//	   DefaultMany2ManyHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//	   DefaultMany2ManyAddHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
 //	}
-//	func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//	func (m MyM2mAddHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
 //	   //do some stuff
 //	   return db, nil
 //	}
-type DefaultMany2ManyHook[input AutoGqlHookM2M, res AutoGqlHookUP] struct{}
+type DefaultMany2ManyAddHook[input AutoGqlHookM2M, res AutoGqlHookUP] struct{}
 
 // Direct after Resolver is call
-func (d DefaultMany2ManyHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
+func (d DefaultMany2ManyAddHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
 	return dbHelper.Db, *input, nil
 }
 
 // Direct before call Database
-func (d DefaultMany2ManyHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+func (d DefaultMany2ManyAddHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
 	return db, nil
 }
 
 // After database call with resultset from database
-func (d DefaultMany2ManyHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
+func (d DefaultMany2ManyAddHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
+	return res, nil
+}
+
+// Interface description of a many2many delete Hook
+// Simple you can use DefaultMany2ManyHook and only implement the hooks you need:
+//
+//	type MyM2mDeleteHook struct {
+//	   DefaultMany2ManyDeleteHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//	}
+//	func (m MyM2mDeleteHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//	   //do some stuff
+//	   return db, nil
+//	}
+type AutoGqlHookMany2ManyDelete[input AutoGqlHookM2M, res AutoGqlHookDP] interface {
+	Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error) // Direct after Resolver is call
+	BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error)                          // Direct before call Database
+	BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error)                    // After database call with resultset from database
+}
+
+// Default many2many delete hook implementation
+// Simple you can use DefaultMany2ManyDeleteHook and only implement the hooks you need:
+//
+//	type MyM2mDeleteHook struct {
+//	   DefaultMany2ManyDeleteHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//	}
+//	func (m MyM2mDeleteHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//	   //do some stuff
+//	   return db, nil
+//	}
+type DefaultMany2ManyDeleteHook[input AutoGqlHookM2M, res AutoGqlHookDP] struct{}
+
+// Direct after Resolver is call
+func (d DefaultMany2ManyDeleteHook[inputType, resType]) Received(ctx context.Context, dbHelper *AutoGqlDB, input *inputType) (*gorm.DB, inputType, error) {
+	return dbHelper.Db, *input, nil
+}
+
+// Direct before call Database
+func (d DefaultMany2ManyDeleteHook[inputType, resType]) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+	return db, nil
+}
+
+// After database call with resultset from database
+func (d DefaultMany2ManyDeleteHook[inputType, resType]) BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error) {
 	return res, nil
 }
 
 // Interface description of a delete Hook
 // Simple you can use DefaultDeleteHook and only implement the hooks you need:
 //
-//	type MyM2mHook struct {
+//	type MyDeleteHook struct {
 //	   DefaultDeleteHook[model.TodoFiltersInput, model.DeleteTodoPayload]
 //	}
-//	func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB, input model.TodoFiltersInput) (*gorm.DB, model.TodoFiltersInput, error) {
+//	func (m MyDeleteHook) BeforeCallDb(ctx context.Context, db *gorm.DB, input model.TodoFiltersInput) (*gorm.DB, model.TodoFiltersInput, error) {
 //	   //do some stuff
 //	   return db, input, nil
 //	}

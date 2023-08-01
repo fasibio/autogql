@@ -263,6 +263,11 @@ input TimeFilterBetween{
         Add new Many2Many relation(s)
         """
         add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s(input:{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput!): Update{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Add" | join " "}}
+
+        """
+        Delete Many2Many relation(s)
+        """
+        delete{{$m2mEntity.GqlTypeName}}From{{$object.Name}}s(input:{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput!): Delete{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Delete" | join " "}}
       {{- end}}
       {{- if $object.SQLDirective.Mutation.Add}}
         """

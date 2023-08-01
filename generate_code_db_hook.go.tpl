@@ -11,13 +11,15 @@ type GetName string
 type AddName string
 type UpdateName string
 type DeleteName string
-type Many2ManyName string 
+type Many2ManyAddName string 
+type Many2ManyDeleteName string 
 
 const (
   {{- range $objectName, $object := .Handler.List.Objects }}
     {{- if $object.HasSqlDirective}}
       {{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
-        Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s Many2ManyName = "Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s"
+        Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s Many2ManyAddName = "Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s"
+        Delete{{$m2mEntity.GqlTypeName}}From{{$object.Name}}s Many2ManyDeleteName = "Delete{{$m2mEntity.GqlTypeName}}from{{$object.Name}}s"
       {{- end}}
       {{- if $object.SQLDirective.Query.Get}}
         Get{{$object.Name}} GetName = "Get{{$object.Name}}"
@@ -137,7 +139,7 @@ func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hoo
   db.Hooks[string(name)] = implementation
 }
 
-// Add a Many2Many Hook
+// Add a Many2Many Add Hook
 // useable for 
 {{- range $objectName, $object := .Handler.List.Objects }}  
   {{- if $object.HasSqlDirective}} 
@@ -146,7 +148,21 @@ func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hoo
   {{- end}} 
   {{- end}} 
 {{- end }}
-func AddMany2ManyHook[U AutoGqlHookM2M, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyName, implementation AutoGqlHookMany2Many[U, UP]) {
+func AddMany2ManyAddHook[U AutoGqlHookM2M, UP AutoGqlHookUP](db *AutoGqlDB, name Many2ManyAddName, implementation AutoGqlHookMany2ManyAdd[U, UP]) {
+  db.Hooks[string(name)] = implementation
+}
+
+
+// Add a Many2Many Delete Hook
+// useable for 
+{{- range $objectName, $object := .Handler.List.Objects }}  
+  {{- if $object.HasSqlDirective}} 
+  {{- range $m2mKey, $m2mEntity := $object.Many2ManyRefEntities }}
+//  - Add{{$m2mEntity.GqlTypeName}}2{{$object.Name}}s
+  {{- end}} 
+  {{- end}} 
+{{- end }}
+func AddMany2ManyDeleteHook[U AutoGqlHookM2M, DP AutoGqlHookDP](db *AutoGqlDB, name Many2ManyAddName, implementation AutoGqlHookMany2ManyDelete[U, DP]) {
   db.Hooks[string(name)] = implementation
 }
 
@@ -348,44 +364,85 @@ func (d DefaultUpdateHook[inputType, resType]) BeforeReturn(ctx context.Context,
 //      //do some stuff
 //      return db, nil
 //   }
-type {{$hookBaseName}}HookMany2Many[input {{$hookBaseName}}HookM2M, res AutoGqlHookUP] interface {
+type {{$hookBaseName}}HookMany2ManyAdd[input {{$hookBaseName}}HookM2M, res AutoGqlHookUP] interface {
   Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error) // Direct after Resolver is call
   BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) // Direct before call Database
   BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error) // After database call with resultset from database
 }
 
 // Default many2many hook implementation
-// Simple you can use DefaultMany2ManyHook and only implement the hooks you need: 
+// Simple you can use DefaultMany2ManyAddHook and only implement the hooks you need: 
 //   type MyM2mHook struct {
-//      DefaultMany2ManyHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//      DefaultMany2ManyAddHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
 //   }
-//   func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//   func (m MyM2mAddHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
 //      //do some stuff
 //      return db, nil
 //   }
-type DefaultMany2ManyHook[input {{$hookBaseName}}HookM2M, res {{$hookBaseName}}HookUP] struct {}
+type DefaultMany2ManyAddHook[input {{$hookBaseName}}HookM2M, res {{$hookBaseName}}HookUP] struct {}
 
 // Direct after Resolver is call
-func (d DefaultMany2ManyHook[inputType, resType])Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *inputType) (*gorm.DB, inputType, error){
+func (d DefaultMany2ManyAddHook[inputType, resType])Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *inputType) (*gorm.DB, inputType, error){
   return dbHelper.Db, *input, nil
 }
 
 // Direct before call Database
-func (d DefaultMany2ManyHook[inputType, resType])BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error){
+func (d DefaultMany2ManyAddHook[inputType, resType])BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error){
   return db, nil
 }
 
 // After database call with resultset from database
-func (d DefaultMany2ManyHook[inputType, resType])BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error){
+func (d DefaultMany2ManyAddHook[inputType, resType])BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error){
+  return res, nil
+}
+
+// Interface description of a many2many delete Hook
+// Simple you can use DefaultMany2ManyHook and only implement the hooks you need: 
+//   type MyM2mDeleteHook struct {
+//      DefaultMany2ManyDeleteHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//   }
+//   func (m MyM2mDeleteHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//      //do some stuff
+//      return db, nil
+//   }
+type {{$hookBaseName}}HookMany2ManyDelete[input {{$hookBaseName}}HookM2M, res AutoGqlHookDP] interface {
+  Received(ctx context.Context, dbHelper *AutoGqlDB, input *input) (*gorm.DB, input, error) // Direct after Resolver is call
+  BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) // Direct before call Database
+  BeforeReturn(ctx context.Context, db *gorm.DB, res *res) (*res, error) // After database call with resultset from database
+}
+
+// Default many2many delete hook implementation
+// Simple you can use DefaultMany2ManyDeleteHook and only implement the hooks you need: 
+//   type MyM2mDeleteHook struct {
+//      DefaultMany2ManyDeleteHook[model.UserRef2TodosInput, model.UpdateTodoPayload]
+//   }
+//   func (m MyM2mDeleteHook) BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error) {
+//      //do some stuff
+//      return db, nil
+//   }
+type DefaultMany2ManyDeleteHook[input {{$hookBaseName}}HookM2M, res {{$hookBaseName}}HookDP] struct {}
+
+// Direct after Resolver is call
+func (d DefaultMany2ManyDeleteHook[inputType, resType])Received(ctx context.Context, dbHelper *{{$hookBaseName}}DB, input *inputType) (*gorm.DB, inputType, error){
+  return dbHelper.Db, *input, nil
+}
+
+// Direct before call Database
+func (d DefaultMany2ManyDeleteHook[inputType, resType])BeforeCallDb(ctx context.Context, db *gorm.DB) (*gorm.DB, error){
+  return db, nil
+}
+
+// After database call with resultset from database
+func (d DefaultMany2ManyDeleteHook[inputType, resType])BeforeReturn(ctx context.Context, db *gorm.DB, res *resType) (*resType, error){
   return res, nil
 }
 
 // Interface description of a delete Hook
 // Simple you can use DefaultDeleteHook and only implement the hooks you need: 
-//   type MyM2mHook struct {
+//   type MyDeleteHook struct {
 //      DefaultDeleteHook[model.TodoFiltersInput, model.DeleteTodoPayload]
 //   }
-//   func (m MyM2mHook) BeforeCallDb(ctx context.Context, db *gorm.DB, input model.TodoFiltersInput) (*gorm.DB, model.TodoFiltersInput, error) {
+//   func (m MyDeleteHook) BeforeCallDb(ctx context.Context, db *gorm.DB, input model.TodoFiltersInput) (*gorm.DB, model.TodoFiltersInput, error) {
 //      //do some stuff
 //      return db, input, nil
 //   }
