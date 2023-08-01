@@ -388,6 +388,12 @@ mutation deleteUser($userId:ID!){
   
 }
 
+mutation deleteUsersFromTodos($taskId: ID!, $userId:[ID!]!){
+  deleteUserFromTodos(input:{filter: {id: {eq: $taskId}}, set: $userId}){
+    count
+  }
+}
+
 mutation deleteUserByCatName($catName:String!){
   deleteUser(filter:{cat:{name:{eq:$catName}}}){
     count

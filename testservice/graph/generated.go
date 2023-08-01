@@ -148,22 +148,23 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		AddCat           func(childComplexity int, input []*model.CatInput) int
-		AddCompany       func(childComplexity int, input []*model.CompanyInput) int
-		AddSmartPhone    func(childComplexity int, input []*model.SmartPhoneInput) int
-		AddTodo          func(childComplexity int, input []*model.TodoInput) int
-		AddUser          func(childComplexity int, input []*model.UserInput) int
-		AddUser2Todos    func(childComplexity int, input model.UserRef2TodosInput) int
-		DeleteCat        func(childComplexity int, filter model.CatFiltersInput) int
-		DeleteCompany    func(childComplexity int, filter model.CompanyFiltersInput) int
-		DeleteSmartPhone func(childComplexity int, filter model.SmartPhoneFiltersInput) int
-		DeleteTodo       func(childComplexity int, filter model.TodoFiltersInput) int
-		DeleteUser       func(childComplexity int, filter model.UserFiltersInput) int
-		UpdateCat        func(childComplexity int, input model.UpdateCatInput) int
-		UpdateCompany    func(childComplexity int, input model.UpdateCompanyInput) int
-		UpdateSmartPhone func(childComplexity int, input model.UpdateSmartPhoneInput) int
-		UpdateTodo       func(childComplexity int, input model.UpdateTodoInput) int
-		UpdateUser       func(childComplexity int, input model.UpdateUserInput) int
+		AddCat              func(childComplexity int, input []*model.CatInput) int
+		AddCompany          func(childComplexity int, input []*model.CompanyInput) int
+		AddSmartPhone       func(childComplexity int, input []*model.SmartPhoneInput) int
+		AddTodo             func(childComplexity int, input []*model.TodoInput) int
+		AddUser             func(childComplexity int, input []*model.UserInput) int
+		AddUser2Todos       func(childComplexity int, input model.UserRef2TodosInput) int
+		DeleteCat           func(childComplexity int, filter model.CatFiltersInput) int
+		DeleteCompany       func(childComplexity int, filter model.CompanyFiltersInput) int
+		DeleteSmartPhone    func(childComplexity int, filter model.SmartPhoneFiltersInput) int
+		DeleteTodo          func(childComplexity int, filter model.TodoFiltersInput) int
+		DeleteUser          func(childComplexity int, filter model.UserFiltersInput) int
+		DeleteUserFromTodos func(childComplexity int, input model.UserRef2TodosInput) int
+		UpdateCat           func(childComplexity int, input model.UpdateCatInput) int
+		UpdateCompany       func(childComplexity int, input model.UpdateCompanyInput) int
+		UpdateSmartPhone    func(childComplexity int, input model.UpdateSmartPhoneInput) int
+		UpdateTodo          func(childComplexity int, input model.UpdateTodoInput) int
+		UpdateUser          func(childComplexity int, input model.UpdateUserInput) int
 	}
 
 	NoSqlControl struct {
@@ -311,6 +312,7 @@ type MutationResolver interface {
 	UpdateSmartPhone(ctx context.Context, input model.UpdateSmartPhoneInput) (*model.UpdateSmartPhonePayload, error)
 	DeleteSmartPhone(ctx context.Context, filter model.SmartPhoneFiltersInput) (*model.DeleteSmartPhonePayload, error)
 	AddUser2Todos(ctx context.Context, input model.UserRef2TodosInput) (*model.UpdateTodoPayload, error)
+	DeleteUserFromTodos(ctx context.Context, input model.UserRef2TodosInput) (*model.DeleteTodoPayload, error)
 	AddTodo(ctx context.Context, input []*model.TodoInput) (*model.AddTodoPayload, error)
 	UpdateTodo(ctx context.Context, input model.UpdateTodoInput) (*model.UpdateTodoPayload, error)
 	DeleteTodo(ctx context.Context, filter model.TodoFiltersInput) (*model.DeleteTodoPayload, error)
@@ -843,6 +845,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteUser(childComplexity, args["filter"].(model.UserFiltersInput)), true
+
+	case "Mutation.deleteUserFromTodos":
+		if e.complexity.Mutation.DeleteUserFromTodos == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteUserFromTodos_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteUserFromTodos(childComplexity, args["input"].(model.UserRef2TodosInput)), true
 
 	case "Mutation.updateCat":
 		if e.complexity.Mutation.UpdateCat == nil {
@@ -2281,6 +2295,11 @@ input TimeFilterBetween{
         Add new Many2Many relation(s)
         """
         addUser2Todos(input:UserRef2TodosInput!): UpdateTodoPayload 
+
+        """
+        Delete Many2Many relation(s)
+        """
+        deleteUserFromTodos(input:UserRef2TodosInput!): DeleteTodoPayload 
         """
         Add new Todo
         """
@@ -3113,6 +3132,21 @@ func (ec *executionContext) field_Mutation_deleteTodo_args(ctx context.Context, 
 		}
 	}
 	args["filter"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteUserFromTodos_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.UserRef2TodosInput
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
+		arg0, err = ec.unmarshalNUserRef2TodosInput2githubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserRef2TodosInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -6611,6 +6645,66 @@ func (ec *executionContext) fieldContext_Mutation_addUser2Todos(ctx context.Cont
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
 	if fc.Args, err = ec.field_Mutation_addUser2Todos_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+		ec.Error(ctx, err)
+		return fc, err
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Mutation_deleteUserFromTodos(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Mutation_deleteUserFromTodos(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteUserFromTodos(rctx, fc.Args["input"].(model.UserRef2TodosInput))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*model.DeleteTodoPayload)
+	fc.Result = res
+	return ec.marshalODeleteTodoPayload2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐDeleteTodoPayload(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Mutation_deleteUserFromTodos(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "todo":
+				return ec.fieldContext_DeleteTodoPayload_todo(ctx, field)
+			case "count":
+				return ec.fieldContext_DeleteTodoPayload_count(ctx, field)
+			case "msg":
+				return ec.fieldContext_DeleteTodoPayload_msg(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type DeleteTodoPayload", field.Name)
+		},
+	}
+	defer func() {
+		if r := recover(); r != nil {
+			err = ec.Recover(ctx, r)
+			ec.Error(ctx, err)
+		}
+	}()
+	ctx = graphql.WithFieldContext(ctx, fc)
+	if fc.Args, err = ec.field_Mutation_deleteUserFromTodos_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return fc, err
 	}
@@ -15881,6 +15975,10 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		case "addUser2Todos":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
 				return ec._Mutation_addUser2Todos(ctx, field)
+			})
+		case "deleteUserFromTodos":
+			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {
+				return ec._Mutation_deleteUserFromTodos(ctx, field)
 			})
 		case "addTodo":
 			out.Values[i] = ec.OperationContext.RootResolverMiddleware(innerCtx, func(ctx context.Context) (res graphql.Marshaler) {

@@ -20,6 +20,10 @@ func (e Entity) Name() string {
 	return e.Raw.Name
 }
 
+func (e Entity) IsUnion() bool {
+	return e.RawObject.Kind == ast.Union
+}
+
 func (e Entity) HasGormDirective() bool {
 	return e.GormDirectiveValue() != ""
 }

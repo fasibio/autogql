@@ -310,6 +310,9 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 	suite.T().Run("complexWithInAndOrAndJoin3", queryTester(func() (any, error) {
 		return complexWithInAndOrAndJoin3(context.Background(), suite.Client)
 	}))
+	suite.T().Run("deleteUsersFromTasks => task 3 user with id 3", queryTester(func() (any, error) {
+		return deleteUsersFromTodos(context.Background(), suite.Client, "3", []string{"3"})
+	}))
 	suite.T().Run("deleteUser => user with id 1", queryTester(func() (any, error) {
 		return deleteUser(context.Background(), suite.Client, "1")
 	}))

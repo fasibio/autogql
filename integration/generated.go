@@ -10,6 +10,7 @@ import (
 	"github.com/Khan/genqlient/graphql"
 )
 
+// Boolean Filter simple datatypes
 type BooleanFilterInput struct {
 	And     []*bool             `json:"and"`
 	Or      []*bool             `json:"or"`
@@ -37,6 +38,8 @@ func (v *BooleanFilterInput) GetNull() *bool { return v.Null }
 // GetNotNull returns BooleanFilterInput.NotNull, and is useful for accessing the field via an interface.
 func (v *BooleanFilterInput) GetNotNull() *bool { return v.NotNull }
 
+// Filter input selection for Cat
+// Can be used f.e.: by queryCat
 type CatFiltersInput struct {
 	Id       *IDFilterInput      `json:"id,omitempty"`
 	Name     *StringFilterInput  `json:"name,omitempty"`
@@ -72,6 +75,7 @@ func (v *CatFiltersInput) GetOr() []*CatFiltersInput { return v.Or }
 // GetNot returns CatFiltersInput.Not, and is useful for accessing the field via an interface.
 func (v *CatFiltersInput) GetNot() *CatFiltersInput { return v.Not }
 
+// Cat Input value to add new Cat
 type CatInput struct {
 	Name     string    `json:"name"`
 	BirthDay time.Time `json:"birthDay"`
@@ -91,6 +95,8 @@ func (v *CatInput) GetUserID() int { return v.UserID }
 // GetAlive returns CatInput.Alive, and is useful for accessing the field via an interface.
 func (v *CatInput) GetAlive() *bool { return v.Alive }
 
+// Filter input selection for Company
+// Can be used f.e.: by queryCompany
 type CompanyFiltersInput struct {
 	Id              *IDFilterInput         `json:"id,omitempty"`
 	Name            *StringFilterInput     `json:"name,omitempty"`
@@ -130,6 +136,7 @@ func (v *CompanyFiltersInput) GetOr() []*CompanyFiltersInput { return v.Or }
 // GetNot returns CompanyFiltersInput.Not, and is useful for accessing the field via an interface.
 func (v *CompanyFiltersInput) GetNot() *CompanyFiltersInput { return v.Not }
 
+// Company Input value to add new Company
 type CompanyInput struct {
 	Name            string        `json:"name"`
 	Description     *string       `json:"description"`
@@ -591,6 +598,7 @@ func (v *FullTypePossibleTypesType) __premarshalJSON() (*__premarshalFullTypePos
 	return &retval, nil
 }
 
+// ID Filter simple datatypes
 type IDFilterInput struct {
 	And     []*string      `json:"and"`
 	Or      []*string      `json:"or"`
@@ -714,6 +722,7 @@ func (v *InputValueType) __premarshalJSON() (*__premarshalInputValueType, error)
 	return &retval, nil
 }
 
+// Filter between start and end (start > value < end)
 type IntFilterBetween struct {
 	Start int `json:"start"`
 	End   int `json:"end"`
@@ -725,6 +734,7 @@ func (v *IntFilterBetween) GetStart() int { return v.Start }
 // GetEnd returns IntFilterBetween.End, and is useful for accessing the field via an interface.
 func (v *IntFilterBetween) GetEnd() int { return v.End }
 
+// Int Filter simple datatypes
 type IntFilterInput struct {
 	And     []*int            `json:"and"`
 	Or      []*int            `json:"or"`
@@ -1054,6 +1064,8 @@ func (v *IntrospectionQuerySchemaTypesType) __premarshalJSON() (*__premarshalInt
 	return &retval, nil
 }
 
+// Filter input selection for SmartPhone
+// Can be used f.e.: by querySmartPhone
 type SmartPhoneFiltersInput struct {
 	Id          *IDFilterInput            `json:"id,omitempty"`
 	Brand       *StringFilterInput        `json:"brand,omitempty"`
@@ -1085,6 +1097,7 @@ func (v *SmartPhoneFiltersInput) GetOr() []*SmartPhoneFiltersInput { return v.Or
 // GetNot returns SmartPhoneFiltersInput.Not, and is useful for accessing the field via an interface.
 func (v *SmartPhoneFiltersInput) GetNot() *SmartPhoneFiltersInput { return v.Not }
 
+// SmartPhone Input value to add new SmartPhone
 type SmartPhoneInput struct {
 	Brand       string `json:"brand"`
 	Phonenumber string `json:"phonenumber"`
@@ -1100,6 +1113,7 @@ func (v *SmartPhoneInput) GetPhonenumber() string { return v.Phonenumber }
 // GetUserID returns SmartPhoneInput.UserID, and is useful for accessing the field via an interface.
 func (v *SmartPhoneInput) GetUserID() string { return v.UserID }
 
+// String Filter simple datatypes
 type StringFilterInput struct {
 	And          []*string          `json:"and"`
 	Or           []*string          `json:"or"`
@@ -1167,6 +1181,7 @@ func (v *StringFilterInput) GetIn() []*string { return v.In }
 // GetNotIn returns StringFilterInput.NotIn, and is useful for accessing the field via an interface.
 func (v *StringFilterInput) GetNotIn() []*string { return v.NotIn }
 
+// Filter between start and end (start > value < end)
 type TimeFilterBetween struct {
 	Start time.Time `json:"start"`
 	End   time.Time `json:"end"`
@@ -1178,6 +1193,7 @@ func (v *TimeFilterBetween) GetStart() time.Time { return v.Start }
 // GetEnd returns TimeFilterBetween.End, and is useful for accessing the field via an interface.
 func (v *TimeFilterBetween) GetEnd() time.Time { return v.End }
 
+// Time Filter simple datatypes
 type TimeFilterInput struct {
 	And     []*time.Time       `json:"and"`
 	Or      []*time.Time       `json:"or"`
@@ -1237,6 +1253,8 @@ func (v *TimeFilterInput) GetNotIn() []*time.Time { return v.NotIn }
 // GetBetween returns TimeFilterInput.Between, and is useful for accessing the field via an interface.
 func (v *TimeFilterInput) GetBetween() *TimeFilterBetween { return v.Between }
 
+// Filter input selection for Todo
+// Can be used f.e.: by queryTodo
 type TodoFiltersInput struct {
 	Id        *IDFilterInput      `json:"id,omitempty"`
 	Name      *StringFilterInput  `json:"name,omitempty"`
@@ -1292,6 +1310,7 @@ func (v *TodoFiltersInput) GetOr() []*TodoFiltersInput { return v.Or }
 // GetNot returns TodoFiltersInput.Not, and is useful for accessing the field via an interface.
 func (v *TodoFiltersInput) GetNot() *TodoFiltersInput { return v.Not }
 
+// Todo Input value to add new Todo
 type TodoInput struct {
 	Name    string    `json:"name"`
 	Etype1  *TodoType `json:"etype1"`
@@ -1461,6 +1480,8 @@ func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetKind() TypeKind {
 // GetName returns TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType.Name, and is useful for accessing the field via an interface.
 func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetName() *string { return v.Name }
 
+// Filter input selection for User
+// Can be used f.e.: by queryUser
 type UserFiltersInput struct {
 	Id           *IDFilterInput          `json:"id,omitempty"`
 	Name         *StringFilterInput      `json:"name,omitempty"`
@@ -1520,6 +1541,7 @@ func (v *UserFiltersInput) GetOr() []*UserFiltersInput { return v.Or }
 // GetNot returns UserFiltersInput.Not, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetNot() *UserFiltersInput { return v.Not }
 
+// User Input value to add new User
 type UserInput struct {
 	Name         string             `json:"name"`
 	Cat          *CatInput          `json:"cat,omitempty"`
@@ -1551,6 +1573,8 @@ func (v *UserInput) GetFavoritColor() *string { return v.FavoritColor }
 // GetEmail returns UserInput.Email, and is useful for accessing the field via an interface.
 func (v *UserInput) GetEmail() string { return v.Email }
 
+// Many 2 many input between Todo and User
+// Filter to Select Todo and set to set list of User PrimaryKeys
 type UserRef2TodosInput struct {
 	Filter *TodoFiltersInput `json:"filter,omitempty"`
 	Set    []string          `json:"set"`
@@ -1676,6 +1700,18 @@ type __deleteUserInput struct {
 // GetUserId returns __deleteUserInput.UserId, and is useful for accessing the field via an interface.
 func (v *__deleteUserInput) GetUserId() string { return v.UserId }
 
+// __deleteUsersFromTodosInput is used internally by genqlient
+type __deleteUsersFromTodosInput struct {
+	TaskId string   `json:"taskId"`
+	UserId []string `json:"userId"`
+}
+
+// GetTaskId returns __deleteUsersFromTodosInput.TaskId, and is useful for accessing the field via an interface.
+func (v *__deleteUsersFromTodosInput) GetTaskId() string { return v.TaskId }
+
+// GetUserId returns __deleteUsersFromTodosInput.UserId, and is useful for accessing the field via an interface.
+func (v *__deleteUsersFromTodosInput) GetUserId() []string { return v.UserId }
+
 // __getUserByIdInput is used internally by genqlient
 type __getUserByIdInput struct {
 	UserId string `json:"userId"`
@@ -1709,6 +1745,9 @@ func (v *__updateUserChangeCompanyInput) GetUserId() string { return v.UserId }
 func (v *__updateUserChangeCompanyInput) GetCompanyID() int { return v.CompanyID }
 
 // addCatsAddCatAddCatPayload includes the requested fields of the GraphQL type AddCatPayload.
+// The GraphQL type's documentation follows.
+//
+// AddCat result with filterable data and affected rows
 type addCatsAddCatAddCatPayload struct {
 	Cat *addCatsAddCatAddCatPayloadCatCatQueryResult `json:"cat"`
 }
@@ -1719,6 +1758,9 @@ func (v *addCatsAddCatAddCatPayload) GetCat() *addCatsAddCatAddCatPayloadCatCatQ
 }
 
 // addCatsAddCatAddCatPayloadCatCatQueryResult includes the requested fields of the GraphQL type CatQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Cat result
 type addCatsAddCatAddCatPayloadCatCatQueryResult struct {
 	Data []*addCatsAddCatAddCatPayloadCatCatQueryResultDataCat `json:"data"`
 }
@@ -1746,6 +1788,7 @@ func (v *addCatsAddCatAddCatPayloadCatCatQueryResultDataCat) GetUserID() int { r
 
 // addCatsResponse is returned by addCats on success.
 type addCatsResponse struct {
+	// Add new Cat
 	AddCat *addCatsAddCatAddCatPayload `json:"addCat"`
 }
 
@@ -1753,6 +1796,9 @@ type addCatsResponse struct {
 func (v *addCatsResponse) GetAddCat() *addCatsAddCatAddCatPayload { return v.AddCat }
 
 // addCompaniesAddCompanyAddCompanyPayload includes the requested fields of the GraphQL type AddCompanyPayload.
+// The GraphQL type's documentation follows.
+//
+// AddCompany result with filterable data and affected rows
 type addCompaniesAddCompanyAddCompanyPayload struct {
 	Affected []*addCompaniesAddCompanyAddCompanyPayloadAffectedCompany         `json:"affected"`
 	Company  *addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult `json:"company"`
@@ -1781,6 +1827,9 @@ func (v *addCompaniesAddCompanyAddCompanyPayloadAffectedCompany) GetId() string 
 func (v *addCompaniesAddCompanyAddCompanyPayloadAffectedCompany) GetName() string { return v.Name }
 
 // addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult includes the requested fields of the GraphQL type CompanyQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Company result
 type addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResult struct {
 	Data []*addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany `json:"data"`
 }
@@ -1808,6 +1857,7 @@ func (v *addCompaniesAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCom
 
 // addCompaniesResponse is returned by addCompanies on success.
 type addCompaniesResponse struct {
+	// Add new Company
 	AddCompany *addCompaniesAddCompanyAddCompanyPayload `json:"addCompany"`
 }
 
@@ -1817,6 +1867,9 @@ func (v *addCompaniesResponse) GetAddCompany() *addCompaniesAddCompanyAddCompany
 }
 
 // addCompanyQueryResultAddCompanyAddCompanyPayload includes the requested fields of the GraphQL type AddCompanyPayload.
+// The GraphQL type's documentation follows.
+//
+// AddCompany result with filterable data and affected rows
 type addCompanyQueryResultAddCompanyAddCompanyPayload struct {
 	Affected []*addCompanyQueryResultAddCompanyAddCompanyPayloadAffectedCompany         `json:"affected"`
 	Company  *addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult `json:"company"`
@@ -1847,6 +1900,9 @@ func (v *addCompanyQueryResultAddCompanyAddCompanyPayloadAffectedCompany) GetNam
 }
 
 // addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult includes the requested fields of the GraphQL type CompanyQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Company result
 type addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResult struct {
 	Data []*addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResultDataCompany `json:"data"`
 }
@@ -1874,6 +1930,7 @@ func (v *addCompanyQueryResultAddCompanyAddCompanyPayloadCompanyCompanyQueryResu
 
 // addCompanyQueryResultResponse is returned by addCompanyQueryResult on success.
 type addCompanyQueryResultResponse struct {
+	// Add new Company
 	AddCompany *addCompanyQueryResultAddCompanyAddCompanyPayload `json:"addCompany"`
 }
 
@@ -1883,6 +1940,9 @@ func (v *addCompanyQueryResultResponse) GetAddCompany() *addCompanyQueryResultAd
 }
 
 // addTodosAddTodoAddTodoPayload includes the requested fields of the GraphQL type AddTodoPayload.
+// The GraphQL type's documentation follows.
+//
+// AddTodo result with filterable data and affected rows
 type addTodosAddTodoAddTodoPayload struct {
 	Affected []*addTodosAddTodoAddTodoPayloadAffectedTodo      `json:"affected"`
 	Todo     *addTodosAddTodoAddTodoPayloadTodoTodoQueryResult `json:"todo"`
@@ -1911,6 +1971,9 @@ func (v *addTodosAddTodoAddTodoPayloadAffectedTodo) GetId() string { return v.Id
 func (v *addTodosAddTodoAddTodoPayloadAffectedTodo) GetName() string { return v.Name }
 
 // addTodosAddTodoAddTodoPayloadTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type addTodosAddTodoAddTodoPayloadTodoTodoQueryResult struct {
 	Data []*addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo `json:"data"`
 }
@@ -1952,6 +2015,7 @@ func (v *addTodosAddTodoAddTodoPayloadTodoTodoQueryResultDataTodo) GetTest123() 
 
 // addTodosResponse is returned by addTodos on success.
 type addTodosResponse struct {
+	// Add new Todo
 	AddTodo *addTodosAddTodoAddTodoPayload `json:"addTodo"`
 }
 
@@ -1959,6 +2023,9 @@ type addTodosResponse struct {
 func (v *addTodosResponse) GetAddTodo() *addTodosAddTodoAddTodoPayload { return v.AddTodo }
 
 // addUser2TodoAddUser2TodosUpdateTodoPayload includes the requested fields of the GraphQL type UpdateTodoPayload.
+// The GraphQL type's documentation follows.
+//
+// UpdateTodo result with filterable data and affected rows
 type addUser2TodoAddUser2TodosUpdateTodoPayload struct {
 	Affected []*addUser2TodoAddUser2TodosUpdateTodoPayloadAffectedTodo      `json:"affected"`
 	Todo     *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult `json:"todo"`
@@ -1987,6 +2054,9 @@ func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadAffectedTodo) GetId() string 
 func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadAffectedTodo) GetName() string { return v.Name }
 
 // addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResult struct {
 	Data []*addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodo `json:"data"`
 }
@@ -2054,6 +2124,7 @@ func (v *addUser2TodoAddUser2TodosUpdateTodoPayloadTodoTodoQueryResultDataTodoUs
 
 // addUser2TodoResponse is returned by addUser2Todo on success.
 type addUser2TodoResponse struct {
+	// Add new Many2Many relation(s)
 	AddUser2Todos *addUser2TodoAddUser2TodosUpdateTodoPayload `json:"addUser2Todos"`
 }
 
@@ -2063,6 +2134,9 @@ func (v *addUser2TodoResponse) GetAddUser2Todos() *addUser2TodoAddUser2TodosUpda
 }
 
 // addUsersAddUserAddUserPayload includes the requested fields of the GraphQL type AddUserPayload.
+// The GraphQL type's documentation follows.
+//
+// AddUser result with filterable data and affected rows
 type addUsersAddUserAddUserPayload struct {
 	Affected []*addUsersAddUserAddUserPayloadAffectedUser      `json:"affected"`
 	User     *addUsersAddUserAddUserPayloadUserUserQueryResult `json:"user"`
@@ -2091,6 +2165,9 @@ func (v *addUsersAddUserAddUserPayloadAffectedUser) GetId() string { return v.Id
 func (v *addUsersAddUserAddUserPayloadAffectedUser) GetName() string { return v.Name }
 
 // addUsersAddUserAddUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type addUsersAddUserAddUserPayloadUserUserQueryResult struct {
 	Data []*addUsersAddUserAddUserPayloadUserUserQueryResultDataUser `json:"data"`
 }
@@ -2130,6 +2207,7 @@ func (v *addUsersAddUserAddUserPayloadUserUserQueryResultDataUserCompany) GetNam
 
 // addUsersResponse is returned by addUsers on success.
 type addUsersResponse struct {
+	// Add new User
 	AddUser *addUsersAddUserAddUserPayload `json:"addUser"`
 }
 
@@ -2137,6 +2215,9 @@ type addUsersResponse struct {
 func (v *addUsersResponse) GetAddUser() *addUsersAddUserAddUserPayload { return v.AddUser }
 
 // allTodosByUserCatNameQueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type allTodosByUserCatNameQueryTodoTodoQueryResult struct {
 	Count int                                                      `json:"count"`
 	Data  []*allTodosByUserCatNameQueryTodoTodoQueryResultDataTodo `json:"data"`
@@ -2216,6 +2297,7 @@ func (v *allTodosByUserCatNameQueryTodoTodoQueryResultDataTodoUsersUserCompany) 
 
 // allTodosByUserCatNameResponse is returned by allTodosByUserCatName on success.
 type allTodosByUserCatNameResponse struct {
+	// return a list of  Todo filterable, pageination, orderbale, groupable ...
 	QueryTodo *allTodosByUserCatNameQueryTodoTodoQueryResult `json:"queryTodo"`
 }
 
@@ -2225,6 +2307,9 @@ func (v *allTodosByUserCatNameResponse) GetQueryTodo() *allTodosByUserCatNameQue
 }
 
 // allTodosPartOfCompanyQueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type allTodosPartOfCompanyQueryTodoTodoQueryResult struct {
 	Data []*allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodo `json:"data"`
 }
@@ -2300,6 +2385,7 @@ func (v *allTodosPartOfCompanyQueryTodoTodoQueryResultDataTodoUsersUserCompany) 
 
 // allTodosPartOfCompanyResponse is returned by allTodosPartOfCompany on success.
 type allTodosPartOfCompanyResponse struct {
+	// return a list of  Todo filterable, pageination, orderbale, groupable ...
 	QueryTodo *allTodosPartOfCompanyQueryTodoTodoQueryResult `json:"queryTodo"`
 }
 
@@ -2309,6 +2395,9 @@ func (v *allTodosPartOfCompanyResponse) GetQueryTodo() *allTodosPartOfCompanyQue
 }
 
 // allUserFromCompanyQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type allUserFromCompanyQueryUserUserQueryResult struct {
 	TotalCount int                                                   `json:"totalCount"`
 	Data       []*allUserFromCompanyQueryUserUserQueryResultDataUser `json:"data"`
@@ -2350,6 +2439,7 @@ func (v *allUserFromCompanyQueryUserUserQueryResultDataUserCompany) GetName() st
 
 // allUserFromCompanyResponse is returned by allUserFromCompany on success.
 type allUserFromCompanyResponse struct {
+	// return a list of  User filterable, pageination, orderbale, groupable ...
 	QueryUser *allUserFromCompanyQueryUserUserQueryResult `json:"queryUser"`
 }
 
@@ -2359,6 +2449,9 @@ func (v *allUserFromCompanyResponse) GetQueryUser() *allUserFromCompanyQueryUser
 }
 
 // allUserWithACatOnlyUserIdQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type allUserWithACatOnlyUserIdQueryUserUserQueryResult struct {
 	Data []*allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUser `json:"data"`
 }
@@ -2398,6 +2491,7 @@ func (v *allUserWithACatOnlyUserIdQueryUserUserQueryResultDataUserCat) GetName()
 
 // allUserWithACatOnlyUserIdResponse is returned by allUserWithACatOnlyUserId on success.
 type allUserWithACatOnlyUserIdResponse struct {
+	// return a list of  User filterable, pageination, orderbale, groupable ...
 	QueryUser *allUserWithACatOnlyUserIdQueryUserUserQueryResult `json:"queryUser"`
 }
 
@@ -2407,6 +2501,9 @@ func (v *allUserWithACatOnlyUserIdResponse) GetQueryUser() *allUserWithACatOnlyU
 }
 
 // allUserWithACatQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type allUserWithACatQueryUserUserQueryResult struct {
 	Data []*allUserWithACatQueryUserUserQueryResultDataUser `json:"data"`
 }
@@ -2448,6 +2545,7 @@ func (v *allUserWithACatQueryUserUserQueryResultDataUserCat) GetName() string { 
 
 // allUserWithACatResponse is returned by allUserWithACat on success.
 type allUserWithACatResponse struct {
+	// return a list of  User filterable, pageination, orderbale, groupable ...
 	QueryUser *allUserWithACatQueryUserUserQueryResult `json:"queryUser"`
 }
 
@@ -2458,6 +2556,7 @@ func (v *allUserWithACatResponse) GetQueryUser() *allUserWithACatQueryUserUserQu
 
 // changeAllCatsToSameOwnerButNotOneByNameResponse is returned by changeAllCatsToSameOwnerButNotOneByName on success.
 type changeAllCatsToSameOwnerButNotOneByNameResponse struct {
+	// update Cat filtered by selection and update all matched values
 	UpdateCat *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload `json:"updateCat"`
 }
 
@@ -2467,6 +2566,9 @@ func (v *changeAllCatsToSameOwnerButNotOneByNameResponse) GetUpdateCat() *change
 }
 
 // changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload includes the requested fields of the GraphQL type UpdateCatPayload.
+// The GraphQL type's documentation follows.
+//
+// UpdateCat result with filterable data and affected rows
 type changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayload struct {
 	Affected []*changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadAffectedCat     `json:"affected"`
 	Cat      *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult `json:"cat"`
@@ -2499,6 +2601,9 @@ func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadAffecte
 }
 
 // changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult includes the requested fields of the GraphQL type CatQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Cat result
 type changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResult struct {
 	Data []*changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQueryResultDataCat `json:"data"`
 }
@@ -2531,6 +2636,9 @@ func (v *changeAllCatsToSameOwnerButNotOneByNameUpdateCatUpdateCatPayloadCatCatQ
 }
 
 // complexWithInAndOrAndJoin1QueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type complexWithInAndOrAndJoin1QueryTodoTodoQueryResult struct {
 	Data []*complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodo `json:"data"`
 }
@@ -2592,6 +2700,7 @@ func (v *complexWithInAndOrAndJoin1QueryTodoTodoQueryResultDataTodoUsersUserComp
 
 // complexWithInAndOrAndJoin1Response is returned by complexWithInAndOrAndJoin1 on success.
 type complexWithInAndOrAndJoin1Response struct {
+	// return a list of  Todo filterable, pageination, orderbale, groupable ...
 	QueryTodo *complexWithInAndOrAndJoin1QueryTodoTodoQueryResult `json:"queryTodo"`
 }
 
@@ -2601,6 +2710,9 @@ func (v *complexWithInAndOrAndJoin1Response) GetQueryTodo() *complexWithInAndOrA
 }
 
 // complexWithInAndOrAndJoin2QueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type complexWithInAndOrAndJoin2QueryTodoTodoQueryResult struct {
 	Data []*complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodo `json:"data"`
 }
@@ -2662,6 +2774,7 @@ func (v *complexWithInAndOrAndJoin2QueryTodoTodoQueryResultDataTodoUsersUserComp
 
 // complexWithInAndOrAndJoin2Response is returned by complexWithInAndOrAndJoin2 on success.
 type complexWithInAndOrAndJoin2Response struct {
+	// return a list of  Todo filterable, pageination, orderbale, groupable ...
 	QueryTodo *complexWithInAndOrAndJoin2QueryTodoTodoQueryResult `json:"queryTodo"`
 }
 
@@ -2671,6 +2784,9 @@ func (v *complexWithInAndOrAndJoin2Response) GetQueryTodo() *complexWithInAndOrA
 }
 
 // complexWithInAndOrAndJoin3QueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type complexWithInAndOrAndJoin3QueryTodoTodoQueryResult struct {
 	Data []*complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodo `json:"data"`
 }
@@ -2732,6 +2848,7 @@ func (v *complexWithInAndOrAndJoin3QueryTodoTodoQueryResultDataTodoUsersUserComp
 
 // complexWithInAndOrAndJoin3Response is returned by complexWithInAndOrAndJoin3 on success.
 type complexWithInAndOrAndJoin3Response struct {
+	// return a list of  Todo filterable, pageination, orderbale, groupable ...
 	QueryTodo *complexWithInAndOrAndJoin3QueryTodoTodoQueryResult `json:"queryTodo"`
 }
 
@@ -2741,7 +2858,11 @@ func (v *complexWithInAndOrAndJoin3Response) GetQueryTodo() *complexWithInAndOrA
 }
 
 // deleteUserByCatNameDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
+// The GraphQL type's documentation follows.
+//
+// DeleteUser result with filterable data and count of affected entries
 type deleteUserByCatNameDeleteUserDeleteUserPayload struct {
+	// Count of deleted User entities
 	Count int                                                                `json:"count"`
 	User  *deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult `json:"user"`
 }
@@ -2755,6 +2876,9 @@ func (v *deleteUserByCatNameDeleteUserDeleteUserPayload) GetUser() *deleteUserBy
 }
 
 // deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResult struct {
 	Data []*deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser `json:"data"`
 }
@@ -2782,6 +2906,7 @@ func (v *deleteUserByCatNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUs
 
 // deleteUserByCatNameResponse is returned by deleteUserByCatName on success.
 type deleteUserByCatNameResponse struct {
+	// delete User filtered by selection and delete all matched values
 	DeleteUser *deleteUserByCatNameDeleteUserDeleteUserPayload `json:"deleteUser"`
 }
 
@@ -2791,7 +2916,11 @@ func (v *deleteUserByCatNameResponse) GetDeleteUser() *deleteUserByCatNameDelete
 }
 
 // deleteUserByUserNameDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
+// The GraphQL type's documentation follows.
+//
+// DeleteUser result with filterable data and count of affected entries
 type deleteUserByUserNameDeleteUserDeleteUserPayload struct {
+	// Count of deleted User entities
 	Count int                                                                 `json:"count"`
 	User  *deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult `json:"user"`
 }
@@ -2805,6 +2934,9 @@ func (v *deleteUserByUserNameDeleteUserDeleteUserPayload) GetUser() *deleteUserB
 }
 
 // deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResult struct {
 	Data []*deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataUser `json:"data"`
 }
@@ -2832,6 +2964,7 @@ func (v *deleteUserByUserNameDeleteUserDeleteUserPayloadUserUserQueryResultDataU
 
 // deleteUserByUserNameResponse is returned by deleteUserByUserName on success.
 type deleteUserByUserNameResponse struct {
+	// delete User filtered by selection and delete all matched values
 	DeleteUser *deleteUserByUserNameDeleteUserDeleteUserPayload `json:"deleteUser"`
 }
 
@@ -2841,7 +2974,11 @@ func (v *deleteUserByUserNameResponse) GetDeleteUser() *deleteUserByUserNameDele
 }
 
 // deleteUserDeleteUserDeleteUserPayload includes the requested fields of the GraphQL type DeleteUserPayload.
+// The GraphQL type's documentation follows.
+//
+// DeleteUser result with filterable data and count of affected entries
 type deleteUserDeleteUserDeleteUserPayload struct {
+	// Count of deleted User entities
 	Count int                                                       `json:"count"`
 	User  *deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult `json:"user"`
 }
@@ -2855,6 +2992,9 @@ func (v *deleteUserDeleteUserDeleteUserPayload) GetUser() *deleteUserDeleteUserD
 }
 
 // deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type deleteUserDeleteUserDeleteUserPayloadUserUserQueryResult struct {
 	Data []*deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser `json:"data"`
 }
@@ -2882,6 +3022,7 @@ func (v *deleteUserDeleteUserDeleteUserPayloadUserUserQueryResultDataUser) GetNa
 
 // deleteUserResponse is returned by deleteUser on success.
 type deleteUserResponse struct {
+	// delete User filtered by selection and delete all matched values
 	DeleteUser *deleteUserDeleteUserDeleteUserPayload `json:"deleteUser"`
 }
 
@@ -2890,7 +3031,33 @@ func (v *deleteUserResponse) GetDeleteUser() *deleteUserDeleteUserDeleteUserPayl
 	return v.DeleteUser
 }
 
+// deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload includes the requested fields of the GraphQL type DeleteTodoPayload.
+// The GraphQL type's documentation follows.
+//
+// DeleteTodo result with filterable data and count of affected entries
+type deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload struct {
+	// Count of deleted Todo entities
+	Count int `json:"count"`
+}
+
+// GetCount returns deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload.Count, and is useful for accessing the field via an interface.
+func (v *deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload) GetCount() int { return v.Count }
+
+// deleteUsersFromTodosResponse is returned by deleteUsersFromTodos on success.
+type deleteUsersFromTodosResponse struct {
+	// Delete Many2Many relation(s)
+	DeleteUserFromTodos *deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload `json:"deleteUserFromTodos"`
+}
+
+// GetDeleteUserFromTodos returns deleteUsersFromTodosResponse.DeleteUserFromTodos, and is useful for accessing the field via an interface.
+func (v *deleteUsersFromTodosResponse) GetDeleteUserFromTodos() *deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload {
+	return v.DeleteUserFromTodos
+}
+
 // getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult includes the requested fields of the GraphQL type TodoQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Todo result
 type getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult struct {
 	Count int                                                             `json:"count"`
 	Data  []*getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodo `json:"data"`
@@ -2964,6 +3131,7 @@ func (v *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResultDataTodoUsersUser) 
 
 // getAllTodosWithUserGroupByIdResponse is returned by getAllTodosWithUserGroupById on success.
 type getAllTodosWithUserGroupByIdResponse struct {
+	// return a list of  Todo filterable, pageination, orderbale, groupable ...
 	QueryTodo *getAllTodosWithUserGroupByIdQueryTodoTodoQueryResult `json:"queryTodo"`
 }
 
@@ -3010,6 +3178,7 @@ func (v *getUserByIdGetUserCompany) GetName() string { return v.Name }
 
 // getUserByIdResponse is returned by getUserById on success.
 type getUserByIdResponse struct {
+	// return one User selected by PrimaryKey(s)
 	GetUser *getUserByIdGetUser `json:"getUser"`
 }
 
@@ -3017,6 +3186,9 @@ type getUserByIdResponse struct {
 func (v *getUserByIdResponse) GetGetUser() *getUserByIdGetUser { return v.GetUser }
 
 // noDataQueryQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type noDataQueryQueryUserUserQueryResult struct {
 	Typename *string `json:"__typename"`
 }
@@ -3026,6 +3198,7 @@ func (v *noDataQueryQueryUserUserQueryResult) GetTypename() *string { return v.T
 
 // noDataQueryResponse is returned by noDataQuery on success.
 type noDataQueryResponse struct {
+	// return a list of  User filterable, pageination, orderbale, groupable ...
 	QueryUser *noDataQueryQueryUserUserQueryResult `json:"queryUser"`
 }
 
@@ -3034,6 +3207,7 @@ func (v *noDataQueryResponse) GetQueryUser() *noDataQueryQueryUserUserQueryResul
 
 // updateUserChangeCompanyByCatNameResponse is returned by updateUserChangeCompanyByCatName on success.
 type updateUserChangeCompanyByCatNameResponse struct {
+	// update User filtered by selection and update all matched values
 	UpdateUser *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload `json:"updateUser"`
 }
 
@@ -3043,10 +3217,14 @@ func (v *updateUserChangeCompanyByCatNameResponse) GetUpdateUser() *updateUserCh
 }
 
 // updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload includes the requested fields of the GraphQL type UpdateUserPayload.
+// The GraphQL type's documentation follows.
+//
+// UpdateUser result with filterable data and affected rows
 type updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload struct {
-	Affected []*updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadAffectedUser      `json:"affected"`
-	Count    int                                                                             `json:"count"`
-	User     *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult `json:"user"`
+	Affected []*updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadAffectedUser `json:"affected"`
+	// Count of affected updates
+	Count int                                                                             `json:"count"`
+	User  *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult `json:"user"`
 }
 
 // GetAffected returns updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayload.Affected, and is useful for accessing the field via an interface.
@@ -3079,6 +3257,9 @@ func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadAffectedUser
 }
 
 // updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResult struct {
 	Data []*updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQueryResultDataUser `json:"data"`
 }
@@ -3122,6 +3303,7 @@ func (v *updateUserChangeCompanyByCatNameUpdateUserUpdateUserPayloadUserUserQuer
 
 // updateUserChangeCompanyResponse is returned by updateUserChangeCompany on success.
 type updateUserChangeCompanyResponse struct {
+	// update User filtered by selection and update all matched values
 	UpdateUser *updateUserChangeCompanyUpdateUserUpdateUserPayload `json:"updateUser"`
 }
 
@@ -3131,10 +3313,14 @@ func (v *updateUserChangeCompanyResponse) GetUpdateUser() *updateUserChangeCompa
 }
 
 // updateUserChangeCompanyUpdateUserUpdateUserPayload includes the requested fields of the GraphQL type UpdateUserPayload.
+// The GraphQL type's documentation follows.
+//
+// UpdateUser result with filterable data and affected rows
 type updateUserChangeCompanyUpdateUserUpdateUserPayload struct {
-	Affected []*updateUserChangeCompanyUpdateUserUpdateUserPayloadAffectedUser      `json:"affected"`
-	Count    int                                                                    `json:"count"`
-	User     *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult `json:"user"`
+	Affected []*updateUserChangeCompanyUpdateUserUpdateUserPayloadAffectedUser `json:"affected"`
+	// Count of affected updates
+	Count int                                                                    `json:"count"`
+	User  *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult `json:"user"`
 }
 
 // GetAffected returns updateUserChangeCompanyUpdateUserUpdateUserPayload.Affected, and is useful for accessing the field via an interface.
@@ -3165,6 +3351,9 @@ func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadAffectedUser) GetName
 }
 
 // updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
 type updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResult struct {
 	Data []*updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDataUser `json:"data"`
 }
@@ -3371,7 +3560,6 @@ func addCompanies(
 	req := &graphql.Request{
 		OpName: "addCompanies",
 		Query: `
-# ADD
 mutation addCompanies ($input: [CompanyInput!]!) {
 	addCompany(input: $input) {
 		affected {
@@ -3682,7 +3870,6 @@ func allUserFromCompany(
 	req := &graphql.Request{
 		OpName: "allUserFromCompany",
 		Query: `
-# Query
 query allUserFromCompany ($company: String!, $offset: Int) {
 	queryUser(filter: {company:{name:{eq:$company}}}, first: 2, offset: $offset) {
 		totalCount
@@ -3758,7 +3945,6 @@ func allUserWithACatOnlyUserId(
 	req := &graphql.Request{
 		OpName: "allUserWithACatOnlyUserId",
 		Query: `
-# Test for https://github.com/fasibio/autogql/issues/24
 query allUserWithACatOnlyUserId {
 	queryUser(filter: {cat:{userID:{notNull:true}}}) {
 		data {
@@ -3953,7 +4139,6 @@ func deleteUser(
 	req := &graphql.Request{
 		OpName: "deleteUser",
 		Query: `
-# delete 
 mutation deleteUser ($userId: ID!) {
 	deleteUser(filter: {id:{eq:$userId}}) {
 		count
@@ -4049,6 +4234,40 @@ mutation deleteUserByUserName ($userName: String!) {
 	var err error
 
 	var data deleteUserByUserNameResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+func deleteUsersFromTodos(
+	ctx context.Context,
+	client graphql.Client,
+	taskId string,
+	userId []string,
+) (*deleteUsersFromTodosResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteUsersFromTodos",
+		Query: `
+mutation deleteUsersFromTodos ($taskId: ID!, $userId: [ID!]!) {
+	deleteUserFromTodos(input: {filter:{id:{eq:$taskId}},set:$userId}) {
+		count
+	}
+}
+`,
+		Variables: &__deleteUsersFromTodosInput{
+			TaskId: taskId,
+			UserId: userId,
+		},
+	}
+	var err error
+
+	var data deleteUsersFromTodosResponse
 	resp := &graphql.Response{Data: &data}
 
 	err = client.MakeRequest(
@@ -4177,7 +4396,6 @@ func updateUserChangeCompany(
 	req := &graphql.Request{
 		OpName: "updateUserChangeCompany",
 		Query: `
-# Edit 
 mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
 	updateUser(input: {filter:{id:{eq:$userId}},set:{companyID:$companyID}}) {
 		affected {

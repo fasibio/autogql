@@ -24,7 +24,7 @@ type Todo @SQL(order: 3){
   etype5: TodoType!
   test123: Test
   noControl: NoSqlControl @SQL_GORM(value: "-")
-  }
+}
 
 type NoSqlControl {
   id: ID!
@@ -72,4 +72,4 @@ type SmartPhone @SQL(order: 5){
   userID: ID!
 }
 
-	directive @VALIDATE on INPUT_OBJECT
+directive @VALIDATE on INPUT_OBJECT

@@ -7,6 +7,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/99designs/gqlgen/graphql"
 	"github.com/fasibio/autogql/runtimehelper"
 	"github.com/fasibio/autogql/testservice/graph/db"
 	"github.com/fasibio/autogql/testservice/graph/model"
@@ -139,7 +140,8 @@ type catPayloadResolver[T catPayload] struct {
 }
 
 func (r *catPayloadResolver[T]) Cat(ctx context.Context, obj T, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error) {
-	return r.Query().QueryCat(ctx, filter, order, first, offset, group)
+	q := r.Query().(*queryResolver)
+	return q.QueryCat(ctx, filter, order, first, offset, group)
 }
 
 // AddCat is the resolver for the addCat field.
@@ -410,7 +412,8 @@ type companyPayloadResolver[T companyPayload] struct {
 }
 
 func (r *companyPayloadResolver[T]) Company(ctx context.Context, obj T, filter *model.CompanyFiltersInput, order *model.CompanyOrder, first *int, offset *int, group []model.CompanyGroup) (*model.CompanyQueryResult, error) {
-	return r.Query().QueryCompany(ctx, filter, order, first, offset, group)
+	q := r.Query().(*queryResolver)
+	return q.QueryCompany(ctx, filter, order, first, offset, group)
 }
 
 // AddCompany is the resolver for the addCompany field.
@@ -681,7 +684,8 @@ type smartPhonePayloadResolver[T smartPhonePayload] struct {
 }
 
 func (r *smartPhonePayloadResolver[T]) SmartPhone(ctx context.Context, obj T, filter *model.SmartPhoneFiltersInput, order *model.SmartPhoneOrder, first *int, offset *int, group []model.SmartPhoneGroup) (*model.SmartPhoneQueryResult, error) {
-	return r.Query().QuerySmartPhone(ctx, filter, order, first, offset, group)
+	q := r.Query().(*queryResolver)
+	return q.QuerySmartPhone(ctx, filter, order, first, offset, group)
 }
 
 // AddSmartPhone is the resolver for the addSmartPhone field.
@@ -952,10 +956,11 @@ type todoPayloadResolver[T todoPayload] struct {
 }
 
 func (r *todoPayloadResolver[T]) Todo(ctx context.Context, obj T, filter *model.TodoFiltersInput, order *model.TodoOrder, first *int, offset *int, group []model.TodoGroup) (*model.TodoQueryResult, error) {
-	return r.Query().QueryTodo(ctx, filter, order, first, offset, group)
+	q := r.Query().(*queryResolver)
+	return q.QueryTodo(ctx, filter, order, first, offset, group)
 }
 func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRef2TodosInput) (*model.UpdateTodoPayload, error) {
-	v, okHook := r.Sql.Hooks[string(db.AddUser2Todos)].(db.AutoGqlHookMany2Many[model.UserRef2TodosInput, model.UpdateTodoPayload])
+	v, okHook := r.Sql.Hooks[string(db.AddUser2Todos)].(db.AutoGqlHookMany2ManyAdd[model.UserRef2TodosInput, model.UpdateTodoPayload])
 	db := r.Sql.Db
 	if okHook {
 		var err error
@@ -1016,6 +1021,65 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 		}
 	}
 	return result, d.Error
+}
+
+func (r *mutationResolver) DeleteUserFromTodos(ctx context.Context, input model.UserRef2TodosInput) (*model.DeleteTodoPayload, error) {
+	v, okHook := r.Sql.Hooks[string(db.DeleteUserFromTodos)].(db.AutoGqlHookMany2ManyDelete[model.UserRef2TodosInput, model.DeleteTodoPayload])
+	db := r.Sql.Db
+	if okHook {
+		var err error
+		db, input, err = v.Received(ctx, r.Sql, &input)
+		if err != nil {
+			return nil, err
+		}
+	}
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	blackList := make(map[string]struct{})
+	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+	db = db.Model(&model.Todo{}).Where(sql, arguments...)
+	var res []*model.Todo
+	if okHook {
+		var err error
+		db, err = v.BeforeCallDb(ctx, db)
+		if err != nil {
+			return nil, err
+		}
+	}
+	db.Find(&res)
+	type TodoUsers struct {
+		TodoID int
+		UserID int
+	}
+	resIds := make([]TodoUsers, 0)
+	for _, v := range res {
+		for _, v1 := range input.Set {
+			resIds = append(resIds, TodoUsers{
+				TodoID: v.ID,
+				UserID: v1,
+			})
+		}
+	}
+	rowsAffected := 0
+	for _, v := range resIds {
+		d := r.Sql.Db.Model(&TodoUsers{}).Where(v).Delete(v)
+		rowsAffected += int(d.RowsAffected)
+		if d.Error != nil {
+			graphql.AddError(ctx, d.Error)
+		}
+	}
+	msg := fmt.Sprintf("%d rows deleted", db.RowsAffected)
+	result := &model.DeleteTodoPayload{
+		Count: rowsAffected,
+		Msg:   &msg,
+	}
+	if okHook {
+		var err error
+		result, err = v.BeforeReturn(ctx, db, result)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return result, nil
 }
 
 // AddTodo is the resolver for the addTodo field.
@@ -1286,7 +1350,8 @@ type userPayloadResolver[T userPayload] struct {
 }
 
 func (r *userPayloadResolver[T]) User(ctx context.Context, obj T, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error) {
-	return r.Query().QueryUser(ctx, filter, order, first, offset, group)
+	q := r.Query().(*queryResolver)
+	return q.QueryUser(ctx, filter, order, first, offset, group)
 }
 
 // AddUser is the resolver for the addUser field.

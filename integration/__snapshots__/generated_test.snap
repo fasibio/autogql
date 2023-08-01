@@ -3698,6 +3698,39 @@
                             DeprecationReason: (*string)(nil),
                         },
                         &integration.FullTypeFieldsField{
+                            Name:        "deleteUserFromTodos",
+                            Description: &"Delete Many2Many relation(s)",
+                            Args:        {
+                                &integration.FullTypeFieldsFieldArgsInputValue{
+                                    InputValue: integration.InputValue{
+                                        Name:        "input",
+                                        Description: (*string)(nil),
+                                        Type:        &integration.InputValueType{
+                                            TypeRef: integration.TypeRef{
+                                                Kind:   "NON_NULL",
+                                                Name:   (*string)(nil),
+                                                OfType: &integration.TypeRefOfType{
+                                                    Kind:   "INPUT_OBJECT",
+                                                    Name:   &"UserRef2TodosInput",
+                                                    OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                                },
+                                            },
+                                        },
+                                        DefaultValue: (*string)(nil),
+                                    },
+                                },
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "OBJECT",
+                                    Name:   &"DeleteTodoPayload",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
                             Name:        "addTodo",
                             Description: &"Add new Todo",
                             Args:        {
@@ -10039,5 +10072,11 @@ gqlerror.List{
     QueryUser: &integration.noDataQueryQueryUserUserQueryResult{
         Typename: &"UserQueryResult",
     },
+}
+---
+
+[TestQueryTestSuite/TestComplexCombination/deleteUsersFromTasks_=>_task_3_user_with_id_3 - 1]
+&integration.deleteUsersFromTodosResponse{
+    DeleteUserFromTodos: &integration.deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload{Count:1},
 }
 ---
