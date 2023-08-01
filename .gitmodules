@@ -1,9 +1,0 @@
-[submodule "documentation/themes/ananke"]
-	path = documentation/themes/ananke
-	url = https://github.com/theNewDynamic/gohugo-theme-ananke.git
-[submodule "documentation/themes/docuapi"]
-	path = documentation/themes/docuapi
-	url = https://github.com/bep/docuapi.git
-[submodule "documentation/themes/shadocs"]
-	path = documentation/themes/shadocs
-	url = https://github.com/jgazeau/shadocs.git
