@@ -162,7 +162,7 @@ func AddMany2ManyAddHook[U AutoGqlHookM2M, UP AutoGqlHookUP](db *AutoGqlDB, name
   {{- end}} 
   {{- end}} 
 {{- end }}
-func AddMany2ManyDeleteHook[U AutoGqlHookM2M, DP AutoGqlHookDP](db *AutoGqlDB, name Many2ManyAddName, implementation AutoGqlHookMany2ManyDelete[U, DP]) {
+func AddMany2ManyDeleteHook[U AutoGqlHookM2M, DP AutoGqlHookDP](db *AutoGqlDB, name Many2ManyDeleteName, implementation AutoGqlHookMany2ManyDelete[U, DP]) {
   db.Hooks[string(name)] = implementation
 }
 
