@@ -35,7 +35,7 @@
             }
           }
           var res model.{{$object.Name}}
-          db = db.First(&res, {{range $primaryFieldKey, $primaryField := $primaryFields}} {{$primaryField.Name}}, {{end }})
+          db = db.First(&res, {{range $primaryFieldKey, $primaryField := $primaryFields}} "{{ lower $primaryField.Name}} = ?",{{$primaryField.Name}}, {{end }})
           if okHook {
             r, err := v.AfterCallDb(ctx, &res)
             if err != nil {
