@@ -20,7 +20,7 @@ func New{{$baseName}}DB(db *gorm.DB) {{$baseName}}DB {
 }
 
 //execute Gorm AutoMigrate with all @SQL Graphql Types
-func (db *{{$baseName}}DB) Init() {
-  db.Db.AutoMigrate({{.ModelsMigrations}})
+func (db *{{$baseName}}DB) Init() error {
+  return db.Db.AutoMigrate({{.ModelsMigrations}})
 }
 
