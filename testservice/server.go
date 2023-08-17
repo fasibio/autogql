@@ -26,7 +26,10 @@ func StartServer(dbCon *gorm.DB) {
 	}
 
 	dborm := db.NewAutoGqlDB(dbCon)
-	dborm.Init()
+	err := dborm.Init()
+	if err != nil {
+		panic(err)
+	}
 	db.AddAddHook[model.Todo, model.TodoInput, model.AddTodoPayload](&dborm, db.AddTodo, AddTodoHook{})
 	srv := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{
 		Resolvers: &graph.Resolver{Sql: &dborm},
