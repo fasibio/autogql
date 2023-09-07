@@ -35,7 +35,8 @@
             }
           }
           var res model.{{$object.Name}}
-          db = db.First(&res, {{range $primaryFieldKey, $primaryField := $primaryFields}} "{{ lower $primaryField.Name}} = ?",{{$primaryField.Name}}, {{end }})
+          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          db = db.First(&res, {{range $primaryFieldKey, $primaryField := $primaryFields}} tableName+".{{ lower $primaryField.Name}} = ?",{{$primaryField.Name}}, {{end }})
           if okHook {
             r, err := v.AfterCallDb(ctx, &res)
             if err != nil {
