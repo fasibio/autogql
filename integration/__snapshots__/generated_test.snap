@@ -8894,6 +8894,1001 @@
                     },
                 },
             },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "OBJECT",
+                    Name:        &"__Directive",
+                    Description: (*string)(nil),
+                    Fields:      {
+                        &integration.FullTypeFieldsField{
+                            Name:        "name",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"String",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "description",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "locations",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "ENUM",
+                                                Name:   &"__DirectiveLocation",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "args",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"__InputValue",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "isRepeatable",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Boolean",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "ENUM",
+                    Name:        &"__DirectiveLocation",
+                    Description: (*string)(nil),
+                    Fields:      {
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "QUERY",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "MUTATION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "SUBSCRIPTION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "FIELD",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "FRAGMENT_DEFINITION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "FRAGMENT_SPREAD",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "INLINE_FRAGMENT",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "VARIABLE_DEFINITION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "SCHEMA",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "SCALAR",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "OBJECT",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "FIELD_DEFINITION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "ARGUMENT_DEFINITION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "INTERFACE",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "UNION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "ENUM",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "ENUM_VALUE",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "INPUT_OBJECT",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "INPUT_FIELD_DEFINITION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "OBJECT",
+                    Name:        &"__EnumValue",
+                    Description: (*string)(nil),
+                    Fields:      {
+                        &integration.FullTypeFieldsField{
+                            Name:        "name",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"String",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "description",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "isDeprecated",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Boolean",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "deprecationReason",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "OBJECT",
+                    Name:        &"__Field",
+                    Description: (*string)(nil),
+                    Fields:      {
+                        &integration.FullTypeFieldsField{
+                            Name:        "name",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"String",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "description",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "args",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"__InputValue",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "type",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "OBJECT",
+                                        Name:   &"__Type",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "isDeprecated",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Boolean",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "deprecationReason",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "OBJECT",
+                    Name:        &"__InputValue",
+                    Description: (*string)(nil),
+                    Fields:      {
+                        &integration.FullTypeFieldsField{
+                            Name:        "name",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "SCALAR",
+                                        Name:   &"String",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "description",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "type",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "OBJECT",
+                                        Name:   &"__Type",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "defaultValue",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "OBJECT",
+                    Name:        &"__Schema",
+                    Description: (*string)(nil),
+                    Fields:      {
+                        &integration.FullTypeFieldsField{
+                            Name:        "description",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "types",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"__Type",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "queryType",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "OBJECT",
+                                        Name:   &"__Type",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "mutationType",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "OBJECT",
+                                    Name:   &"__Type",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "subscriptionType",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "OBJECT",
+                                    Name:   &"__Type",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "directives",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "NON_NULL",
+                                            Name:   (*string)(nil),
+                                            OfType: &integration.TypeRefOfTypeOfTypeOfType{
+                                                Kind:   "OBJECT",
+                                                Name:   &"__Directive",
+                                                OfType: (*integration.TypeRefOfTypeOfTypeOfTypeOfType)(nil),
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "OBJECT",
+                    Name:        &"__Type",
+                    Description: (*string)(nil),
+                    Fields:      {
+                        &integration.FullTypeFieldsField{
+                            Name:        "kind",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "NON_NULL",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "ENUM",
+                                        Name:   &"__TypeKind",
+                                        OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "name",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "description",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "fields",
+                            Description: (*string)(nil),
+                            Args:        {
+                                &integration.FullTypeFieldsFieldArgsInputValue{
+                                    InputValue: integration.InputValue{
+                                        Name:        "includeDeprecated",
+                                        Description: (*string)(nil),
+                                        Type:        &integration.InputValueType{
+                                            TypeRef: integration.TypeRef{
+                                                Kind:   "SCALAR",
+                                                Name:   &"Boolean",
+                                                OfType: (*integration.TypeRefOfType)(nil),
+                                            },
+                                        },
+                                        DefaultValue: &"false",
+                                    },
+                                },
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "LIST",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "NON_NULL",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "OBJECT",
+                                            Name:   &"__Field",
+                                            OfType: (*integration.TypeRefOfTypeOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "interfaces",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "LIST",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "NON_NULL",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "OBJECT",
+                                            Name:   &"__Type",
+                                            OfType: (*integration.TypeRefOfTypeOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "possibleTypes",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "LIST",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "NON_NULL",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "OBJECT",
+                                            Name:   &"__Type",
+                                            OfType: (*integration.TypeRefOfTypeOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "enumValues",
+                            Description: (*string)(nil),
+                            Args:        {
+                                &integration.FullTypeFieldsFieldArgsInputValue{
+                                    InputValue: integration.InputValue{
+                                        Name:        "includeDeprecated",
+                                        Description: (*string)(nil),
+                                        Type:        &integration.InputValueType{
+                                            TypeRef: integration.TypeRef{
+                                                Kind:   "SCALAR",
+                                                Name:   &"Boolean",
+                                                OfType: (*integration.TypeRefOfType)(nil),
+                                            },
+                                        },
+                                        DefaultValue: &"false",
+                                    },
+                                },
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "LIST",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "NON_NULL",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "OBJECT",
+                                            Name:   &"__EnumValue",
+                                            OfType: (*integration.TypeRefOfTypeOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "inputFields",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "LIST",
+                                    Name:   (*string)(nil),
+                                    OfType: &integration.TypeRefOfType{
+                                        Kind:   "NON_NULL",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfTypeOfType{
+                                            Kind:   "OBJECT",
+                                            Name:   &"__InputValue",
+                                            OfType: (*integration.TypeRefOfTypeOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "ofType",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "OBJECT",
+                                    Name:   &"__Type",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeFieldsField{
+                            Name:        "specifiedByURL",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"String",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "ENUM",
+                    Name:        &"__TypeKind",
+                    Description: (*string)(nil),
+                    Fields:      {
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "SCALAR",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "OBJECT",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "INTERFACE",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "UNION",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "ENUM",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "INPUT_OBJECT",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "LIST",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "NON_NULL",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
         },
         Directives: {
             &integration.IntrospectionQuerySchemaDirectivesDirective{
@@ -10001,7 +10996,7 @@
 [TestQueryTestSuite/TestComplexCombination/addUser_==>_will_failed - 1]
 gqlerror.List{
     &gqlerror.Error{
-        err:     nil,
+        Err:     nil,
         Message: "Key: 'UserInput.Email' Error:Field validation for 'Email' failed on the 'email' tag",
         Path:    {
             "addUser",
