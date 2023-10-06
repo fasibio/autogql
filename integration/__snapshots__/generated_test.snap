@@ -10001,7 +10001,7 @@
 [TestQueryTestSuite/TestComplexCombination/addUser_==>_will_failed - 1]
 gqlerror.List{
     &gqlerror.Error{
-        err:     nil,
+        Err:     nil,
         Message: "Key: 'UserInput.Email' Error:Field validation for 'Email' failed on the 'email' tag",
         Path:    {
             "addUser",
