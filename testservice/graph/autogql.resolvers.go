@@ -35,7 +35,8 @@ func (r *queryResolver) GetCat(ctx context.Context, id int) (*model.Cat, error) 
 		}
 	}
 	var res model.Cat
-	db = db.First(&res, "id = ?", id)
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
+	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
 		if err != nil {
@@ -307,7 +308,8 @@ func (r *queryResolver) GetCompany(ctx context.Context, id int) (*model.Company,
 		}
 	}
 	var res model.Company
-	db = db.First(&res, "id = ?", id)
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
+	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
 		if err != nil {
@@ -579,7 +581,8 @@ func (r *queryResolver) GetSmartPhone(ctx context.Context, id int) (*model.Smart
 		}
 	}
 	var res model.SmartPhone
-	db = db.First(&res, "id = ?", id)
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
 		if err != nil {
@@ -851,7 +854,8 @@ func (r *queryResolver) GetTodo(ctx context.Context, id int) (*model.Todo, error
 		}
 	}
 	var res model.Todo
-	db = db.First(&res, "id = ?", id)
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
 		if err != nil {
@@ -1245,7 +1249,8 @@ func (r *queryResolver) GetUser(ctx context.Context, id int) (*model.User, error
 		}
 	}
 	var res model.User
-	db = db.First(&res, "id = ?", id)
+	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
+	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
 		if err != nil {
