@@ -8,7 +8,7 @@ testSetup:
 gen_testQueries: 
   doc: for creating new integrationtest to generate client files for ./integration/genqclient.graphql
   script: 
-    - go get github.com/Khan/genqlient/generate@v0.5.0 
+    - go get github.com/Khan/genqlient/generate@v0.6.0 
     - cd integration
     - go run github.com/Khan/genqlient
 

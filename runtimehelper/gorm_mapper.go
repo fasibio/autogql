@@ -42,8 +42,12 @@ func CombineSimpleQuery(elements []ConditionElement, relation Relation) (string,
 			}
 		} else {
 			if len(query.Children) == 0 {
-				sql += fmt.Sprintf(" %s %s %s ?", relation, query.Field, query.Operator)
-				values = append(values, query.Value...)
+				if len(query.Value) == 0 {
+					sql += fmt.Sprintf(" %s %s %s", relation, query.Field, query.Operator)
+				} else {
+					sql += fmt.Sprintf(" %s %s %s ?", relation, query.Field, query.Operator)
+					values = append(values, query.Value...)
+				}
 			} else {
 				querySql, queryValues := CombineSimpleQuery(query.Children, query.ChildrenRelation)
 				sql += fmt.Sprintf(" %s (%s)", relation, querySql)
@@ -110,7 +114,7 @@ func Null(field string) ConditionElement {
 }
 
 func Between(field string, start, end interface{}) ConditionElement {
-	return NewConditionElement("BETWEEN ? AND ?", field, start, end)
+	return NewConditionElement("BETWEEN ? AND", field, start, end)
 }
 
 func NewConditionElement(operator, field string, value ...interface{}) ConditionElement {

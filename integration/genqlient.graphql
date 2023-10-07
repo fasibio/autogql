@@ -490,3 +490,17 @@ query complexWithInAndOrAndJoin3 {
     }
   }
 }
+
+query queryUserByMoneyFilterAndBetween{
+  queryUser(order:{asc:name}, filter: {money: {notNull:true between: {start: 5.2, end:140.2}}}){
+    data{
+      id
+      name
+      money
+    	smartPhones{
+        id
+      }
+    }
+    
+  }
+}

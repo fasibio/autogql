@@ -11426,3 +11426,26 @@ gqlerror.List{
     DeleteUserFromTodos: &integration.deleteUsersFromTodosDeleteUserFromTodosDeleteTodoPayload{Count:1},
 }
 ---
+
+[TestQueryTestSuite/TestComplexCombination/queryUserByMoneyFilterAndBetween - 1]
+&integration.queryUserByMoneyFilterAndBetweenResponse{
+    QueryUser: &integration.queryUserByMoneyFilterAndBetweenQueryUserUserQueryResult{
+        Data: {
+            &integration.queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser{
+                Id:          "1",
+                Name:        "Jan",
+                Money:       &float64(10.2),
+                SmartPhones: {
+                },
+            },
+            &integration.queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser{
+                Id:          "2",
+                Name:        "Klaas",
+                Money:       &float64(6.5),
+                SmartPhones: {
+                },
+            },
+        },
+    },
+}
+---
