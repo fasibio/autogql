@@ -259,6 +259,7 @@ type ComplexityRoot struct {
 		Email        func(childComplexity int) int
 		FavoritColor func(childComplexity int) int
 		ID           func(childComplexity int) int
+		Money        func(childComplexity int) int
 		Name         func(childComplexity int) int
 		SmartPhones  func(childComplexity int) int
 		UpdatedAt    func(childComplexity int) int
@@ -1399,6 +1400,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.ID(childComplexity), true
 
+	case "User.money":
+		if e.complexity.User.Money == nil {
+			break
+		}
+
+		return e.complexity.User.Money(childComplexity), true
+
 	case "User.name":
 		if e.complexity.User.Name == nil {
 			break
@@ -1458,6 +1466,8 @@ func (e *executableSchema) Exec(ctx context.Context) graphql.ResponseHandler {
 		ec.unmarshalInputCompanyInput,
 		ec.unmarshalInputCompanyOrder,
 		ec.unmarshalInputCompanyPatch,
+		ec.unmarshalInputFloatFilterBetween,
+		ec.unmarshalInputFloatFilterInput,
 		ec.unmarshalInputIDFilterInput,
 		ec.unmarshalInputIntFilterBetween,
 		ec.unmarshalInputIntFilterInput,
@@ -1696,6 +1706,34 @@ Filter between start and end (start > value < end)
 input IntFilterBetween{
   start: Int!
   end: Int!
+}
+
+"""
+Float Filter simple datatypes
+"""
+input FloatFilterInput {
+  and: [Float]
+  or: [Float]
+  not: FloatFilterInput
+  eq: Float
+  ne: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  null: Boolean
+  notNull: Boolean
+  in: [Float]
+  notIn: [Float]
+  between: FloatFilterBetween
+}
+
+"""
+Filter between start and end (start > value < end)
+"""
+input FloatFilterBetween{
+  start: Float!
+  end: Float!
 }
 
 """
@@ -2321,6 +2359,7 @@ input TimeFilterBetween{
       name: String!  
       cat: CatInput  
       companyID: Int  
+      money: Float  
       company: CompanyInput  
       smartPhones: [SmartPhoneInput!]  
       favoritColor: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"omitempty,hexcolor|rgb|rgba\""]) 
@@ -2334,6 +2373,7 @@ input TimeFilterBetween{
       name: String  
       cat: CatPatch  
       companyID: Int  
+      money: Float  
       company: CompanyPatch  
       smartPhones: [SmartPhonePatch!]  
       favoritColor: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"omitempty,hexcolor|rgb|rgba\""]) 
@@ -2398,6 +2438,7 @@ input TimeFilterBetween{
         id
         name
         companyID
+        money
         favoritColor
         email
     }
@@ -2420,6 +2461,7 @@ input TimeFilterBetween{
           updatedAt
           deletedAt
           companyID
+          money
           favoritColor
           email
     }
@@ -2436,6 +2478,7 @@ input TimeFilterBetween{
           deletedAt: TimeFilterInput
               cat:CatFiltersInput
           companyID: IntFilterInput
+          money: FloatFilterInput
               company:CompanyFiltersInput
               smartPhones:SmartPhoneFiltersInput
           favoritColor: StringFilterInput
@@ -4486,6 +4529,8 @@ func (ec *executionContext) fieldContext_AddUserPayload_affected(ctx context.Con
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
 				return ec.fieldContext_User_companyID(ctx, field)
+			case "money":
+				return ec.fieldContext_User_money(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
@@ -7758,6 +7803,8 @@ func (ec *executionContext) fieldContext_Query_getUser(ctx context.Context, fiel
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
 				return ec.fieldContext_User_companyID(ctx, field)
+			case "money":
+				return ec.fieldContext_User_money(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
@@ -8432,6 +8479,8 @@ func (ec *executionContext) fieldContext_Todo_users(ctx context.Context, field g
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
 				return ec.fieldContext_User_companyID(ctx, field)
+			case "money":
+				return ec.fieldContext_User_money(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
@@ -8500,6 +8549,8 @@ func (ec *executionContext) fieldContext_Todo_owner(ctx context.Context, field g
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
 				return ec.fieldContext_User_companyID(ctx, field)
+			case "money":
+				return ec.fieldContext_User_money(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
@@ -9843,6 +9894,8 @@ func (ec *executionContext) fieldContext_UpdateUserPayload_affected(ctx context.
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
 				return ec.fieldContext_User_companyID(ctx, field)
+			case "money":
+				return ec.fieldContext_User_money(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
@@ -10165,6 +10218,47 @@ func (ec *executionContext) fieldContext_User_companyID(ctx context.Context, fie
 	return fc, nil
 }
 
+func (ec *executionContext) _User_money(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_money(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Money, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*float64)
+	fc.Result = res
+	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_money(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _User_company(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_User_company(ctx, field)
 	if err != nil {
@@ -10409,6 +10503,8 @@ func (ec *executionContext) fieldContext_UserQueryResult_data(ctx context.Contex
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
 				return ec.fieldContext_User_companyID(ctx, field)
+			case "money":
+				return ec.fieldContext_User_money(ctx, field)
 			case "company":
 				return ec.fieldContext_User_company(ctx, field)
 			case "smartPhones":
@@ -12852,6 +12948,190 @@ func (ec *executionContext) unmarshalInputCompanyPatch(ctx context.Context, obj 
 	return it, nil
 }
 
+func (ec *executionContext) unmarshalInputFloatFilterBetween(ctx context.Context, obj interface{}) (model.FloatFilterBetween, error) {
+	var it model.FloatFilterBetween
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"start", "end"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "start":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("start"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Start = data
+		case "end":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("end"))
+			data, err := ec.unmarshalNFloat2float64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.End = data
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputFloatFilterInput(ctx context.Context, obj interface{}) (model.FloatFilterInput, error) {
+	var it model.FloatFilterInput
+	asMap := map[string]interface{}{}
+	for k, v := range obj.(map[string]interface{}) {
+		asMap[k] = v
+	}
+
+	fieldsInOrder := [...]string{"and", "or", "not", "eq", "ne", "gt", "gte", "lt", "lte", "null", "notNull", "in", "notIn", "between"}
+	for _, k := range fieldsInOrder {
+		v, ok := asMap[k]
+		if !ok {
+			continue
+		}
+		switch k {
+		case "and":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
+			data, err := ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.And = data
+		case "or":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("or"))
+			data, err := ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Or = data
+		case "not":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("not"))
+			data, err := ec.unmarshalOFloatFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐFloatFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Not = data
+		case "eq":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("eq"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Eq = data
+		case "ne":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("ne"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Ne = data
+		case "gt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gt"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Gt = data
+		case "gte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gte"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Gte = data
+		case "lt":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lt"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Lt = data
+		case "lte":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("lte"))
+			data, err := ec.unmarshalOFloat2ᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Lte = data
+		case "null":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("null"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Null = data
+		case "notNull":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notNull"))
+			data, err := ec.unmarshalOBoolean2ᚖbool(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.NotNull = data
+		case "in":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("in"))
+			data, err := ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.In = data
+		case "notIn":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("notIn"))
+			data, err := ec.unmarshalOFloat2ᚕᚖfloat64(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.NotIn = data
+		case "between":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("between"))
+			data, err := ec.unmarshalOFloatFilterBetween2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐFloatFilterBetween(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Between = data
+		}
+	}
+
+	return it, nil
+}
+
 func (ec *executionContext) unmarshalInputIDFilterInput(ctx context.Context, obj interface{}) (model.IDFilterInput, error) {
 	var it model.IDFilterInput
 	asMap := map[string]interface{}{}
@@ -14342,7 +14622,7 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "company", "smartPhones", "favoritColor", "email", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14412,6 +14692,15 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 				return it, err
 			}
 			it.CompanyID = data
+		case "money":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("money"))
+			data, err := ec.unmarshalOFloatFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐFloatFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Money = data
 		case "company":
 			var err error
 
@@ -14488,7 +14777,7 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "favoritColor", "email"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14565,6 +14854,30 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 				it.CompanyID = nil
 			} else {
 				err := fmt.Errorf(`unexpected type %T from directive, should be *int`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "money":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("money"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOFloat2ᚖfloat64(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*float64); ok {
+				it.Money = data
+			} else if tmp == nil {
+				it.Money = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *float64`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
 			}
 		case "company":
@@ -14716,7 +15029,7 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "company", "smartPhones", "favoritColor", "email"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14795,6 +15108,30 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 				it.CompanyID = nil
 			} else {
 				err := fmt.Errorf(`unexpected type %T from directive, should be *int`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "money":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("money"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOFloat2ᚖfloat64(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*float64); ok {
+				it.Money = data
+			} else if tmp == nil {
+				it.Money = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *float64`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
 			}
 		case "company":
@@ -17003,6 +17340,8 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._User_cat(ctx, field, obj)
 		case "companyID":
 			out.Values[i] = ec._User_companyID(ctx, field, obj)
+		case "money":
+			out.Values[i] = ec._User_money(ctx, field, obj)
 		case "company":
 			out.Values[i] = ec._User_company(ctx, field, obj)
 		case "smartPhones":
@@ -17655,6 +17994,21 @@ func (ec *executionContext) marshalNCompanyQueryResult2ᚖgithubᚗcomᚋfasibio
 		return graphql.Null
 	}
 	return ec._CompanyQueryResult(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNFloat2float64(ctx context.Context, v interface{}) (float64, error) {
+	res, err := graphql.UnmarshalFloatContext(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
+	res := graphql.MarshalFloatContext(v)
+	if res == graphql.Null {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+	}
+	return graphql.WrapContextMarshaler(ctx, res)
 }
 
 func (ec *executionContext) unmarshalNID2int(ctx context.Context, v interface{}) (int, error) {
@@ -18819,6 +19173,70 @@ func (ec *executionContext) marshalODeleteUserPayload2ᚖgithubᚗcomᚋfasibio�
 		return graphql.Null
 	}
 	return ec._DeleteUserPayload(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOFloat2ᚕᚖfloat64(ctx context.Context, v interface{}) ([]*float64, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []interface{}
+	if v != nil {
+		vSlice = graphql.CoerceList(v)
+	}
+	var err error
+	res := make([]*float64, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalOFloat2ᚖfloat64(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalOFloat2ᚕᚖfloat64(ctx context.Context, sel ast.SelectionSet, v []*float64) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalOFloat2ᚖfloat64(ctx, sel, v[i])
+	}
+
+	return ret
+}
+
+func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v interface{}) (*float64, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := graphql.UnmarshalFloatContext(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel ast.SelectionSet, v *float64) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	res := graphql.MarshalFloatContext(*v)
+	return graphql.WrapContextMarshaler(ctx, res)
+}
+
+func (ec *executionContext) unmarshalOFloatFilterBetween2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐFloatFilterBetween(ctx context.Context, v interface{}) (*model.FloatFilterBetween, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputFloatFilterBetween(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalOFloatFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐFloatFilterInput(ctx context.Context, v interface{}) (*model.FloatFilterInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputFloatFilterInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOID2ᚕᚖint(ctx context.Context, v interface{}) ([]*int, error) {

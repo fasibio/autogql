@@ -101,11 +101,11 @@ func NotIn(field string, value interface{}) ConditionElement {
 	return NewConditionElement("NOT IN", field, value)
 }
 
-func NotNull(field string, value interface{}) ConditionElement {
+func NotNull(field string) ConditionElement {
 	return NewConditionElement("IS NOT NULL", field)
 }
 
-func Null(field string, value interface{}) ConditionElement {
+func Null(field string) ConditionElement {
 	return NewConditionElement("IS NULL", field)
 }
 

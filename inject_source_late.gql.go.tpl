@@ -66,6 +66,34 @@ input IntFilterBetween{
 }
 
 """
+Float {{ $commentFilterText }}
+"""
+input FloatFilterInput {
+  and: [Float]
+  or: [Float]
+  not: FloatFilterInput
+  eq: Float
+  ne: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  null: Boolean
+  notNull: Boolean
+  in: [Float]
+  notIn: [Float]
+  between: FloatFilterBetween
+}
+
+"""
+Filter between start and end (start > value < end)
+"""
+input FloatFilterBetween{
+  start: Float!
+  end: Float!
+}
+
+"""
 Boolean {{ $commentFilterText }}
 """
 input BooleanFilterInput{

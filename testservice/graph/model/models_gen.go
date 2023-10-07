@@ -192,6 +192,30 @@ type DeleteUserPayload struct {
 	Msg   *string `json:"msg,omitempty"`
 }
 
+// Filter between start and end (start > value < end)
+type FloatFilterBetween struct {
+	Start float64 `json:"start"`
+	End   float64 `json:"end"`
+}
+
+// Float Filter simple datatypes
+type FloatFilterInput struct {
+	And     []*float64          `json:"and,omitempty"`
+	Or      []*float64          `json:"or,omitempty"`
+	Not     *FloatFilterInput   `json:"not,omitempty"`
+	Eq      *float64            `json:"eq,omitempty"`
+	Ne      *float64            `json:"ne,omitempty"`
+	Gt      *float64            `json:"gt,omitempty"`
+	Gte     *float64            `json:"gte,omitempty"`
+	Lt      *float64            `json:"lt,omitempty"`
+	Lte     *float64            `json:"lte,omitempty"`
+	Null    *bool               `json:"null,omitempty"`
+	NotNull *bool               `json:"notNull,omitempty"`
+	In      []*float64          `json:"in,omitempty"`
+	NotIn   []*float64          `json:"notIn,omitempty"`
+	Between *FloatFilterBetween `json:"between,omitempty"`
+}
+
 // ID Filter simple datatypes
 type IDFilterInput struct {
 	And     []*int         `json:"and,omitempty"`
@@ -468,6 +492,7 @@ type User struct {
 	DeletedAt    *time.Time    `json:"deletedAt,omitempty"`
 	Cat          *Cat          `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
 	CompanyID    *int          `json:"companyID,omitempty"`
+	Money        *float64      `json:"money,omitempty"`
 	Company      *Company      `json:"company,omitempty"`
 	SmartPhones  []*SmartPhone `json:"smartPhones,omitempty"`
 	FavoritColor *string       `json:"favoritColor,omitempty"`
@@ -484,6 +509,7 @@ type UserFiltersInput struct {
 	DeletedAt    *TimeFilterInput        `json:"deletedAt,omitempty"`
 	Cat          *CatFiltersInput        `json:"cat,omitempty"`
 	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
+	Money        *FloatFilterInput       `json:"money,omitempty"`
 	Company      *CompanyFiltersInput    `json:"company,omitempty"`
 	SmartPhones  *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
 	FavoritColor *StringFilterInput      `json:"favoritColor,omitempty"`
@@ -498,6 +524,7 @@ type UserInput struct {
 	Name         string             `json:"name"`
 	Cat          *CatInput          `json:"cat,omitempty"`
 	CompanyID    *int               `json:"companyID,omitempty"`
+	Money        *float64           `json:"money,omitempty"`
 	Company      *CompanyInput      `json:"company,omitempty"`
 	SmartPhones  []*SmartPhoneInput `json:"smartPhones,omitempty"`
 	FavoritColor *string            `json:"favoritColor,omitempty" validate:"omitempty,hexcolor|rgb|rgba"`
@@ -515,6 +542,7 @@ type UserPatch struct {
 	Name         *string            `json:"name,omitempty"`
 	Cat          *CatPatch          `json:"cat,omitempty"`
 	CompanyID    *int               `json:"companyID,omitempty"`
+	Money        *float64           `json:"money,omitempty"`
 	Company      *CompanyPatch      `json:"company,omitempty"`
 	SmartPhones  []*SmartPhonePatch `json:"smartPhones,omitempty"`
 	FavoritColor *string            `json:"favoritColor,omitempty" validate:"omitempty,hexcolor|rgb|rgba"`
@@ -969,6 +997,7 @@ const (
 	UserGroupUpdatedAt    UserGroup = "updatedAt"
 	UserGroupDeletedAt    UserGroup = "deletedAt"
 	UserGroupCompanyID    UserGroup = "companyID"
+	UserGroupMoney        UserGroup = "money"
 	UserGroupFavoritColor UserGroup = "favoritColor"
 	UserGroupEmail        UserGroup = "email"
 )
@@ -980,13 +1009,14 @@ var AllUserGroup = []UserGroup{
 	UserGroupUpdatedAt,
 	UserGroupDeletedAt,
 	UserGroupCompanyID,
+	UserGroupMoney,
 	UserGroupFavoritColor,
 	UserGroupEmail,
 }
 
 func (e UserGroup) IsValid() bool {
 	switch e {
-	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupFavoritColor, UserGroupEmail:
+	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail:
 		return true
 	}
 	return false
@@ -1021,6 +1051,7 @@ const (
 	UserOrderableID           UserOrderable = "id"
 	UserOrderableName         UserOrderable = "name"
 	UserOrderableCompanyID    UserOrderable = "companyID"
+	UserOrderableMoney        UserOrderable = "money"
 	UserOrderableFavoritColor UserOrderable = "favoritColor"
 	UserOrderableEmail        UserOrderable = "email"
 )
@@ -1029,13 +1060,14 @@ var AllUserOrderable = []UserOrderable{
 	UserOrderableID,
 	UserOrderableName,
 	UserOrderableCompanyID,
+	UserOrderableMoney,
 	UserOrderableFavoritColor,
 	UserOrderableEmail,
 }
 
 func (e UserOrderable) IsValid() bool {
 	switch e {
-	case UserOrderableID, UserOrderableName, UserOrderableCompanyID, UserOrderableFavoritColor, UserOrderableEmail:
+	case UserOrderableID, UserOrderableName, UserOrderableCompanyID, UserOrderableMoney, UserOrderableFavoritColor, UserOrderableEmail:
 		return true
 	}
 	return false

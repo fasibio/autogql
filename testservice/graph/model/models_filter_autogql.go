@@ -291,6 +291,9 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 	if d.CompanyID != nil {
 		res = append(res, d.CompanyID.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "company_id"), true, blackList)...)
 	}
+	if d.Money != nil {
+		res = append(res, d.Money.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "money"), true, blackList)...)
+	}
 	if d.Company != nil {
 		if _, ok := blackList["Company"]; !ok {
 			blackList["Company"] = struct{}{}
@@ -383,11 +386,11 @@ func (d *StringFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, 
 	}
 
 	if d.NotNull != nil {
-		res = append(res, runtimehelper.NotNull(fieldName, d.NotNull))
+		res = append(res, runtimehelper.NotNull(fieldName))
 	}
 
 	if d.Null != nil {
-		res = append(res, runtimehelper.Null(fieldName, d.Null))
+		res = append(res, runtimehelper.Null(fieldName))
 	}
 
 	if d.Or != nil {
@@ -457,11 +460,81 @@ func (d *IntFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, dee
 	}
 
 	if d.NotNull != nil && *d.NotNull {
-		res = append(res, runtimehelper.NotNull(fieldName, *d.NotNull))
+		res = append(res, runtimehelper.NotNull(fieldName))
 	}
 
 	if d.Null != nil && *d.Null {
-		res = append(res, runtimehelper.Null(fieldName, *d.Null))
+		res = append(res, runtimehelper.Null(fieldName))
+	}
+
+	if d.Or != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.Or {
+			tmp = append(tmp, runtimehelper.Equal(fieldName, *v))
+		}
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationOr, tmp...))
+	}
+
+	return res
+}
+
+// ExtendsDatabaseQuery create condition from values
+func (d *FloatFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep bool, blackList map[string]struct{}) []runtimehelper.ConditionElement {
+
+	res := make([]runtimehelper.ConditionElement, 0)
+
+	if d.And != nil {
+		tmp := make([]runtimehelper.ConditionElement, 0)
+		for _, v := range d.And {
+			tmp = append(tmp, runtimehelper.Equal(fieldName, *v))
+		}
+		res = append(res, tmp...)
+	}
+
+	if d.Between != nil {
+		res = append(res, runtimehelper.Between(fieldName, d.Between.Start, d.Between.End))
+	}
+
+	if d.Eq != nil {
+		res = append(res, runtimehelper.Equal(fieldName, *d.Eq))
+	}
+	if d.Gt != nil {
+		res = append(res, runtimehelper.More(fieldName, *d.Gt))
+	}
+
+	if d.Gte != nil {
+		res = append(res, runtimehelper.MoreOrEqual(fieldName, *d.Gte))
+	}
+
+	if d.In != nil {
+		res = append(res, runtimehelper.In(fieldName, d.In))
+	}
+
+	if d.Lt != nil {
+		res = append(res, runtimehelper.Less(fieldName, *d.Lt))
+	}
+
+	if d.Lte != nil {
+		res = append(res, runtimehelper.LessOrEqual(fieldName, *d.Lte))
+	}
+
+	if d.Ne != nil {
+		res = append(res, runtimehelper.NotEqual(fieldName, *d.Ne))
+	}
+	if d.Not != nil {
+		res = append(res, runtimehelper.Complex(runtimehelper.RelationNot, d.Not.ExtendsDatabaseQuery(db, fieldName, true, blackList)...))
+	}
+
+	if d.NotIn != nil {
+		res = append(res, runtimehelper.NotIn(fieldName, d.NotIn))
+	}
+
+	if d.NotNull != nil && *d.NotNull {
+		res = append(res, runtimehelper.NotNull(fieldName))
+	}
+
+	if d.Null != nil && *d.Null {
+		res = append(res, runtimehelper.Null(fieldName))
 	}
 
 	if d.Or != nil {
@@ -496,11 +569,11 @@ func (d *BooleanFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string,
 	}
 
 	if d.NotNull != nil && *d.NotNull {
-		res = append(res, runtimehelper.NotNull(fieldName, *d.NotNull))
+		res = append(res, runtimehelper.NotNull(fieldName))
 	}
 
 	if d.Null != nil && *d.Null {
-		res = append(res, runtimehelper.Null(fieldName, *d.Null))
+		res = append(res, runtimehelper.Null(fieldName))
 	}
 
 	if d.Or != nil {
@@ -567,11 +640,11 @@ func (d *TimeFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, de
 	}
 
 	if d.NotNull != nil && *d.NotNull {
-		res = append(res, runtimehelper.NotNull(fieldName, *d.NotNull))
+		res = append(res, runtimehelper.NotNull(fieldName))
 	}
 
 	if d.Null != nil && *d.Null {
-		res = append(res, runtimehelper.Null(fieldName, *d.Null))
+		res = append(res, runtimehelper.Null(fieldName))
 	}
 
 	if d.Or != nil {
@@ -614,11 +687,11 @@ func (d *IDFilterInput) ExtendsDatabaseQuery(db *gorm.DB, fieldName string, deep
 	}
 
 	if d.NotNull != nil && *d.NotNull {
-		res = append(res, runtimehelper.NotNull(fieldName, *d.NotNull))
+		res = append(res, runtimehelper.NotNull(fieldName))
 	}
 
 	if d.Null != nil && *d.Null {
-		res = append(res, runtimehelper.Null(fieldName, *d.Null))
+		res = append(res, runtimehelper.Null(fieldName))
 	}
 
 	if d.Or != nil {
