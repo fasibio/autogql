@@ -180,6 +180,78 @@ const (
 	DirectiveLocationInputFieldDefinition DirectiveLocation = "INPUT_FIELD_DEFINITION"
 )
 
+// Filter between start and end (start > value < end)
+type FloatFilterBetween struct {
+	Start float64 `json:"start"`
+	End   float64 `json:"end"`
+}
+
+// GetStart returns FloatFilterBetween.Start, and is useful for accessing the field via an interface.
+func (v *FloatFilterBetween) GetStart() float64 { return v.Start }
+
+// GetEnd returns FloatFilterBetween.End, and is useful for accessing the field via an interface.
+func (v *FloatFilterBetween) GetEnd() float64 { return v.End }
+
+// Float Filter simple datatypes
+type FloatFilterInput struct {
+	And     []*float64          `json:"and"`
+	Or      []*float64          `json:"or"`
+	Not     *FloatFilterInput   `json:"not,omitempty"`
+	Eq      *float64            `json:"eq"`
+	Ne      *float64            `json:"ne"`
+	Gt      *float64            `json:"gt"`
+	Gte     *float64            `json:"gte"`
+	Lt      *float64            `json:"lt"`
+	Lte     *float64            `json:"lte"`
+	Null    *bool               `json:"null"`
+	NotNull *bool               `json:"notNull"`
+	In      []*float64          `json:"in"`
+	NotIn   []*float64          `json:"notIn"`
+	Between *FloatFilterBetween `json:"between,omitempty"`
+}
+
+// GetAnd returns FloatFilterInput.And, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetAnd() []*float64 { return v.And }
+
+// GetOr returns FloatFilterInput.Or, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetOr() []*float64 { return v.Or }
+
+// GetNot returns FloatFilterInput.Not, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetNot() *FloatFilterInput { return v.Not }
+
+// GetEq returns FloatFilterInput.Eq, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetEq() *float64 { return v.Eq }
+
+// GetNe returns FloatFilterInput.Ne, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetNe() *float64 { return v.Ne }
+
+// GetGt returns FloatFilterInput.Gt, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetGt() *float64 { return v.Gt }
+
+// GetGte returns FloatFilterInput.Gte, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetGte() *float64 { return v.Gte }
+
+// GetLt returns FloatFilterInput.Lt, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetLt() *float64 { return v.Lt }
+
+// GetLte returns FloatFilterInput.Lte, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetLte() *float64 { return v.Lte }
+
+// GetNull returns FloatFilterInput.Null, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetNull() *bool { return v.Null }
+
+// GetNotNull returns FloatFilterInput.NotNull, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetNotNull() *bool { return v.NotNull }
+
+// GetIn returns FloatFilterInput.In, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetIn() []*float64 { return v.In }
+
+// GetNotIn returns FloatFilterInput.NotIn, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetNotIn() []*float64 { return v.NotIn }
+
+// GetBetween returns FloatFilterInput.Between, and is useful for accessing the field via an interface.
+func (v *FloatFilterInput) GetBetween() *FloatFilterBetween { return v.Between }
+
 // FullType includes the GraphQL fields of __Type requested by the fragment FullType.
 type FullType struct {
 	Kind          TypeKind                         `json:"kind"`
@@ -1490,6 +1562,7 @@ type UserFiltersInput struct {
 	DeletedAt    *TimeFilterInput        `json:"deletedAt,omitempty"`
 	Cat          *CatFiltersInput        `json:"cat,omitempty"`
 	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
+	Money        *FloatFilterInput       `json:"money,omitempty"`
 	Company      *CompanyFiltersInput    `json:"company,omitempty"`
 	SmartPhones  *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
 	FavoritColor *StringFilterInput      `json:"favoritColor,omitempty"`
@@ -1520,6 +1593,9 @@ func (v *UserFiltersInput) GetCat() *CatFiltersInput { return v.Cat }
 // GetCompanyID returns UserFiltersInput.CompanyID, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetCompanyID() *IntFilterInput { return v.CompanyID }
 
+// GetMoney returns UserFiltersInput.Money, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetMoney() *FloatFilterInput { return v.Money }
+
 // GetCompany returns UserFiltersInput.Company, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetCompany() *CompanyFiltersInput { return v.Company }
 
@@ -1546,6 +1622,7 @@ type UserInput struct {
 	Name         string             `json:"name"`
 	Cat          *CatInput          `json:"cat,omitempty"`
 	CompanyID    *int               `json:"companyID"`
+	Money        *float64           `json:"money"`
 	Company      *CompanyInput      `json:"company,omitempty"`
 	SmartPhones  []*SmartPhoneInput `json:"smartPhones,omitempty"`
 	FavoritColor *string            `json:"favoritColor"`
@@ -1560,6 +1637,9 @@ func (v *UserInput) GetCat() *CatInput { return v.Cat }
 
 // GetCompanyID returns UserInput.CompanyID, and is useful for accessing the field via an interface.
 func (v *UserInput) GetCompanyID() *int { return v.CompanyID }
+
+// GetMoney returns UserInput.Money, and is useful for accessing the field via an interface.
+func (v *UserInput) GetMoney() *float64 { return v.Money }
 
 // GetCompany returns UserInput.Company, and is useful for accessing the field via an interface.
 func (v *UserInput) GetCompany() *CompanyInput { return v.Company }
@@ -3205,6 +3285,68 @@ type noDataQueryResponse struct {
 // GetQueryUser returns noDataQueryResponse.QueryUser, and is useful for accessing the field via an interface.
 func (v *noDataQueryResponse) GetQueryUser() *noDataQueryQueryUserUserQueryResult { return v.QueryUser }
 
+// queryUserByMoneyFilterAndBetweenQueryUserUserQueryResult includes the requested fields of the GraphQL type UserQueryResult.
+// The GraphQL type's documentation follows.
+//
+// User result
+type queryUserByMoneyFilterAndBetweenQueryUserUserQueryResult struct {
+	Data []*queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser `json:"data"`
+}
+
+// GetData returns queryUserByMoneyFilterAndBetweenQueryUserUserQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResult) GetData() []*queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser {
+	return v.Data
+}
+
+// queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser includes the requested fields of the GraphQL type User.
+type queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser struct {
+	Id          string                                                                                   `json:"id"`
+	Name        string                                                                                   `json:"name"`
+	Money       *float64                                                                                 `json:"money"`
+	SmartPhones []*queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUserSmartPhonesSmartPhone `json:"smartPhones"`
+}
+
+// GetId returns queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser.Id, and is useful for accessing the field via an interface.
+func (v *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser.Name, and is useful for accessing the field via an interface.
+func (v *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser) GetName() string {
+	return v.Name
+}
+
+// GetMoney returns queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser.Money, and is useful for accessing the field via an interface.
+func (v *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser) GetMoney() *float64 {
+	return v.Money
+}
+
+// GetSmartPhones returns queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser.SmartPhones, and is useful for accessing the field via an interface.
+func (v *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUser) GetSmartPhones() []*queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUserSmartPhonesSmartPhone {
+	return v.SmartPhones
+}
+
+// queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUserSmartPhonesSmartPhone includes the requested fields of the GraphQL type SmartPhone.
+type queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUserSmartPhonesSmartPhone struct {
+	Id string `json:"id"`
+}
+
+// GetId returns queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUserSmartPhonesSmartPhone.Id, and is useful for accessing the field via an interface.
+func (v *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResultDataUserSmartPhonesSmartPhone) GetId() string {
+	return v.Id
+}
+
+// queryUserByMoneyFilterAndBetweenResponse is returned by queryUserByMoneyFilterAndBetween on success.
+type queryUserByMoneyFilterAndBetweenResponse struct {
+	// return a list of  User filterable, pageination, orderbale, groupable ...
+	QueryUser *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResult `json:"queryUser"`
+}
+
+// GetQueryUser returns queryUserByMoneyFilterAndBetweenResponse.QueryUser, and is useful for accessing the field via an interface.
+func (v *queryUserByMoneyFilterAndBetweenResponse) GetQueryUser() *queryUserByMoneyFilterAndBetweenQueryUserUserQueryResult {
+	return v.QueryUser
+}
+
 // updateUserChangeCompanyByCatNameResponse is returned by updateUserChangeCompanyByCatName on success.
 type updateUserChangeCompanyByCatNameResponse struct {
 	// update User filtered by selection and update all matched values
@@ -3395,13 +3537,8 @@ func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDa
 	return v.Name
 }
 
-func IntrospectionQuery(
-	ctx context.Context,
-	client graphql.Client,
-) (*IntrospectionQueryResponse, error) {
-	req := &graphql.Request{
-		OpName: "IntrospectionQuery",
-		Query: `
+// The query or mutation executed by IntrospectionQuery.
+const IntrospectionQuery_Operation = `
 query IntrospectionQuery {
 	__schema {
 		queryType {
@@ -3498,7 +3635,15 @@ fragment TypeRef on __Type {
 		}
 	}
 }
-`,
+`
+
+func IntrospectionQuery(
+	ctx context.Context,
+	client graphql.Client,
+) (*IntrospectionQueryResponse, error) {
+	req := &graphql.Request{
+		OpName: "IntrospectionQuery",
+		Query:  IntrospectionQuery_Operation,
 	}
 	var err error
 
@@ -3514,14 +3659,8 @@ fragment TypeRef on __Type {
 	return &data, err
 }
 
-func addCats(
-	ctx context.Context,
-	client graphql.Client,
-	input []*CatInput,
-) (*addCatsResponse, error) {
-	req := &graphql.Request{
-		OpName: "addCats",
-		Query: `
+// The query or mutation executed by addCats.
+const addCats_Operation = `
 mutation addCats ($input: [CatInput!]!) {
 	addCat(input: $input) {
 		cat {
@@ -3533,7 +3672,16 @@ mutation addCats ($input: [CatInput!]!) {
 		}
 	}
 }
-`,
+`
+
+func addCats(
+	ctx context.Context,
+	client graphql.Client,
+	input []*CatInput,
+) (*addCatsResponse, error) {
+	req := &graphql.Request{
+		OpName: "addCats",
+		Query:  addCats_Operation,
 		Variables: &__addCatsInput{
 			Input: input,
 		},
@@ -3552,14 +3700,8 @@ mutation addCats ($input: [CatInput!]!) {
 	return &data, err
 }
 
-func addCompanies(
-	ctx context.Context,
-	client graphql.Client,
-	input []*CompanyInput,
-) (*addCompaniesResponse, error) {
-	req := &graphql.Request{
-		OpName: "addCompanies",
-		Query: `
+// The query or mutation executed by addCompanies.
+const addCompanies_Operation = `
 mutation addCompanies ($input: [CompanyInput!]!) {
 	addCompany(input: $input) {
 		affected {
@@ -3574,7 +3716,16 @@ mutation addCompanies ($input: [CompanyInput!]!) {
 		}
 	}
 }
-`,
+`
+
+func addCompanies(
+	ctx context.Context,
+	client graphql.Client,
+	input []*CompanyInput,
+) (*addCompaniesResponse, error) {
+	req := &graphql.Request{
+		OpName: "addCompanies",
+		Query:  addCompanies_Operation,
 		Variables: &__addCompaniesInput{
 			Input: input,
 		},
@@ -3593,14 +3744,8 @@ mutation addCompanies ($input: [CompanyInput!]!) {
 	return &data, err
 }
 
-func addCompanyQueryResult(
-	ctx context.Context,
-	client graphql.Client,
-	name string,
-) (*addCompanyQueryResultResponse, error) {
-	req := &graphql.Request{
-		OpName: "addCompanyQueryResult",
-		Query: `
+// The query or mutation executed by addCompanyQueryResult.
+const addCompanyQueryResult_Operation = `
 mutation addCompanyQueryResult ($name: String!) {
 	addCompany(input: {name:$name}) {
 		affected {
@@ -3615,7 +3760,16 @@ mutation addCompanyQueryResult ($name: String!) {
 		}
 	}
 }
-`,
+`
+
+func addCompanyQueryResult(
+	ctx context.Context,
+	client graphql.Client,
+	name string,
+) (*addCompanyQueryResultResponse, error) {
+	req := &graphql.Request{
+		OpName: "addCompanyQueryResult",
+		Query:  addCompanyQueryResult_Operation,
 		Variables: &__addCompanyQueryResultInput{
 			Name: name,
 		},
@@ -3634,14 +3788,8 @@ mutation addCompanyQueryResult ($name: String!) {
 	return &data, err
 }
 
-func addTodos(
-	ctx context.Context,
-	client graphql.Client,
-	input []*TodoInput,
-) (*addTodosResponse, error) {
-	req := &graphql.Request{
-		OpName: "addTodos",
-		Query: `
+// The query or mutation executed by addTodos.
+const addTodos_Operation = `
 mutation addTodos ($input: [TodoInput!]!) {
 	addTodo(input: $input) {
 		affected {
@@ -3659,7 +3807,16 @@ mutation addTodos ($input: [TodoInput!]!) {
 		}
 	}
 }
-`,
+`
+
+func addTodos(
+	ctx context.Context,
+	client graphql.Client,
+	input []*TodoInput,
+) (*addTodosResponse, error) {
+	req := &graphql.Request{
+		OpName: "addTodos",
+		Query:  addTodos_Operation,
 		Variables: &__addTodosInput{
 			Input: input,
 		},
@@ -3678,14 +3835,8 @@ mutation addTodos ($input: [TodoInput!]!) {
 	return &data, err
 }
 
-func addUser2Todo(
-	ctx context.Context,
-	client graphql.Client,
-	input *UserRef2TodosInput,
-) (*addUser2TodoResponse, error) {
-	req := &graphql.Request{
-		OpName: "addUser2Todo",
-		Query: `
+// The query or mutation executed by addUser2Todo.
+const addUser2Todo_Operation = `
 mutation addUser2Todo ($input: UserRef2TodosInput!) {
 	addUser2Todos(input: $input) {
 		affected {
@@ -3707,7 +3858,16 @@ mutation addUser2Todo ($input: UserRef2TodosInput!) {
 		}
 	}
 }
-`,
+`
+
+func addUser2Todo(
+	ctx context.Context,
+	client graphql.Client,
+	input *UserRef2TodosInput,
+) (*addUser2TodoResponse, error) {
+	req := &graphql.Request{
+		OpName: "addUser2Todo",
+		Query:  addUser2Todo_Operation,
 		Variables: &__addUser2TodoInput{
 			Input: input,
 		},
@@ -3726,14 +3886,8 @@ mutation addUser2Todo ($input: UserRef2TodosInput!) {
 	return &data, err
 }
 
-func addUsers(
-	ctx context.Context,
-	client graphql.Client,
-	input []*UserInput,
-) (*addUsersResponse, error) {
-	req := &graphql.Request{
-		OpName: "addUsers",
-		Query: `
+// The query or mutation executed by addUsers.
+const addUsers_Operation = `
 mutation addUsers ($input: [UserInput!]!) {
 	addUser(input: $input) {
 		affected {
@@ -3751,7 +3905,16 @@ mutation addUsers ($input: [UserInput!]!) {
 		}
 	}
 }
-`,
+`
+
+func addUsers(
+	ctx context.Context,
+	client graphql.Client,
+	input []*UserInput,
+) (*addUsersResponse, error) {
+	req := &graphql.Request{
+		OpName: "addUsers",
+		Query:  addUsers_Operation,
 		Variables: &__addUsersInput{
 			Input: input,
 		},
@@ -3770,14 +3933,8 @@ mutation addUsers ($input: [UserInput!]!) {
 	return &data, err
 }
 
-func allTodosByUserCatName(
-	ctx context.Context,
-	client graphql.Client,
-	catName *string,
-) (*allTodosByUserCatNameResponse, error) {
-	req := &graphql.Request{
-		OpName: "allTodosByUserCatName",
-		Query: `
+// The query or mutation executed by allTodosByUserCatName.
+const allTodosByUserCatName_Operation = `
 query allTodosByUserCatName ($catName: String) {
 	queryTodo(filter: {users:{cat:{name:{eq:$catName}}}}, order: {desc:id}) {
 		count
@@ -3797,7 +3954,16 @@ query allTodosByUserCatName ($catName: String) {
 		}
 	}
 }
-`,
+`
+
+func allTodosByUserCatName(
+	ctx context.Context,
+	client graphql.Client,
+	catName *string,
+) (*allTodosByUserCatNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "allTodosByUserCatName",
+		Query:  allTodosByUserCatName_Operation,
 		Variables: &__allTodosByUserCatNameInput{
 			CatName: catName,
 		},
@@ -3816,14 +3982,8 @@ query allTodosByUserCatName ($catName: String) {
 	return &data, err
 }
 
-func allTodosPartOfCompany(
-	ctx context.Context,
-	client graphql.Client,
-	companyName *string,
-) (*allTodosPartOfCompanyResponse, error) {
-	req := &graphql.Request{
-		OpName: "allTodosPartOfCompany",
-		Query: `
+// The query or mutation executed by allTodosPartOfCompany.
+const allTodosPartOfCompany_Operation = `
 query allTodosPartOfCompany ($companyName: String) {
 	queryTodo(filter: {users:{company:{name:{eq:$companyName}}}}, order: {desc:id}) {
 		data {
@@ -3842,7 +4002,16 @@ query allTodosPartOfCompany ($companyName: String) {
 		}
 	}
 }
-`,
+`
+
+func allTodosPartOfCompany(
+	ctx context.Context,
+	client graphql.Client,
+	companyName *string,
+) (*allTodosPartOfCompanyResponse, error) {
+	req := &graphql.Request{
+		OpName: "allTodosPartOfCompany",
+		Query:  allTodosPartOfCompany_Operation,
 		Variables: &__allTodosPartOfCompanyInput{
 			CompanyName: companyName,
 		},
@@ -3861,15 +4030,8 @@ query allTodosPartOfCompany ($companyName: String) {
 	return &data, err
 }
 
-func allUserFromCompany(
-	ctx context.Context,
-	client graphql.Client,
-	company string,
-	offset *int,
-) (*allUserFromCompanyResponse, error) {
-	req := &graphql.Request{
-		OpName: "allUserFromCompany",
-		Query: `
+// The query or mutation executed by allUserFromCompany.
+const allUserFromCompany_Operation = `
 query allUserFromCompany ($company: String!, $offset: Int) {
 	queryUser(filter: {company:{name:{eq:$company}}}, first: 2, offset: $offset) {
 		totalCount
@@ -3882,7 +4044,17 @@ query allUserFromCompany ($company: String!, $offset: Int) {
 		}
 	}
 }
-`,
+`
+
+func allUserFromCompany(
+	ctx context.Context,
+	client graphql.Client,
+	company string,
+	offset *int,
+) (*allUserFromCompanyResponse, error) {
+	req := &graphql.Request{
+		OpName: "allUserFromCompany",
+		Query:  allUserFromCompany_Operation,
 		Variables: &__allUserFromCompanyInput{
 			Company: company,
 			Offset:  offset,
@@ -3902,13 +4074,8 @@ query allUserFromCompany ($company: String!, $offset: Int) {
 	return &data, err
 }
 
-func allUserWithACat(
-	ctx context.Context,
-	client graphql.Client,
-) (*allUserWithACatResponse, error) {
-	req := &graphql.Request{
-		OpName: "allUserWithACat",
-		Query: `
+// The query or mutation executed by allUserWithACat.
+const allUserWithACat_Operation = `
 query allUserWithACat {
 	queryUser(filter: {cat:{userID:{notNull:true}}}) {
 		data {
@@ -3921,7 +4088,15 @@ query allUserWithACat {
 		}
 	}
 }
-`,
+`
+
+func allUserWithACat(
+	ctx context.Context,
+	client graphql.Client,
+) (*allUserWithACatResponse, error) {
+	req := &graphql.Request{
+		OpName: "allUserWithACat",
+		Query:  allUserWithACat_Operation,
 	}
 	var err error
 
@@ -3937,14 +4112,8 @@ query allUserWithACat {
 	return &data, err
 }
 
-// Test for https://github.com/fasibio/autogql/issues/24
-func allUserWithACatOnlyUserId(
-	ctx context.Context,
-	client graphql.Client,
-) (*allUserWithACatOnlyUserIdResponse, error) {
-	req := &graphql.Request{
-		OpName: "allUserWithACatOnlyUserId",
-		Query: `
+// The query or mutation executed by allUserWithACatOnlyUserId.
+const allUserWithACatOnlyUserId_Operation = `
 query allUserWithACatOnlyUserId {
 	queryUser(filter: {cat:{userID:{notNull:true}}}) {
 		data {
@@ -3956,7 +4125,16 @@ query allUserWithACatOnlyUserId {
 		}
 	}
 }
-`,
+`
+
+// Test for https://github.com/fasibio/autogql/issues/24
+func allUserWithACatOnlyUserId(
+	ctx context.Context,
+	client graphql.Client,
+) (*allUserWithACatOnlyUserIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "allUserWithACatOnlyUserId",
+		Query:  allUserWithACatOnlyUserId_Operation,
 	}
 	var err error
 
@@ -3972,15 +4150,8 @@ query allUserWithACatOnlyUserId {
 	return &data, err
 }
 
-func changeAllCatsToSameOwnerButNotOneByName(
-	ctx context.Context,
-	client graphql.Client,
-	userID int,
-	notMoveCatName string,
-) (*changeAllCatsToSameOwnerButNotOneByNameResponse, error) {
-	req := &graphql.Request{
-		OpName: "changeAllCatsToSameOwnerButNotOneByName",
-		Query: `
+// The query or mutation executed by changeAllCatsToSameOwnerButNotOneByName.
+const changeAllCatsToSameOwnerButNotOneByName_Operation = `
 mutation changeAllCatsToSameOwnerButNotOneByName ($userID: Int!, $notMoveCatName: String!) {
 	updateCat(input: {filter:{userID:{ne:$userID},name:{ne:$notMoveCatName}},set:{userID:$userID}}) {
 		affected {
@@ -3996,7 +4167,17 @@ mutation changeAllCatsToSameOwnerButNotOneByName ($userID: Int!, $notMoveCatName
 		}
 	}
 }
-`,
+`
+
+func changeAllCatsToSameOwnerButNotOneByName(
+	ctx context.Context,
+	client graphql.Client,
+	userID int,
+	notMoveCatName string,
+) (*changeAllCatsToSameOwnerButNotOneByNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "changeAllCatsToSameOwnerButNotOneByName",
+		Query:  changeAllCatsToSameOwnerButNotOneByName_Operation,
 		Variables: &__changeAllCatsToSameOwnerButNotOneByNameInput{
 			UserID:         userID,
 			NotMoveCatName: notMoveCatName,
@@ -4016,13 +4197,8 @@ mutation changeAllCatsToSameOwnerButNotOneByName ($userID: Int!, $notMoveCatName
 	return &data, err
 }
 
-func complexWithInAndOrAndJoin1(
-	ctx context.Context,
-	client graphql.Client,
-) (*complexWithInAndOrAndJoin1Response, error) {
-	req := &graphql.Request{
-		OpName: "complexWithInAndOrAndJoin1",
-		Query: `
+// The query or mutation executed by complexWithInAndOrAndJoin1.
+const complexWithInAndOrAndJoin1_Operation = `
 query complexWithInAndOrAndJoin1 {
 	queryTodo(filter: {users:{name:{in:["Peter","Klaus"]}},or:[{name:{eq:"Bla"}},{name:{eq:"Foo"}}]}) {
 		data {
@@ -4038,7 +4214,15 @@ query complexWithInAndOrAndJoin1 {
 		}
 	}
 }
-`,
+`
+
+func complexWithInAndOrAndJoin1(
+	ctx context.Context,
+	client graphql.Client,
+) (*complexWithInAndOrAndJoin1Response, error) {
+	req := &graphql.Request{
+		OpName: "complexWithInAndOrAndJoin1",
+		Query:  complexWithInAndOrAndJoin1_Operation,
 	}
 	var err error
 
@@ -4054,13 +4238,8 @@ query complexWithInAndOrAndJoin1 {
 	return &data, err
 }
 
-func complexWithInAndOrAndJoin2(
-	ctx context.Context,
-	client graphql.Client,
-) (*complexWithInAndOrAndJoin2Response, error) {
-	req := &graphql.Request{
-		OpName: "complexWithInAndOrAndJoin2",
-		Query: `
+// The query or mutation executed by complexWithInAndOrAndJoin2.
+const complexWithInAndOrAndJoin2_Operation = `
 query complexWithInAndOrAndJoin2 {
 	queryTodo(filter: {or:[{name:{eq:"Bla"}},{name:{eq:"Foo"}},{users:{name:{in:["Peter","Klaus"]}}}]}) {
 		data {
@@ -4076,7 +4255,15 @@ query complexWithInAndOrAndJoin2 {
 		}
 	}
 }
-`,
+`
+
+func complexWithInAndOrAndJoin2(
+	ctx context.Context,
+	client graphql.Client,
+) (*complexWithInAndOrAndJoin2Response, error) {
+	req := &graphql.Request{
+		OpName: "complexWithInAndOrAndJoin2",
+		Query:  complexWithInAndOrAndJoin2_Operation,
 	}
 	var err error
 
@@ -4092,13 +4279,8 @@ query complexWithInAndOrAndJoin2 {
 	return &data, err
 }
 
-func complexWithInAndOrAndJoin3(
-	ctx context.Context,
-	client graphql.Client,
-) (*complexWithInAndOrAndJoin3Response, error) {
-	req := &graphql.Request{
-		OpName: "complexWithInAndOrAndJoin3",
-		Query: `
+// The query or mutation executed by complexWithInAndOrAndJoin3.
+const complexWithInAndOrAndJoin3_Operation = `
 query complexWithInAndOrAndJoin3 {
 	queryTodo(filter: {or:[{name:{eq:"Bla"}},{name:{eq:"Foo"}}],users:{name:{in:["Peter","Klaus"]}}}) {
 		data {
@@ -4114,7 +4296,15 @@ query complexWithInAndOrAndJoin3 {
 		}
 	}
 }
-`,
+`
+
+func complexWithInAndOrAndJoin3(
+	ctx context.Context,
+	client graphql.Client,
+) (*complexWithInAndOrAndJoin3Response, error) {
+	req := &graphql.Request{
+		OpName: "complexWithInAndOrAndJoin3",
+		Query:  complexWithInAndOrAndJoin3_Operation,
 	}
 	var err error
 
@@ -4130,15 +4320,8 @@ query complexWithInAndOrAndJoin3 {
 	return &data, err
 }
 
-// delete
-func deleteUser(
-	ctx context.Context,
-	client graphql.Client,
-	userId string,
-) (*deleteUserResponse, error) {
-	req := &graphql.Request{
-		OpName: "deleteUser",
-		Query: `
+// The query or mutation executed by deleteUser.
+const deleteUser_Operation = `
 mutation deleteUser ($userId: ID!) {
 	deleteUser(filter: {id:{eq:$userId}}) {
 		count
@@ -4150,7 +4333,17 @@ mutation deleteUser ($userId: ID!) {
 		}
 	}
 }
-`,
+`
+
+// delete
+func deleteUser(
+	ctx context.Context,
+	client graphql.Client,
+	userId string,
+) (*deleteUserResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteUser",
+		Query:  deleteUser_Operation,
 		Variables: &__deleteUserInput{
 			UserId: userId,
 		},
@@ -4169,14 +4362,8 @@ mutation deleteUser ($userId: ID!) {
 	return &data, err
 }
 
-func deleteUserByCatName(
-	ctx context.Context,
-	client graphql.Client,
-	catName string,
-) (*deleteUserByCatNameResponse, error) {
-	req := &graphql.Request{
-		OpName: "deleteUserByCatName",
-		Query: `
+// The query or mutation executed by deleteUserByCatName.
+const deleteUserByCatName_Operation = `
 mutation deleteUserByCatName ($catName: String!) {
 	deleteUser(filter: {cat:{name:{eq:$catName}}}) {
 		count
@@ -4188,7 +4375,16 @@ mutation deleteUserByCatName ($catName: String!) {
 		}
 	}
 }
-`,
+`
+
+func deleteUserByCatName(
+	ctx context.Context,
+	client graphql.Client,
+	catName string,
+) (*deleteUserByCatNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteUserByCatName",
+		Query:  deleteUserByCatName_Operation,
 		Variables: &__deleteUserByCatNameInput{
 			CatName: catName,
 		},
@@ -4207,14 +4403,8 @@ mutation deleteUserByCatName ($catName: String!) {
 	return &data, err
 }
 
-func deleteUserByUserName(
-	ctx context.Context,
-	client graphql.Client,
-	userName string,
-) (*deleteUserByUserNameResponse, error) {
-	req := &graphql.Request{
-		OpName: "deleteUserByUserName",
-		Query: `
+// The query or mutation executed by deleteUserByUserName.
+const deleteUserByUserName_Operation = `
 mutation deleteUserByUserName ($userName: String!) {
 	deleteUser(filter: {name:{eq:$userName}}) {
 		count
@@ -4226,7 +4416,16 @@ mutation deleteUserByUserName ($userName: String!) {
 		}
 	}
 }
-`,
+`
+
+func deleteUserByUserName(
+	ctx context.Context,
+	client graphql.Client,
+	userName string,
+) (*deleteUserByUserNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "deleteUserByUserName",
+		Query:  deleteUserByUserName_Operation,
 		Variables: &__deleteUserByUserNameInput{
 			UserName: userName,
 		},
@@ -4245,6 +4444,15 @@ mutation deleteUserByUserName ($userName: String!) {
 	return &data, err
 }
 
+// The query or mutation executed by deleteUsersFromTodos.
+const deleteUsersFromTodos_Operation = `
+mutation deleteUsersFromTodos ($taskId: ID!, $userId: [ID!]!) {
+	deleteUserFromTodos(input: {filter:{id:{eq:$taskId}},set:$userId}) {
+		count
+	}
+}
+`
+
 func deleteUsersFromTodos(
 	ctx context.Context,
 	client graphql.Client,
@@ -4253,13 +4461,7 @@ func deleteUsersFromTodos(
 ) (*deleteUsersFromTodosResponse, error) {
 	req := &graphql.Request{
 		OpName: "deleteUsersFromTodos",
-		Query: `
-mutation deleteUsersFromTodos ($taskId: ID!, $userId: [ID!]!) {
-	deleteUserFromTodos(input: {filter:{id:{eq:$taskId}},set:$userId}) {
-		count
-	}
-}
-`,
+		Query:  deleteUsersFromTodos_Operation,
 		Variables: &__deleteUsersFromTodosInput{
 			TaskId: taskId,
 			UserId: userId,
@@ -4279,13 +4481,8 @@ mutation deleteUsersFromTodos ($taskId: ID!, $userId: [ID!]!) {
 	return &data, err
 }
 
-func getAllTodosWithUserGroupById(
-	ctx context.Context,
-	client graphql.Client,
-) (*getAllTodosWithUserGroupByIdResponse, error) {
-	req := &graphql.Request{
-		OpName: "getAllTodosWithUserGroupById",
-		Query: `
+// The query or mutation executed by getAllTodosWithUserGroupById.
+const getAllTodosWithUserGroupById_Operation = `
 query getAllTodosWithUserGroupById {
 	queryTodo(filter: {users:{id:{notNull:true}}}, group: [id], order: {asc:id}) {
 		count
@@ -4303,7 +4500,15 @@ query getAllTodosWithUserGroupById {
 		}
 	}
 }
-`,
+`
+
+func getAllTodosWithUserGroupById(
+	ctx context.Context,
+	client graphql.Client,
+) (*getAllTodosWithUserGroupByIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "getAllTodosWithUserGroupById",
+		Query:  getAllTodosWithUserGroupById_Operation,
 	}
 	var err error
 
@@ -4319,14 +4524,8 @@ query getAllTodosWithUserGroupById {
 	return &data, err
 }
 
-func getUserById(
-	ctx context.Context,
-	client graphql.Client,
-	userId string,
-) (*getUserByIdResponse, error) {
-	req := &graphql.Request{
-		OpName: "getUserById",
-		Query: `
+// The query or mutation executed by getUserById.
+const getUserById_Operation = `
 query getUserById ($userId: ID!) {
 	getUser(id: $userId) {
 		id
@@ -4339,7 +4538,16 @@ query getUserById ($userId: ID!) {
 		}
 	}
 }
-`,
+`
+
+func getUserById(
+	ctx context.Context,
+	client graphql.Client,
+	userId string,
+) (*getUserByIdResponse, error) {
+	req := &graphql.Request{
+		OpName: "getUserById",
+		Query:  getUserById_Operation,
 		Variables: &__getUserByIdInput{
 			UserId: userId,
 		},
@@ -4358,19 +4566,22 @@ query getUserById ($userId: ID!) {
 	return &data, err
 }
 
+// The query or mutation executed by noDataQuery.
+const noDataQuery_Operation = `
+query noDataQuery {
+	queryUser(filter: {cat:{userID:{notNull:true}}}) {
+		__typename
+	}
+}
+`
+
 func noDataQuery(
 	ctx context.Context,
 	client graphql.Client,
 ) (*noDataQueryResponse, error) {
 	req := &graphql.Request{
 		OpName: "noDataQuery",
-		Query: `
-query noDataQuery {
-	queryUser(filter: {cat:{userID:{notNull:true}}}) {
-		__typename
-	}
-}
-`,
+		Query:  noDataQuery_Operation,
 	}
 	var err error
 
@@ -4386,16 +4597,46 @@ query noDataQuery {
 	return &data, err
 }
 
-// Edit
-func updateUserChangeCompany(
+// The query or mutation executed by queryUserByMoneyFilterAndBetween.
+const queryUserByMoneyFilterAndBetween_Operation = `
+query queryUserByMoneyFilterAndBetween {
+	queryUser(order: {asc:name}, filter: {money:{notNull:true,between:{start:5.2,end:140.2}}}) {
+		data {
+			id
+			name
+			money
+			smartPhones {
+				id
+			}
+		}
+	}
+}
+`
+
+func queryUserByMoneyFilterAndBetween(
 	ctx context.Context,
 	client graphql.Client,
-	userId string,
-	companyID int,
-) (*updateUserChangeCompanyResponse, error) {
+) (*queryUserByMoneyFilterAndBetweenResponse, error) {
 	req := &graphql.Request{
-		OpName: "updateUserChangeCompany",
-		Query: `
+		OpName: "queryUserByMoneyFilterAndBetween",
+		Query:  queryUserByMoneyFilterAndBetween_Operation,
+	}
+	var err error
+
+	var data queryUserByMoneyFilterAndBetweenResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
+// The query or mutation executed by updateUserChangeCompany.
+const updateUserChangeCompany_Operation = `
 mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
 	updateUser(input: {filter:{id:{eq:$userId}},set:{companyID:$companyID}}) {
 		affected {
@@ -4414,7 +4655,18 @@ mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
 		}
 	}
 }
-`,
+`
+
+// Edit
+func updateUserChangeCompany(
+	ctx context.Context,
+	client graphql.Client,
+	userId string,
+	companyID int,
+) (*updateUserChangeCompanyResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateUserChangeCompany",
+		Query:  updateUserChangeCompany_Operation,
 		Variables: &__updateUserChangeCompanyInput{
 			UserId:    userId,
 			CompanyID: companyID,
@@ -4434,15 +4686,8 @@ mutation updateUserChangeCompany ($userId: ID!, $companyID: Int!) {
 	return &data, err
 }
 
-func updateUserChangeCompanyByCatName(
-	ctx context.Context,
-	client graphql.Client,
-	catName string,
-	companyID int,
-) (*updateUserChangeCompanyByCatNameResponse, error) {
-	req := &graphql.Request{
-		OpName: "updateUserChangeCompanyByCatName",
-		Query: `
+// The query or mutation executed by updateUserChangeCompanyByCatName.
+const updateUserChangeCompanyByCatName_Operation = `
 mutation updateUserChangeCompanyByCatName ($catName: String!, $companyID: Int!) {
 	updateUser(input: {filter:{cat:{name:{eq:$catName}}},set:{companyID:$companyID}}) {
 		affected {
@@ -4461,7 +4706,17 @@ mutation updateUserChangeCompanyByCatName ($catName: String!, $companyID: Int!) 
 		}
 	}
 }
-`,
+`
+
+func updateUserChangeCompanyByCatName(
+	ctx context.Context,
+	client graphql.Client,
+	catName string,
+	companyID int,
+) (*updateUserChangeCompanyByCatNameResponse, error) {
+	req := &graphql.Request{
+		OpName: "updateUserChangeCompanyByCatName",
+		Query:  updateUserChangeCompanyByCatName_Operation,
 		Variables: &__updateUserChangeCompanyByCatNameInput{
 			CatName:   catName,
 			CompanyID: companyID,

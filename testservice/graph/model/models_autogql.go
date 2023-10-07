@@ -257,6 +257,9 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 	if d.CompanyID != nil {
 		res["company_id"] = d.CompanyID
 	}
+	if d.Money != nil {
+		res["money"] = d.Money
+	}
 	if d.Company != nil {
 		res["company"] = d.Company.MergeToType()
 	}
@@ -292,6 +295,11 @@ func (d *UserInput) MergeToType() User {
 		tmpCompanyID = d.CompanyID
 	}
 
+	var tmpMoney *float64
+	if d.Money != nil {
+		tmpMoney = d.Money
+	}
+
 	var tmpCompany Company
 	if d.Company != nil {
 		tmpCompany = d.Company.MergeToType()
@@ -316,6 +324,7 @@ func (d *UserInput) MergeToType() User {
 		Name:         tmpName,
 		Cat:          &tmpCat,
 		CompanyID:    tmpCompanyID,
+		Money:        tmpMoney,
 		Company:      &tmpCompany,
 		SmartPhones:  tmpSmartPhones,
 		FavoritColor: tmpFavoritColor,
