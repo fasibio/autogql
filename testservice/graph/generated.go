@@ -18,6 +18,7 @@ import (
 	"github.com/fasibio/autogql/testservice/graph/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
 	"github.com/vektah/gqlparser/v2/ast"
+	"gorm.io/gorm"
 )
 
 // region    ************************** generated!.gotpl **************************
@@ -262,6 +263,7 @@ type ComplexityRoot struct {
 		Money        func(childComplexity int) int
 		Name         func(childComplexity int) int
 		SmartPhones  func(childComplexity int) int
+		Test123      func(childComplexity int) int
 		UpdatedAt    func(childComplexity int) int
 	}
 
@@ -1421,6 +1423,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.SmartPhones(childComplexity), true
 
+	case "User.test123":
+		if e.complexity.User.Test123 == nil {
+			break
+		}
+
+		return e.complexity.User.Test123(childComplexity), true
+
 	case "User.updatedAt":
 		if e.complexity.User.UpdatedAt == nil {
 			break
@@ -1636,7 +1645,7 @@ var sources = []*ast.Source{
 	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION | OBJECT
 
 	scalar Time
-
+	scalar SqlDeletedAt
 # internal directive
 directive @SQL_INPUTTYPE_TAGS_INTERNAL (value: [String!]) on INPUT_FIELD_DEFINITION
 
@@ -2357,6 +2366,7 @@ input TimeFilterBetween{
   """
   input UserInput  @VALIDATE{
       name: String!  
+      test123: Test  
       cat: CatInput  
       companyID: Int  
       money: Float  
@@ -2371,6 +2381,7 @@ input TimeFilterBetween{
   """
   input UserPatch  @VALIDATE{
       name: String  
+      test123: Test  
       cat: CatPatch  
       companyID: Int  
       money: Float  
@@ -2459,7 +2470,6 @@ input TimeFilterBetween{
           name
           createdAt
           updatedAt
-          deletedAt
           companyID
           money
           favoritColor
@@ -2475,7 +2485,6 @@ input TimeFilterBetween{
           name: StringFilterInput
           createdAt: TimeFilterInput
           updatedAt: TimeFilterInput
-          deletedAt: TimeFilterInput
               cat:CatFiltersInput
           companyID: IntFilterInput
           money: FloatFilterInput
@@ -4525,6 +4534,8 @@ func (ec *executionContext) fieldContext_AddUserPayload_affected(ctx context.Con
 				return ec.fieldContext_User_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "test123":
+				return ec.fieldContext_User_test123(ctx, field)
 			case "cat":
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
@@ -7799,6 +7810,8 @@ func (ec *executionContext) fieldContext_Query_getUser(ctx context.Context, fiel
 				return ec.fieldContext_User_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "test123":
+				return ec.fieldContext_User_test123(ctx, field)
 			case "cat":
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
@@ -8475,6 +8488,8 @@ func (ec *executionContext) fieldContext_Todo_users(ctx context.Context, field g
 				return ec.fieldContext_User_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "test123":
+				return ec.fieldContext_User_test123(ctx, field)
 			case "cat":
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
@@ -8545,6 +8560,8 @@ func (ec *executionContext) fieldContext_Todo_owner(ctx context.Context, field g
 				return ec.fieldContext_User_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "test123":
+				return ec.fieldContext_User_test123(ctx, field)
 			case "cat":
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
@@ -9890,6 +9907,8 @@ func (ec *executionContext) fieldContext_UpdateUserPayload_affected(ctx context.
 				return ec.fieldContext_User_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "test123":
+				return ec.fieldContext_User_test123(ctx, field)
 			case "cat":
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
@@ -10102,11 +10121,14 @@ func (ec *executionContext) _User_deletedAt(ctx context.Context, field graphql.C
 		return graphql.Null
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
-	res := resTmp.(*time.Time)
+	res := resTmp.(gorm.DeletedAt)
 	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+	return ec.marshalNSqlDeletedAt2gormᚗioᚋgormᚐDeletedAt(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_User_deletedAt(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -10116,7 +10138,48 @@ func (ec *executionContext) fieldContext_User_deletedAt(ctx context.Context, fie
 		IsMethod:   false,
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
+			return nil, errors.New("field of type SqlDeletedAt does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _User_test123(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_test123(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Test123, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOTest2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_test123(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Test does not have child fields")
 		},
 	}
 	return fc, nil
@@ -10499,6 +10562,8 @@ func (ec *executionContext) fieldContext_UserQueryResult_data(ctx context.Contex
 				return ec.fieldContext_User_updatedAt(ctx, field)
 			case "deletedAt":
 				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "test123":
+				return ec.fieldContext_User_test123(ctx, field)
 			case "cat":
 				return ec.fieldContext_User_cat(ctx, field)
 			case "companyID":
@@ -14622,7 +14687,7 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14665,15 +14730,6 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 				return it, err
 			}
 			it.UpdatedAt = data
-		case "deletedAt":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("deletedAt"))
-			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.DeletedAt = data
 		case "cat":
 			var err error
 
@@ -14777,7 +14833,7 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
+	fieldsInOrder := [...]string{"name", "test123", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14804,6 +14860,30 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 				it.Name = data
 			} else {
 				err := fmt.Errorf(`unexpected type %T from directive, should be string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "test123":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("test123"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOTest2ᚖstring(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*string); ok {
+				it.Test123 = data
+			} else if tmp == nil {
+				it.Test123 = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
 			}
 		case "cat":
@@ -15029,7 +15109,7 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
+	fieldsInOrder := [...]string{"name", "test123", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -15056,6 +15136,30 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 				it.Name = data
 			} else if tmp == nil {
 				it.Name = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "test123":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("test123"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOTest2ᚖstring(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*string); ok {
+				it.Test123 = data
+			} else if tmp == nil {
+				it.Test123 = nil
 			} else {
 				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
@@ -17336,6 +17440,11 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			out.Values[i] = ec._User_updatedAt(ctx, field, obj)
 		case "deletedAt":
 			out.Values[i] = ec._User_deletedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				out.Invalids++
+			}
+		case "test123":
+			out.Values[i] = ec._User_test123(ctx, field, obj)
 		case "cat":
 			out.Values[i] = ec._User_cat(ctx, field, obj)
 		case "companyID":
@@ -18186,6 +18295,15 @@ func (ec *executionContext) marshalNSmartPhoneQueryResult2ᚖgithubᚗcomᚋfasi
 		return graphql.Null
 	}
 	return ec._SmartPhoneQueryResult(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNSqlDeletedAt2gormᚗioᚋgormᚐDeletedAt(ctx context.Context, v interface{}) (gorm.DeletedAt, error) {
+	res, err := ec.unmarshalInputSqlDeletedAt(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNSqlDeletedAt2gormᚗioᚋgormᚐDeletedAt(ctx context.Context, sel ast.SelectionSet, v gorm.DeletedAt) graphql.Marshaler {
+	return ec._SqlDeletedAt(ctx, sel, &v)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

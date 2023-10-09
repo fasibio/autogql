@@ -37,7 +37,8 @@ type User @SQL(order: 2) @SQL_INPUTTYPE_DIRECTIVE(value:" @VALIDATE"){
   name: String! 
   createdAt: Time
   updatedAt: Time
-  deletedAt: Time
+  deletedAt: SqlDeletedAt!
+  test123: Test
   cat: Cat @SQL_GORM(value:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;")
   companyID: Int
   money: Float

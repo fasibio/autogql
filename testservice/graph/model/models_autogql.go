@@ -4,8 +4,12 @@ package model
 
 import (
 	"fmt"
+	"io"
+	"time"
 
+	"github.com/99designs/gqlgen/graphql"
 	"github.com/mitchellh/mapstructure"
+	"gorm.io/gorm"
 )
 
 // GetInputStruct returns struct filled from map obj defined by name
@@ -251,6 +255,9 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 	if d.Name != nil {
 		res["name"] = *d.Name
 	}
+	if d.Test123 != nil {
+		res["test123"] = *d.Test123
+	}
 	if d.Cat != nil {
 		res["cat"] = d.Cat.MergeToType()
 	}
@@ -284,6 +291,11 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 func (d *UserInput) MergeToType() User {
 
 	tmpName := d.Name
+
+	var tmpTest123 string
+	if d.Test123 != nil {
+		tmpTest123 = *d.Test123
+	}
 
 	var tmpCat Cat
 	if d.Cat != nil {
@@ -322,6 +334,7 @@ func (d *UserInput) MergeToType() User {
 	tmpEmail := d.Email
 	return User{
 		Name:         tmpName,
+		Test123:      &tmpTest123,
 		Cat:          &tmpCat,
 		CompanyID:    tmpCompanyID,
 		Money:        tmpMoney,
@@ -330,4 +343,34 @@ func (d *UserInput) MergeToType() User {
 		FavoritColor: tmpFavoritColor,
 		Email:        tmpEmail,
 	}
+}
+
+func MarshalDeletedAt(d gorm.DeletedAt) graphql.Marshaler {
+	return graphql.WriterFunc(func(w io.Writer) {
+		w.Write([]byte(d.Time.String()))
+	})
+}
+
+func UnmarshalDeletedAt(v interface{}) (gorm.DeletedAt, error) {
+	switch v := v.(type) {
+	case string:
+		t, err := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", v)
+		if err != nil {
+			return gorm.DeletedAt{}, err
+		}
+		return gorm.DeletedAt{
+			Time:  t,
+			Valid: true,
+		}, nil
+	default:
+		return gorm.DeletedAt{}, fmt.Errorf("%T is not a gorm.DeletedAt", v)
+	}
+}
+
+func MarshalInputDeletedAt(d gorm.DeletedAt) graphql.Marshaler {
+	return MarshalDeletedAt(d)
+}
+
+func UnmarshalInputDeletedAt(v interface{}) (gorm.DeletedAt, error) {
+	return UnmarshalDeletedAt(v)
 }

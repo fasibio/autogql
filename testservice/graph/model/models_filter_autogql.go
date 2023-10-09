@@ -271,9 +271,6 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 	if d.UpdatedAt != nil {
 		res = append(res, d.UpdatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "updated_at"), true, blackList)...)
 	}
-	if d.DeletedAt != nil {
-		res = append(res, d.DeletedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "deleted_at"), true, blackList)...)
-	}
 	if d.Cat != nil {
 		if _, ok := blackList["Cat"]; !ok {
 			blackList["Cat"] = struct{}{}

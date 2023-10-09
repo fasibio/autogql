@@ -7,6 +7,8 @@ import (
 	"io"
 	"strconv"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 // AddCat result with filterable data and affected rows
@@ -485,18 +487,19 @@ type UpdateUserPayload struct {
 }
 
 type User struct {
-	ID           int           `json:"id" gorm:"primaryKey;autoIncrement;"`
-	Name         string        `json:"name"`
-	CreatedAt    *time.Time    `json:"createdAt,omitempty"`
-	UpdatedAt    *time.Time    `json:"updatedAt,omitempty"`
-	DeletedAt    *time.Time    `json:"deletedAt,omitempty"`
-	Cat          *Cat          `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
-	CompanyID    *int          `json:"companyID,omitempty"`
-	Money        *float64      `json:"money,omitempty"`
-	Company      *Company      `json:"company,omitempty"`
-	SmartPhones  []*SmartPhone `json:"smartPhones,omitempty"`
-	FavoritColor *string       `json:"favoritColor,omitempty"`
-	Email        string        `json:"email"`
+	ID           int            `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Name         string         `json:"name"`
+	CreatedAt    *time.Time     `json:"createdAt,omitempty"`
+	UpdatedAt    *time.Time     `json:"updatedAt,omitempty"`
+	DeletedAt    gorm.DeletedAt `json:"deletedAt"`
+	Test123      *string        `json:"test123,omitempty"`
+	Cat          *Cat           `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
+	CompanyID    *int           `json:"companyID,omitempty"`
+	Money        *float64       `json:"money,omitempty"`
+	Company      *Company       `json:"company,omitempty"`
+	SmartPhones  []*SmartPhone  `json:"smartPhones,omitempty"`
+	FavoritColor *string        `json:"favoritColor,omitempty"`
+	Email        string         `json:"email"`
 }
 
 // Filter input selection for User
@@ -506,7 +509,6 @@ type UserFiltersInput struct {
 	Name         *StringFilterInput      `json:"name,omitempty"`
 	CreatedAt    *TimeFilterInput        `json:"createdAt,omitempty"`
 	UpdatedAt    *TimeFilterInput        `json:"updatedAt,omitempty"`
-	DeletedAt    *TimeFilterInput        `json:"deletedAt,omitempty"`
 	Cat          *CatFiltersInput        `json:"cat,omitempty"`
 	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
 	Money        *FloatFilterInput       `json:"money,omitempty"`
@@ -522,6 +524,7 @@ type UserFiltersInput struct {
 // User Input value to add new User
 type UserInput struct {
 	Name         string             `json:"name"`
+	Test123      *string            `json:"test123,omitempty"`
 	Cat          *CatInput          `json:"cat,omitempty"`
 	CompanyID    *int               `json:"companyID,omitempty"`
 	Money        *float64           `json:"money,omitempty"`
@@ -540,6 +543,7 @@ type UserOrder struct {
 // User Patch value all values are optional to update User entities
 type UserPatch struct {
 	Name         *string            `json:"name,omitempty"`
+	Test123      *string            `json:"test123,omitempty"`
 	Cat          *CatPatch          `json:"cat,omitempty"`
 	CompanyID    *int               `json:"companyID,omitempty"`
 	Money        *float64           `json:"money,omitempty"`
@@ -995,7 +999,6 @@ const (
 	UserGroupName         UserGroup = "name"
 	UserGroupCreatedAt    UserGroup = "createdAt"
 	UserGroupUpdatedAt    UserGroup = "updatedAt"
-	UserGroupDeletedAt    UserGroup = "deletedAt"
 	UserGroupCompanyID    UserGroup = "companyID"
 	UserGroupMoney        UserGroup = "money"
 	UserGroupFavoritColor UserGroup = "favoritColor"
@@ -1007,7 +1010,6 @@ var AllUserGroup = []UserGroup{
 	UserGroupName,
 	UserGroupCreatedAt,
 	UserGroupUpdatedAt,
-	UserGroupDeletedAt,
 	UserGroupCompanyID,
 	UserGroupMoney,
 	UserGroupFavoritColor,
@@ -1016,7 +1018,7 @@ var AllUserGroup = []UserGroup{
 
 func (e UserGroup) IsValid() bool {
 	switch e {
-	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail:
+	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail:
 		return true
 	}
 	return false

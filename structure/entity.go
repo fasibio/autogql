@@ -73,6 +73,10 @@ func (e Entity) Ignore() bool {
 	if e.HasGormDirective() {
 		return e.GormDirectiveValue() == "-"
 	}
+
+	if e.Raw.Type.NamedType == "SqlDeletedAt" {
+		return true
+	}
 	return false
 }
 

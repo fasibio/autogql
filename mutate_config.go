@@ -24,6 +24,7 @@ func (ggs *AutoGqlPlugin) MutateConfig(cfg *config.Config) error {
 	cfg.Directives[string(structure.DirectiveSQLInputTypeTags)] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveSQLInputTypeTags.InternalName())] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveSQLInputTypeDirective)] = config.DirectiveConfig{SkipRuntime: true}
+	cfg.Models.Add("SqlDeletedAt", "gorm.io/gorm.DeletedAt")
 	for k := range ggs.Handler.List {
 		makeResolverFor := []string{fmt.Sprintf("Add%sPayload", k), fmt.Sprintf("Update%sPayload", k), fmt.Sprintf("Delete%sPayload", k)}
 		for _, r := range makeResolverFor {

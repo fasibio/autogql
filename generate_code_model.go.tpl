@@ -1,8 +1,10 @@
 
 {{ reserveImport "fmt"  }}
 {{ reserveImport "time"  }}
+{{ reserveImport "io"  }}
 {{ reserveImport "github.com/99designs/gqlgen/graphql"  }}
 {{ reserveImport "github.com/mitchellh/mapstructure"  }}
+{{ reserveImport "gorm.io/gorm"  }}
 
 {{- $root := .}}
 {{- $input2TypeName := "MergeToType"}}
@@ -155,3 +157,34 @@ func GetInputStruct(name string, obj map[string]interface{}) (interface{}, error
     }
   {{- end}}
 {{- end}}
+
+
+func MarshalDeletedAt(d gorm.DeletedAt) graphql.Marshaler {
+	return graphql.WriterFunc(func(w io.Writer) {
+    w.Write([]byte(d.Time.String()))
+	})
+}
+
+func UnmarshalDeletedAt(v interface{}) (gorm.DeletedAt, error) {
+	switch v := v.(type) {
+	case string:
+		t, err := time.Parse("2006-01-02 15:04:05.999999999 -0700 MST", v)
+    if err != nil {
+      return gorm.DeletedAt{},err 
+    }
+    return gorm.DeletedAt{
+      Time: t,
+			Valid: true,
+    },nil
+	default:
+		return gorm.DeletedAt{}, fmt.Errorf("%T is not a gorm.DeletedAt", v)
+	}
+}
+
+func MarshalInputDeletedAt(d gorm.DeletedAt) graphql.Marshaler {
+	return MarshalDeletedAt(d)
+}
+
+func UnmarshalInputDeletedAt(v interface{}) (gorm.DeletedAt, error) {
+  return UnmarshalDeletedAt(v)
+}
