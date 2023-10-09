@@ -275,6 +275,30 @@ type DeleteUserPayload {
   msg: String
 }
 
+"""Filter between start and end (start > value < end)"""
+input FloatFilterBetween {
+  start: Float!
+  end: Float!
+}
+
+"""Float Filter simple datatypes"""
+input FloatFilterInput {
+  and: [Float]
+  or: [Float]
+  not: FloatFilterInput
+  eq: Float
+  ne: Float
+  gt: Float
+  gte: Float
+  lt: Float
+  lte: Float
+  null: Boolean
+  notNull: Boolean
+  in: [Float]
+  notIn: [Float]
+  between: FloatFilterBetween
+}
+
 """ID Filter simple datatypes"""
 input IDFilterInput {
   and: [ID]
@@ -736,6 +760,7 @@ type User {
   deletedAt: Time
   cat: Cat
   companyID: Int
+  money: Float
   company: Company
   smartPhones: [SmartPhone]
   favoritColor: String
@@ -754,6 +779,7 @@ input UserFiltersInput {
   deletedAt: TimeFilterInput
   cat: CatFiltersInput
   companyID: IntFilterInput
+  money: FloatFilterInput
   company: CompanyFiltersInput
   smartPhones: SmartPhoneFiltersInput
   favoritColor: StringFilterInput
@@ -774,6 +800,7 @@ enum UserGroup {
   updatedAt
   deletedAt
   companyID
+  money
   favoritColor
   email
 }
@@ -783,6 +810,7 @@ input UserInput {
   name: String!
   cat: CatInput
   companyID: Int
+  money: Float
   company: CompanyInput
   smartPhones: [SmartPhoneInput!]
   favoritColor: String
@@ -803,6 +831,7 @@ enum UserOrderable {
   id
   name
   companyID
+  money
   favoritColor
   email
 }
@@ -812,6 +841,7 @@ input UserPatch {
   name: String
   cat: CatPatch
   companyID: Int
+  money: Float
   company: CompanyPatch
   smartPhones: [SmartPhonePatch!]
   favoritColor: String

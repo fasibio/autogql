@@ -92,22 +92,29 @@ func (suite *QueryTestSuite) AddCompanies(t *testing.T) {
 	snaps.MatchSnapshot(t, resp)
 }
 
+func getFloatRef(v float64) *float64 {
+	return &v
+}
+
 func (suite *QueryTestSuite) AddUsers(t *testing.T) {
 	resp, err := addUsers(context.TODO(), suite.Client, []*UserInput{
 		{
 			Name:      "Jan",
 			CompanyID: getPointerOf(1),
 			Email:     "test@mail.com",
+			Money:     getFloatRef(10.2),
 		},
 		{
 			Name:      "Klaas",
 			CompanyID: getPointerOf(1),
 			Email:     "test@mail.com",
+			Money:     getFloatRef(6.5),
 		},
 		{
 			Name:      "Peter",
 			CompanyID: getPointerOf(1),
 			Email:     "test@mail.com",
+			Money:     getFloatRef(200.2),
 		},
 		{
 			Name:      "Schmadel",
@@ -288,6 +295,9 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 	}))
 	suite.T().Run("getUserById => 2", queryTester(func() (any, error) {
 		return getUserById(context.Background(), suite.Client, "2")
+	}))
+	suite.T().Run("queryUserByMoneyFilterAndBetween", queryTester(func() (any, error) {
+		return queryUserByMoneyFilterAndBetween(context.Background(), suite.Client)
 	}))
 	suite.T().Run("getUserById => 5", queryTester(func() (any, error) {
 		return getUserById(context.Background(), suite.Client, "5")

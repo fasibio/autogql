@@ -42,8 +42,12 @@ func CombineSimpleQuery(elements []ConditionElement, relation Relation) (string,
 			}
 		} else {
 			if len(query.Children) == 0 {
-				sql += fmt.Sprintf(" %s %s %s ?", relation, query.Field, query.Operator)
-				values = append(values, query.Value...)
+				if len(query.Value) == 0 {
+					sql += fmt.Sprintf(" %s %s %s", relation, query.Field, query.Operator)
+				} else {
+					sql += fmt.Sprintf(" %s %s %s ?", relation, query.Field, query.Operator)
+					values = append(values, query.Value...)
+				}
 			} else {
 				querySql, queryValues := CombineSimpleQuery(query.Children, query.ChildrenRelation)
 				sql += fmt.Sprintf(" %s (%s)", relation, querySql)
@@ -101,16 +105,16 @@ func NotIn(field string, value interface{}) ConditionElement {
 	return NewConditionElement("NOT IN", field, value)
 }
 
-func NotNull(field string, value interface{}) ConditionElement {
+func NotNull(field string) ConditionElement {
 	return NewConditionElement("IS NOT NULL", field)
 }
 
-func Null(field string, value interface{}) ConditionElement {
+func Null(field string) ConditionElement {
 	return NewConditionElement("IS NULL", field)
 }
 
 func Between(field string, start, end interface{}) ConditionElement {
-	return NewConditionElement("BETWEEN ? AND ?", field, start, end)
+	return NewConditionElement("BETWEEN ? AND", field, start, end)
 }
 
 func NewConditionElement(operator, field string, value ...interface{}) ConditionElement {
