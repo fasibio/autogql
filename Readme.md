@@ -10,6 +10,8 @@ AutoGQL is a GraphQL GORM CRUD generator. It's a plugin for 99designs/gqlgen tha
 ```golang
 package main
 
+
+
 import (
 	"fmt"
 	"os"
