@@ -497,6 +497,7 @@ type User struct {
 	SmartPhones  []*SmartPhone `json:"smartPhones,omitempty"`
 	FavoritColor *string       `json:"favoritColor,omitempty"`
 	Email        string        `json:"email"`
+	OtherDate    *time.Time    `json:"otherDate,omitempty"`
 }
 
 // Filter input selection for User
@@ -514,6 +515,7 @@ type UserFiltersInput struct {
 	SmartPhones  *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
 	FavoritColor *StringFilterInput      `json:"favoritColor,omitempty"`
 	Email        *StringFilterInput      `json:"email,omitempty"`
+	OtherDate    *TimeFilterInput        `json:"otherDate,omitempty"`
 	And          []*UserFiltersInput     `json:"and,omitempty"`
 	Or           []*UserFiltersInput     `json:"or,omitempty"`
 	Not          *UserFiltersInput       `json:"not,omitempty"`
@@ -529,6 +531,7 @@ type UserInput struct {
 	SmartPhones  []*SmartPhoneInput `json:"smartPhones,omitempty"`
 	FavoritColor *string            `json:"favoritColor,omitempty" validate:"omitempty,hexcolor|rgb|rgba"`
 	Email        string             `json:"email" validate:"required,email"`
+	OtherDate    *time.Time         `json:"otherDate,omitempty"`
 }
 
 // Order User by asc or desc
@@ -547,6 +550,7 @@ type UserPatch struct {
 	SmartPhones  []*SmartPhonePatch `json:"smartPhones,omitempty"`
 	FavoritColor *string            `json:"favoritColor,omitempty" validate:"omitempty,hexcolor|rgb|rgba"`
 	Email        *string            `json:"email,omitempty" validate:"required,email"`
+	OtherDate    *time.Time         `json:"otherDate,omitempty"`
 }
 
 // User result
@@ -1000,6 +1004,7 @@ const (
 	UserGroupMoney        UserGroup = "money"
 	UserGroupFavoritColor UserGroup = "favoritColor"
 	UserGroupEmail        UserGroup = "email"
+	UserGroupOtherDate    UserGroup = "otherDate"
 )
 
 var AllUserGroup = []UserGroup{
@@ -1012,11 +1017,12 @@ var AllUserGroup = []UserGroup{
 	UserGroupMoney,
 	UserGroupFavoritColor,
 	UserGroupEmail,
+	UserGroupOtherDate,
 }
 
 func (e UserGroup) IsValid() bool {
 	switch e {
-	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail:
+	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail, UserGroupOtherDate:
 		return true
 	}
 	return false

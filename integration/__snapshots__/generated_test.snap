@@ -8405,6 +8405,21 @@
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
                         },
+                        &integration.FullTypeFieldsField{
+                            Name:        "otherDate",
+                            Description: (*string)(nil),
+                            Args:        {
+                            },
+                            Type: &integration.FullTypeFieldsFieldType{
+                                TypeRef: integration.TypeRef{
+                                    Kind:   "SCALAR",
+                                    Name:   &"Time",
+                                    OfType: (*integration.TypeRefOfType)(nil),
+                                },
+                            },
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
                     },
                     InputFields: {
                     },
@@ -8594,6 +8609,20 @@
                         },
                         &integration.FullTypeInputFieldsInputValue{
                             InputValue: integration.InputValue{
+                                Name:        "otherDate",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "INPUT_OBJECT",
+                                        Name:   &"TimeFilterInput",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
                                 Name:        "and",
                                 Description: (*string)(nil),
                                 Type:        &integration.InputValueType{
@@ -8713,6 +8742,12 @@
                         },
                         &integration.FullTypeEnumValuesEnumValue{
                             Name:              "email",
+                            Description:       (*string)(nil),
+                            IsDeprecated:      false,
+                            DeprecationReason: (*string)(nil),
+                        },
+                        &integration.FullTypeEnumValuesEnumValue{
+                            Name:              "otherDate",
                             Description:       (*string)(nil),
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
@@ -8853,6 +8888,20 @@
                                             Name:   &"String",
                                             OfType: (*integration.TypeRefOfTypeOfType)(nil),
                                         },
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "otherDate",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
+                                        OfType: (*integration.TypeRefOfType)(nil),
                                     },
                                 },
                                 DefaultValue: (*string)(nil),
@@ -9087,6 +9136,20 @@
                                     TypeRef: integration.TypeRef{
                                         Kind:   "SCALAR",
                                         Name:   &"String",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "otherDate",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
                                         OfType: (*integration.TypeRefOfType)(nil),
                                     },
                                 },

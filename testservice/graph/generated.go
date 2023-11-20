@@ -261,6 +261,7 @@ type ComplexityRoot struct {
 		ID           func(childComplexity int) int
 		Money        func(childComplexity int) int
 		Name         func(childComplexity int) int
+		OtherDate    func(childComplexity int) int
 		SmartPhones  func(childComplexity int) int
 		UpdatedAt    func(childComplexity int) int
 	}
@@ -1414,6 +1415,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Name(childComplexity), true
 
+	case "User.otherDate":
+		if e.complexity.User.OtherDate == nil {
+			break
+		}
+
+		return e.complexity.User.OtherDate(childComplexity), true
+
 	case "User.smartPhones":
 		if e.complexity.User.SmartPhones == nil {
 			break
@@ -2364,6 +2372,7 @@ input TimeFilterBetween{
       smartPhones: [SmartPhoneInput!]  
       favoritColor: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"omitempty,hexcolor|rgb|rgba\""]) 
       email: String! @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required,email\""]) 
+      otherDate: Time  
   }
 
   """
@@ -2378,6 +2387,7 @@ input TimeFilterBetween{
       smartPhones: [SmartPhonePatch!]  
       favoritColor: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"omitempty,hexcolor|rgb|rgba\""]) 
       email: String @SQL_INPUTTYPE_TAGS_INTERNAL(value: ["validate:\"required,email\""]) 
+      otherDate: Time  
   } 
 
 
@@ -2464,6 +2474,7 @@ input TimeFilterBetween{
           money
           favoritColor
           email
+          otherDate
     }
 
     """
@@ -2483,6 +2494,7 @@ input TimeFilterBetween{
               smartPhones:SmartPhoneFiltersInput
           favoritColor: StringFilterInput
           email: StringFilterInput
+          otherDate: TimeFilterInput
       and: [UserFiltersInput]
       or: [UserFiltersInput]
       not: UserFiltersInput
@@ -4539,6 +4551,8 @@ func (ec *executionContext) fieldContext_AddUserPayload_affected(ctx context.Con
 				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "otherDate":
+				return ec.fieldContext_User_otherDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -7813,6 +7827,8 @@ func (ec *executionContext) fieldContext_Query_getUser(ctx context.Context, fiel
 				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "otherDate":
+				return ec.fieldContext_User_otherDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -8489,6 +8505,8 @@ func (ec *executionContext) fieldContext_Todo_users(ctx context.Context, field g
 				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "otherDate":
+				return ec.fieldContext_User_otherDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -8559,6 +8577,8 @@ func (ec *executionContext) fieldContext_Todo_owner(ctx context.Context, field g
 				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "otherDate":
+				return ec.fieldContext_User_otherDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -9904,6 +9924,8 @@ func (ec *executionContext) fieldContext_UpdateUserPayload_affected(ctx context.
 				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "otherDate":
+				return ec.fieldContext_User_otherDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -10450,6 +10472,47 @@ func (ec *executionContext) fieldContext_User_email(ctx context.Context, field g
 	return fc, nil
 }
 
+func (ec *executionContext) _User_otherDate(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_User_otherDate(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OtherDate, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_User_otherDate(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _UserQueryResult_data(ctx context.Context, field graphql.CollectedField, obj *model.UserQueryResult) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_UserQueryResult_data(ctx, field)
 	if err != nil {
@@ -10513,6 +10576,8 @@ func (ec *executionContext) fieldContext_UserQueryResult_data(ctx context.Contex
 				return ec.fieldContext_User_favoritColor(ctx, field)
 			case "email":
 				return ec.fieldContext_User_email(ctx, field)
+			case "otherDate":
+				return ec.fieldContext_User_otherDate(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
@@ -14622,7 +14687,7 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "otherDate", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14737,6 +14802,15 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 				return it, err
 			}
 			it.Email = data
+		case "otherDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("otherDate"))
+			data, err := ec.unmarshalOTimeFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐTimeFilterInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.OtherDate = data
 		case "and":
 			var err error
 
@@ -14777,7 +14851,7 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "otherDate"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14978,6 +15052,30 @@ func (ec *executionContext) unmarshalInputUserInput(ctx context.Context, obj int
 				err := fmt.Errorf(`unexpected type %T from directive, should be string`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
 			}
+		case "otherDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("otherDate"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*time.Time); ok {
+				it.OtherDate = data
+			} else if tmp == nil {
+				it.OtherDate = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *time.Time`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		}
 	}
 
@@ -15029,7 +15127,7 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email"}
+	fieldsInOrder := [...]string{"name", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "otherDate"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -15232,6 +15330,30 @@ func (ec *executionContext) unmarshalInputUserPatch(ctx context.Context, obj int
 				it.Email = nil
 			} else {
 				err := fmt.Errorf(`unexpected type %T from directive, should be *string`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+		case "otherDate":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("otherDate"))
+			directive0 := func(ctx context.Context) (interface{}, error) { return ec.unmarshalOTime2ᚖtimeᚐTime(ctx, v) }
+			directive1 := func(ctx context.Context) (interface{}, error) {
+				if ec.directives.VALIDATE == nil {
+					return nil, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.(*time.Time); ok {
+				it.OtherDate = data
+			} else if tmp == nil {
+				it.OtherDate = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be *time.Time`, tmp)
 				return it, graphql.ErrorOnPath(ctx, err)
 			}
 		}
@@ -17353,6 +17475,8 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				out.Invalids++
 			}
+		case "otherDate":
+			out.Values[i] = ec._User_otherDate(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

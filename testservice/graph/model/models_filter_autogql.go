@@ -328,6 +328,9 @@ func (d *UserFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, deep 
 	if d.Email != nil {
 		res = append(res, d.Email.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "email"), true, blackList)...)
 	}
+	if d.OtherDate != nil {
+		res = append(res, d.OtherDate.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "other_date"), true, blackList)...)
+	}
 
 	return res
 }

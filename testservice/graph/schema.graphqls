@@ -45,7 +45,7 @@ type User @SQL(order: 2) @SQL_INPUTTYPE_DIRECTIVE(value:" @VALIDATE"){
   smartPhones: [SmartPhone]
   favoritColor: String @SQL_INPUTTYPE_TAGS(value:"validate:\"omitempty,hexcolor|rgb|rgba\"") 
   email: String! @SQL_INPUTTYPE_TAGS(value:"validate:\"required,email\"") 
-
+  otherDate: Time
 }
 
 type Company @SQL(order: 1){

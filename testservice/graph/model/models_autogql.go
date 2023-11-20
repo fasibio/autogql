@@ -4,6 +4,7 @@ package model
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/mitchellh/mapstructure"
 )
@@ -277,6 +278,9 @@ func (d *UserPatch) MergeToType() map[string]interface{} {
 	if d.Email != nil {
 		res["email"] = *d.Email
 	}
+	if d.OtherDate != nil {
+		res["other_date"] = d.OtherDate
+	}
 	return res
 }
 
@@ -320,6 +324,11 @@ func (d *UserInput) MergeToType() User {
 	}
 
 	tmpEmail := d.Email
+
+	var tmpOtherDate *time.Time
+	if d.OtherDate != nil {
+		tmpOtherDate = d.OtherDate
+	}
 	return User{
 		Name:         tmpName,
 		Cat:          &tmpCat,
@@ -329,5 +338,6 @@ func (d *UserInput) MergeToType() User {
 		SmartPhones:  tmpSmartPhones,
 		FavoritColor: tmpFavoritColor,
 		Email:        tmpEmail,
+		OtherDate:    tmpOtherDate,
 	}
 }

@@ -116,7 +116,7 @@ func (db *GenerateData) GetGoFieldType(typeName string, v structure.Entity, root
 					if rootType {
 						return strings.TrimLeft(trimStructPath(fv.Type.String()), "*")
 					}
-					return trimStructPath(fv.Type.String())
+					return fv.Type.String()
 				}
 			}
 		}
