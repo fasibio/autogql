@@ -17,13 +17,13 @@ changelog:
   use: github
   groups:
     - title: Features
-      regexp: '^.*?feat(\([[:word:]]+\))??!?:.+$'
+      regexp: 'feat ?(\(.+\))? ?: ?.{1,}'
       order: 0
     - title: 'Bug fixes'
-      regexp: '^.*?fix(\([[:word:]]+\))??!?:.+$'
+      regexp: 'fix ?(\(.+\))? ?: ?.{1,}'
       order: 1
     - title: 'Refactor'
-      regexp: '^.*?refactor(\([[:word:]]+\))??!?:.+$'
+      regexp: 'refactor ?(\(.+\))? ?: ?.{1,}'
       order: 2
     - title: Others
       order: 999
