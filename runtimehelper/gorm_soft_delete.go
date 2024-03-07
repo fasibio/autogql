@@ -3,6 +3,7 @@ package runtimehelper
 import (
 	"fmt"
 	"io"
+	"log"
 	"time"
 
 	"gorm.io/gorm"
@@ -29,5 +30,8 @@ func (y *SoftDelete) UnmarshalGQL(v interface{}) error {
 
 // MarshalGQL implements the graphql.Marshaler interface
 func (y SoftDelete) MarshalGQL(w io.Writer) {
-	w.Write([]byte(y.Time.Format(time.RFC3339)))
+	_, err := w.Write([]byte(y.Time.Format(time.RFC3339)))
+	if err != nil {
+		log.Println(err)
+	}
 }
