@@ -8743,20 +8743,6 @@
                         },
                         &integration.FullTypeInputFieldsInputValue{
                             InputValue: integration.InputValue{
-                                Name:        "deletedAt",
-                                Description: (*string)(nil),
-                                Type:        &integration.InputValueType{
-                                    TypeRef: integration.TypeRef{
-                                        Kind:   "INPUT_OBJECT",
-                                        Name:   &"SoftDeleteFilterInput",
-                                        OfType: (*integration.TypeRefOfType)(nil),
-                                    },
-                                },
-                                DefaultValue: (*string)(nil),
-                            },
-                        },
-                        &integration.FullTypeInputFieldsInputValue{
-                            InputValue: integration.InputValue{
                                 Name:        "cat",
                                 Description: (*string)(nil),
                                 Type:        &integration.InputValueType{
@@ -8958,12 +8944,6 @@
                         },
                         &integration.FullTypeEnumValuesEnumValue{
                             Name:              "updatedAt",
-                            Description:       (*string)(nil),
-                            IsDeprecated:      false,
-                            DeprecationReason: (*string)(nil),
-                        },
-                        &integration.FullTypeEnumValuesEnumValue{
-                            Name:              "deletedAt",
                             Description:       (*string)(nil),
                             IsDeprecated:      false,
                             DeprecationReason: (*string)(nil),
