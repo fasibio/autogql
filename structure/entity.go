@@ -69,10 +69,18 @@ func (e Entity) Many2ManyDirectiveTable() string {
 	return table
 }
 
+func (e Entity) IsSoftDeletedAtEntry() bool {
+	return e.Name() == "deletedAt" && e.RawObject.Name == "SoftDelete"
+}
+
 func (e Entity) Ignore() bool {
 	if e.HasGormDirective() {
 		return e.GormDirectiveValue() == "-"
 	}
+	if e.IsSoftDeletedAtEntry() {
+		return true
+	}
+
 	return false
 }
 

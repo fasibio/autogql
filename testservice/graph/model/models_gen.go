@@ -533,7 +533,6 @@ type UserFiltersInput struct {
 	Name         *StringFilterInput      `json:"name,omitempty"`
 	CreatedAt    *TimeFilterInput        `json:"createdAt,omitempty"`
 	UpdatedAt    *TimeFilterInput        `json:"updatedAt,omitempty"`
-	DeletedAt    *SoftDeleteFilterInput  `json:"deletedAt,omitempty"`
 	Cat          *CatFiltersInput        `json:"cat,omitempty"`
 	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
 	Money        *FloatFilterInput       `json:"money,omitempty"`
@@ -1025,7 +1024,6 @@ const (
 	UserGroupName         UserGroup = "name"
 	UserGroupCreatedAt    UserGroup = "createdAt"
 	UserGroupUpdatedAt    UserGroup = "updatedAt"
-	UserGroupDeletedAt    UserGroup = "deletedAt"
 	UserGroupCompanyID    UserGroup = "companyID"
 	UserGroupMoney        UserGroup = "money"
 	UserGroupFavoritColor UserGroup = "favoritColor"
@@ -1038,7 +1036,6 @@ var AllUserGroup = []UserGroup{
 	UserGroupName,
 	UserGroupCreatedAt,
 	UserGroupUpdatedAt,
-	UserGroupDeletedAt,
 	UserGroupCompanyID,
 	UserGroupMoney,
 	UserGroupFavoritColor,
@@ -1048,7 +1045,7 @@ var AllUserGroup = []UserGroup{
 
 func (e UserGroup) IsValid() bool {
 	switch e {
-	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail, UserGroupOtherDate:
+	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail, UserGroupOtherDate:
 		return true
 	}
 	return false

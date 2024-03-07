@@ -2498,7 +2498,6 @@ input TimeFilterBetween{
           name
           createdAt
           updatedAt
-          deletedAt
           companyID
           money
           favoritColor
@@ -2515,7 +2514,6 @@ input TimeFilterBetween{
           name: StringFilterInput
           createdAt: TimeFilterInput
           updatedAt: TimeFilterInput
-          deletedAt: SoftDeleteFilterInput
               cat:CatFiltersInput
           companyID: IntFilterInput
           money: FloatFilterInput
@@ -14488,7 +14486,7 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "deletedAt", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "otherDate", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "createdAt", "updatedAt", "cat", "companyID", "money", "company", "smartPhones", "favoritColor", "email", "otherDate", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -14523,13 +14521,6 @@ func (ec *executionContext) unmarshalInputUserFiltersInput(ctx context.Context, 
 				return it, err
 			}
 			it.UpdatedAt = data
-		case "deletedAt":
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("deletedAt"))
-			data, err := ec.unmarshalOSoftDeleteFilterInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐSoftDeleteFilterInput(ctx, v)
-			if err != nil {
-				return it, err
-			}
-			it.DeletedAt = data
 		case "cat":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("cat"))
 			data, err := ec.unmarshalOCatFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCatFiltersInput(ctx, v)
