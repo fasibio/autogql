@@ -43,6 +43,7 @@ func (ggs *AutoGqlPlugin) InjectSourceEarly() *ast.Source {
 	directive @%s (value: [String!]) on FIELD_DEFINITION | OBJECT
 
 	scalar Time
+	scalar SoftDelete
 
 # internal directive
 directive @%s (value: [String!]) on INPUT_FIELD_DEFINITION

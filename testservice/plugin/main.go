@@ -16,7 +16,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "failed to load config", err.Error())
 		os.Exit(2)
 	}
-	sqlPlugin, muateHookPlugin := autogql.NewAutoGqlPlugin()
+	sqlPlugin, muateHookPlugin := autogql.NewAutoGqlPlugin(cfg)
 	err = api.Generate(cfg, api.AddPlugin(sqlPlugin), api.ReplacePlugin(muateHookPlugin))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())

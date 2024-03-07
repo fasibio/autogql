@@ -126,6 +126,26 @@ input TimeFilterInput {
 }
 
 """
+SoftDelete {{ $commentFilterText }}
+"""
+input SoftDeleteFilterInput {
+  and: [Time]
+  or: [Time]
+  not: SoftDeleteFilterInput
+  eq: Time
+  ne: Time
+  gt: Time
+  gte: Time
+  lt: Time
+  lte: Time
+  null: Boolean
+  notNull: Boolean
+  in: [Time]
+  notIn: [Time]
+  between: TimeFilterBetween
+}
+
+"""
 Filter between start and end (start > value < end)
 """
 input TimeFilterBetween{

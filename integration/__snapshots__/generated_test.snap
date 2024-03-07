@@ -5511,6 +5511,252 @@
             },
             &integration.IntrospectionQuerySchemaTypesType{
                 FullType: integration.FullType{
+                    Kind:        "SCALAR",
+                    Name:        &"SoftDelete",
+                    Description: (*string)(nil),
+                    Fields:      {
+                    },
+                    InputFields: {
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
+                    Kind:        "INPUT_OBJECT",
+                    Name:        &"SoftDeleteFilterInput",
+                    Description: &"SoftDelete Filter simple datatypes",
+                    Fields:      {
+                    },
+                    InputFields: {
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "and",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfType{
+                                            Kind:   "SCALAR",
+                                            Name:   &"Time",
+                                            OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "or",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfType{
+                                            Kind:   "SCALAR",
+                                            Name:   &"Time",
+                                            OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "not",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "INPUT_OBJECT",
+                                        Name:   &"SoftDeleteFilterInput",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "eq",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "ne",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "gt",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "gte",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "lt",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "lte",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Time",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "null",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Boolean",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "notNull",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "SCALAR",
+                                        Name:   &"Boolean",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "in",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfType{
+                                            Kind:   "SCALAR",
+                                            Name:   &"Time",
+                                            OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "notIn",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "LIST",
+                                        Name:   (*string)(nil),
+                                        OfType: &integration.TypeRefOfType{
+                                            Kind:   "SCALAR",
+                                            Name:   &"Time",
+                                            OfType: (*integration.TypeRefOfTypeOfType)(nil),
+                                        },
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                        &integration.FullTypeInputFieldsInputValue{
+                            InputValue: integration.InputValue{
+                                Name:        "between",
+                                Description: (*string)(nil),
+                                Type:        &integration.InputValueType{
+                                    TypeRef: integration.TypeRef{
+                                        Kind:   "INPUT_OBJECT",
+                                        Name:   &"TimeFilterBetween",
+                                        OfType: (*integration.TypeRefOfType)(nil),
+                                    },
+                                },
+                                DefaultValue: (*string)(nil),
+                            },
+                        },
+                    },
+                    Interfaces: {
+                    },
+                    EnumValues: {
+                    },
+                    PossibleTypes: {
+                    },
+                },
+            },
+            &integration.IntrospectionQuerySchemaTypesType{
+                FullType: integration.FullType{
                     Kind:        "INPUT_OBJECT",
                     Name:        &"SqlCreateExtension",
                     Description: (*string)(nil),
@@ -8285,7 +8531,7 @@
                             Type: &integration.FullTypeFieldsFieldType{
                                 TypeRef: integration.TypeRef{
                                     Kind:   "SCALAR",
-                                    Name:   &"Time",
+                                    Name:   &"SoftDelete",
                                     OfType: (*integration.TypeRefOfType)(nil),
                                 },
                             },
@@ -8502,7 +8748,7 @@
                                 Type:        &integration.InputValueType{
                                     TypeRef: integration.TypeRef{
                                         Kind:   "INPUT_OBJECT",
-                                        Name:   &"TimeFilterInput",
+                                        Name:   &"SoftDeleteFilterInput",
                                         OfType: (*integration.TypeRefOfType)(nil),
                                     },
                                 },
