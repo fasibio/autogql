@@ -61,7 +61,7 @@ func ConstraintFieldHook(ggs *AutoGqlPlugin) func(td *ast.Definition, fd *ast.Fi
 						if e.IsPrimary() {
 							sb.WriteString("primaryKey;")
 						}
-						if fd.Directives.ForName(string(structure.DirectiveSQLIndex)) != nil {
+						if fd.Directives.ForName(string(structure.DirectiveSQLIndex)) != nil || (e.IsSoftDeletedAtEntry()) {
 							sb.WriteString("index;")
 						}
 						if d := fd.Directives.ForName(string(structure.DirectiveSQLGorm)); d != nil {

@@ -28,7 +28,7 @@ func main() {
 		fmt.Fprintln(os.Stderr, "failed to load config", err.Error())
 		os.Exit(2)
 	}
-	sqlPlugin, muateHookPlugin := autogql.NewAutoGqlPlugin()
+	sqlPlugin, muateHookPlugin := autogql.NewAutoGqlPlugin(cfg)
 	err = api.Generate(cfg, api.AddPlugin(sqlPlugin), api.ReplacePlugin(muateHookPlugin))
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err.Error())
@@ -108,7 +108,7 @@ type User @SQL{
 	id: Int! @SQL_PRIMARY @SQL_GORM(value: "autoIncrement")
 	createdAt: Time
 	updatedAt: Time
-	deletedAt: Time @SQL_INDEX
+	deletedAt: SoftDelete #activate softdelete
 	name: String
 	calculation: Int! @SQL_GORM(value: "-")
 }
@@ -135,7 +135,7 @@ type User @SQL(order: 2){
   name: String!
   createdAt: Time
   updatedAt: Time
-  deletedAt: Time
+  deletedAt: SoftDelete #activate softdelete
   cat: Cat @SQL_GORM(value:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;")# <--- cat defintion. SQL_GORM not needed for relation only a constraint line
   companyID: Int
   company: Company
@@ -204,7 +204,8 @@ Description:
 	directive @SQL_INPUTTYPE_DIRECTIVE (value: [String!]) on FIELD_DEFINITION | OBJECT
 
 
-	scalar Time #activated for createdAt, deletedAt, updatedAt etc
+	scalar Time #activated for createdAt, updatedAt etc
+	scalar SoftDelete # for deleteAt field for softdelete
 
 ```
 

@@ -1,6 +1,8 @@
 module github.com/fasibio/autogql
 
-go 1.19
+go 1.21.0
+
+toolchain go1.22.0
 
 require (
 	github.com/99designs/gqlgen v0.17.44

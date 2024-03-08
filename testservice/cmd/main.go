@@ -13,8 +13,7 @@ func main() {
 	// })
 	// m := mysql.Open("root:password@tcp(127.0.0.1:3306)/autogql")
 
-	l := sqlite.Open("test.db")
-
+	l := sqlite.Open("./test.db")
 	dbCon, err := gorm.Open(l, &gorm.Config{})
 	if err != nil {
 		panic(err)

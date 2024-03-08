@@ -7,6 +7,8 @@ import (
 	"io"
 	"strconv"
 	"time"
+
+	"github.com/fasibio/autogql/runtimehelper"
 )
 
 // AddCat result with filterable data and affected rows
@@ -253,10 +255,16 @@ type IntFilterInput struct {
 	Between *IntFilterBetween `json:"between,omitempty"`
 }
 
+type Mutation struct {
+}
+
 type NoSQLControl struct {
 	ID int     `json:"id"`
 	A  *string `json:"a,omitempty"`
 	B  int     `json:"b"`
+}
+
+type Query struct {
 }
 
 type SmartPhone struct {
@@ -303,6 +311,24 @@ type SmartPhoneQueryResult struct {
 	Data       []*SmartPhone `json:"data"`
 	Count      int           `json:"count"`
 	TotalCount int           `json:"totalCount"`
+}
+
+// SoftDelete Filter simple datatypes
+type SoftDeleteFilterInput struct {
+	And     []*time.Time           `json:"and,omitempty"`
+	Or      []*time.Time           `json:"or,omitempty"`
+	Not     *SoftDeleteFilterInput `json:"not,omitempty"`
+	Eq      *time.Time             `json:"eq,omitempty"`
+	Ne      *time.Time             `json:"ne,omitempty"`
+	Gt      *time.Time             `json:"gt,omitempty"`
+	Gte     *time.Time             `json:"gte,omitempty"`
+	Lt      *time.Time             `json:"lt,omitempty"`
+	Lte     *time.Time             `json:"lte,omitempty"`
+	Null    *bool                  `json:"null,omitempty"`
+	NotNull *bool                  `json:"notNull,omitempty"`
+	In      []*time.Time           `json:"in,omitempty"`
+	NotIn   []*time.Time           `json:"notIn,omitempty"`
+	Between *TimeFilterBetween     `json:"between,omitempty"`
 }
 
 type SQLCreateExtension struct {
@@ -485,19 +511,19 @@ type UpdateUserPayload struct {
 }
 
 type User struct {
-	ID           int           `json:"id" gorm:"primaryKey;autoIncrement;"`
-	Name         string        `json:"name"`
-	CreatedAt    *time.Time    `json:"createdAt,omitempty"`
-	UpdatedAt    *time.Time    `json:"updatedAt,omitempty"`
-	DeletedAt    *time.Time    `json:"deletedAt,omitempty"`
-	Cat          *Cat          `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
-	CompanyID    *int          `json:"companyID,omitempty"`
-	Money        *float64      `json:"money,omitempty"`
-	Company      *Company      `json:"company,omitempty"`
-	SmartPhones  []*SmartPhone `json:"smartPhones,omitempty"`
-	FavoritColor *string       `json:"favoritColor,omitempty"`
-	Email        string        `json:"email"`
-	OtherDate    *time.Time    `json:"otherDate,omitempty"`
+	ID           int                       `json:"id" gorm:"primaryKey;autoIncrement;"`
+	Name         string                    `json:"name"`
+	CreatedAt    *time.Time                `json:"createdAt,omitempty"`
+	UpdatedAt    *time.Time                `json:"updatedAt,omitempty"`
+	DeletedAt    *runtimehelper.SoftDelete `json:"deletedAt,omitempty" gorm:"index;"`
+	Cat          *Cat                      `json:"cat,omitempty" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;;"`
+	CompanyID    *int                      `json:"companyID,omitempty"`
+	Money        *float64                  `json:"money,omitempty"`
+	Company      *Company                  `json:"company,omitempty"`
+	SmartPhones  []*SmartPhone             `json:"smartPhones,omitempty"`
+	FavoritColor *string                   `json:"favoritColor,omitempty"`
+	Email        string                    `json:"email"`
+	OtherDate    *time.Time                `json:"otherDate,omitempty"`
 }
 
 // Filter input selection for User
@@ -507,7 +533,6 @@ type UserFiltersInput struct {
 	Name         *StringFilterInput      `json:"name,omitempty"`
 	CreatedAt    *TimeFilterInput        `json:"createdAt,omitempty"`
 	UpdatedAt    *TimeFilterInput        `json:"updatedAt,omitempty"`
-	DeletedAt    *TimeFilterInput        `json:"deletedAt,omitempty"`
 	Cat          *CatFiltersInput        `json:"cat,omitempty"`
 	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
 	Money        *FloatFilterInput       `json:"money,omitempty"`
@@ -999,7 +1024,6 @@ const (
 	UserGroupName         UserGroup = "name"
 	UserGroupCreatedAt    UserGroup = "createdAt"
 	UserGroupUpdatedAt    UserGroup = "updatedAt"
-	UserGroupDeletedAt    UserGroup = "deletedAt"
 	UserGroupCompanyID    UserGroup = "companyID"
 	UserGroupMoney        UserGroup = "money"
 	UserGroupFavoritColor UserGroup = "favoritColor"
@@ -1012,7 +1036,6 @@ var AllUserGroup = []UserGroup{
 	UserGroupName,
 	UserGroupCreatedAt,
 	UserGroupUpdatedAt,
-	UserGroupDeletedAt,
 	UserGroupCompanyID,
 	UserGroupMoney,
 	UserGroupFavoritColor,
@@ -1022,7 +1045,7 @@ var AllUserGroup = []UserGroup{
 
 func (e UserGroup) IsValid() bool {
 	switch e {
-	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupDeletedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail, UserGroupOtherDate:
+	case UserGroupID, UserGroupName, UserGroupCreatedAt, UserGroupUpdatedAt, UserGroupCompanyID, UserGroupMoney, UserGroupFavoritColor, UserGroupEmail, UserGroupOtherDate:
 		return true
 	}
 	return false
