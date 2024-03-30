@@ -12,7 +12,7 @@ require (
 	github.com/go-playground/validator/v10 v10.15.5
 	github.com/huandu/xstrings v1.4.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 	github.com/vektah/gqlparser/v2 v2.5.11
 	gorm.io/driver/mysql v1.5.6
 	gorm.io/driver/postgres v1.5.7
