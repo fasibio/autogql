@@ -1,26 +1,22 @@
 name: Tag
-on: 
-  workflow_call:
-    secrets: 
-      token: 
-        required: true
-
-jobs: 
-  tag: 
+on:
+  workflow_dispatch:
+jobs:
+  tag:
     name: tag
     runs-on: ubuntu-latest
     steps:
-    # - name: Check out code into the Go module directory
-    #     uses: actions/checkout@v2
-    #     with:
-    #       fetch-depth: 0 # See: https://goreleaser.com/ci/actions/
-    # - name: Set up Go 1.19
-    #   uses: actions/setup-go@v5
-    #   with:
-    #     go-version: 1.19
-    #   id: go
-    # - name: Install svu
-    # - run: go install github.com/caarlos0/svu@latest
+      # - name: Check out code into the Go module directory
+      #     uses: actions/checkout@v2
+      #     with:
+      #       fetch-depth: 0 # See: https://goreleaser.com/ci/actions/
+      # - name: Set up Go 1.19
+      #   uses: actions/setup-go@v5
+      #   with:
+      #     go-version: 1.19
+      #   id: go
+      # - name: Install svu
+      # - run: go install github.com/caarlos0/svu@latest
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
         with:
@@ -31,10 +27,10 @@ jobs:
         with:
           go-version: 1.21
         id: go
-        env: 
+        env:
           GITHUB_TOKEN: ${{secrets.token}}
       - run: go install github.com/caarlos0/svu@latest
       - run: git config --local user.email "github-actions[bot]@users.noreply.github.com"
       - run: git config --local user.name "github-actions[bot]"
-      - run: git tag "$(svu next)" 
+      - run: git tag "$(svu next)"
       - run: git push --tags
