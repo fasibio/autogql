@@ -1,15 +1,9 @@
 name: Push to master
-on: 
-  push: 
+on:
+  push:
     branches:
       - main
 
 jobs:
-  tests: 
+  tests:
     uses: ./.github/workflows/job_tests.yml
-  tag: 
-    name: create tag
-    uses: ./.github/workflows/job_tag.yml
-    secrets: 
-      token: ${{secrets.TOKEN}}
-    needs: [tests]

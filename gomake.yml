@@ -94,3 +94,14 @@ test:local:
   script:
     {{include "testSetup"}}
     {{include "testSqlite"}}
+
+next:tag:dry: 
+  doc: show next tag with svu
+  script: 
+    - svu next  
+
+next:tag:push:
+  doc: Create next tag with svu
+  script: 
+    - git tag "$(svu next)"
+    - git push --tags
