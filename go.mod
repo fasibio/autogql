@@ -8,7 +8,7 @@ require (
 	github.com/99designs/gqlgen v0.17.44
 	github.com/Khan/genqlient v0.6.0
 	github.com/Masterminds/sprig/v3 v3.2.3
-	github.com/gkampitakis/go-snaps v0.5.2
+	github.com/gkampitakis/go-snaps v0.5.4
 	github.com/go-playground/validator/v10 v10.15.5
 	github.com/huandu/xstrings v1.4.0
 	github.com/mitchellh/mapstructure v1.5.0
