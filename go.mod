@@ -9,7 +9,7 @@ require (
 	github.com/Khan/genqlient v0.6.0
 	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/gkampitakis/go-snaps v0.5.2
-	github.com/go-playground/validator/v10 v10.15.5
+	github.com/go-playground/validator/v10 v10.22.1
 	github.com/huandu/xstrings v1.4.0
 	github.com/mitchellh/mapstructure v1.5.0
 	github.com/stretchr/testify v1.9.0
@@ -26,7 +26,7 @@ require (
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/gabriel-vasile/mimetype v1.4.2 // indirect
+	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
 	github.com/gkampitakis/ciinfo v0.3.0 // indirect
 	github.com/gkampitakis/go-diff v1.3.2 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
@@ -43,7 +43,7 @@ require (
 	github.com/jinzhu/now v1.1.5 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
 	github.com/kr/text v0.2.0 // indirect
-	github.com/leodido/go-urn v1.2.4 // indirect
+	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/maruel/natural v1.1.1 // indirect
 	github.com/mattn/go-sqlite3 v1.14.17 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
