@@ -6,7 +6,7 @@ toolchain go1.22.0
 
 require (
 	github.com/99designs/gqlgen v0.17.49
-	github.com/Khan/genqlient v0.6.0
+	github.com/Khan/genqlient v0.7.0
 	github.com/Masterminds/sprig/v3 v3.2.3
 	github.com/gkampitakis/go-snaps v0.5.7
 	github.com/go-playground/validator/v10 v10.22.1
