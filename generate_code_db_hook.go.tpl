@@ -135,7 +135,7 @@ func AddAddHook[M {{$hookBaseName}}HookM,I {{$hookBaseName}}HookI, AP {{$hookBas
   {{- end}} 
   {{- end}} 
 {{- end }}
-func AddUpdateHook[M {{$hookBaseName}}HookM, U {{$hookBaseName}}HookU, UP {{$hookBaseName}}HookUP](db *{{$hookBaseName}}DB, name UpdateName, implementation {{$hookBaseName}}HookUpdate[U, UP]) {
+func AddUpdateHook[U {{$hookBaseName}}HookU, UP {{$hookBaseName}}HookUP](db *{{$hookBaseName}}DB, name UpdateName, implementation {{$hookBaseName}}HookUpdate[U, UP]) {
   db.Hooks[string(name)] = implementation
 }
 
