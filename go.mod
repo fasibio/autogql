@@ -1,8 +1,7 @@
 module github.com/fasibio/autogql
 
 go 1.21.0
-
-toolchain go1.22.0
+toolchain go1.22.5
 
 require (
 	github.com/99designs/gqlgen v0.17.49
@@ -12,8 +11,8 @@ require (
 	github.com/go-playground/validator/v10 v10.22.1
 	github.com/huandu/xstrings v1.4.0
 	github.com/mitchellh/mapstructure v1.5.0
-	github.com/stretchr/testify v1.9.0
-	github.com/vektah/gqlparser/v2 v2.5.16
+	github.com/stretchr/testify v1.10.0
+	github.com/vektah/gqlparser/v2 v2.5.20
 	gorm.io/driver/mysql v1.5.7
 	gorm.io/driver/postgres v1.5.7
 	gorm.io/driver/sqlite v1.5.6
@@ -23,7 +22,7 @@ require (
 require (
 	github.com/Masterminds/goutils v1.1.1 // indirect
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
-	github.com/agnivade/levenshtein v1.1.1 // indirect
+	github.com/agnivade/levenshtein v1.2.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.4 // indirect
 	github.com/davecgh/go-spew v1.1.1 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
