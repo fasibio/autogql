@@ -24,17 +24,29 @@ func (ggs *AutoGqlPlugin) MutateConfig(cfg *config.Config) error {
 	cfg.Directives[string(structure.DirectiveSQLInputTypeTags)] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveSQLInputTypeTags.InternalName())] = config.DirectiveConfig{SkipRuntime: true}
 	cfg.Directives[string(structure.DirectiveSQLInputTypeDirective)] = config.DirectiveConfig{SkipRuntime: true}
-	for k := range ggs.Handler.List {
-		makeResolverFor := []string{fmt.Sprintf("Add%sPayload", k), fmt.Sprintf("Update%sPayload", k), fmt.Sprintf("Delete%sPayload", k)}
+	for objectKey, object := range ggs.Handler.List {
+		makeResolverFor := []string{fmt.Sprintf("Add%sPayload", objectKey), fmt.Sprintf("Update%sPayload", objectKey), fmt.Sprintf("Delete%sPayload", objectKey)}
 		for _, r := range makeResolverFor {
 			e := cfg.Models[r]
 			e.Fields = make(map[string]config.TypeMapField)
-			e.Fields[templates.LcFirst(k)] = config.TypeMapField{
+			e.Fields[templates.LcFirst(objectKey)] = config.TypeMapField{
 				Resolver: true,
 			}
 			cfg.Models[r] = e
 		}
-
+		for _, entity := range object.Entities {
+			if entity.HasGormDirective() && entity.GormDirectiveValue() == "-" {
+				m := cfg.Models[object.Name()]
+				if m.Fields == nil {
+					m.Fields = make(map[string]config.TypeMapField)
+				}
+				m.Fields[entity.Name()] = config.TypeMapField{
+					FieldName: entity.Name(),
+					Resolver:  true,
+				}
+				cfg.Models[object.Name()] = m
+			}
+		}
 	}
 	return ggs.remapInputType2Type(cfg)
 }

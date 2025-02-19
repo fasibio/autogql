@@ -46,6 +46,7 @@ type ResolverRoot interface {
 	AddSmartPhonePayload() AddSmartPhonePayloadResolver
 	AddTodoPayload() AddTodoPayloadResolver
 	AddUserPayload() AddUserPayloadResolver
+	Cat() CatResolver
 	DeleteCatPayload() DeleteCatPayloadResolver
 	DeleteCompanyPayload() DeleteCompanyPayloadResolver
 	DeleteSmartPhonePayload() DeleteSmartPhonePayloadResolver
@@ -290,6 +291,9 @@ type AddTodoPayloadResolver interface {
 }
 type AddUserPayloadResolver interface {
 	User(ctx context.Context, obj *model.AddUserPayload, filter *model.UserFiltersInput, order *model.UserOrder, first *int, offset *int, group []model.UserGroup) (*model.UserQueryResult, error)
+}
+type CatResolver interface {
+	Age(ctx context.Context, obj *model.Cat) (*int, error)
 }
 type DeleteCatPayloadResolver interface {
 	Cat(ctx context.Context, obj *model.DeleteCatPayload, filter *model.CatFiltersInput, order *model.CatOrder, first *int, offset *int, group []model.CatGroup) (*model.CatQueryResult, error)
@@ -4733,7 +4737,7 @@ func (ec *executionContext) _Cat_age(ctx context.Context, field graphql.Collecte
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Age, nil
+		return ec.resolvers.Cat().Age(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4751,8 +4755,8 @@ func (ec *executionContext) fieldContext_Cat_age(ctx context.Context, field grap
 	fc = &graphql.FieldContext{
 		Object:     "Cat",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
 		},
@@ -15513,24 +15517,55 @@ func (ec *executionContext) _Cat(ctx context.Context, sel ast.SelectionSet, obj 
 		case "id":
 			out.Values[i] = ec._Cat_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "name":
 			out.Values[i] = ec._Cat_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "birthDay":
 			out.Values[i] = ec._Cat_birthDay(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "age":
-			out.Values[i] = ec._Cat_age(ctx, field, obj)
+			field := field
+
+			innerFunc := func(ctx context.Context, fs *graphql.FieldSet) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Cat_age(ctx, field, obj)
+				return res
+			}
+
+			if field.Deferrable != nil {
+				dfs, ok := deferred[field.Deferrable.Label]
+				di := 0
+				if ok {
+					dfs.AddField(field)
+					di = len(dfs.Values) - 1
+				} else {
+					dfs = graphql.NewFieldSet([]graphql.CollectedField{field})
+					deferred[field.Deferrable.Label] = dfs
+				}
+				dfs.Concurrently(di, func(ctx context.Context) graphql.Marshaler {
+					return innerFunc(ctx, dfs)
+				})
+
+				// don't run the out.Concurrently() call below
+				out.Values[i] = graphql.Null
+				continue
+			}
+
+			out.Concurrently(i, func(ctx context.Context) graphql.Marshaler { return innerFunc(ctx, out) })
 		case "userID":
 			out.Values[i] = ec._Cat_userID(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
-				out.Invalids++
+				atomic.AddUint32(&out.Invalids, 1)
 			}
 		case "alive":
 			out.Values[i] = ec._Cat_alive(ctx, field, obj)
