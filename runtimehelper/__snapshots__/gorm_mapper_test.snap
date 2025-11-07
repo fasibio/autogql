@@ -1,0 +1,29 @@
+
+[TestCombineSimpleQuery/simple_one - 1]
+[]interface {}{
+    "eqvalue",
+}
+---
+
+[TestCombineSimpleQuery/simple_two_values - 1]
+[]interface {}{
+    "eqvalue",
+    "eqbvalue",
+}
+---
+
+[TestCombineSimpleQuery/simple_two_values_child - 1]
+[]interface {}{
+    "eqvalue",
+    "eqbvalue",
+    "eqotherbvalue",
+}
+---
+
+[TestCombineSimpleQuery/simple_two_values_child_secend_not_ - 1]
+[]interface {}{
+    "eqvalue",
+    "eqbvalue",
+    "eqotherbvalue",
+}
+---

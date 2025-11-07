@@ -5,6 +5,7 @@ package graph
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/99designs/gqlgen/graphql"
@@ -12,6 +13,7 @@ import (
 	"github.com/fasibio/autogql/testservice/graph/db"
 	"github.com/fasibio/autogql/testservice/graph/model"
 	"github.com/huandu/xstrings"
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -69,10 +71,40 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k, _ := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.Cat{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -342,10 +374,40 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k, _ := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.Company{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -615,10 +677,40 @@ func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.Smart
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k, _ := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.SmartPhone{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -888,10 +980,40 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k, _ := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.Todo{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -1283,10 +1405,40 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k, _ := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.User{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error

@@ -3,6 +3,7 @@
 package model
 
 import (
+	"bytes"
 	"fmt"
 	"io"
 	"strconv"
@@ -624,7 +625,7 @@ func (e CatGroup) String() string {
 	return string(e)
 }
 
-func (e *CatGroup) UnmarshalGQL(v interface{}) error {
+func (e *CatGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -639,6 +640,20 @@ func (e *CatGroup) UnmarshalGQL(v interface{}) error {
 
 func (e CatGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // for Cat a enum of all orderable entities
@@ -671,7 +686,7 @@ func (e CatOrderable) String() string {
 	return string(e)
 }
 
-func (e *CatOrderable) UnmarshalGQL(v interface{}) error {
+func (e *CatOrderable) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -686,6 +701,20 @@ func (e *CatOrderable) UnmarshalGQL(v interface{}) error {
 
 func (e CatOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CatOrderable) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CatOrderable) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Groupable data for  Company
@@ -720,7 +749,7 @@ func (e CompanyGroup) String() string {
 	return string(e)
 }
 
-func (e *CompanyGroup) UnmarshalGQL(v interface{}) error {
+func (e *CompanyGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -735,6 +764,20 @@ func (e *CompanyGroup) UnmarshalGQL(v interface{}) error {
 
 func (e CompanyGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CompanyGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CompanyGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // for Company a enum of all orderable entities
@@ -767,7 +810,7 @@ func (e CompanyOrderable) String() string {
 	return string(e)
 }
 
-func (e *CompanyOrderable) UnmarshalGQL(v interface{}) error {
+func (e *CompanyOrderable) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -782,6 +825,20 @@ func (e *CompanyOrderable) UnmarshalGQL(v interface{}) error {
 
 func (e CompanyOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *CompanyOrderable) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e CompanyOrderable) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Groupable data for  SmartPhone
@@ -814,7 +871,7 @@ func (e SmartPhoneGroup) String() string {
 	return string(e)
 }
 
-func (e *SmartPhoneGroup) UnmarshalGQL(v interface{}) error {
+func (e *SmartPhoneGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -829,6 +886,20 @@ func (e *SmartPhoneGroup) UnmarshalGQL(v interface{}) error {
 
 func (e SmartPhoneGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SmartPhoneGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SmartPhoneGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // for SmartPhone a enum of all orderable entities
@@ -861,7 +932,7 @@ func (e SmartPhoneOrderable) String() string {
 	return string(e)
 }
 
-func (e *SmartPhoneOrderable) UnmarshalGQL(v interface{}) error {
+func (e *SmartPhoneOrderable) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -876,6 +947,20 @@ func (e *SmartPhoneOrderable) UnmarshalGQL(v interface{}) error {
 
 func (e SmartPhoneOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *SmartPhoneOrderable) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e SmartPhoneOrderable) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Groupable data for  Todo
@@ -912,7 +997,7 @@ func (e TodoGroup) String() string {
 	return string(e)
 }
 
-func (e *TodoGroup) UnmarshalGQL(v interface{}) error {
+func (e *TodoGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -927,6 +1012,20 @@ func (e *TodoGroup) UnmarshalGQL(v interface{}) error {
 
 func (e TodoGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TodoGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TodoGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // for Todo a enum of all orderable entities
@@ -957,7 +1056,7 @@ func (e TodoOrderable) String() string {
 	return string(e)
 }
 
-func (e *TodoOrderable) UnmarshalGQL(v interface{}) error {
+func (e *TodoOrderable) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -972,6 +1071,20 @@ func (e *TodoOrderable) UnmarshalGQL(v interface{}) error {
 
 func (e TodoOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TodoOrderable) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TodoOrderable) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 type TodoType string
@@ -998,7 +1111,7 @@ func (e TodoType) String() string {
 	return string(e)
 }
 
-func (e *TodoType) UnmarshalGQL(v interface{}) error {
+func (e *TodoType) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -1013,6 +1126,20 @@ func (e *TodoType) UnmarshalGQL(v interface{}) error {
 
 func (e TodoType) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *TodoType) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e TodoType) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // Groupable data for  User
@@ -1055,7 +1182,7 @@ func (e UserGroup) String() string {
 	return string(e)
 }
 
-func (e *UserGroup) UnmarshalGQL(v interface{}) error {
+func (e *UserGroup) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -1070,6 +1197,20 @@ func (e *UserGroup) UnmarshalGQL(v interface{}) error {
 
 func (e UserGroup) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *UserGroup) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UserGroup) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
 
 // for User a enum of all orderable entities
@@ -1106,7 +1247,7 @@ func (e UserOrderable) String() string {
 	return string(e)
 }
 
-func (e *UserOrderable) UnmarshalGQL(v interface{}) error {
+func (e *UserOrderable) UnmarshalGQL(v any) error {
 	str, ok := v.(string)
 	if !ok {
 		return fmt.Errorf("enums must be strings")
@@ -1121,4 +1262,18 @@ func (e *UserOrderable) UnmarshalGQL(v interface{}) error {
 
 func (e UserOrderable) MarshalGQL(w io.Writer) {
 	fmt.Fprint(w, strconv.Quote(e.String()))
+}
+
+func (e *UserOrderable) UnmarshalJSON(b []byte) error {
+	s, err := strconv.Unquote(string(b))
+	if err != nil {
+		return err
+	}
+	return e.UnmarshalGQL(s)
+}
+
+func (e UserOrderable) MarshalJSON() ([]byte, error) {
+	var buf bytes.Buffer
+	e.MarshalGQL(&buf)
+	return buf.Bytes(), nil
 }
