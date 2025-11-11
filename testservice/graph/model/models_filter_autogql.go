@@ -105,6 +105,20 @@ func (d *CompanyFiltersInput) ExtendsDatabaseQuery(db *gorm.DB, alias string, de
 	if d.CreatedAt != nil {
 		res = append(res, d.CreatedAt.ExtendsDatabaseQuery(db, fmt.Sprintf(extendsDatabaseFieldNameFormat, runtimehelper.GetQuoteChar(db), alias, "created_at"), true, blackList)...)
 	}
+	if d.Users != nil {
+		if _, ok := blackList["Users"]; !ok {
+			blackList["Users"] = struct{}{}
+			if deep {
+				tableName := db.Config.NamingStrategy.TableName("User")
+				foreignKeyName := "company_id"
+				db = db.Joins(fmt.Sprintf("LEFT JOIN %[1]s%[2]s%[1]s %[1]sUsers%[1]s ON %[1]sUsers%[1]s.%[1]s%[5]s%[1]s = %[4]s.%[1]s%[3]s%[1]s", runtimehelper.GetQuoteChar(db), tableName, d.PrimaryKeyName(), alias, foreignKeyName))
+
+			} else {
+				db = db.Joins("Users")
+			}
+		}
+		res = append(res, d.Users.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]sUsers%[1]s", runtimehelper.GetQuoteChar(db)), true, blackList)...)
+	}
 
 	return res
 }

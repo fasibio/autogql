@@ -119,6 +119,14 @@ func (d *CompanyPatch) MergeToType() map[string]interface{} {
 	if d.MotherCompany != nil {
 		res["mother_company"] = d.MotherCompany.MergeToType()
 	}
+	if d.Users != nil {
+		tmpUsers := make([]map[string]interface{}, len(d.Users))
+		for _, v := range d.Users {
+			tmp := v.MergeToType()
+			tmpUsers = append(tmpUsers, tmp)
+		}
+		res["users"] = tmpUsers
+	}
 	return res
 }
 
@@ -141,11 +149,21 @@ func (d *CompanyInput) MergeToType() Company {
 	if d.MotherCompany != nil {
 		tmpMotherCompany = d.MotherCompany.MergeToType()
 	}
+
+	var tmpUsers []*User
+	if d.Users != nil {
+		tmpUsers = make([]*User, len(d.Users))
+		for _, v := range d.Users {
+			tmp := v.MergeToType()
+			tmpUsers = append(tmpUsers, &tmp)
+		}
+	}
 	return Company{
 		Name:            tmpName,
 		Description:     tmpDescription,
 		MotherCompanyID: tmpMotherCompanyID,
 		MotherCompany:   &tmpMotherCompany,
+		Users:           tmpUsers,
 	}
 }
 

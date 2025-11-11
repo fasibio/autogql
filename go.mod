@@ -4,7 +4,7 @@ go 1.25.1
 
 require (
 	github.com/99designs/gqlgen v0.17.81
-	github.com/Khan/genqlient v0.8.1
+	github.com/Khan/genqlient v0.6.0
 	github.com/Masterminds/sprig/v3 v3.3.0
 	github.com/gkampitakis/go-snaps v0.5.15
 	github.com/go-playground/validator/v10 v10.28.0

@@ -55,6 +55,7 @@ type Company @SQL(order: 1){
   motherCompanyID: Int
   motherCompany: Company
   createdAt: Time
+  users: [User!]
 }
 
 type Cat @SQL(order: 4){

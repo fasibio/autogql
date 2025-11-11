@@ -112,6 +112,7 @@ type ComplexityRoot struct {
 		MotherCompany   func(childComplexity int) int
 		MotherCompanyID func(childComplexity int) int
 		Name            func(childComplexity int) int
+		Users           func(childComplexity int) int
 	}
 
 	CompanyQueryResult struct {
@@ -554,6 +555,12 @@ func (e *executableSchema) Complexity(ctx context.Context, typeName, field strin
 		}
 
 		return e.complexity.Company.Name(childComplexity), true
+	case "Company.users":
+		if e.complexity.Company.Users == nil {
+			break
+		}
+
+		return e.complexity.Company.Users(childComplexity), true
 
 	case "CompanyQueryResult.count":
 		if e.complexity.CompanyQueryResult.Count == nil {
@@ -1862,6 +1869,7 @@ input TimeFilterBetween{
       description: String  
       motherCompanyID: Int  
       motherCompany: CompanyInput  
+      users: [UserInput!]  
   }
 
   """
@@ -1872,6 +1880,7 @@ input TimeFilterBetween{
       description: String  
       motherCompanyID: Int  
       motherCompany: CompanyPatch  
+      users: [UserPatch!]  
   } 
 
 
@@ -1965,6 +1974,7 @@ input TimeFilterBetween{
           motherCompanyID: IntFilterInput
               motherCompany:CompanyFiltersInput
           createdAt: TimeFilterInput
+              users:UserFiltersInput
       and: [CompanyFiltersInput]
       or: [CompanyFiltersInput]
       not: CompanyFiltersInput
@@ -3561,6 +3571,8 @@ func (ec *executionContext) fieldContext_AddCompanyPayload_affected(_ context.Co
 				return ec.fieldContext_Company_motherCompany(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Company_createdAt(ctx, field)
+			case "users":
+				return ec.fieldContext_Company_users(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
 		},
@@ -4293,6 +4305,8 @@ func (ec *executionContext) fieldContext_Company_motherCompany(_ context.Context
 				return ec.fieldContext_Company_motherCompany(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Company_createdAt(ctx, field)
+			case "users":
+				return ec.fieldContext_Company_users(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
 		},
@@ -4324,6 +4338,63 @@ func (ec *executionContext) fieldContext_Company_createdAt(_ context.Context, fi
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Company_users(ctx context.Context, field graphql.CollectedField, obj *model.Company) (ret graphql.Marshaler) {
+	return graphql.ResolveField(
+		ctx,
+		ec.OperationContext,
+		field,
+		ec.fieldContext_Company_users,
+		func(ctx context.Context) (any, error) {
+			return obj.Users, nil
+		},
+		nil,
+		ec.marshalOUser2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserᚄ,
+		true,
+		false,
+	)
+}
+
+func (ec *executionContext) fieldContext_Company_users(_ context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Company",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			switch field.Name {
+			case "id":
+				return ec.fieldContext_User_id(ctx, field)
+			case "name":
+				return ec.fieldContext_User_name(ctx, field)
+			case "createdAt":
+				return ec.fieldContext_User_createdAt(ctx, field)
+			case "updatedAt":
+				return ec.fieldContext_User_updatedAt(ctx, field)
+			case "deletedAt":
+				return ec.fieldContext_User_deletedAt(ctx, field)
+			case "cat":
+				return ec.fieldContext_User_cat(ctx, field)
+			case "companyID":
+				return ec.fieldContext_User_companyID(ctx, field)
+			case "money":
+				return ec.fieldContext_User_money(ctx, field)
+			case "company":
+				return ec.fieldContext_User_company(ctx, field)
+			case "smartPhones":
+				return ec.fieldContext_User_smartPhones(ctx, field)
+			case "favoritColor":
+				return ec.fieldContext_User_favoritColor(ctx, field)
+			case "email":
+				return ec.fieldContext_User_email(ctx, field)
+			case "otherDate":
+				return ec.fieldContext_User_otherDate(ctx, field)
+			}
+			return nil, fmt.Errorf("no field named %q was found under type User", field.Name)
 		},
 	}
 	return fc, nil
@@ -4365,6 +4436,8 @@ func (ec *executionContext) fieldContext_CompanyQueryResult_data(_ context.Conte
 				return ec.fieldContext_Company_motherCompany(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Company_createdAt(ctx, field)
+			case "users":
+				return ec.fieldContext_Company_users(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
 		},
@@ -6016,6 +6089,8 @@ func (ec *executionContext) fieldContext_Query_getCompany(ctx context.Context, f
 				return ec.fieldContext_Company_motherCompany(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Company_createdAt(ctx, field)
+			case "users":
+				return ec.fieldContext_Company_users(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
 		},
@@ -7498,6 +7573,8 @@ func (ec *executionContext) fieldContext_UpdateCompanyPayload_affected(_ context
 				return ec.fieldContext_Company_motherCompany(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Company_createdAt(ctx, field)
+			case "users":
+				return ec.fieldContext_Company_users(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
 		},
@@ -8172,6 +8249,8 @@ func (ec *executionContext) fieldContext_User_company(_ context.Context, field g
 				return ec.fieldContext_Company_motherCompany(ctx, field)
 			case "createdAt":
 				return ec.fieldContext_Company_createdAt(ctx, field)
+			case "users":
+				return ec.fieldContext_Company_users(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Company", field.Name)
 		},
@@ -10141,7 +10220,7 @@ func (ec *executionContext) unmarshalInputCompanyFiltersInput(ctx context.Contex
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "name", "description", "motherCompanyID", "motherCompany", "createdAt", "and", "or", "not"}
+	fieldsInOrder := [...]string{"id", "name", "description", "motherCompanyID", "motherCompany", "createdAt", "users", "and", "or", "not"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10190,6 +10269,13 @@ func (ec *executionContext) unmarshalInputCompanyFiltersInput(ctx context.Contex
 				return it, err
 			}
 			it.CreatedAt = data
+		case "users":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("users"))
+			data, err := ec.unmarshalOUserFiltersInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserFiltersInput(ctx, v)
+			if err != nil {
+				return it, err
+			}
+			it.Users = data
 		case "and":
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("and"))
 			data, err := ec.unmarshalOCompanyFiltersInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐCompanyFiltersInput(ctx, v)
@@ -10224,7 +10310,7 @@ func (ec *executionContext) unmarshalInputCompanyInput(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "motherCompanyID", "motherCompany"}
+	fieldsInOrder := [...]string{"name", "description", "motherCompanyID", "motherCompany", "users"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10259,6 +10345,32 @@ func (ec *executionContext) unmarshalInputCompanyInput(ctx context.Context, obj 
 				return it, err
 			}
 			it.MotherCompany = data
+		case "users":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("users"))
+			directive0 := func(ctx context.Context) (any, error) {
+				return ec.unmarshalOUserInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserInputᚄ(ctx, v)
+			}
+
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.VALIDATE == nil {
+					var zeroVal []*model.UserInput
+					return zeroVal, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.([]*model.UserInput); ok {
+				it.Users = data
+			} else if tmp == nil {
+				it.Users = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be []*github.com/fasibio/autogql/testservice/graph/model.UserInput`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		}
 	}
 
@@ -10306,7 +10418,7 @@ func (ec *executionContext) unmarshalInputCompanyPatch(ctx context.Context, obj 
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"name", "description", "motherCompanyID", "motherCompany"}
+	fieldsInOrder := [...]string{"name", "description", "motherCompanyID", "motherCompany", "users"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -10341,6 +10453,32 @@ func (ec *executionContext) unmarshalInputCompanyPatch(ctx context.Context, obj 
 				return it, err
 			}
 			it.MotherCompany = data
+		case "users":
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("users"))
+			directive0 := func(ctx context.Context) (any, error) {
+				return ec.unmarshalOUserPatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserPatchᚄ(ctx, v)
+			}
+
+			directive1 := func(ctx context.Context) (any, error) {
+				if ec.directives.VALIDATE == nil {
+					var zeroVal []*model.UserPatch
+					return zeroVal, errors.New("directive VALIDATE is not implemented")
+				}
+				return ec.directives.VALIDATE(ctx, obj, directive0)
+			}
+
+			tmp, err := directive1(ctx)
+			if err != nil {
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
+			if data, ok := tmp.([]*model.UserPatch); ok {
+				it.Users = data
+			} else if tmp == nil {
+				it.Users = nil
+			} else {
+				err := fmt.Errorf(`unexpected type %T from directive, should be []*github.com/fasibio/autogql/testservice/graph/model.UserPatch`, tmp)
+				return it, graphql.ErrorOnPath(ctx, err)
+			}
 		}
 	}
 
@@ -13066,6 +13204,8 @@ func (ec *executionContext) _Company(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = ec._Company_motherCompany(ctx, field, obj)
 		case "createdAt":
 			out.Values[i] = ec._Company_createdAt(ctx, field, obj)
+		case "users":
+			out.Values[i] = ec._Company_users(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -17241,6 +17381,53 @@ func (ec *executionContext) marshalOUpdateUserPayload2ᚖgithubᚗcomᚋfasibio�
 	return ec._UpdateUserPayload(ctx, sel, v)
 }
 
+func (ec *executionContext) marshalOUser2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.User) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNUser2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUser(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+
+	for _, e := range ret {
+		if e == graphql.Null {
+			return graphql.Null
+		}
+	}
+
+	return ret
+}
+
 func (ec *executionContext) marshalOUser2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
 	if v == nil {
 		return graphql.Null
@@ -17339,6 +17526,24 @@ func (ec *executionContext) marshalOUserGroup2ᚕgithubᚗcomᚋfasibioᚋautogq
 	return ret
 }
 
+func (ec *executionContext) unmarshalOUserInput2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserInputᚄ(ctx context.Context, v any) ([]*model.UserInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.UserInput, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNUserInput2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserInput(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
 func (ec *executionContext) unmarshalOUserOrder2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserOrder(ctx context.Context, v any) (*model.UserOrder, error) {
 	if v == nil {
 		return nil, nil
@@ -17361,6 +17566,24 @@ func (ec *executionContext) marshalOUserOrderable2ᚖgithubᚗcomᚋfasibioᚋau
 		return graphql.Null
 	}
 	return v
+}
+
+func (ec *executionContext) unmarshalOUserPatch2ᚕᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserPatchᚄ(ctx context.Context, v any) ([]*model.UserPatch, error) {
+	if v == nil {
+		return nil, nil
+	}
+	var vSlice []any
+	vSlice = graphql.CoerceList(v)
+	var err error
+	res := make([]*model.UserPatch, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNUserPatch2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserPatch(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
 }
 
 func (ec *executionContext) marshalOUserQueryResult2ᚖgithubᚗcomᚋfasibioᚋautogqlᚋtestserviceᚋgraphᚋmodelᚐUserQueryResult(ctx context.Context, sel ast.SelectionSet, v *model.UserQueryResult) graphql.Marshaler {

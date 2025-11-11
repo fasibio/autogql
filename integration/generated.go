@@ -95,6 +95,84 @@ func (v *CatInput) GetUserID() int { return v.UserID }
 // GetAlive returns CatInput.Alive, and is useful for accessing the field via an interface.
 func (v *CatInput) GetAlive() *bool { return v.Alive }
 
+// CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResult includes the requested fields of the GraphQL type CompanyQueryResult.
+// The GraphQL type's documentation follows.
+//
+// Company result
+type CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResult struct {
+	Data []*CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany `json:"data"`
+}
+
+// GetData returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResult.Data, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResult) GetData() []*CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany {
+	return v.Data
+}
+
+// CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany includes the requested fields of the GraphQL type Company.
+type CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany struct {
+	Id    string                                                                                          `json:"id"`
+	Name  string                                                                                          `json:"name"`
+	Users []*CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser `json:"users"`
+}
+
+// GetId returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany.Id, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany) GetId() string {
+	return v.Id
+}
+
+// GetName returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany.Name, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany) GetName() string {
+	return v.Name
+}
+
+// GetUsers returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany.Users, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompany) GetUsers() []*CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser {
+	return v.Users
+}
+
+// CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser includes the requested fields of the GraphQL type User.
+type CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser struct {
+	Id   string                                                                                           `json:"id"`
+	Name string                                                                                           `json:"name"`
+	Cat  *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUserCat `json:"cat"`
+}
+
+// GetId returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser.Id, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser) GetId() string {
+	return v.Id
+}
+
+// GetName returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser.Name, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser) GetName() string {
+	return v.Name
+}
+
+// GetCat returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser.Cat, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUser) GetCat() *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUserCat {
+	return v.Cat
+}
+
+// CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUserCat includes the requested fields of the GraphQL type Cat.
+type CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUserCat struct {
+	Name string `json:"name"`
+}
+
+// GetName returns CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUserCat.Name, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResultDataCompanyUsersUserCat) GetName() string {
+	return v.Name
+}
+
+// CompaniesUsersWhereHaveCatNameStartsWithMiResponse is returned by CompaniesUsersWhereHaveCatNameStartsWithMi on success.
+type CompaniesUsersWhereHaveCatNameStartsWithMiResponse struct {
+	// return a list of  Company filterable, pageination, orderbale, groupable ...
+	QueryCompany *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResult `json:"queryCompany"`
+}
+
+// GetQueryCompany returns CompaniesUsersWhereHaveCatNameStartsWithMiResponse.QueryCompany, and is useful for accessing the field via an interface.
+func (v *CompaniesUsersWhereHaveCatNameStartsWithMiResponse) GetQueryCompany() *CompaniesUsersWhereHaveCatNameStartsWithMiQueryCompanyCompanyQueryResult {
+	return v.QueryCompany
+}
+
 // Filter input selection for Company
 // Can be used f.e.: by queryCompany
 type CompanyFiltersInput struct {
@@ -104,6 +182,7 @@ type CompanyFiltersInput struct {
 	MotherCompanyID *IntFilterInput        `json:"motherCompanyID,omitempty"`
 	MotherCompany   *CompanyFiltersInput   `json:"motherCompany,omitempty"`
 	CreatedAt       *TimeFilterInput       `json:"createdAt,omitempty"`
+	Users           *UserFiltersInput      `json:"users,omitempty"`
 	And             []*CompanyFiltersInput `json:"and,omitempty"`
 	Or              []*CompanyFiltersInput `json:"or,omitempty"`
 	Not             *CompanyFiltersInput   `json:"not,omitempty"`
@@ -127,6 +206,9 @@ func (v *CompanyFiltersInput) GetMotherCompany() *CompanyFiltersInput { return v
 // GetCreatedAt returns CompanyFiltersInput.CreatedAt, and is useful for accessing the field via an interface.
 func (v *CompanyFiltersInput) GetCreatedAt() *TimeFilterInput { return v.CreatedAt }
 
+// GetUsers returns CompanyFiltersInput.Users, and is useful for accessing the field via an interface.
+func (v *CompanyFiltersInput) GetUsers() *UserFiltersInput { return v.Users }
+
 // GetAnd returns CompanyFiltersInput.And, and is useful for accessing the field via an interface.
 func (v *CompanyFiltersInput) GetAnd() []*CompanyFiltersInput { return v.And }
 
@@ -142,6 +224,7 @@ type CompanyInput struct {
 	Description     *string       `json:"description"`
 	MotherCompanyID *int          `json:"motherCompanyID"`
 	MotherCompany   *CompanyInput `json:"motherCompany,omitempty"`
+	Users           []*UserInput  `json:"users,omitempty"`
 }
 
 // GetName returns CompanyInput.Name, and is useful for accessing the field via an interface.
@@ -156,27 +239,50 @@ func (v *CompanyInput) GetMotherCompanyID() *int { return v.MotherCompanyID }
 // GetMotherCompany returns CompanyInput.MotherCompany, and is useful for accessing the field via an interface.
 func (v *CompanyInput) GetMotherCompany() *CompanyInput { return v.MotherCompany }
 
+// GetUsers returns CompanyInput.Users, and is useful for accessing the field via an interface.
+func (v *CompanyInput) GetUsers() []*UserInput { return v.Users }
+
+// A Directive can be adjacent to many parts of the GraphQL language, a __DirectiveLocation describes one such possible adjacencies.
 type DirectiveLocation string
 
 const (
-	DirectiveLocationQuery                DirectiveLocation = "QUERY"
-	DirectiveLocationMutation             DirectiveLocation = "MUTATION"
-	DirectiveLocationSubscription         DirectiveLocation = "SUBSCRIPTION"
-	DirectiveLocationField                DirectiveLocation = "FIELD"
-	DirectiveLocationFragmentDefinition   DirectiveLocation = "FRAGMENT_DEFINITION"
-	DirectiveLocationFragmentSpread       DirectiveLocation = "FRAGMENT_SPREAD"
-	DirectiveLocationInlineFragment       DirectiveLocation = "INLINE_FRAGMENT"
-	DirectiveLocationVariableDefinition   DirectiveLocation = "VARIABLE_DEFINITION"
-	DirectiveLocationSchema               DirectiveLocation = "SCHEMA"
-	DirectiveLocationScalar               DirectiveLocation = "SCALAR"
-	DirectiveLocationObject               DirectiveLocation = "OBJECT"
-	DirectiveLocationFieldDefinition      DirectiveLocation = "FIELD_DEFINITION"
-	DirectiveLocationArgumentDefinition   DirectiveLocation = "ARGUMENT_DEFINITION"
-	DirectiveLocationInterface            DirectiveLocation = "INTERFACE"
-	DirectiveLocationUnion                DirectiveLocation = "UNION"
-	DirectiveLocationEnum                 DirectiveLocation = "ENUM"
-	DirectiveLocationEnumValue            DirectiveLocation = "ENUM_VALUE"
-	DirectiveLocationInputObject          DirectiveLocation = "INPUT_OBJECT"
+	// Location adjacent to a query operation.
+	DirectiveLocationQuery DirectiveLocation = "QUERY"
+	// Location adjacent to a mutation operation.
+	DirectiveLocationMutation DirectiveLocation = "MUTATION"
+	// Location adjacent to a subscription operation.
+	DirectiveLocationSubscription DirectiveLocation = "SUBSCRIPTION"
+	// Location adjacent to a field.
+	DirectiveLocationField DirectiveLocation = "FIELD"
+	// Location adjacent to a fragment definition.
+	DirectiveLocationFragmentDefinition DirectiveLocation = "FRAGMENT_DEFINITION"
+	// Location adjacent to a fragment spread.
+	DirectiveLocationFragmentSpread DirectiveLocation = "FRAGMENT_SPREAD"
+	// Location adjacent to an inline fragment.
+	DirectiveLocationInlineFragment DirectiveLocation = "INLINE_FRAGMENT"
+	// Location adjacent to a variable definition.
+	DirectiveLocationVariableDefinition DirectiveLocation = "VARIABLE_DEFINITION"
+	// Location adjacent to a schema definition.
+	DirectiveLocationSchema DirectiveLocation = "SCHEMA"
+	// Location adjacent to a scalar definition.
+	DirectiveLocationScalar DirectiveLocation = "SCALAR"
+	// Location adjacent to an object type definition.
+	DirectiveLocationObject DirectiveLocation = "OBJECT"
+	// Location adjacent to a field definition.
+	DirectiveLocationFieldDefinition DirectiveLocation = "FIELD_DEFINITION"
+	// Location adjacent to an argument definition.
+	DirectiveLocationArgumentDefinition DirectiveLocation = "ARGUMENT_DEFINITION"
+	// Location adjacent to an interface definition.
+	DirectiveLocationInterface DirectiveLocation = "INTERFACE"
+	// Location adjacent to a union definition.
+	DirectiveLocationUnion DirectiveLocation = "UNION"
+	// Location adjacent to an enum definition.
+	DirectiveLocationEnum DirectiveLocation = "ENUM"
+	// Location adjacent to an enum value definition.
+	DirectiveLocationEnumValue DirectiveLocation = "ENUM_VALUE"
+	// Location adjacent to an input object type definition.
+	DirectiveLocationInputObject DirectiveLocation = "INPUT_OBJECT"
+	// Location adjacent to an input object field definition.
 	DirectiveLocationInputFieldDefinition DirectiveLocation = "INPUT_FIELD_DEFINITION"
 )
 
@@ -253,6 +359,11 @@ func (v *FloatFilterInput) GetNotIn() []*float64 { return v.NotIn }
 func (v *FloatFilterInput) GetBetween() *FloatFilterBetween { return v.Between }
 
 // FullType includes the GraphQL fields of __Type requested by the fragment FullType.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type FullType struct {
 	Kind          TypeKind                         `json:"kind"`
 	Name          *string                          `json:"name"`
@@ -289,6 +400,9 @@ func (v *FullType) GetEnumValues() []*FullTypeEnumValuesEnumValue { return v.Enu
 func (v *FullType) GetPossibleTypes() []*FullTypePossibleTypesType { return v.PossibleTypes }
 
 // FullTypeEnumValuesEnumValue includes the requested fields of the GraphQL type __EnumValue.
+// The GraphQL type's documentation follows.
+//
+// One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.
 type FullTypeEnumValuesEnumValue struct {
 	Name              string  `json:"name"`
 	Description       *string `json:"description"`
@@ -309,6 +423,9 @@ func (v *FullTypeEnumValuesEnumValue) GetIsDeprecated() bool { return v.IsDeprec
 func (v *FullTypeEnumValuesEnumValue) GetDeprecationReason() *string { return v.DeprecationReason }
 
 // FullTypeFieldsField includes the requested fields of the GraphQL type __Field.
+// The GraphQL type's documentation follows.
+//
+// Object and Interface types are described by a list of Fields, each of which has a name, potentially a list of arguments, and a return type.
 type FullTypeFieldsField struct {
 	Name              string                               `json:"name"`
 	Description       *string                              `json:"description"`
@@ -337,6 +454,9 @@ func (v *FullTypeFieldsField) GetIsDeprecated() bool { return v.IsDeprecated }
 func (v *FullTypeFieldsField) GetDeprecationReason() *string { return v.DeprecationReason }
 
 // FullTypeFieldsFieldArgsInputValue includes the requested fields of the GraphQL type __InputValue.
+// The GraphQL type's documentation follows.
+//
+// Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
 type FullTypeFieldsFieldArgsInputValue struct {
 	InputValue `json:"-"`
 }
@@ -409,6 +529,11 @@ func (v *FullTypeFieldsFieldArgsInputValue) __premarshalJSON() (*__premarshalFul
 }
 
 // FullTypeFieldsFieldType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type FullTypeFieldsFieldType struct {
 	TypeRef `json:"-"`
 }
@@ -473,6 +598,9 @@ func (v *FullTypeFieldsFieldType) __premarshalJSON() (*__premarshalFullTypeField
 }
 
 // FullTypeInputFieldsInputValue includes the requested fields of the GraphQL type __InputValue.
+// The GraphQL type's documentation follows.
+//
+// Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
 type FullTypeInputFieldsInputValue struct {
 	InputValue `json:"-"`
 }
@@ -543,6 +671,11 @@ func (v *FullTypeInputFieldsInputValue) __premarshalJSON() (*__premarshalFullTyp
 }
 
 // FullTypeInterfacesType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type FullTypeInterfacesType struct {
 	TypeRef `json:"-"`
 }
@@ -607,6 +740,11 @@ func (v *FullTypeInterfacesType) __premarshalJSON() (*__premarshalFullTypeInterf
 }
 
 // FullTypePossibleTypesType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type FullTypePossibleTypesType struct {
 	TypeRef `json:"-"`
 }
@@ -711,11 +849,15 @@ func (v *IDFilterInput) GetIn() []*string { return v.In }
 func (v *IDFilterInput) GetNotin() []*string { return v.Notin }
 
 // InputValue includes the GraphQL fields of __InputValue requested by the fragment InputValue.
+// The GraphQL type's documentation follows.
+//
+// Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
 type InputValue struct {
-	Name         string          `json:"name"`
-	Description  *string         `json:"description"`
-	Type         *InputValueType `json:"type"`
-	DefaultValue *string         `json:"defaultValue"`
+	Name        string          `json:"name"`
+	Description *string         `json:"description"`
+	Type        *InputValueType `json:"type"`
+	// A GraphQL-formatted string representing the default value for this input value.
+	DefaultValue *string `json:"defaultValue"`
 }
 
 // GetName returns InputValue.Name, and is useful for accessing the field via an interface.
@@ -731,6 +873,11 @@ func (v *InputValue) GetType() *InputValueType { return v.Type }
 func (v *InputValue) GetDefaultValue() *string { return v.DefaultValue }
 
 // InputValueType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type InputValueType struct {
 	TypeRef `json:"-"`
 }
@@ -875,12 +1022,20 @@ type IntrospectionQueryResponse struct {
 func (v *IntrospectionQueryResponse) GetSchema() *IntrospectionQuerySchema { return v.Schema }
 
 // IntrospectionQuerySchema includes the requested fields of the GraphQL type __Schema.
+// The GraphQL type's documentation follows.
+//
+// A GraphQL Schema defines the capabilities of a GraphQL server. It exposes all available types and directives on the server, as well as the entry points for query, mutation, and subscription operations.
 type IntrospectionQuerySchema struct {
-	QueryType        *IntrospectionQuerySchemaQueryType             `json:"queryType"`
-	MutationType     *IntrospectionQuerySchemaMutationType          `json:"mutationType"`
-	SubscriptionType *IntrospectionQuerySchemaSubscriptionType      `json:"subscriptionType"`
-	Types            []*IntrospectionQuerySchemaTypesType           `json:"types"`
-	Directives       []*IntrospectionQuerySchemaDirectivesDirective `json:"directives"`
+	// The type that query operations will be rooted at.
+	QueryType *IntrospectionQuerySchemaQueryType `json:"queryType"`
+	// If this server supports mutation, the type that mutation operations will be rooted at.
+	MutationType *IntrospectionQuerySchemaMutationType `json:"mutationType"`
+	// If this server support subscription, the type that subscription operations will be rooted at.
+	SubscriptionType *IntrospectionQuerySchemaSubscriptionType `json:"subscriptionType"`
+	// A list of all types supported by this server.
+	Types []*IntrospectionQuerySchemaTypesType `json:"types"`
+	// A list of all directives supported by this server.
+	Directives []*IntrospectionQuerySchemaDirectivesDirective `json:"directives"`
 }
 
 // GetQueryType returns IntrospectionQuerySchema.QueryType, and is useful for accessing the field via an interface.
@@ -907,6 +1062,11 @@ func (v *IntrospectionQuerySchema) GetDirectives() []*IntrospectionQuerySchemaDi
 }
 
 // IntrospectionQuerySchemaDirectivesDirective includes the requested fields of the GraphQL type __Directive.
+// The GraphQL type's documentation follows.
+//
+// A Directive provides a way to describe alternate runtime execution and type validation behavior in a GraphQL document.
+//
+// In some cases, you need to provide options to alter GraphQL's execution behavior in ways field arguments will not suffice, such as conditionally including or skipping a field. Directives provide this by describing additional information to the executor.
 type IntrospectionQuerySchemaDirectivesDirective struct {
 	Name        string                                                       `json:"name"`
 	Description *string                                                      `json:"description"`
@@ -931,6 +1091,9 @@ func (v *IntrospectionQuerySchemaDirectivesDirective) GetArgs() []*Introspection
 }
 
 // IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue includes the requested fields of the GraphQL type __InputValue.
+// The GraphQL type's documentation follows.
+//
+// Arguments provided to Fields or Directives and the input fields of an InputObject are represented as Input Values which describe their type and optionally a default value.
 type IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue struct {
 	InputValue `json:"-"`
 }
@@ -1009,6 +1172,11 @@ func (v *IntrospectionQuerySchemaDirectivesDirectiveArgsInputValue) __premarshal
 }
 
 // IntrospectionQuerySchemaMutationType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type IntrospectionQuerySchemaMutationType struct {
 	Name *string `json:"name"`
 }
@@ -1017,6 +1185,11 @@ type IntrospectionQuerySchemaMutationType struct {
 func (v *IntrospectionQuerySchemaMutationType) GetName() *string { return v.Name }
 
 // IntrospectionQuerySchemaQueryType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type IntrospectionQuerySchemaQueryType struct {
 	Name *string `json:"name"`
 }
@@ -1025,6 +1198,11 @@ type IntrospectionQuerySchemaQueryType struct {
 func (v *IntrospectionQuerySchemaQueryType) GetName() *string { return v.Name }
 
 // IntrospectionQuerySchemaSubscriptionType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type IntrospectionQuerySchemaSubscriptionType struct {
 	Name *string `json:"name"`
 }
@@ -1033,6 +1211,11 @@ type IntrospectionQuerySchemaSubscriptionType struct {
 func (v *IntrospectionQuerySchemaSubscriptionType) GetName() *string { return v.Name }
 
 // IntrospectionQuerySchemaTypesType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type IntrospectionQuerySchemaTypesType struct {
 	FullType `json:"-"`
 }
@@ -1409,20 +1592,34 @@ const (
 	TodoTypeFeature TodoType = "Feature"
 )
 
+// An enum describing what kind of type a given `__Type` is.
 type TypeKind string
 
 const (
-	TypeKindScalar      TypeKind = "SCALAR"
-	TypeKindObject      TypeKind = "OBJECT"
-	TypeKindInterface   TypeKind = "INTERFACE"
-	TypeKindUnion       TypeKind = "UNION"
-	TypeKindEnum        TypeKind = "ENUM"
+	// Indicates this type is a scalar.
+	TypeKindScalar TypeKind = "SCALAR"
+	// Indicates this type is an object. `fields` and `interfaces` are valid fields.
+	TypeKindObject TypeKind = "OBJECT"
+	// Indicates this type is an interface. `fields`, `interfaces`, and `possibleTypes` are valid fields.
+	TypeKindInterface TypeKind = "INTERFACE"
+	// Indicates this type is a union. `possibleTypes` is a valid field.
+	TypeKindUnion TypeKind = "UNION"
+	// Indicates this type is an enum. `enumValues` is a valid field.
+	TypeKindEnum TypeKind = "ENUM"
+	// Indicates this type is an input object. `inputFields` is a valid field.
 	TypeKindInputObject TypeKind = "INPUT_OBJECT"
-	TypeKindList        TypeKind = "LIST"
-	TypeKindNonNull     TypeKind = "NON_NULL"
+	// Indicates this type is a list. `ofType` is a valid field.
+	TypeKindList TypeKind = "LIST"
+	// Indicates this type is a non-null. `ofType` is a valid field.
+	TypeKindNonNull TypeKind = "NON_NULL"
 )
 
 // TypeRef includes the GraphQL fields of __Type requested by the fragment TypeRef.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRef struct {
 	Kind   TypeKind       `json:"kind"`
 	Name   *string        `json:"name"`
@@ -1439,6 +1636,11 @@ func (v *TypeRef) GetName() *string { return v.Name }
 func (v *TypeRef) GetOfType() *TypeRefOfType { return v.OfType }
 
 // TypeRefOfType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRefOfType struct {
 	Kind   TypeKind             `json:"kind"`
 	Name   *string              `json:"name"`
@@ -1455,6 +1657,11 @@ func (v *TypeRefOfType) GetName() *string { return v.Name }
 func (v *TypeRefOfType) GetOfType() *TypeRefOfTypeOfType { return v.OfType }
 
 // TypeRefOfTypeOfType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRefOfTypeOfType struct {
 	Kind   TypeKind                   `json:"kind"`
 	Name   *string                    `json:"name"`
@@ -1471,6 +1678,11 @@ func (v *TypeRefOfTypeOfType) GetName() *string { return v.Name }
 func (v *TypeRefOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfType { return v.OfType }
 
 // TypeRefOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRefOfTypeOfTypeOfType struct {
 	Kind   TypeKind                         `json:"kind"`
 	Name   *string                          `json:"name"`
@@ -1487,6 +1699,11 @@ func (v *TypeRefOfTypeOfTypeOfType) GetName() *string { return v.Name }
 func (v *TypeRefOfTypeOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfTypeOfType { return v.OfType }
 
 // TypeRefOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRefOfTypeOfTypeOfTypeOfType struct {
 	Kind   TypeKind                               `json:"kind"`
 	Name   *string                                `json:"name"`
@@ -1505,6 +1722,11 @@ func (v *TypeRefOfTypeOfTypeOfTypeOfType) GetOfType() *TypeRefOfTypeOfTypeOfType
 }
 
 // TypeRefOfTypeOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRefOfTypeOfTypeOfTypeOfTypeOfType struct {
 	Kind   TypeKind                                     `json:"kind"`
 	Name   *string                                      `json:"name"`
@@ -1523,6 +1745,11 @@ func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfType) GetOfType() *TypeRefOfTypeOfType
 }
 
 // TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType struct {
 	Kind   TypeKind                                           `json:"kind"`
 	Name   *string                                            `json:"name"`
@@ -1541,6 +1768,11 @@ func (v *TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfType) GetOfType() *TypeRefOfType
 }
 
 // TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType includes the requested fields of the GraphQL type __Type.
+// The GraphQL type's documentation follows.
+//
+// The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
+//
+// Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByURL`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.
 type TypeRefOfTypeOfTypeOfTypeOfTypeOfTypeOfTypeOfType struct {
 	Kind TypeKind `json:"kind"`
 	Name *string  `json:"name"`
@@ -1559,7 +1791,6 @@ type UserFiltersInput struct {
 	Name         *StringFilterInput      `json:"name,omitempty"`
 	CreatedAt    *TimeFilterInput        `json:"createdAt,omitempty"`
 	UpdatedAt    *TimeFilterInput        `json:"updatedAt,omitempty"`
-	DeletedAt    *TimeFilterInput        `json:"deletedAt,omitempty"`
 	Cat          *CatFiltersInput        `json:"cat,omitempty"`
 	CompanyID    *IntFilterInput         `json:"companyID,omitempty"`
 	Money        *FloatFilterInput       `json:"money,omitempty"`
@@ -1567,6 +1798,7 @@ type UserFiltersInput struct {
 	SmartPhones  *SmartPhoneFiltersInput `json:"smartPhones,omitempty"`
 	FavoritColor *StringFilterInput      `json:"favoritColor,omitempty"`
 	Email        *StringFilterInput      `json:"email,omitempty"`
+	OtherDate    *TimeFilterInput        `json:"otherDate,omitempty"`
 	And          []*UserFiltersInput     `json:"and,omitempty"`
 	Or           []*UserFiltersInput     `json:"or,omitempty"`
 	Not          *UserFiltersInput       `json:"not,omitempty"`
@@ -1583,9 +1815,6 @@ func (v *UserFiltersInput) GetCreatedAt() *TimeFilterInput { return v.CreatedAt 
 
 // GetUpdatedAt returns UserFiltersInput.UpdatedAt, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetUpdatedAt() *TimeFilterInput { return v.UpdatedAt }
-
-// GetDeletedAt returns UserFiltersInput.DeletedAt, and is useful for accessing the field via an interface.
-func (v *UserFiltersInput) GetDeletedAt() *TimeFilterInput { return v.DeletedAt }
 
 // GetCat returns UserFiltersInput.Cat, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetCat() *CatFiltersInput { return v.Cat }
@@ -1608,6 +1837,9 @@ func (v *UserFiltersInput) GetFavoritColor() *StringFilterInput { return v.Favor
 // GetEmail returns UserFiltersInput.Email, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetEmail() *StringFilterInput { return v.Email }
 
+// GetOtherDate returns UserFiltersInput.OtherDate, and is useful for accessing the field via an interface.
+func (v *UserFiltersInput) GetOtherDate() *TimeFilterInput { return v.OtherDate }
+
 // GetAnd returns UserFiltersInput.And, and is useful for accessing the field via an interface.
 func (v *UserFiltersInput) GetAnd() []*UserFiltersInput { return v.And }
 
@@ -1627,6 +1859,7 @@ type UserInput struct {
 	SmartPhones  []*SmartPhoneInput `json:"smartPhones,omitempty"`
 	FavoritColor *string            `json:"favoritColor"`
 	Email        string             `json:"email"`
+	OtherDate    *time.Time         `json:"otherDate"`
 }
 
 // GetName returns UserInput.Name, and is useful for accessing the field via an interface.
@@ -1652,6 +1885,9 @@ func (v *UserInput) GetFavoritColor() *string { return v.FavoritColor }
 
 // GetEmail returns UserInput.Email, and is useful for accessing the field via an interface.
 func (v *UserInput) GetEmail() string { return v.Email }
+
+// GetOtherDate returns UserInput.OtherDate, and is useful for accessing the field via an interface.
+func (v *UserInput) GetOtherDate() *time.Time { return v.OtherDate }
 
 // Many 2 many input between Todo and User
 // Filter to Select Todo and set to set list of User PrimaryKeys
@@ -3537,6 +3773,47 @@ func (v *updateUserChangeCompanyUpdateUserUpdateUserPayloadUserUserQueryResultDa
 	return v.Name
 }
 
+// The query or mutation executed by CompaniesUsersWhereHaveCatNameStartsWithMi.
+const CompaniesUsersWhereHaveCatNameStartsWithMi_Operation = `
+query CompaniesUsersWhereHaveCatNameStartsWithMi {
+	queryCompany(filter: {users:{cat:{name:{startsWith:"Mi"}}}}) {
+		data {
+			id
+			name
+			users {
+				id
+				name
+				cat {
+					name
+				}
+			}
+		}
+	}
+}
+`
+
+func CompaniesUsersWhereHaveCatNameStartsWithMi(
+	ctx context.Context,
+	client graphql.Client,
+) (*CompaniesUsersWhereHaveCatNameStartsWithMiResponse, error) {
+	req := &graphql.Request{
+		OpName: "CompaniesUsersWhereHaveCatNameStartsWithMi",
+		Query:  CompaniesUsersWhereHaveCatNameStartsWithMi_Operation,
+	}
+	var err error
+
+	var data CompaniesUsersWhereHaveCatNameStartsWithMiResponse
+	resp := &graphql.Response{Data: &data}
+
+	err = client.MakeRequest(
+		ctx,
+		req,
+		resp,
+	)
+
+	return &data, err
+}
+
 // The query or mutation executed by IntrospectionQuery.
 const IntrospectionQuery_Operation = `
 query IntrospectionQuery {
@@ -3747,7 +4024,7 @@ func addCompanies(
 // The query or mutation executed by addCompanyQueryResult.
 const addCompanyQueryResult_Operation = `
 mutation addCompanyQueryResult ($name: String!) {
-	addCompany(input: {name:$name}) {
+	addCompany(input: {name:$name,users:[]}) {
 		affected {
 			id
 			name

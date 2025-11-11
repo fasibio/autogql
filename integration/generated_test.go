@@ -82,10 +82,12 @@ func (suite *QueryTestSuite) TestIntrospection() {
 func (suite *QueryTestSuite) AddCompanies(t *testing.T) {
 	resp, err := addCompanies(context.TODO(), suite.Client, []*CompanyInput{
 		{
-			Name: "TestCompany1",
+			Name:  "TestCompany1",
+			Users: []*UserInput{},
 		},
 		{
-			Name: "TestCompany2",
+			Name:  "TestCompany2",
+			Users: []*UserInput{},
 		},
 	})
 	assert.Nil(t, err)
@@ -334,6 +336,9 @@ func (suite *QueryTestSuite) TestComplexCombination() {
 	}))
 	suite.T().Run("deleteUserByUserName => user 4 with name Schmadel", queryTester(func() (any, error) {
 		return deleteUserByUserName(context.Background(), suite.Client, "Schmadel")
+	}))
+	suite.T().Run("query Company => get companies users where have cat name starts with Mi", queryTester(func() (any, error) {
+		return CompaniesUsersWhereHaveCatNameStartsWithMi(context.Background(), suite.Client)
 	}))
 
 }

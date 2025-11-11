@@ -110,6 +110,7 @@ type Company struct {
 	MotherCompanyID *int       `json:"motherCompanyID,omitempty"`
 	MotherCompany   *Company   `json:"motherCompany,omitempty"`
 	CreatedAt       *time.Time `json:"createdAt,omitempty"`
+	Users           []*User    `json:"users,omitempty"`
 }
 
 // Filter input selection for Company
@@ -121,6 +122,7 @@ type CompanyFiltersInput struct {
 	MotherCompanyID *IntFilterInput        `json:"motherCompanyID,omitempty"`
 	MotherCompany   *CompanyFiltersInput   `json:"motherCompany,omitempty"`
 	CreatedAt       *TimeFilterInput       `json:"createdAt,omitempty"`
+	Users           *UserFiltersInput      `json:"users,omitempty"`
 	And             []*CompanyFiltersInput `json:"and,omitempty"`
 	Or              []*CompanyFiltersInput `json:"or,omitempty"`
 	Not             *CompanyFiltersInput   `json:"not,omitempty"`
@@ -132,6 +134,7 @@ type CompanyInput struct {
 	Description     *string       `json:"description,omitempty"`
 	MotherCompanyID *int          `json:"motherCompanyID,omitempty"`
 	MotherCompany   *CompanyInput `json:"motherCompany,omitempty"`
+	Users           []*UserInput  `json:"users,omitempty"`
 }
 
 // Order Company by asc or desc
@@ -146,6 +149,7 @@ type CompanyPatch struct {
 	Description     *string       `json:"description,omitempty"`
 	MotherCompanyID *int          `json:"motherCompanyID,omitempty"`
 	MotherCompany   *CompanyPatch `json:"motherCompany,omitempty"`
+	Users           []*UserPatch  `json:"users,omitempty"`
 }
 
 // Company result
