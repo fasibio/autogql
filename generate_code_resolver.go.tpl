@@ -38,7 +38,7 @@
             }
           }
           var res model.{{$object.Name}}
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           db = db.First(&res, {{range $primaryFieldKey, $primaryField := $primaryFields}} tableName+".{{ lower $primaryField.Name}} = ?",{{$primaryField.Name}}, {{end }})
           if okHook {
             r, err := v.AfterCallDb(ctx, &res)
@@ -67,7 +67,7 @@
             }
           }
           var res []*model.{{$object.Name}}
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
           if len(preloadSubTables)> 0{
             db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
@@ -89,7 +89,7 @@
                 resMap[m.{{upper $primaryField.Name}}] = struct{}{}
               }
               var res []int
-              for k, _ := range resMap {
+              for k := range resMap {
                 res = append(res, k)
               }
               slices.Sort(res)
@@ -187,7 +187,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
           db = db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
@@ -254,7 +254,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
           db = db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
@@ -360,7 +360,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
           sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -418,7 +418,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
           sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
