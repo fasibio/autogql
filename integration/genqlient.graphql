@@ -115,7 +115,7 @@
 }
 
 mutation addCompanyQueryResult($name: String!){
-  addCompany(input:{name:$name}){
+  addCompany(input:{name:$name, users: []}){
     affected{
       id
       name
@@ -502,5 +502,21 @@ query queryUserByMoneyFilterAndBetween{
       }
     }
     
+  }
+}
+
+query CompaniesUsersWhereHaveCatNameStartsWithMi{
+  queryCompany(filter: { users: { cat: { name: { startsWith: "Mi" } } } }) {
+    data {
+      id
+      name
+      users {
+        id
+        name
+        cat {
+          name
+        }
+      }
+    }
   }
 }

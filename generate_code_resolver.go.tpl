@@ -3,7 +3,10 @@
 {{ reserveImport "github.com/99designs/gqlgen/graphql" }}
 {{ reserveImport "context" }}
 {{ reserveImport "fmt" }}
+{{ reserveImport "slices" }}
 {{ reserveImport "gorm.io/gorm/clause" }}
+{{ reserveImport "gorm.io/gorm"  }}
+
 {{ range $import := .Imports }}
   {{ reserveImport $import }}
 {{end}}
@@ -35,7 +38,7 @@
             }
           }
           var res model.{{$object.Name}}
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           db = db.First(&res, {{range $primaryFieldKey, $primaryField := $primaryFields}} tableName+".{{ lower $primaryField.Name}} = ?",{{$primaryField.Name}}, {{end }})
           if okHook {
             r, err := v.AfterCallDb(ctx, &res)
@@ -64,15 +67,49 @@
             }
           }
           var res []*model.{{$object.Name}}
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
           if len(preloadSubTables)> 0{
             db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
-          } 
+          }
+          
           if filter != nil{
+         		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+            {{- $primaryFields := $object.PrimaryKeys }}
+            type ids struct{
+              {{range $primaryFieldKey, $primaryField := $primaryFields}} {{upper $primaryField.Name}} {{$root.GetGoFieldType $objectName $primaryField false}} `json:"{{ lower $primaryField.Name}}"` {{end }}
+            }
+
+            type IdList []ids
+
+            {{range $primaryFieldKey, $primaryField := $primaryFields}} 
+            get{{title $primaryField.Name}}s := func (i IdList)[]{{$root.GetGoFieldType $objectName $primaryField false}}{
+              resMap := make(map[{{$root.GetGoFieldType $objectName $primaryField false}}]struct{})
+              for _, m := range i {
+                resMap[m.{{upper $primaryField.Name}}] = struct{}{}
+              }
+              var res []int
+              for k := range resMap {
+                res = append(res, k)
+              }
+              slices.Sort(res)
+              return res
+            }
+            {{end }}
+
+
+            primKeys := []string{
+            {{range $primaryFieldKey, $primaryField := $primaryFields}}tableName+".{{ lower $primaryField.Name}}", {{end}}
+            }
             blackList := make(map[string]struct{})
-            sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-            db.Where(sql, arguments...)
+            sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+            var matches IdList
+						filterDb.Session(&gorm.Session{}).Model(&model.{{$object.Name}}{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+						
+            sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+              {{range $primaryFieldKey, $primaryField := $primaryFields}}runtimehelper.In(fmt.Sprintf("%s.{{ lower $primaryField.Name}}",tableName,), get{{title $primaryField.Name}}s(matches)), {{end}}
+            }, runtimehelper.RelationAnd)
+            db = db.Where(sql, arguments...)
           }
           if okHook {
             var err error
@@ -81,7 +118,7 @@
               return nil, err
             }
           }
-            if (order != nil){
+          if (order != nil){
             if order.Asc != nil {
               db = db.Order(fmt.Sprintf("%[1]s%[2]s%[1]s.%[1]s%[3]s%[1]s asc",runtimehelper.GetQuoteChar(db), tableName,order.Asc))
             }
@@ -150,7 +187,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
           db = db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
@@ -217,7 +254,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
           db = db.Model(&model.{{$object.Name}}{}).Where(sql, arguments...)
@@ -323,7 +360,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
           sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -381,7 +418,7 @@
               return nil, err
             }
           }
-          tableName := r.Sql.Db.Config.NamingStrategy.TableName("{{$object.Name}}")
+          tableName := r.Sql.Db.NamingStrategy.TableName("{{$object.Name}}")
           blackList := make(map[string]struct{})
           queryDb := db.Select(tableName+".{{$root.PrimaryKeyOfObject $object.Name}}")
           sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s",runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")

@@ -5,6 +5,7 @@ package graph
 import (
 	"context"
 	"fmt"
+	"slices"
 	"strings"
 
 	"github.com/99designs/gqlgen/graphql"
@@ -12,6 +13,7 @@ import (
 	"github.com/fasibio/autogql/testservice/graph/db"
 	"github.com/fasibio/autogql/testservice/graph/model"
 	"github.com/huandu/xstrings"
+	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
 )
 
@@ -35,7 +37,7 @@ func (r *queryResolver) GetCat(ctx context.Context, id int) (*model.Cat, error) 
 		}
 	}
 	var res model.Cat
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Cat")
 	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
@@ -64,15 +66,45 @@ func (r *queryResolver) QueryCat(ctx context.Context, filter *model.CatFiltersIn
 		}
 	}
 	var res []*model.Cat
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Cat")
 	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.Cat{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -197,7 +229,7 @@ func (r *mutationResolver) UpdateCat(ctx context.Context, input model.UpdateCatI
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Cat")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -253,7 +285,7 @@ func (r *mutationResolver) DeleteCat(ctx context.Context, filter model.CatFilter
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Cat")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Cat")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -308,7 +340,7 @@ func (r *queryResolver) GetCompany(ctx context.Context, id int) (*model.Company,
 		}
 	}
 	var res model.Company
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Company")
 	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
@@ -337,15 +369,45 @@ func (r *queryResolver) QueryCompany(ctx context.Context, filter *model.CompanyF
 		}
 	}
 	var res []*model.Company
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Company")
 	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.Company{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -470,7 +532,7 @@ func (r *mutationResolver) UpdateCompany(ctx context.Context, input model.Update
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Company")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -526,7 +588,7 @@ func (r *mutationResolver) DeleteCompany(ctx context.Context, filter model.Compa
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Company")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Company")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -581,7 +643,7 @@ func (r *queryResolver) GetSmartPhone(ctx context.Context, id int) (*model.Smart
 		}
 	}
 	var res model.SmartPhone
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	tableName := r.Sql.Db.NamingStrategy.TableName("SmartPhone")
 	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
@@ -610,15 +672,45 @@ func (r *queryResolver) QuerySmartPhone(ctx context.Context, filter *model.Smart
 		}
 	}
 	var res []*model.SmartPhone
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	tableName := r.Sql.Db.NamingStrategy.TableName("SmartPhone")
 	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.SmartPhone{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -743,7 +835,7 @@ func (r *mutationResolver) UpdateSmartPhone(ctx context.Context, input model.Upd
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	tableName := r.Sql.Db.NamingStrategy.TableName("SmartPhone")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -799,7 +891,7 @@ func (r *mutationResolver) DeleteSmartPhone(ctx context.Context, filter model.Sm
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("SmartPhone")
+	tableName := r.Sql.Db.NamingStrategy.TableName("SmartPhone")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -854,7 +946,7 @@ func (r *queryResolver) GetTodo(ctx context.Context, id int) (*model.Todo, error
 		}
 	}
 	var res model.Todo
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Todo")
 	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
@@ -883,15 +975,45 @@ func (r *queryResolver) QueryTodo(ctx context.Context, filter *model.TodoFilters
 		}
 	}
 	var res []*model.Todo
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Todo")
 	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.Todo{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -973,7 +1095,7 @@ func (r *mutationResolver) AddUser2Todos(ctx context.Context, input model.UserRe
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Todo")
 	blackList := make(map[string]struct{})
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	db = db.Model(&model.Todo{}).Where(sql, arguments...)
@@ -1037,7 +1159,7 @@ func (r *mutationResolver) DeleteUserFromTodos(ctx context.Context, input model.
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Todo")
 	blackList := make(map[string]struct{})
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
 	db = db.Model(&model.Todo{}).Where(sql, arguments...)
@@ -1138,7 +1260,7 @@ func (r *mutationResolver) UpdateTodo(ctx context.Context, input model.UpdateTod
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Todo")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -1194,7 +1316,7 @@ func (r *mutationResolver) DeleteTodo(ctx context.Context, filter model.TodoFilt
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("Todo")
+	tableName := r.Sql.Db.NamingStrategy.TableName("Todo")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -1249,7 +1371,7 @@ func (r *queryResolver) GetUser(ctx context.Context, id int) (*model.User, error
 		}
 	}
 	var res model.User
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
+	tableName := r.Sql.Db.NamingStrategy.TableName("User")
 	db = db.First(&res, tableName+".id = ?", id)
 	if okHook {
 		r, err := v.AfterCallDb(ctx, &res)
@@ -1278,15 +1400,45 @@ func (r *queryResolver) QueryUser(ctx context.Context, filter *model.UserFilters
 		}
 	}
 	var res []*model.User
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
+	tableName := r.Sql.Db.NamingStrategy.TableName("User")
 	preloadSubTables := runtimehelper.GetPreloadsMap(ctx, "data").SubTables
 	if len(preloadSubTables) > 0 {
 		db = runtimehelper.GetPreloadSelection(ctx, db, preloadSubTables[0])
 	}
+
 	if filter != nil {
+		filterDb := db.Session(&gorm.Session{PrepareStmt: true, Initialized: true})
+		type ids struct {
+			ID int `json:"id"`
+		}
+
+		type IdList []ids
+
+		getIds := func(i IdList) []int {
+			resMap := make(map[int]struct{})
+			for _, m := range i {
+				resMap[m.ID] = struct{}{}
+			}
+			var res []int
+			for k := range resMap {
+				res = append(res, k)
+			}
+			slices.Sort(res)
+			return res
+		}
+
+		primKeys := []string{
+			tableName + ".id",
+		}
 		blackList := make(map[string]struct{})
-		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(db, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
-		db.Where(sql, arguments...)
+		sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(filterDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
+		var matches IdList
+		filterDb.Session(&gorm.Session{}).Model(&model.User{}).Select(primKeys).Where(sql, arguments...).Scan(&matches)
+
+		sql, arguments = runtimehelper.CombineSimpleQuery([]runtimehelper.ConditionElement{
+			runtimehelper.In(fmt.Sprintf("%s.id", tableName), getIds(matches)),
+		}, runtimehelper.RelationAnd)
+		db = db.Where(sql, arguments...)
 	}
 	if okHook {
 		var err error
@@ -1411,7 +1563,7 @@ func (r *mutationResolver) UpdateUser(ctx context.Context, input model.UpdateUse
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
+	tableName := r.Sql.Db.NamingStrategy.TableName("User")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(input.Filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
@@ -1467,7 +1619,7 @@ func (r *mutationResolver) DeleteUser(ctx context.Context, filter model.UserFilt
 			return nil, err
 		}
 	}
-	tableName := r.Sql.Db.Config.NamingStrategy.TableName("User")
+	tableName := r.Sql.Db.NamingStrategy.TableName("User")
 	blackList := make(map[string]struct{})
 	queryDb := db.Select(tableName + ".id")
 	sql, arguments := runtimehelper.CombineSimpleQuery(filter.ExtendsDatabaseQuery(queryDb, fmt.Sprintf("%[1]s%[2]s%[1]s", runtimehelper.GetQuoteChar(db), tableName), false, blackList), "AND")
