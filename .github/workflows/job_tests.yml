@@ -14,10 +14,7 @@ jobs:
           go-version: 1.25.1
         id: go
       - run: go version
-      - name: golangci-lint
-        uses: golangci/golangci-lint-action@v9
-        with:
-          version: v2.1
+      - run: go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest
       - run: go vet ./...
       - run: |
           gofmt -s -l .
