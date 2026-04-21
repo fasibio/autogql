@@ -290,13 +290,13 @@ input TimeFilterBetween{
 
     {{- if $object.SQLDirective.HasQueries}}
       extend type Query {
-      {{- if $object.SQLDirective.Query.Get}}
+      {{- if $object.SQLDirective.Query.Get.Value}}
         """
         return one {{$object.Name}} selected by PrimaryKey(s)
         """
         get{{$object.Name}}({{range $entryKey, $entity := $object.PrimaryKeys}}{{$entity.Name}}: {{$entity.GqlType "Patch"}}!, {{end}}): {{$object.Name}} {{ $object.SQLDirectiveValues "query" "Get" | join " "}}
       {{- end}}
-      {{- if $object.SQLDirective.Query.Query}}
+      {{- if $object.SQLDirective.Query.Query.Value}}
         """
         return a list of  {{$object.Name}} filterable, pageination, orderbale, groupable ...
         """
@@ -317,19 +317,19 @@ input TimeFilterBetween{
         """
         delete{{$m2mEntity.GqlTypeName}}From{{$object.Name}}s(input:{{$m2mEntity.GqlTypeName}}Ref2{{$object.Name}}sInput!): Delete{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Delete" | join " "}}
       {{- end}}
-      {{- if $object.SQLDirective.Mutation.Add}}
+      {{- if $object.SQLDirective.Mutation.Add.Value}}
         """
         Add new {{$object.Name}}
         """
         add{{$object.Name}}(input: [{{$object.Name}}Input!]!): Add{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Add" | join " "}}
       {{- end}}
-      {{- if $object.SQLDirective.Mutation.Update}}
+      {{- if $object.SQLDirective.Mutation.Update.Value}}
         """
         update {{$object.Name}} filtered by selection and update all matched values
         """
         update{{$object.Name}}(input: Update{{$object.Name}}Input!): Update{{$object.Name}}Payload {{ $object.SQLDirectiveValues "mutation" "Update" | join " "}}
       {{- end}}
-      {{- if $object.SQLDirective.Mutation.Delete}}
+      {{- if $object.SQLDirective.Mutation.Delete.Value}}
         """
         delete {{$object.Name}} filtered by selection and delete all matched values
         """
