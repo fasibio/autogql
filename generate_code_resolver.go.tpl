@@ -16,7 +16,6 @@
 
 {{- range $objectName, $object := .Handler.List.Objects}}
   {{- if $object.HasSqlDirective}}
-      {{- if $object.SQLDirective.Query.Get}}
         // Get{{$object.Name}} is the resolver for the get{{$object.Name}} field.
         {{- $primaryFields := $object.PrimaryKeys }}
         func (r *queryResolver) Get{{$object.Name}}(ctx context.Context, {{range $primaryFieldKey, $primaryField := $primaryFields}} {{$primaryField.Name}} {{$root.GetGoFieldType $objectName $primaryField false}}, {{end }}) (*model.{{$object.Name}}, error) {
@@ -54,7 +53,6 @@
           }
           return &res, db.Error
         }
-      {{- end}}
         // Query{{$object.Name}} is the resolver for the query{{$object.Name}} field.
         func (r *queryResolver) Query{{$object.Name}}(ctx context.Context, filter *model.{{$object.Name}}FiltersInput, order *model.{{$object.Name}}Order, first *int, offset *int, group []model.{{$object.Name}}Group) (*model.{{$object.Name}}QueryResult, error) {
           v, okHook := r.Sql.Hooks[string(db.Query{{$object.Name}})].(db.{{$hookBaseName}}HookQuery[model.{{$object.Name}}, model.{{$object.Name}}FiltersInput,model.{{$object.Name}}Order])
@@ -88,7 +86,7 @@
               for _, m := range i {
                 resMap[m.{{upper $primaryField.Name}}] = struct{}{}
               }
-              var res []int
+              var res []{{$root.GetGoFieldType $objectName $primaryField false}}
               for k := range resMap {
                 res = append(res, k)
               }
@@ -159,7 +157,6 @@
             TotalCount: int(total),
           },db.Error
         }
-    {{- if $object.SQLDirective.HasMutation}}
       func (r *Resolver) Add{{$object.Name}}Payload() {{$root.GeneratedPackage}}Add{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Add{{$object.Name}}Payload]{r} }
       func (r *Resolver) Delete{{$object.Name}}Payload() {{$root.GeneratedPackage}}Delete{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Delete{{$object.Name}}Payload]{r} }
       func (r *Resolver) Update{{$object.Name}}Payload() {{$root.GeneratedPackage}}Update{{$object.Name}}PayloadResolver { return &{{lcFirst $object.Name}}PayloadResolver[*model.Update{{$object.Name}}Payload]{r} }
@@ -225,7 +222,14 @@
           affectedDb := r.Sql.Db
           subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
           if len(subTables) > 0 {
-            if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+            var preloadMap runtimehelper.PreloadFields
+            for _, s := range subTables {
+              if s.PreloadName == "affected" {
+                preloadMap = s
+                break
+              }
+            }
+            if len(preloadMap.Fields) > 0 {
               affectedDb = runtimehelper.GetPreloadSelection(ctx, affectedDb, preloadMap)
               affectedDb.Where("{{$root.PrimaryKeyOfObject $object.Name}} IN ?", affectedResWhereIn).Find(&affectedRes)
             }
@@ -306,7 +310,7 @@
           return result, nil
         }
       {{- end}}
-      {{- if $object.SQLDirective.Mutation.Add}}
+      
         // Add{{$object.Name}} is the resolver for the add{{$object.Name}} field.
         func (r *mutationResolver) Add{{$object.Name}}(ctx context.Context, input []*model.{{$object.Name}}Input) (*model.Add{{$object.Name}}Payload, error) {
           v, okHook := r.Sql.Hooks[string(db.Add{{$object.Name}})].(db.{{$hookBaseName}}HookAdd[model.{{$object.Name}}, model.{{$object.Name}}Input, model.Add{{$object.Name}}Payload])
@@ -347,8 +351,6 @@
           }
           return res, db.Error
         }
-      {{- end}}
-      {{- if $object.SQLDirective.Mutation.Update}}
         // Update{{$object.Name}} is the resolver for the update{{$object.Name}} field.
         func (r *mutationResolver) Update{{$object.Name}}(ctx context.Context, input model.Update{{$object.Name}}Input) (*model.Update{{$object.Name}}Payload, error) {
           v, okHook := r.Sql.Hooks[string(db.Update{{$object.Name}})].(db.{{$hookBaseName}}HookUpdate[ model.Update{{$object.Name}}Input, model.Update{{$object.Name}}Payload])
@@ -385,7 +387,14 @@
           affectedRes := make([]*model.{{$object.Name}}, 0)
           subTables := runtimehelper.GetPreloadsMap(ctx, "affected").SubTables
           if len(subTables) > 0 {
-            if preloadMap := subTables[0]; len(preloadMap.Fields) > 0 {
+            var preloadMap runtimehelper.PreloadFields
+            for _, s := range subTables {
+              if s.PreloadName == "affected" {
+                preloadMap = s
+                break
+              }
+            }
+            if len(preloadMap.Fields) > 0 {
               affectedDb := runtimehelper.GetPreloadSelection(ctx, db, preloadMap)
               affectedDb = affectedDb.Model(&obj)
               affectedDb.Find(&affectedRes)
@@ -405,8 +414,6 @@
           }
           return res, db.Error
         }
-      {{- end}}
-      {{- if $object.SQLDirective.Mutation.Delete}}
         // Delete{{$object.Name}} is the resolver for the delete{{$object.Name}} field.
         func (r *mutationResolver) Delete{{$object.Name}}(ctx context.Context, filter model.{{$object.Name}}FiltersInput) (*model.Delete{{$object.Name}}Payload, error) {
           v, okHook := r.Sql.Hooks[string(db.Delete{{$object.Name}})].(db.{{$hookBaseName}}HookDelete[model.{{$object.Name}}FiltersInput, model.Delete{{$object.Name}}Payload])
@@ -453,7 +460,5 @@
           }
           return res, db.Error
         }
-      {{- end}}
-    {{- end}}
   {{- end}}
 {{- end}}
